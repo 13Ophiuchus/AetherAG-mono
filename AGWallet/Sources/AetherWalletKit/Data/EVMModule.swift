@@ -1,0 +1,112 @@
+import Foundation
+import Web3
+import Web3ContractABI
+
+class EVMModule: ChainModule {
+    private let keyManager: KeyManagerActor
+    private let logger = Logger(label: "AetherWalletKit.EVMModule")
+
+    init(keyManager: KeyManagerActor) {
+        self.keyManager = keyManager
+    }
+
+    func getBalance(for asset: CryptoAsset) async throws -> Double {
+        logger.info("Getting EVM balance for \(asset.symbol)")
+        let web3 = try getWeb3(for: asset.chainConfig)
+        let address = try await getEthereumAddress(for: asset.chainConfig)
+
+        if let contractAddress = asset.contractAddress {
+            // ERC20 Token Balance
+            let contract = try web3.eth.Contract(json: ERC20ABI, abiKey: nil, at: EthereumAddress(hex: contractAddress, eip55: true))
+            let balanceBigInt = try await contract.read("balanceOf")!.call(with: address.hex(eip55: true))["balance"] as! BigUInt
+            return Double(balanceBigInt) / pow(10, Double(asset.decimals))
+        } else {
+            // Native Balance
+            let balance = try await web3.eth.getBalance(address: address)
+            return Double(balance.quantity) / pow(10, 18)
+        }
+    }
+
+    func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
+        logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
+        let web3 = try getWeb3(for: asset.chainConfig)
+        let fromAddress = try await getEthereumAddress(for: asset.chainConfig)
+        let toAddress = EthereumAddress(hex: recipientAddress, eip55: true)!
+        let privateKey = try await getPrivateKey(for: asset.chainConfig)
+
+        let transaction: EthereumTransaction
+        if let contractAddress = asset.contractAddress {
+            // ERC20 Token Transfer
+            let contract = web3.eth.Contract(json: ERC20ABI, abiKey: nil, at: EthereumAddress(hex: contractAddress, eip55: true))!
+            let amountBigInt = BigUInt(amount * pow(10, Double(asset.decimals)))
+            let writeTx = contract.write("transfer", parameters: [toAddress, amountBigInt])!
+            transaction = writeTx.transaction
+        } else {
+            // Native Transfer
+            let amountInWei = BigUInt(amount * pow(10, 18))
+            transaction = EthereumTransaction(from: fromAddress, to: toAddress, value: EthereumQuantity(quantity: amountInWei))
+        }
+        
+        let signedTx = try transaction.sign(with: privateKey, chainId: EthereumQuantity(quantity: BigUInt(asset.chainConfig.chainId)!))
+        let txHash = try await web3.eth.sendRawTransaction(signedTx)
+        
+        logger.info("Successfully broadcasted EVM transaction with hash: \(txHash.hex())")
+
+        let unifiedTx = EVMTransaction(
+            hash: txHash.hex(),
+            from: fromAddress.hex(eip55: true),
+            to: toAddress.hex(eip55: true),
+            value: String(amount),
+            gasPrice: "", // Populate with actual gas info
+            gasLimit: "", // Populate with actual gas info
+            nonce: 0, // Populate with actual nonce
+            chainId: Int(asset.chainConfig.chainId)!,
+            timestamp: Date()
+        )
+        
+        return .evm(unifiedTx)
+    }
+
+    func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
+        logger.info("Getting EVM transaction history for \(chain.name)")
+        // This would typically involve a service like Etherscan or a full-node query
+        logger.warning("Using mocked transaction history for EVM.")
+        return []
+    }
+
+    func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
+        logger.info("Signing message on EVM: \(message)")
+        let privateKey = try await getPrivateKey(for: chain)
+        let signature = try privateKey.sign(message: message.data(using: .utf8)!)
+        return signature.hexString
+    }
+
+    // MARK: - Private Helpers
+
+    private func getWeb3(for chain: ChainConfig) throws -> Web3 {
+        guard let rpcURL = chain.rpcEndpoints.first else {
+            throw WalletError.chainConfigurationError("No RPC endpoint found for \(chain.name)")
+        }
+        return try Web3(rpcURL: rpcURL.absoluteString)
+    }
+
+    private func getEthereumAddress(for chain: ChainConfig) async throws -> EthereumAddress {
+        let privateKey = try await getPrivateKey(for: chain)
+        return privateKey.address
+    }
+
+    private func getPrivateKey(for chain: ChainConfig) async throws -> EthereumPrivateKey {
+        let keyData = try await keyManager.retrievePrivateKey(for: "masterKey")!
+        // This assumes the master key is the EVM private key. 
+        // A real implementation would use the derivation path.
+        return try EthereumPrivateKey(key: keyData.bytes)
+    }
+}
+
+// A minimal ERC20 ABI for balance and transfer
+let ERC20ABI = """
+[
+    {"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"type":"function"},
+    {"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"type":"function"}
+]
+"""
