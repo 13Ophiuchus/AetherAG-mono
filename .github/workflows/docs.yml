@@ -1,0 +1,80 @@
+name: Documentation
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+      - '.markdownlint*'
+      - 'mkdocs.yml'
+      - 'scripts/check-docs.sh'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+      - '.markdownlint*'
+      - 'mkdocs.yml'
+      - 'scripts/check-docs.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install markdown tooling
+        run: |
+          npm install -g markdownlint-cli@0.41.0
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material
+
+      - name: Lint Markdown
+        run: |
+          markdownlint README.md . --ignore .build --ignore .git --ignore node_modules --ignore Package.resolved
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --verbose
+            --no-progress
+            --accept 200,206,301,302,303,403,429
+            --exclude-mail
+            --exclude-path .build
+            --exclude-path node_modules
+            --exclude-path .git
+            "**/*.md"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build docs site
+        if: ${{ hashFiles('mkdocs.yml') != '' }}
+        run: mkdocs build --strict
+
+      - name: Run repo docs checks
+        run: |
+          if [ -x scripts/check-docs.sh ]; then
+            scripts/check-docs.sh
+          else
+            echo "scripts/check-docs.sh not present; skipping custom checks"
+          fi
