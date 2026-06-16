@@ -1,0 +1,6 @@
+site_name: AetherAG Docs
+docs_dir: AetherAG/docs
+theme:
+  name: material
+nav:
+  - Home: index.md
