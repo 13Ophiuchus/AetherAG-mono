@@ -1,1 +1,11 @@
 site/
+# Build output
+site/
+
+# Xcode / SwiftPM
+.DS_Store
+*.xcworkspace/xcuserdata/
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+
+# Swift build artifacts (if they ever land here)
+.build/
