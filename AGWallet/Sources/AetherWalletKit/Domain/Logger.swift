@@ -1,25 +1,13 @@
 import Foundation
+import os.log
 
-public class Logger {
-    public let label: String
-    
+public struct Logger {
+    private let osLog: os.Logger
     public init(label: String) {
-        self.label = label
+        self.osLog = os.Logger(subsystem: "com.aether.wallet", category: label)
     }
-    
-    public func info(_ message: String) {
-        print("[INFO] [\(label)] \(message)")
-    }
-    
-    public func warning(_ message: String) {
-        print("[WARNING] [\(label)] \(message)")
-    }
-    
-    public func error(_ message: String) {
-        print("[ERROR] [\(label)] \(message)")
-    }
-    
-    public func debug(_ message: String) {
-        print("[DEBUG] [\(label)] \(message)")
-    }
+    public func info(_ message: String)    { osLog.info("\(message, privacy: .public)") }
+    public func warning(_ message: String) { osLog.warning("\(message, privacy: .public)") }
+    public func error(_ message: String)   { osLog.error("\(message, privacy: .public)") }
+    public func debug(_ message: String)   { osLog.debug("\(message, privacy: .private)") }
 }

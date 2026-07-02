@@ -1,0 +1,2648 @@
+[
+  {
+    "character" : 16,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/MnemonicWarning.swift",
+    "line" : 4,
+    "reason" : "Variable name '_productionWarning' should only contain alphanumeric and other allowed characters",
+    "rule_id" : "identifier_name",
+    "severity" : "Error",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Logger.swift",
+    "line" : 25,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Logger.swift",
+    "line" : 5,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Logger.swift",
+    "line" : 9,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Logger.swift",
+    "line" : 13,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Logger.swift",
+    "line" : 17,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Logger.swift",
+    "line" : 21,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/FlowModule.swift",
+    "line" : 18,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/FlowModule.swift",
+    "line" : 32,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/FlowModule.swift",
+    "line" : 62,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/FlowModule.swift",
+    "line" : 64,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/FlowModule.swift",
+    "line" : 86,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/FlowModule.swift",
+    "line" : 103,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/FlowModule.swift",
+    "line" : 105,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 25,
+    "reason" : "Line should be 120 characters or less; currently it has 135 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 83,
+    "reason" : "Line should be 120 characters or less; currently it has 135 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 8,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 13,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 17,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 20,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 24,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 27,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 36,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 43,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 53,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 65,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 69,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 74,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 77,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 82,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 99,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 101,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainManagementViewController.swift",
+    "line" : 112,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 79,
+    "reason" : "Line should be 120 characters or less; currently it has 163 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 80,
+    "reason" : "Line should be 120 characters or less; currently it has 162 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 115,
+    "reason" : "Line should be 120 characters or less; currently it has 128 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 123,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 19,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 35,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 53,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 56,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 60,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 68,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 88,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 99,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 114,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/SolanaModule.swift",
+    "line" : 118,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 112,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 7,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 9,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 14,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 19,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 23,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 28,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 32,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 37,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 41,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 45,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 51,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 58,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 68,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 86,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 88,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 102,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 105,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/DynamicChainConfigurator/ChainConfigurationService.swift",
+    "line" : 109,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : 49,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 96,
+    "reason" : "Variable name 'to' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 66,
+    "reason" : "Line should be 120 characters or less; currently it has 143 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 67,
+    "reason" : "Line should be 120 characters or less; currently it has 142 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 96,
+    "reason" : "Line should be 120 characters or less; currently it has 146 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 110,
+    "reason" : "Line should be 120 characters or less; currently it has 138 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 115,
+    "reason" : "Line should be 120 characters or less; currently it has 130 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 118,
+    "reason" : "Line should be 120 characters or less; currently it has 125 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 160,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 18,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 27,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 30,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 33,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 34,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 35,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 36,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 39,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 42,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 46,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 55,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 62,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 74,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 86,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 100,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 102,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 106,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 109,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 113,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 117,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 121,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 135,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 148,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 152,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/BitcoinModule.swift",
+    "line" : 154,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : 119,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 21,
+    "reason" : "Force casts should be avoided",
+    "rule_id" : "force_cast",
+    "severity" : "Error",
+    "type" : "Force Cast"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 20,
+    "reason" : "Line should be 120 characters or less; currently it has 133 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 21,
+    "reason" : "Line should be 120 characters or less; currently it has 129 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 40,
+    "reason" : "Line should be 120 characters or less; currently it has 130 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 47,
+    "reason" : "Line should be 120 characters or less; currently it has 127 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 50,
+    "reason" : "Line should be 120 characters or less; currently it has 135 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 109,
+    "reason" : "Line should be 120 characters or less; currently it has 153 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 110,
+    "reason" : "Line should be 120 characters or less; currently it has 174 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 49,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 52,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/EVMModule.swift",
+    "line" : 66,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/SupportingTypes.swift",
+    "line" : 11,
+    "reason" : "Line should be 120 characters or less; currently it has 136 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/SupportingTypes.swift",
+    "line" : 33,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/SupportingTypes.swift",
+    "line" : 10,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/SupportingTypes.swift",
+    "line" : 24,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : 17,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 15,
+    "reason" : "Declaration generateMasterPrivateKey contains the term \"master\" which is not considered inclusive",
+    "rule_id" : "inclusive_language",
+    "severity" : "Warning",
+    "type" : "Inclusive Language"
+  },
+  {
+    "character" : 34,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 21,
+    "reason" : "Declaration masterKey contains the term \"master\" which is not considered inclusive",
+    "rule_id" : "inclusive_language",
+    "severity" : "Warning",
+    "type" : "Inclusive Language"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 17,
+    "reason" : "Line should be 120 characters or less; currently it has 124 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 218,
+    "reason" : "Line should be 120 characters or less; currently it has 141 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : 89,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 17,
+    "reason" : "Prefer non-optional `Data(_:)` initializer when converting `String` to `Data`",
+    "rule_id" : "non_optional_string_data_conversion",
+    "severity" : "Warning",
+    "type" : "Non-optional String -> Data Conversion"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 24,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 29,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 39,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 72,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 96,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 110,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 113,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 117,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 127,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 136,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 162,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 166,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 168,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 182,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 185,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 189,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 198,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 225,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift",
+    "line" : 260,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 642,
+    "reason" : "File should contain 400 lines or less: currently contains 642",
+    "rule_id" : "file_length",
+    "severity" : "Warning",
+    "type" : "File Length"
+  },
+  {
+    "character" : 16,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 152,
+    "reason" : "Variable name 'to' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 45,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 161,
+    "reason" : "Variable name 'to' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 226,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 227,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 228,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 229,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 235,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 236,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 237,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 238,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 250,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 252,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 254,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 256,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 263,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 265,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 267,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 269,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 276,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 278,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 280,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 282,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 289,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 290,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 291,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 293,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 300,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 301,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 302,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 303,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 309,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 311,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 313,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 315,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 83,
+    "reason" : "Line should be 120 characters or less; currently it has 136 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 127,
+    "reason" : "Line should be 120 characters or less; currently it has 147 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 161,
+    "reason" : "Line should be 120 characters or less; currently it has 179 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 186,
+    "reason" : "Line should be 120 characters or less; currently it has 191 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 633,
+    "reason" : "Line should be 120 characters or less; currently it has 136 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 642,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 21,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 50,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 82,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 98,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 111,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 126,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 141,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 160,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 185,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 202,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 223,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 232,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 247,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 260,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 273,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 286,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 297,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 306,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 343,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 394,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 415,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 419,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 423,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 427,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 431,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 447,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 458,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 464,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 467,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 474,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 480,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 486,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 494,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 501,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 508,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 514,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 520,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 528,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 531,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 533,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 540,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 543,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 548,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 552,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 556,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 561,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 564,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 567,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 570,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 577,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 583,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 589,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 597,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 605,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/WalletCore.swift",
+    "line" : 632,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Errors.swift",
+    "line" : 89,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Errors.swift",
+    "line" : 23,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Errors.swift",
+    "line" : 74,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : 16,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 150,
+    "reason" : "Variable name 'to' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 45,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 159,
+    "reason" : "Variable name 'to' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 224,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 225,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 226,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 227,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 233,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 234,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 235,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 236,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 248,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 250,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 252,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 254,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 261,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 263,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 265,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 267,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 274,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 276,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 278,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 280,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 287,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 288,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 289,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 291,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 298,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 299,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 300,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 301,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 27,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 307,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 26,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 309,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 23,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 311,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : 24,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 313,
+    "reason" : "Variable name 'tx' should be between 3 and 40 characters long",
+    "rule_id" : "identifier_name",
+    "severity" : "Warning",
+    "type" : "Identifier Name"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 81,
+    "reason" : "Line should be 120 characters or less; currently it has 136 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 125,
+    "reason" : "Line should be 120 characters or less; currently it has 147 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 159,
+    "reason" : "Line should be 120 characters or less; currently it has 179 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 184,
+    "reason" : "Line should be 120 characters or less; currently it has 191 characters",
+    "rule_id" : "line_length",
+    "severity" : "Warning",
+    "type" : "Line Length"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 317,
+    "reason" : "Files should have a single trailing newline",
+    "rule_id" : "trailing_newline",
+    "severity" : "Warning",
+    "type" : "Trailing Newline"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 19,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 48,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 80,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 96,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 109,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 124,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 139,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 158,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 183,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 200,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 221,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 230,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 245,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 258,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 271,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 284,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 295,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  },
+  {
+    "character" : null,
+    "file" : "/Users/nicreich/AetherAG-mono/AGWallet/Sources/AetherWalletKit/Domain/Models.swift",
+    "line" : 304,
+    "reason" : "Lines should not have trailing whitespace",
+    "rule_id" : "trailing_whitespace",
+    "severity" : "Warning",
+    "type" : "Trailing Whitespace"
+  }
+]
