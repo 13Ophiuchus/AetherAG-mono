@@ -418,19 +418,19 @@ public class Logger {
     }
     
     public func info(_ message: String) {
-        print("[INFO] [\(label)] \(message)")
+        osLog.info("\(message, privacy: .public)")
     }
     
     public func warning(_ message: String) {
-        print("[WARNING] [\(label)] \(message)")
+        osLog.warning("\(message, privacy: .public)")
     }
     
     public func error(_ message: String) {
-        print("[ERROR] [\(label)] \(message)")
+        osLog.error("\(message, privacy: .public)")
     }
     
     public func debug(_ message: String) {
-        print("[DEBUG] [\(label)] \(message)")
+        osLog.debug("\(message, privacy: .private)")
     }
 }
 
