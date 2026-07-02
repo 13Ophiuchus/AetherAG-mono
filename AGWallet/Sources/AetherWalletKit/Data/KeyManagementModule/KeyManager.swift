@@ -246,26 +246,50 @@ public class Mnemonic {
     }
 }
 
+
+public enum DerivationPathError: Error, LocalizedError {
+    case emptyPath
+    case invalidComponent(String)
+    case invalidHardenedIndex(String)
+
+    public var errorDescription: String? {
+        switch self {
+        case .emptyPath:
+            return "Derivation path is empty"
+        case .invalidComponent(let c):
+            return "Invalid derivation path component: \(c)"
+        case .invalidHardenedIndex(let c):
+            return "Invalid hardened index value: \(c)"
+        }
+    }
+}
+
 // MARK: - DerivationPath
 
 public struct DerivationPath {
     public let indexes: [UInt32]
 
     public init(_ path: String) throws {
-        let components = path.split(separator: "/")
+        let stripped = path.hasPrefix("m/") ? String(path.dropFirst(2)) : path
+        guard !stripped.trimmingCharacters(in: .whitespaces).isEmpty else {
+            throw DerivationPathError.emptyPath
+        }
         var parsedIndexes = [UInt32]()
-
-        for component in components {
-            if component == "m" { continue }
-            
-            var value: UInt32
-            if component.hasSuffix("'") {
-                let number = String(component.dropLast())
-                value = (UInt32(number) ?? 0) | 0x80000000
+        for component in stripped.split(separator: "/") {
+            let comp = String(component)
+            if comp == "m" { continue }
+            if comp.hasSuffix("'") || comp.hasSuffix("h") {
+                let numStr = String(comp.dropLast())
+                guard let number = UInt32(numStr), number < 0x80000000 else {
+                    throw DerivationPathError.invalidHardenedIndex(comp)
+                }
+                parsedIndexes.append(number | 0x80000000)
             } else {
-                value = UInt32(component) ?? 0
+                guard let value = UInt32(comp) else {
+                    throw DerivationPathError.invalidComponent(comp)
+                }
+                parsedIndexes.append(value)
             }
-            parsedIndexes.append(value)
         }
         self.indexes = parsedIndexes
     }
