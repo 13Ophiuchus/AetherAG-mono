@@ -243,12 +243,12 @@ public enum UnifiedTransaction: Codable, Sendable {
         }
     }
     
-    public var fromAddress: String {
+    public var fromAddress: String? {
         switch self {
         case .bitcoin(let tx):
-            return tx.inputs.first?.address ?? ""
+            return tx.inputs.first?.address
         case .solana(let tx):
-            return tx.instructions.first?.accounts.first ?? ""
+            return tx.instructions.first?.accounts.first
         case .evm(let tx):
             return tx.from
         case .flow(let tx):
@@ -256,40 +256,42 @@ public enum UnifiedTransaction: Codable, Sendable {
         }
     }
     
-    public var toAddress: String {
+    public var toAddress: String? {
         switch self {
         case .bitcoin(let tx):
-            return tx.outputs.first?.address ?? ""
+            return tx.outputs.first?.address
         case .solana(let tx):
-            return tx.instructions.first?.accounts.last ?? ""
+            return tx.instructions.first?.accounts.last
         case .evm(let tx):
             return tx.to
         case .flow(let tx):
-            return tx.authorizers.first ?? ""
+            return tx.authorizers.first
         }
     }
     
-    public var value: Double {
+    public var value: Double? {
         switch self {
         case .bitcoin(let tx):
             return tx.outputs.reduce(0) { $0 + $1.value }
         case .solana(let tx):
-            return tx.fee // Simplified - in reality would parse instruction data
+            return tx.fee
         case .evm(let tx):
-            return Double(tx.value) ?? 0.0
+            guard let v = Double(tx.value) else { return nil }
+            return v
         case .flow(let tx):
-            return 0.0 // Would parse from arguments
+            return nil
         }
     }
     
-    public var fee: Double {
+    public var fee: Double? {
         switch self {
         case .bitcoin(let tx): return tx.fee
         case .solana(let tx): return tx.fee
         case .evm(let tx):
-            return (Double(tx.gasPrice) ?? 0.0) * (Double(tx.gasLimit) ?? 0.0)
+            guard let p = Double(tx.gasPrice), let l = Double(tx.gasLimit) else { return nil }
+            return p * l
         case .flow(let tx):
-            return 0.0 // Would calculate based on gas
+            return nil
         }
     }
     
