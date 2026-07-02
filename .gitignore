@@ -9,3 +9,4 @@ site/
 
 # Swift build artifacts (if they ever land here)
 .build/
+Aether.xcworkspace/xcuserdata/
