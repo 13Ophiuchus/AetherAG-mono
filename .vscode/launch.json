@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:AetherAG-mono}/AetherAG",
+            "name": "Debug AetherAGMailServerRun (AetherAG)",
+            "target": "AetherAGMailServerRun",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug AetherAGMailServerRun (AetherAG)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:AetherAG-mono}/AetherAG",
+            "name": "Release AetherAGMailServerRun (AetherAG)",
+            "target": "AetherAGMailServerRun",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release AetherAGMailServerRun (AetherAG)"
+        }
+    ]
+}
