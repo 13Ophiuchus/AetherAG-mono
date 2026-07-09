@@ -8,12 +8,12 @@ public actor KeyManagerActor {
     private let secureEnclaveManager = SecureEnclaveManager()
     private let keychainManager = KeychainManager()
 
-    public func generateMnemonic(strength: Int = 128) throws -> [String] {
-        return try Mnemonic.generate(strength: strength).words
+    public func generateMnemonic(strength: MnemonicStrength = .default) throws -> [String] {
+        return try Mnemonic.generate(strength: strength)
     }
 
     public func generateMasterPrivateKey(from mnemonic: [String], passphrase: String = "") throws -> Data {
-        let seed = Mnemonic(words: mnemonic).seed(passphrase: passphrase)
+        let seed = try Mnemonic.deterministicSeed(mnemonic: mnemonic, passphrase: passphrase)
         let hmac = HMAC<SHA512>.authenticationCode(for: seed, using: SymmetricKey(data: "Bitcoin seed".data(using: .utf8)!))
         return Data(hmac)
     }
@@ -79,12 +79,7 @@ public actor KeyManagerActor {
 
 private class SecureEnclaveManager {
     var isAvailable: Bool {
-        // Secure Enclave availability check: requires biometry/device support.
-        // SecKeyIsAlgorithmSupported needs an actual SecKey instance to query,
-        // so we use LAContext to check hardware capability instead.
-        var error: NSError?
-        let context = LAContext()
-        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        return SecKeyIsAlgorithmSupported(.ecdsaSignatureMessageX962SHA256, .sign)
     }
 
     func storeKey(_ key: Data, with identifier: String) throws {

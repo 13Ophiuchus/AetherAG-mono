@@ -1,6 +1,5 @@
 import Foundation
 import CryptoKit
-import CommonCrypto
 
 public enum MnemonicError: Error {
     case entropyGenerationFailed
@@ -28,9 +27,9 @@ public struct Mnemonic {
         guard [16, 20, 24, 28, 32].contains(entropy.count) else {
             throw MnemonicError.invalidEntropyLength
         }
-        let hash = Array(SHA256.hash(data: Data(entropy)))
+        let hash = SHA256.hash(data: Data(entropy))
         let checksumBits = entropy.count * 8 / 32
-        let checksumByte = hash[0]
+        let checksumByte = hash.first!
         var bits: [Bool] = []
         for byte in entropy {
             for i in (0..<8).reversed() { bits.append((byte >> i) & 1 == 1) }
@@ -67,8 +66,8 @@ public struct Mnemonic {
             for j in 0..<8 { if bits[i + j] { byte |= (1 << (7 - j)) } }
             entropy.append(byte)
         }
-        let hash = Array(SHA256.hash(data: Data(entropy)))
-        let expectedChecksumByte = hash[0]
+        let hash = SHA256.hash(data: Data(entropy))
+        let expectedChecksumByte = hash.first!
         var computedChecksum: UInt8 = 0
         for i in 0..<checksumBits {
             if bits[entropyBits + i] { computedChecksum |= (1 << (checksumBits - 1 - i)) }
@@ -77,28 +76,5 @@ public struct Mnemonic {
         guard (expectedChecksumByte & mask) >> (8 - checksumBits) == computedChecksum else {
             throw MnemonicError.checksumMismatch
         }
-    }
-public func seed(passphrase: String = "") -> Data {
-        let password = phrase.data(using: .utf8)!
-        let salt = ("mnemonic" + passphrase).data(using: .utf8)!
-        var derivedKey = Data(count: 64)
-        _ = derivedKey.withUnsafeMutableBytes { derivedKeyBytes in
-            password.withUnsafeBytes { passwordBytes in
-                salt.withUnsafeBytes { saltBytes in
-                    CCKeyDerivationPBKDF(
-                        CCPBKDFAlgorithm(kCCPBKDF2),
-                        passwordBytes.baseAddress!.assumingMemoryBound(to: Int8.self),
-                        password.count,
-                        saltBytes.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                        salt.count,
-                        CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA512),
-                        2048,
-                        derivedKeyBytes.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                        64
-                    )
-                }
-            }
-        }
-        return derivedKey
     }
 }

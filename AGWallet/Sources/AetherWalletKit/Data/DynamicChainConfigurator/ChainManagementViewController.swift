@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 import SwiftUI
 
@@ -118,3 +119,4 @@ struct AddChainView: View {
         }
     }
 }
+#endif

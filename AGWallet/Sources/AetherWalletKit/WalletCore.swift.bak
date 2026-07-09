@@ -161,20 +161,17 @@ public actor WalletCore {
     
     // Flow-specific methods
     public func executeCadenceScript(_ script: String, arguments: [FlowArgument] = []) async throws -> String {
-        guard flowModule != nil else {
+        guard let flowModule = flowModule else {
             throw WalletError.unsupportedOperation("Flow module not enabled")
         }
-        // TODO: bridge FlowArgument -> Flow.Cadence.FValue once script execution is implemented
-        throw WalletError.unsupportedOperation("Flow script execution not yet implemented")
+        return try await flowModule.executeScript(script, arguments: arguments)
     }
     
     public func executeCadenceTransaction(_ template: FlowTransactionTemplate) async throws -> UnifiedTransaction {
         guard let flowModule = flowModule else {
             throw WalletError.unsupportedOperation("Flow module not enabled")
         }
-        // TODO: FlowModule.executeTransaction was removed pending a proper
-        // Flow.Transaction builder/signer (see FlowModule.swift TODO on send()).
-        throw WalletError.unsupportedOperation("Cadence transaction execution not yet implemented")
+        return try await flowModule.executeTransaction(template)
     }
 }
 

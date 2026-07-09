@@ -1,6 +1,6 @@
 import Foundation
-import Web3
-import Web3ContractABI
+import web3swift
+import Web3Core
 
 class EVMModule: ChainModule {
     private let keyManager: KeyManagerActor

@@ -1,5 +1,5 @@
 import Foundation
-import BitcoinCore
+// import BitcoinCore  // TODO: BitcoinCore.Swift dropped - platform/dependency conflicts, needs custom secp256k1-based implementation
 
 class BitcoinModule: ChainModule {
     private let keyManager: KeyManagerActor

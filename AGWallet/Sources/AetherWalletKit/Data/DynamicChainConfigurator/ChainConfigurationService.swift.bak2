@@ -1,19 +1,15 @@
 import Foundation
+import Combine
 
 public actor ChainConfigurationService {
     private let keychainManager = KeychainManager()
     private let predefinedChains: [ChainConfig]
     
-    public private(set) var availableChains: [ChainConfig] = []
+    @Published public private(set) var availableChains: [ChainConfig] = []
     
     public init(predefinedChains: [ChainConfig] = []) {
         self.predefinedChains = predefinedChains
-        self.availableChains = predefinedChains
-        Task { await self.reloadFromKeychain() }
-    }
-    
-    private func reloadFromKeychain() {
-        availableChains = loadChains()
+        self.availableChains = loadChains()
     }
     
     public func addChain(_ chain: ChainConfig) throws {
@@ -47,7 +43,7 @@ public actor ChainConfigurationService {
         return predefinedChains
     }
     
-    private func loadChains() -> [ChainConfig] {
+    nonisolated private func loadChains() -> [ChainConfig] {
         do {
             guard let data = try keychainManager.retrieve(with: "AetherWalletKit.ChainConfigs") else {
                 return predefinedChains

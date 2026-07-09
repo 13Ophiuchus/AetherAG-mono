@@ -1,10 +1,11 @@
 import Foundation
+import Combine
 
 public actor ChainConfigurationService {
     private let keychainManager = KeychainManager()
     private let predefinedChains: [ChainConfig]
     
-    public private(set) var availableChains: [ChainConfig] = []
+    @Published public private(set) var availableChains: [ChainConfig] = []
     
     public init(predefinedChains: [ChainConfig] = []) {
         self.predefinedChains = predefinedChains

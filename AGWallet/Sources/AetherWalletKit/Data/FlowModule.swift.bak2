@@ -1,5 +1,5 @@
 import Foundation
-import FlowSDK
+import Flow
 
 class FlowModule: ChainModule {
     private let keyManager: KeyManagerActor
@@ -37,54 +37,11 @@ class FlowModule: ChainModule {
 
     func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
         logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
-        let fromAddress = try await getFlowAddress(for: asset.chainConfig)
-        let recipient = Flow.Address(hex: recipientAddress)
-        let privateKey = try await getPrivateKey(for: asset.chainConfig)
-
-        // This is a simplified transaction for sending FUSD.
-        let script = """
-        import FungibleToken from 0xFungibleToken
-        import FUSD from 0xFUSD
-
-        transaction(amount: UFix64, to: Address) {
-            let sentVault: @FungibleToken.Vault
-            prepare(signer: AuthAccount) {
-                let vault = signer.borrow<&FUSD.Vault>(from: /storage/fusdVault)!
-                self.sentVault <- vault.withdraw(amount: amount)
-            }
-            execute {
-                let recipient = getAccount(to)
-                let receiver = recipient.getCapability(/public/fusdReceiver)!.borrow<&{FungibleToken.Receiver}>()!
-                receiver.deposit(from: <-self.sentVault)
-            }
-        }
-        """
-        
-        let txId = try await flow.executeTransaction(
-            script: script, 
-            arguments: [.ufix64(amount), .address(recipient)],
-            proposerAddress: fromAddress,
-            proposerKeyIndex: 0, // Assuming key 0
-            payerAddress: fromAddress,
-            authorizerAddresses: [fromAddress],
-            signer: privateKey
-        )
-
-        logger.info("Successfully broadcasted Flow transaction with ID: \(txId.hex)")
-
-        let unifiedTx = FlowTransaction(
-            id: txId.hex,
-            script: script,
-            arguments: [], // Populate properly
-            proposer: fromAddress.hex,
-            authorizers: [fromAddress.hex],
-            payer: fromAddress.hex,
-            gasLimit: 9999,
-            status: .pending,
-            timestamp: Date()
-        )
-        
-        return .flow(unifiedTx)
+        // TODO: flow-swift-macos 3.x requires manually assembling Flow.Transaction
+        // (referenceBlockId, proposalKey, gasLimit, payload/envelope signatures) -
+        // no high-level "build and sign" helper exists in this SDK version.
+        // Needs a dedicated Flow transaction-envelope encoder/signer before this can work.
+        throw WalletError.unsupportedOperation("Flow token transfer not yet implemented")
     }
 
     func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
@@ -103,9 +60,10 @@ class FlowModule: ChainModule {
     
     // MARK: - Flow Specific Methods
     
-    func executeScript(_ script: String, arguments: [Flow.Cadence.Value]) async throws -> Flow.Cadence.Value {
+    func executeScript(_ script: String, arguments: [Flow.Cadence.FValue]) async throws -> Flow.Cadence.FValue {
         logger.info("Executing Flow script")
-        return try await flow.executeScriptAtLatestBlock(script: script, arguments: arguments)
+        let flowArguments = arguments.map { $0.toArgument() }
+        return try await flow.executeScriptAtLatestBlock(script: script, arguments: flowArguments)
     }
 
     // MARK: - Private Helpers
