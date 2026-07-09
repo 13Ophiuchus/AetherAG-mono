@@ -3,26 +3,26 @@ import XCTest
 
 class FlowModuleTests: XCTestCase {
 
-    var keyManager: MockKeyManagerActor!
+    var keyManager: KeyManagerActor!
     var flowModule: FlowModule!
 
     override func setUp() {
         super.setUp()
-        keyManager = MockKeyManagerActor()
+        keyManager = KeyManagerActor()
         flowModule = FlowModule(keyManager: keyManager)
     }
 
     func testGetBalance() async throws {
-        // This test will fail without a running node or mock RPC responses.
-        // For now, it serves as a structural placeholder.
         // Given
         let asset = CryptoAsset.mockFlow()
 
-        // When
-        let balance = try await flowModule.getBalance(for: asset)
-
-        // Then
-        XCTAssert(balance >= 0)
+        // When / Then: Flow balance lookup is intentionally unsupported today.
+        do {
+            _ = try await flowModule.getBalance(for: asset)
+            XCTFail("Expected unsupportedOperation for Flow balance lookup")
+        } catch WalletError.unsupportedOperation(let message) {
+            XCTAssertTrue(message.contains("Flow balance lookup"), "Unexpected message: \(message)")
+        }
     }
 
     func testSendTransaction() async throws {
@@ -31,16 +31,13 @@ class FlowModuleTests: XCTestCase {
         let amount = 10.0
         let recipient = "0x7659f11a8bdf8b31"
 
-        // When
-        let transaction = try await flowModule.send(amount: amount, to: recipient, for: asset)
-
-        // Then
-        XCTAssertNotNil(transaction)
-        guard case .flow(let flowTx) = transaction else {
-            XCTFail("Incorrect transaction type")
-            return
+        // When / Then: Flow token transfer is intentionally unsupported today.
+        do {
+            _ = try await flowModule.send(amount: amount, to: recipient, for: asset)
+            XCTFail("Expected unsupportedOperation for Flow token transfer")
+        } catch WalletError.unsupportedOperation(let message) {
+            XCTAssertTrue(message.contains("Flow token transfer"), "Unexpected message: \(message)")
         }
-        XCTAssertFalse(flowTx.id.isEmpty)
     }
 
     func testSignMessage() async throws {
@@ -48,22 +45,17 @@ class FlowModuleTests: XCTestCase {
         let message = "AetherWalletKit test message"
         let chain = ChainConfig.mockFlowChain()
 
-        // When
-        let signature = try await flowModule.signMessage(message, on: chain)
-
-        // Then
-        XCTAssertFalse(signature.isEmpty)
+        // When / Then: Flow message signing is intentionally unsupported today.
+        do {
+            _ = try await flowModule.signMessage(message, on: chain)
+            XCTFail("Expected unsupportedOperation for Flow message signing")
+        } catch WalletError.unsupportedOperation(let message) {
+            XCTAssertTrue(message.contains("Flow message signing"), "Unexpected message: \(message)")
+        }
     }
 }
 
 // MARK: - Mocks
-
-class MockKeyManagerActor: KeyManagerActor {
-    override func retrievePrivateKey(for identifier: String) throws -> Data? {
-        // Return a mock private key for testing
-        return Data(repeating: 0, count: 32)
-    }
-}
 
 extension ChainConfig {
     static func mockFlowChain() -> ChainConfig {

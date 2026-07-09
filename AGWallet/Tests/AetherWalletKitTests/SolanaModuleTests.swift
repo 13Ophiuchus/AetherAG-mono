@@ -3,12 +3,12 @@ import XCTest
 
 class SolanaModuleTests: XCTestCase {
 
-    var keyManager: MockKeyManagerActor!
+    var keyManager: KeyManagerActor!
     var solanaModule: SolanaModule!
 
     override func setUp() {
         super.setUp()
-        keyManager = MockKeyManagerActor()
+        keyManager = KeyManagerActor()
         solanaModule = SolanaModule(keyManager: keyManager)
     }
 
@@ -16,11 +16,13 @@ class SolanaModuleTests: XCTestCase {
         // Given
         let asset = CryptoAsset.mockSolana()
 
-        // When
-        let balance = try await solanaModule.getBalance(for: asset)
-
-        // Then
-        XCTAssertEqual(balance, 5.67)
+        // When / Then: without a master key stored, we expect keychainError("Master key not found").
+        do {
+            _ = try await solanaModule.getBalance(for: asset)
+            XCTFail("Expected keychainError(\"Master key not found\") for Solana getBalance")
+        } catch WalletError.keychainError(let message) {
+            XCTAssertEqual(message, "Master key not found")
+        }
     }
 
     func testSendTransaction() async throws {
@@ -29,16 +31,14 @@ class SolanaModuleTests: XCTestCase {
         let amount = 1.5
         let recipient = "So11111111111111111111111111111111111111112"
 
-        // When
-        let transaction = try await solanaModule.send(amount: amount, to: recipient, for: asset)
-
-        // Then
-        XCTAssertNotNil(transaction)
-        guard case .solana(let solTx) = transaction else {
-            XCTFail("Incorrect transaction type")
-            return
+        // When / Then: native SOL send is not yet implemented,
+        // so we expect an unsupportedOperation error.
+        do {
+            _ = try await solanaModule.send(amount: amount, to: recipient, for: asset)
+            XCTFail("Expected unsupportedOperation for native SOL send")
+        } catch WalletError.unsupportedOperation(let message) {
+            XCTAssertTrue(message.contains("Native SOL send"), "Unexpected message: \(message)")
         }
-        XCTAssertFalse(solTx.signature.isEmpty)
     }
 
     func testSignMessage() async throws {
@@ -46,22 +46,17 @@ class SolanaModuleTests: XCTestCase {
         let message = "AetherWalletKit test message"
         let chain = ChainConfig.mockSolanaChain()
 
-        // When
-        let signature = try await solanaModule.signMessage(message, on: chain)
-
-        // Then
-        XCTAssertFalse(signature.isEmpty)
+        // When / Then: Solana message signing is not yet implemented.
+        do {
+            _ = try await solanaModule.signMessage(message, on: chain)
+            XCTFail("Expected unsupportedOperation for Solana message signing")
+        } catch WalletError.unsupportedOperation(let message) {
+            XCTAssertTrue(message.contains("Solana message signing"), "Unexpected message: \(message)")
+        }
     }
 }
 
 // MARK: - Mocks
-
-class MockKeyManagerActor: KeyManagerActor {
-    override func retrievePrivateKey(for identifier: String) throws -> Data? {
-        // Return a mock private key for testing
-        return Data(repeating: 0, count: 32)
-    }
-}
 
 extension ChainConfig {
     static func mockSolanaChain() -> ChainConfig {

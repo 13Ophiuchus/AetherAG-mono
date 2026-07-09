@@ -57,8 +57,7 @@ final class BitcoinEsploraClient: EsploraClient, @unchecked Sendable {
 			let outputs = tx.vout.map { vout in
 				BitcoinOutput(
 					value: Double(vout.value) / 100_000_000,
-					address: vout.scriptpubkeyAddress ?? "",
-					script: Data(hex: vout.scriptpubkey)
+					address: vout.scriptpubkeyAddress ?? ""
 				)
 			}
 

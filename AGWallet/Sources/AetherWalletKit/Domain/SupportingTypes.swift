@@ -1,7 +1,5 @@
 import Foundation
 
-pimport Foundation
-
 public struct FlowTransactionTemplate {
 	public let script: String
 	public let arguments: [FlowArgument]

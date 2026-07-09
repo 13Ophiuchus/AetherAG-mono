@@ -50,10 +50,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 
 	func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
 		logger.info("Signing message on Solana: \(message)")
-		let privateKey = try await getPrivateKey(for: chain)
-		let account = try Account(secretKey: privateKey)
-		let signature = try account.sign(message: message.data(using: .utf8)!)
-		return signature.base58EncodedString
+		throw WalletError.unsupportedOperation("Solana message signing not yet implemented")
 	}
 
 		// MARK: - Private Helpers

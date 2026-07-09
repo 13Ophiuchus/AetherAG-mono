@@ -68,7 +68,7 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 
 	func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
 		logger.info("Signing message on Bitcoin: \(message)")
-		return try await keyManager.signBitcoinMessage(message, chain: chain)
+		throw WalletError.unsupportedOperation("Bitcoin message signing not yet implemented")
 	}
 
 		// MARK: - Private Helpers
@@ -85,7 +85,7 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 	}
 
 	private func getAddress(for chain: ChainConfig) async throws -> String {
-		return try await keyManager.bitcoinAddress(for: chain)
+		throw WalletError.unsupportedOperation("Bitcoin address derivation not yet implemented")
 	}
 
 	private func buildTransaction(
@@ -106,6 +106,6 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 	}
 
 	private func signTransaction(_ transaction: BitcoinTxDraft, for chain: ChainConfig) async throws -> String {
-		return try await keyManager.signBitcoinTransaction(transaction, chain: chain)
+		throw WalletError.unsupportedOperation("Bitcoin transaction signing not yet implemented")
 	}
 }

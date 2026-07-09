@@ -99,10 +99,10 @@ private class SecureEnclaveManager {
             ]
         ]
         
-        var error: Unmanaged<CFError>?
-        guard let privateKey = SecKeyCreateWithData(key as CFData, attributes as CFDictionary, &error) else {
-            throw WalletError.secureEnclaveError(error.debugDescription)
-        }
+		var error: Unmanaged<CFError>?
+		guard SecKeyCreateWithData(key as CFData, attributes as CFDictionary, &error) != nil else {
+			throw WalletError.secureEnclaveError(error.debugDescription)
+		}
     }
 
     func retrieveKey(with identifier: String) throws -> Data? {
