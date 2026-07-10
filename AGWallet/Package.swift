@@ -16,7 +16,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/p2p-org/solana-swift", from: "2.0.0"),
         .package(url: "https://github.com/web3swift-team/web3swift", from: "3.0.0"),
-        .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", branch: "main"),
+        .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", revision: "7ff00d3f7ea42f9f510ea99df74d9bc9d5c7eb46"),
         .package(url: "https://github.com/apple/swift-crypto", "1.0.0"..<"5.0.0"),
         .package(url: "https://github.com/attaswift/BigInt.git", .upToNextMinor(from: "5.4.0")),
         .package(url: "https://github.com/swift-server/async-http-client", from: "1.19.0"),
