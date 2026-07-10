@@ -1,0 +1,29 @@
+name: Swift CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Swift
+        uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: '6.0'
+
+      - name: Build AGWallet and AetherAG
+        run: |
+          cd AGWallet
+          swift build
+          cd ../AetherAG
+          swift build
+
+      - name: Test AetherAG
+        run: |
+          cd AetherAG
+          swift test
