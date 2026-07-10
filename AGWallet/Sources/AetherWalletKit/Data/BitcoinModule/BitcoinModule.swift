@@ -108,4 +108,14 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 	private func signTransaction(_ transaction: BitcoinTxDraft, for chain: ChainConfig) async throws -> String {
 		throw WalletError.unsupportedOperation("Bitcoin transaction signing not yet implemented")
 	}
+
+    // Helper that delegates Bitcoin message signing to KeyManagerActor.
+    private func signMessageInternal(_ message: String, chain: ChainConfig) async throws -> String {
+        try await keyManager.signBitcoinMessage(message, chain: chain)
+    }
+
+    // Helper that delegates Bitcoin transaction signing to KeyManagerActor.
+    private func signTransactionInternal(_ draft: BitcoinTxDraft, chain: ChainConfig) async throws -> String {
+        try await keyManager.signBitcoinTransaction(draft, chain: chain)
+    }
 }

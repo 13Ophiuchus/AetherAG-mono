@@ -87,4 +87,16 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 		}
 		return privateKey
 	}
+
+
+
+    // Helper that delegates Solana message signing to KeyManagerActor.
+    private func signMessageInternal(_ message: String, chain: ChainConfig) async throws -> String {
+        try await keyManager.signSolanaMessage(message, chain: chain)
+    }
+
+    // Helper that delegates Solana transfer signing to KeyManagerActor.
+    private func signTransferInternal(_ transaction: SolanaTransaction, chain: ChainConfig) async throws -> String {
+        try await keyManager.signSolanaTransfer(transaction, chain: chain)
+    }
 }

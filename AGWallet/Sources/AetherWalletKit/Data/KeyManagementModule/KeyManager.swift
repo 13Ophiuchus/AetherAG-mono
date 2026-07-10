@@ -5,6 +5,50 @@ import LocalAuthentication
 // MARK: - KeyManagerActor
 
 public actor KeyManagerActor {
+    // MARK: - Chain helpers
+
+    // Returns the primary Solana address for the given chain configuration.
+    public func solanaAddress(for chain: ChainConfig) async throws -> String {
+        // TODO: Derive Solana address from stored key material for the given chain.
+        throw WalletError.unsupportedOperation("solanaAddress(for:) not yet implemented")
+    }
+
+    // Signs a Solana message for the given chain configuration.
+    public func signSolanaMessage(_ message: String, chain: ChainConfig) async throws -> String {
+        // TODO: Implement real Solana message signing via stored key material.
+        throw WalletError.unsupportedOperation("signSolanaMessage(_:chain:) not yet implemented")
+    }
+
+    // Signs a Solana transfer transaction for the given chain configuration.
+    public func signSolanaTransfer(_ transaction: SolanaTransaction, chain: ChainConfig) async throws -> String {
+        // TODO: Implement real Solana transfer signing via stored key material.
+        throw WalletError.unsupportedOperation("signSolanaTransfer(_:chain:) not yet implemented")
+    }
+
+    // Signs a Bitcoin transaction draft for the given chain configuration.
+    // This implementation is deliberately conservative; it should be refined
+    // once secp256k1 transaction signing strategy is finalized.
+    func signBitcoinTransaction(_ draft: BitcoinTxDraft, chain: ChainConfig) async throws -> String {
+        // TODO: Implement real Bitcoin transaction signing via stored key material.
+        throw WalletError.unsupportedOperation("signBitcoinTransaction(_:chain:) not yet implemented")
+    }
+
+    // Signs a Bitcoin message for the given chain configuration.
+    // This implementation is deliberately conservative; it should be refined
+    // once secp256k1 signing and message encoding strategy are finalized.
+    public func signBitcoinMessage(_ message: String, chain: ChainConfig) async throws -> String {
+        // TODO: Implement real Bitcoin message signing via stored key material.
+        throw WalletError.unsupportedOperation("signBitcoinMessage(_:chain:) not yet implemented")
+    }
+
+    // Returns the primary Bitcoin address for the given chain configuration.
+    // This implementation is deliberately conservative; it should be refined
+    // once secp256k1 key derivation and HD path strategy are finalized.
+    public func bitcoinAddress(for chain: ChainConfig) async throws -> String {
+        // TODO: Derive Bitcoin address from stored key material for the given chain.
+        // For now, this is a placeholder that throws until the derivation is wired.
+        throw WalletError.unsupportedOperation("bitcoinAddress(for:) not yet implemented")
+    }
     private let secureEnclaveManager = SecureEnclaveManager()
     private let keychainManager = KeychainManager()
 
