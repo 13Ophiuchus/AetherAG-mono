@@ -1,0 +1,51 @@
+warning: 'solana-swift': Conflicting identity for secp256k1.swift: dependency 'github.com/boilertalk/secp256k1.swift' and dependency 'github.com/gigabitcoin/secp256k1.swift' both point to the same package identity 'secp256k1.swift'. The dependencies are introduced through the following chains: (A) /users/nicreich/aetherag-mono/agwallet->github.com/p2p-org/solana-swift->github.com/boilertalk/secp256k1.swift (B) /users/nicreich/aetherag-mono/agwallet->github.com/web3swift-team/web3swift->github.com/gigabitcoin/secp256k1.swift. If there are multiple chains that lead to the same dependency, only the first chain is shown here. To see all chains use debug output option. To resolve the conflict, coordinate with the maintainer of the package that introduces the conflicting dependency. This will be escalated to an error in future versions of SwiftPM.
+[0/1] Planning build
+Building for debugging...
+[0/2] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (5.02s)
+Test Suite 'All tests' started at 2026-07-10 01:29:28.605.
+Test Suite 'AetherWalletKitPackageTests.xctest' started at 2026-07-10 01:29:28.607.
+Test Suite 'BitcoinModuleTests' started at 2026-07-10 01:29:28.607.
+Test Case '-[AetherWalletKitTests.BitcoinModuleTests testGetBalance]' started.
+Test Case '-[AetherWalletKitTests.BitcoinModuleTests testGetBalance]' passed (0.005 seconds).
+Test Case '-[AetherWalletKitTests.BitcoinModuleTests testSendTransaction]' started.
+Test Case '-[AetherWalletKitTests.BitcoinModuleTests testSendTransaction]' passed (0.000 seconds).
+Test Case '-[AetherWalletKitTests.BitcoinModuleTests testSignMessage]' started.
+Test Case '-[AetherWalletKitTests.BitcoinModuleTests testSignMessage]' passed (0.000 seconds).
+Test Suite 'BitcoinModuleTests' passed at 2026-07-10 01:29:28.613.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.006 (0.006) seconds
+Test Suite 'EVMModuleTests' started at 2026-07-10 01:29:28.613.
+Test Case '-[AetherWalletKitTests.EVMModuleTests testGetBalance]' started.
+Test Case '-[AetherWalletKitTests.EVMModuleTests testGetBalance]' passed (0.026 seconds).
+Test Case '-[AetherWalletKitTests.EVMModuleTests testSendTransaction]' started.
+Test Case '-[AetherWalletKitTests.EVMModuleTests testSendTransaction]' passed (0.004 seconds).
+Test Case '-[AetherWalletKitTests.EVMModuleTests testSignMessage]' started.
+Test Case '-[AetherWalletKitTests.EVMModuleTests testSignMessage]' passed (0.003 seconds).
+Test Suite 'EVMModuleTests' passed at 2026-07-10 01:29:28.646.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.033 (0.033) seconds
+Test Suite 'FlowModuleTests' started at 2026-07-10 01:29:28.646.
+Test Case '-[AetherWalletKitTests.FlowModuleTests testGetBalance]' started.
+Test Case '-[AetherWalletKitTests.FlowModuleTests testGetBalance]' passed (0.000 seconds).
+Test Case '-[AetherWalletKitTests.FlowModuleTests testSendTransaction]' started.
+Test Case '-[AetherWalletKitTests.FlowModuleTests testSendTransaction]' passed (0.000 seconds).
+Test Case '-[AetherWalletKitTests.FlowModuleTests testSignMessage]' started.
+Test Case '-[AetherWalletKitTests.FlowModuleTests testSignMessage]' passed (0.000 seconds).
+Test Suite 'FlowModuleTests' passed at 2026-07-10 01:29:28.647.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'SolanaModuleTests' started at 2026-07-10 01:29:28.647.
+Test Case '-[AetherWalletKitTests.SolanaModuleTests testGetBalance]' started.
+Test Case '-[AetherWalletKitTests.SolanaModuleTests testGetBalance]' passed (0.003 seconds).
+Test Case '-[AetherWalletKitTests.SolanaModuleTests testSendTransaction]' started.
+Test Case '-[AetherWalletKitTests.SolanaModuleTests testSendTransaction]' passed (0.000 seconds).
+Test Case '-[AetherWalletKitTests.SolanaModuleTests testSignMessage]' started.
+Test Case '-[AetherWalletKitTests.SolanaModuleTests testSignMessage]' passed (0.000 seconds).
+Test Suite 'SolanaModuleTests' passed at 2026-07-10 01:29:28.652.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+Test Suite 'AetherWalletKitPackageTests.xctest' passed at 2026-07-10 01:29:28.652.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.044 (0.045) seconds
+Test Suite 'All tests' passed at 2026-07-10 01:29:28.652.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.044 (0.047) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

@@ -1,0 +1,19 @@
+AGWallet/Sources/AetherWalletKit/WalletCore.swift:167:        // TODO: bridge FlowArgument -> Flow.Cadence.FValue once script execution is implemented
+AGWallet/Sources/AetherWalletKit/WalletCore.swift:175:        // TODO: FlowModule.executeTransaction was removed pending a proper
+AGWallet/Sources/AetherWalletKit/WalletCore.swift:176:        // Flow.Transaction builder/signer (see FlowModule.swift TODO on send()).
+AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift:12:        // TODO: Derive Solana address from stored key material for the given chain.
+AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift:18:        // TODO: Implement real Solana message signing via stored key material.
+AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift:24:        // TODO: Implement real Solana transfer signing via stored key material.
+AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift:32:        // TODO: Implement real Bitcoin transaction signing via stored key material.
+AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift:40:        // TODO: Implement real Bitcoin message signing via stored key material.
+AGWallet/Sources/AetherWalletKit/Data/KeyManagementModule/KeyManager.swift:48:        // TODO: Derive Bitcoin address from stored key material for the given chain.
+AGWallet/Sources/AetherWalletKit/Data/EVMModule/EVMModule.swift:111:			gasPrice: "",      // TODO: Populate with actual gas price
+AGWallet/Sources/AetherWalletKit/Data/EVMModule/EVMModule.swift:112:			gasLimit: "",      // TODO: Populate with actual gas limit
+AGWallet/Sources/AetherWalletKit/Data/EVMModule/EVMModule.swift:113:			nonce: 0,          // TODO: Populate with actual nonce
+AetherAG/Sources/AetherAGMailServer/Jobs/SendVerificationEmailJob.swift:12:			// TODO: Replace with real email delivery logic.
+AetherAG/Sources/AetherAGMailServer/Jobs/SendPushNotificationJob.swift:14:			// TODO: Replace with APNS send logic.
+AetherAG/Sources/AetherAGMailServer/Jobs/IssueCredentialJob.swift:12:			// TODO: Replace with real credential issuance logic.
+AetherAG/Sources/AetherAGMailServer/Jobs/ExpireIssuanceSessionsJob.swift:10:			// TODO: Replace with real repository / SQL cleanup logic.
+AetherAG/Sources/AetherAGMailServer/Jobs/PollFlowTransactionsScheduler.swift:16:        // TODO: Replace with real lookup logic for pending Flow transactions.
+AetherAG/Sources/AetherAGMailServer/Controllers/CredentialStatusController.swift:14:        // TODO: Replace with real DB lookup against issued credential records
+AetherAG/Sources/AetherAGMailServer/Controllers/VerificationController.swift:53:        // TODO: Implement vp_token verification

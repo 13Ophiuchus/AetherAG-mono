@@ -1,0 +1,9 @@
+
+🔴️ Store private key safely and don't share with anyone! 
+Private Key 		 4238a55b9a76d8985e44f97e99d6e5f0f579af56a6eee857a2097e6b5e35bf56 
+Public Key 		 87ff88a4625c069a75d0116c0ca199ee3c11b6bf0d231e1a8b6379e2b8f6628232c1b302b9d1203905ee8fef95a4c0762e117a6e4b5e7b91ee20fab9f73e273d 
+Mnemonic 		 that mind more salt stove nuclear hill few cycle sphere song economy 
+Derivation Path 	 m/44'/539'/0'/0/0 
+Signature Algorithm 	 ECDSA_P256
+
+

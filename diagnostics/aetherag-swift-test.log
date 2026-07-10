@@ -1,0 +1,326 @@
+warning: 'solana-swift': Conflicting identity for secp256k1.swift: dependency 'github.com/boilertalk/secp256k1.swift' and dependency 'github.com/gigabitcoin/secp256k1.swift' both point to the same package identity 'secp256k1.swift'. The dependencies are introduced through the following chains: (A) /users/nicreich/aetherag-mono/aetherag->/users/nicreich/aetherag-mono/agwallet->github.com/p2p-org/solana-swift->github.com/boilertalk/secp256k1.swift (B) /users/nicreich/aetherag-mono/aetherag->/users/nicreich/aetherag-mono/agwallet->github.com/web3swift-team/web3swift->github.com/gigabitcoin/secp256k1.swift. If there are multiple chains that lead to the same dependency, only the first chain is shown here. To see all chains use debug output option. To resolve the conflict, coordinate with the maintainer of the package that introduces the conflicting dependency. This will be escalated to an error in future versions of SwiftPM.
+warning: 'aetherag': dependency 'agwallet' is not used by any target
+[0/1] Planning build
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (6.24s)
+Test Suite 'All tests' started at 2026-07-10 01:29:35.589.
+Test Suite 'All tests' passed at 2026-07-10 01:29:35.590.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "Shared Date Utilities" started.
+◇ Suite "Queue configuration" started.
+◇ Suite "Shared DTO Round Trips" started.
+◇ Suite "DID API" started.
+◇ Suite "Attestation chain" started.
+◇ Suite "Well-known endpoints" started.
+◇ Suite "Client Core Verification Boundary" started.
+◇ Suite "Client App Onboarding" started.
+◇ Suite "Shared Contracts" started.
+◇ Suite "Holder Proof JWT Validation" started.
+◇ Suite "Client Core Wallet Boundary" started.
+◇ Suite "Crypto primitives" started.
+◇ Suite "Client Core Contract Boundary" started.
+◇ Suite "Client Core Auth Boundary" started.
+◇ Suite "Server DID API" started.
+◇ Suite "Verification API" started.
+◇ Suite "Shared Enum Invariants" started.
+◇ Suite "Server Smoke" started.
+◇ Suite "Server Verification API" started.
+◇ Suite "Pre-auth code single-use" started.
+◇ Suite "Server Health API" started.
+◇ Suite "c_nonce single-use" started.
+◇ Suite "RFC 6749 error body shape" started.
+◇ Suite "Client Core Transaction Boundary" started.
+◇ Suite "OID4VCI API" started.
+◇ Suite "Issuer JWS kid Consistency" started.
+◇ Suite "Verification Persistence" started.
+◇ Suite "Pre-auth code TTL expiry" started.
+◇ Test canDecodeFlowAddress() started.
+◇ Test "ISO8601 formatter returns a stable internet datetime string" started.
+◇ Suite "Verification API" started.
+◇ Test "GET /.well-known/jwks.json returns 200 with non-empty keys" started.
+◇ Suite "FlowGateway Integration" started.
+◇ Test "Token request encodes and decodes" started.
+◇ Suite "Shared DTO Decoding Edge Cases" started.
+◇ Suite "Flow seam" started.
+◇ Test "Issuer metadata encodes and decodes" started.
+◇ Test "Token response encodes and decodes" started.
+◇ Test "Valid proof JWT passes verification" started.
+◇ Test "Verification payload strings round trip through UTF-8 safely" started.
+◇ Test "GET /did route does not 5xx" started.
+◇ Suite "Issuer Key ID Consistency" started.
+◇ Test "Client core module loads for wallet coverage" started.
+◇ Test "Issuer metadata round trip" started.
+◇ Test "Proof JWT with wrong signature fails verification" started.
+◇ Test "Client core can be imported alongside Foundation" started.
+◇ Test "Client core module exposes a stable contract-facing boundary" started.
+◇ Test "Onboarding view model starts idle" started.
+◇ Test "POST /verification/requests creates a verification request" started.
+◇ Test "GET /did/:did resolves a DID document" started.
+◇ Test "Client core module loads for verification coverage" started.
+◇ Test "VerificationStatus supports approved state" started.
+◇ Test "Submitting the same pre-auth code twice returns 401 on second use" started.
+◇ Test "GET /health returns 200" started.
+◇ Test "Replaying a consumed c_nonce on credential request returns 401" started.
+◇ Test "job types exist" started.
+◇ Test "Valid mock SE attestation returns 2xx" started.
+◇ Test "POST credential endpoint does not 5xx" started.
+◇ Test "Health endpoint does not return 5xx" started.
+◇ Test "Transaction identifiers can be represented deterministically" started.
+◇ Test "Client core module loads for transaction coverage" started.
+◇ Test "POST token endpoint does not 5xx" started.
+◇ Test "GET issuer metadata does not 5xx" started.
+◇ Test "crypto module present" started.
+◇ Test "Client core module loads for auth-adjacent test coverage" started.
+◇ Test "flow-binding.json JWS kid matches DID-published verification method" started.
+◇ Suite "Transaction Journey" started.
+◇ Test "Update verification request status to approved" started.
+◇ Test "Flow-style addresses preserve expected prefix format" started.
+◇ Test "VC JWS kid matches DID-published verification method" started.
+◇ Test "POST /verification/requests creates a verification request" started.
+◇ Test "Create and retrieve verification request by ID" started.
+✔ Test canDecodeFlowAddress() passed after 0.001 seconds.
+◇ Test "Invalid pre-auth code returns RFC 6749 JSON with error + error_description" started.
+➜ Test "Expired pre-auth code returns 401" skipped.
+◇ Test "GET /verification/requests/:id/status returns 200 and the correct status" started.
+◇ Test "spy records ping and account reads" started.
+◇ Test "Token request decodes with missing optional fields" started.
+◇ Test "Issuer metadata ignores unknown keys" started.
+◇ Test "spy records transaction lifecycle" started.
+◇ Test "FlowGatewayProtocol exists" started.
+✔ Test "Verification payload strings round trip through UTF-8 safely" passed after 0.004 seconds.
+✔ Test "Token request encodes and decodes" passed after 0.004 seconds.
+✔ Test "Issuer metadata encodes and decodes" passed after 0.004 seconds.
+✔ Test "Client core can be imported alongside Foundation" passed after 0.004 seconds.
+◇ Test "did.json, flow-binding.json, and VC use same verification method ID" started.
+✔ Test "Issuer metadata round trip" passed after 0.004 seconds.
+✔ Test "Client core module loads for wallet coverage" passed after 0.004 seconds.
+✔ Test "Client core module loads for verification coverage" passed after 0.004 seconds.
+✔ Test "Client core module exposes a stable contract-facing boundary" passed after 0.004 seconds.
+✔ Test "VerificationStatus supports approved state" passed after 0.004 seconds.
+✔ Test "job types exist" passed after 0.004 seconds.
+✔ Test "Client core module loads for transaction coverage" passed after 0.003 seconds.
+✔ Test "crypto module present" passed after 0.003 seconds.
+✔ Test "Client core module loads for auth-adjacent test coverage" passed after 0.003 seconds.
+◇ Test "simulated transaction journey records expected calls" started.
+✔ Test "Token response encodes and decodes" passed after 0.004 seconds.
+✔ Test "Transaction identifiers can be represented deterministically" passed after 0.004 seconds.
+✔ Test "Onboarding view model starts idle" passed after 0.004 seconds.
+✔ Suite "Pre-auth code TTL expiry" passed after 0.004 seconds.
+✔ Test "ISO8601 formatter returns a stable internet datetime string" passed after 0.004 seconds.
+✔ Test "Token request decodes with missing optional fields" passed after 0.001 seconds.
+✔ Suite "Client Core Verification Boundary" passed after 0.005 seconds.
+✔ Test "Flow-style addresses preserve expected prefix format" passed after 0.004 seconds.
+✔ Suite "Client Core Contract Boundary" passed after 0.005 seconds.
+✔ Suite "Shared Contracts" passed after 0.005 seconds.
+✔ Test "Issuer metadata ignores unknown keys" passed after 0.001 seconds.
+✔ Suite "Shared Enum Invariants" passed after 0.005 seconds.
+✔ Suite "Queue configuration" passed after 0.005 seconds.
+✔ Suite "Crypto primitives" passed after 0.005 seconds.
+✔ Suite "Shared DTO Round Trips" passed after 0.005 seconds.
+✔ Suite "Shared Date Utilities" passed after 0.005 seconds.
+✔ Suite "Client Core Transaction Boundary" passed after 0.005 seconds.
+✔ Test "FlowGatewayProtocol exists" passed after 0.001 seconds.
+✔ Suite "Client App Onboarding" passed after 0.005 seconds.
+✔ Suite "Shared DTO Decoding Edge Cases" passed after 0.004 seconds.
+✔ Test "spy records ping and account reads" passed after 0.001 seconds.
+✔ Suite "Client Core Wallet Boundary" passed after 0.005 seconds.
+✔ Test "simulated transaction journey records expected calls" passed after 0.001 seconds.
+✔ Suite "Flow seam" passed after 0.006 seconds.
+✔ Suite "Transaction Journey" passed after 0.006 seconds.
+✔ Suite "Client Core Auth Boundary" passed after 0.005 seconds.
+✔ Test "spy records transaction lifecycle" passed after 0.002 seconds.
+✔ Suite "FlowGateway Integration" passed after 0.007 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=A6B5E94F-B714-4B6C-BE04-3137E7345355 [Vapor] POST /oid4vci/token
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=367B36C5-AE23-4994-80F0-6105A18846CF [Vapor] GET /.well-known/openid-credential-issuer
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=CC478CE4-2860-4FE7-BBF3-768F31AD4AA0 [Vapor] POST /verification/requests
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=E9AC48C8-64C5-428C-873A-76FE6AAC8FBD [Vapor] GET /did
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=1548DF83-A743-4F7A-A846-274E5B71353C [Vapor] GET /health
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=2710AD95-1FD9-4C24-8D18-328A3E2E10A4 [Vapor] GET /.well-known/jwks.json
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=E7E401A1-AD73-41D7-9BC9-9CBF033BEB62 [Vapor] GET /.well-known/did.json
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=8B277416-2344-4215-9E76-C927F59E12B1 [Vapor] POST /verification/requests
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+✔ Test "Proof JWT with wrong signature fails verification" passed after 0.016 seconds.
+✔ Test "Valid proof JWT passes verification" passed after 0.016 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=D75AD563-5376-4B85-A2C9-EF8D99CF1B06 [Vapor] GET /.well-known/did.json
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=896E8102-D1E2-42DB-B350-143C7C104A76 [Vapor] GET /did/did:key:z6MkExample
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=F4B00C79-4BE3-4D89-945B-6DFEC9C93BD5 [Vapor] POST /oid4vci/token
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=6FB28E62-9A2B-4F06-9CB0-61E9CF85C8E7 [Vapor] GET /health
+✔ Suite "Holder Proof JWT Validation" passed after 0.019 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+✔ Test "GET /did route does not 5xx" passed after 0.019 seconds.
+✔ Test "POST /verification/requests creates a verification request" passed after 0.019 seconds.
+✔ Test "GET issuer metadata does not 5xx" passed after 0.018 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+✔ Test "Update verification request status to approved" passed after 0.018 seconds.
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+✔ Suite "Verification API" passed after 0.019 seconds.
+◇ Test "POST /did route does not 5xx" started.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=6EAC862A-B40B-4D4E-8836-1D82B14734FC [Vapor] POST /oid4vci/token
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=4272C2E9-91B4-4F3A-8380-815224869F0C [Vapor] POST /oid4vci/credential
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=2A54E2F7-6898-4495-8A9D-327922A9E871 [Vapor] POST /oid4vci/token
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=4C0860E7-D7CB-455B-BC63-7300A979D883 [Vapor] GET /.well-known/did.json
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=6D020680-0BC6-4D5D-8FAD-51AEB280BFD4 [Vapor] GET /verification/requests/217A6EFF-6593-48B1-86E9-285A54208F32/status
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=0054FD55-040B-413C-BE30-745AC34DE35C [Vapor] POST /oid4vci/credential
+✔ Test "GET /health returns 200" passed after 0.020 seconds.
+✔ Test "GET /did/:did resolves a DID document" passed after 0.020 seconds.
+✔ Suite "Server Health API" passed after 0.020 seconds.
+✔ Suite "Server DID API" passed after 0.020 seconds.
+✔ Test "GET /.well-known/jwks.json returns 200 with non-empty keys" passed after 0.020 seconds.
+✔ Suite "Well-known endpoints" passed after 0.021 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=D2188F19-E635-484B-9EE1-8B48C2225A68 [Vapor] POST /oid4vci/credential
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=70684F32-D669-4B2F-87CD-0F31E1D30BF7 [Vapor] GET /credentials/flow-account-binding
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+✔ Test "POST credential endpoint does not 5xx" passed after 0.020 seconds.
+✔ Test "Create and retrieve verification request by ID" passed after 0.020 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=B32B1EDD-068C-45C8-837A-55A136BB8BA5 [Vapor] POST /verification/requests
+✔ Test "Health endpoint does not return 5xx" passed after 0.020 seconds.
+✔ Suite "Verification Persistence" passed after 0.021 seconds.
+✔ Suite "Server Smoke" passed after 0.021 seconds.
+✔ Test "POST token endpoint does not 5xx" passed after 0.020 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=F04C7610-2E5E-49DD-B06F-FF8931EAEFBE [Vapor] GET /.well-known/flow-binding.json
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=12A6E846-88BB-4885-B1FB-569FA3AAB6EA [Vapor] POST /oid4vci/token
+✔ Suite "OID4VCI API" passed after 0.022 seconds.
+✔ Test "Invalid pre-auth code returns RFC 6749 JSON with error + error_description" passed after 0.021 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=19EC4B26-B946-4C84-BF9B-8E022F04018E [Vapor] GET /.well-known/flow-binding.json
+◇ Test "Invalid JWS credential proof returns RFC 6749 JSON" started.
+✔ Test "GET /verification/requests/:id/status returns 200 and the correct status" passed after 0.018 seconds.
+✔ Suite "Verification API" passed after 0.022 seconds.
+✔ Test "POST /verification/requests creates a verification request" passed after 0.021 seconds.
+✔ Suite "Server Verification API" passed after 0.023 seconds.
+✔ Test "Submitting the same pre-auth code twice returns 401 on second use" passed after 0.022 seconds.
+✔ Suite "Pre-auth code single-use" passed after 0.023 seconds.
+✔ Test "Valid mock SE attestation returns 2xx" passed after 0.022 seconds.
+◇ Test "Invalid attestation chain returns 401" started.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=01AB0D32-00BB-447A-A4EF-CBC0845A4FE1 [Vapor] POST /oid4vci/credential
+✔ Test "Replaying a consumed c_nonce on credential request returns 401" passed after 0.023 seconds.
+✔ Suite "c_nonce single-use" passed after 0.024 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=59168505-30A9-465A-BAAE-5E85EF503239 [Vapor] POST /did
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+✔ Test "POST /did route does not 5xx" passed after 0.006 seconds.
+✔ Suite "DID API" passed after 0.026 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=B015D04C-60A6-4FCB-847D-891FB9C78170 [Vapor] POST /oid4vci/credential
+2026-07-10T01:29:35-0400 info codes.vapor.application: chainID=testnet issuerAddress=0x0000000000000001 issuerKeyIndex=0 [AetherAGMailServer] Configured Flow runtime
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping Postgres pool configuration
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; using in-memory repositories
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping SQL migrations
+2026-07-10T01:29:35-0400 notice codes.vapor.application: [AetherAGMailServer] In-memory database mode enabled; skipping queue configuration
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=E4FEF9C1-5C0C-4010-94B9-22323759CD93 [Vapor] POST /oid4vci/credential
+✔ Test "Invalid JWS credential proof returns RFC 6749 JSON" passed after 0.005 seconds.
+✔ Suite "RFC 6749 error body shape" passed after 0.027 seconds.
+✔ Test "Invalid attestation chain returns 401" passed after 0.004 seconds.
+✔ Suite "Attestation chain" passed after 0.028 seconds.
+2026-07-10T01:29:35-0400 info codes.vapor.application: request-id=912622D9-A4B1-47FC-A334-187CA0620E0B [Vapor] GET /credentials/flow-account-binding
+✔ Test "VC JWS kid matches DID-published verification method" passed after 0.028 seconds.
+✔ Test "flow-binding.json JWS kid matches DID-published verification method" passed after 0.029 seconds.
+✔ Suite "Issuer JWS kid Consistency" passed after 0.029 seconds.
+✔ Test "did.json, flow-binding.json, and VC use same verification method ID" passed after 0.026 seconds.
+✔ Suite "Issuer Key ID Consistency" passed after 0.030 seconds.
+✔ Test run with 51 tests in 34 suites passed after 0.031 seconds.
