@@ -1,6 +1,8 @@
 import Foundation
 import CryptoKit
 import LocalAuthentication
+import SolanaSwift
+import TweetNacl
 
 // MARK: - KeyManagerActor
 
@@ -9,20 +11,56 @@ public actor KeyManagerActor {
 
     // Returns the primary Solana address for the given chain configuration.
     public func solanaAddress(for chain: ChainConfig) async throws -> String {
-        // TODO: Derive Solana address from stored key material for the given chain.
-        throw WalletError.unsupportedOperation("solanaAddress(for:) not yet implemented")
+        let account = try await solanaAccount(for: chain)
+        return account.publicKey.base58EncodedString
     }
 
     // Signs a Solana message for the given chain configuration.
+    // Returns the base58-encoded Ed25519 detached signature over the UTF-8 message bytes.
     public func signSolanaMessage(_ message: String, chain: ChainConfig) async throws -> String {
-        // TODO: Implement real Solana message signing via stored key material.
-        throw WalletError.unsupportedOperation("signSolanaMessage(_:chain:) not yet implemented")
+        guard let messageData = message.data(using: .utf8) else {
+            throw WalletError.signingFailed("Message is not valid UTF-8")
+        }
+        let account = try await solanaAccount(for: chain)
+        let signature = try NaclSign.signDetached(message: messageData, secretKey: account.secretKey)
+        return Base58.encode(signature)
     }
 
     // Signs a Solana transfer transaction for the given chain configuration.
+    // NOTE: SolanaTransaction currently carries metadata (blockhash, instructions, fee)
+    // rather than a fully serialized wire-format message. This signs a deterministic
+    // digest of that metadata as an interim measure; full production support requires
+    // serializing the compiled transaction message per the Solana wire format before
+    // signing, so the signature covers exactly the bytes broadcast to the cluster.
     public func signSolanaTransfer(_ transaction: SolanaTransaction, chain: ChainConfig) async throws -> String {
-        // TODO: Implement real Solana transfer signing via stored key material.
-        throw WalletError.unsupportedOperation("signSolanaTransfer(_:chain:) not yet implemented")
+        let account = try await solanaAccount(for: chain)
+
+        var digestInput = transaction.recentBlockhash
+        for instruction in transaction.instructions {
+            digestInput += instruction.programId
+            digestInput += instruction.accounts.joined(separator: ",")
+            digestInput += instruction.data
+        }
+
+        guard let digestData = digestInput.data(using: .utf8) else {
+            throw WalletError.signingFailed("Unable to encode transaction digest")
+        }
+
+        let hashed = Data(SHA256.hash(data: digestData))
+        let signature = try NaclSign.signDetached(message: hashed, secretKey: account.secretKey)
+        return Base58.encode(signature)
+    }
+
+    // Derives the SolanaSwift Account (Ed25519 keypair) from the stored master key material.
+    private func solanaAccount(for chain: ChainConfig) async throws -> Account {
+        guard let masterKey = try retrievePrivateKey(for: "masterKey") else {
+            throw WalletError.keychainError("Master key not found")
+        }
+        // Solana Ed25519 keys require a 32-byte seed; NaclSign derives the 64-byte
+        // secret key (seed + public key) from it via keyPair(fromSecretKey:).
+        let seed = masterKey.count >= 32 ? masterKey.prefix(32) : masterKey
+        let keyPair = try NaclSign.KeyPair.keyPair(fromSeed: Data(seed))
+        return try Account(secretKey: keyPair.secretKey)
     }
 
     // Signs a Bitcoin transaction draft for the given chain configuration.
