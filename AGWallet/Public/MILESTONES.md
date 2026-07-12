@@ -273,7 +273,7 @@ Stabilise Bitcoin RPC behaviour and integrate proper signing.
 - [x] Wire `BitcoinModule` to Esplora via `BitcoinEsploraClient` using `ChainConfig.primaryEndpoint(for: .rpc)`.
 - [x] Implement `getUTXOs(for:)` and `getTransactionHistory(for:)` mapping to `BitcoinTransaction`.
 - [x] Ensure `BitcoinInput` and `BitcoinOutput` domain structs match Esplora JSON fields.
-- [ ] Replace `unsupportedOperation` stubs with real `KeyManagerActor` calls:
+- [x] Replace `unsupportedOperation` stubs with real `KeyManagerActor` calls:
   - `bitcoinAddress(for:)`
   - `signBitcoinTransaction(_:chain:)`
   - `signBitcoinMessage(_:chain:)`
