@@ -1,3 +1,11 @@
 [submodule "AetherAG"]
 	path = AetherAG
 	url = https://github.com/13Ophiuchus/AetherAG.git
+[submodule "web3swift-patched"]
+	path = web3swift-patched
+	url = https://github.com/13Ophiuchus/web3swift.git
+	branch = fix/secp256k1-21dotdev
+[submodule "solana-swift-patched"]
+	path = solana-swift-patched
+	url = https://github.com/13Ophiuchus/solana-swift.git
+	branch = fix/secp256k1-21dotdev

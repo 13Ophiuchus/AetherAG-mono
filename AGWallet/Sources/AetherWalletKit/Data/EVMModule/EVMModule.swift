@@ -93,6 +93,15 @@ final class EVMModule: ChainModule, @unchecked Sendable {
 			)
 		}
 
+		let resolvedNonce = try await web3.eth.getTransactionCount(for: fromAddress, onBlock: .pending)
+		transaction.nonce = resolvedNonce
+
+		let resolvedGasPrice = try await web3.eth.gasPrice()
+		transaction.gasPrice = resolvedGasPrice
+
+		let resolvedGasLimit = try await web3.eth.estimateGas(for: transaction)
+		transaction.gasLimit = resolvedGasLimit
+
 		try transaction.sign(privateKey: privateKeyData)
 
 		guard let encodedTx = transaction.encode(for: .transaction) else {
@@ -108,9 +117,9 @@ final class EVMModule: ChainModule, @unchecked Sendable {
 			from: fromAddress.address,
 			to: toAddress.address,
 			value: String(amount),
-			gasPrice: "",      // TODO: Populate with actual gas price
-			gasLimit: "",      // TODO: Populate with actual gas limit
-			nonce: 0,          // TODO: Populate with actual nonce
+			gasPrice: String(resolvedGasPrice),
+			gasLimit: String(resolvedGasLimit),
+			nonce: Int(resolvedNonce),
 			chainId: Int(asset.chainConfig.chainId) ?? 0,
 			blockNumber: nil,
 			timestamp: Date()

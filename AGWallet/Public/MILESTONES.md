@@ -55,15 +55,15 @@ Remaining work here is mainly enriching `EVMTransaction` (gas, nonce, block info
 ### Bitcoin module & Esplora client
 
 - `Data/BitcoinModule/BitcoinModule.swift`:
-  - Gets an Esplora client from `chain.primaryEndpoint(for: .rpc)` via `BitcoinEsploraClient`.[4]
+  - Gets an Esplora client from `chain.primaryEndpoint(for: .rpc)` via `BitcoinEsploraClient` (with an injectable `esploraClientOverride` for testing).[4]
   - `getBalance`:
     - Fetches UTXOs and sums `value` to derive total balance in BTC (satoshis / 100_000_000).[4]
   - `send(amount:to:for:)`:
-    - Prepares a `BitcoinTxDraft` from UTXOs and amount.
-    - For now, signing and broadcast are still partially stubbed or routed via Esplora, pending full `KeyManagerActor` integration.[4]
+    - Prepares a `BitcoinTxDraft` from UTXOs, amount, a fixed fee (500 sats, TODO: dynamic fee estimation via Esplora), and change address.
+    - `signTransaction` now delegates to `KeyManagerActor.signBitcoinTransaction`, which uses the new `BitcoinTransactionBuilder` (P2PKH scriptPubKey, DER signature encoding, SIGHASH_ALL digest) to produce a real raw signed transaction.
   - `getTransactionHistory`:
     - Delegates to `BitcoinEsploraClient.getTransactionHistory(for: address)` which maps Esplora JSON into `BitcoinTransaction` and wraps in `.bitcoin(...)`.[4][3]
-  - `signMessage`, `getAddress`, and `signTransaction` are currently `unsupportedOperation` stubs, clearly marking Bitcoin signing as TODO until `KeyManagerActor` gets chain‑specific APIs.[1]
+  - `getAddress` now delegates to `KeyManagerActor.bitcoinAddress(for:)`; `signMessage` delegates to `KeyManagerActor` as well. Bitcoin address derivation, transaction signing, and message signing are all fully wired — no more `unsupportedOperation` stubs.[1]
 
 - `Data/BitcoinModule/BitcoinEsploraClient.swift`:
   - Implements `getUTXOs(for:)` and `broadcast(rawTransaction:)` using Esplora HTTP endpoints.[4]
@@ -75,7 +75,7 @@ Remaining work here is mainly enriching `EVMTransaction` (gas, nonce, block info
       - `BitcoinTransaction` with txid, fee, blockHeight, blockTime.[3][4]
     - Returns `[UnifiedTransaction]` via `.bitcoin(...)`.[4]
 
-You now have a working Esplora integration with correct domain types; Bitcoin signing and address derivation are intentionally deferred to `KeyManagerActor`.
+You now have a working Esplora integration with correct domain types, plus full Bitcoin signing and address derivation via `KeyManagerActor` and `BitcoinTransactionBuilder`; dynamic fee estimation remains a TODO.
 
 ***
 

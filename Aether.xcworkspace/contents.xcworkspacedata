@@ -7,7 +7,4 @@
    <FileRef
       location = "group:AGWallet">
    </FileRef>
-   <FileRef
-      location = "container:../FlowMac/flow-swift-macos">
-   </FileRef>
 </Workspace>
