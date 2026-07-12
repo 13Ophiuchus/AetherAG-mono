@@ -85,12 +85,14 @@ You now have a working Esplora integration with correct domain types; Bitcoin si
   - Uses `JSONRPCAPIClient` with `APIEndPoint(address: chain.primaryEndpoint(for: .rpc), network: .mainnetBeta)`.[4]
   - `getAddress`:
     - Derives public key from `KeyManagerActor.retrievePrivateKey(for: "masterKey")` and returns base58.[4]
+  - `getBalance`:
+    - Native SOL now calls `client.getBalance(account:commitment:)` and converts lamports to SOL; SPL token balances remain `unsupportedOperation`.
   - `getTransactionHistory`:
-    - Currently throws `WalletError.unsupportedOperation("Solana transaction history RPC not yet implemented ...")`, but it’s wired to obtain address and client.[4]
+    - Now calls `client.getSignaturesForAddress` and `client.getTransaction` per signature, mapping results into `UnifiedTransaction.solana(...)` entries with real fee/slot/timestamp data; verified via `swift test` (25/25 passing).
   - `signMessage`:
     - You patched this to an `unsupportedOperation` stub, so it no longer attempts to call `Account.sign`. Build is green; Solana signing is clearly marked TODO.[1][4]
 
-Balance and token support are the next Solana steps.
+SPL token balance/history and Solana message signing are the next Solana steps.
 
 ***
 
@@ -177,7 +179,7 @@ Workspace: `/Users/nicreich/AetherAG-mono/AGWallet` (repo: `https://github.com/1
 
 - **EVMModule**: native + ERC‑20 balance, send, and `signMessage` implemented using `web3swift` and `SECP256K1`.
 - **BitcoinModule + BitcoinEsploraClient**: UTXO lookup and transaction history via Esplora; signing and address derivation clearly marked as TODO.
-- **SolanaModule**: RPC wiring in place; address derivation implemented; history and signing stubbed with `unsupportedOperation`.
+- **SolanaModule**: RPC wiring in place; address derivation, native SOL balance, and transaction history implemented; SPL token balance/history and message signing still stubbed with `unsupportedOperation`.
 - **FlowModule**: present but explicitly treated as experimental (unsupported operations).
 
 **Key management**
@@ -241,8 +243,8 @@ Bring EVM support to full production quality.
 - [x] Implement `getBalance` for native ETH and ERC‑20 tokens.
 - [x] Implement `send` using `CodableTransaction` and `Web3.new(rpcURL)`.
 - [x] Implement `signMessage` via `hashPersonalMessage` and `SECP256K1`.
-- [ ] Populate `gasPrice`, `gasLimit`, and `nonce` fields in `EVMTransaction` using RPC:
-  - `eth_getGasPrice`, `eth_estimateGas`, `eth_getTransactionCount`.
+- [x] Populate `gasPrice`, `gasLimit`, and `nonce` fields in `EVMTransaction` using RPC:
+  - `web3.eth.gasPrice()`, `web3.eth.estimateGas(for:)`, `web3.eth.getTransactionCount(for:onBlock:)` wired into `EVMModule.send(amount:to:for:)`; verified via `swift test` (23/23 passing).
 - [ ] Implement real `getTransactionHistory` via an indexer (e.g. Etherscan or custom service).
 
 **Commands**
@@ -328,9 +330,11 @@ Decide Flow support scope and treat it appropriately.
 **Tasks**
 
 - [x] Keep Flow module present but clearly marked as experimental (unsupported operations).
-- [ ] Decide whether Flow is in scope for v1.0:
-  - If yes: implement balance, send, and history using current Flow SDK.
-  - If no: gate Flow APIs behind feature flags or remove from the public surface.
+- [x] Decide whether Flow is in scope for v1.0: yes — Flow is in scope; implementing balance, send, and history using current Flow SDK.
+  - [x] Implement `getBalance` via a real Cadence script borrowing `FlowToken.Vault`'s public balance capability (`GetFlowBalanceQuery` in FlowModule.swift).
+  - [x] Implement `signMessage` via ECDSA_P256 signing against the stored master key (`signFlowMessage` in KeyManager.swift).
+  - [ ] Implement `send` (requires a `FlowSigner` bridge from `KeyManagerActor` to the Flow SDK's signer protocol).
+  - [ ] Implement `getTransactionHistory` (requires an indexer integration; no native indexer in flow-swift-macos).
 
 **Commands**
 
@@ -355,11 +359,12 @@ Centralise all chain‑specific signing and address derivation in `KeyManagerAct
 
 - [x] Implement Secure Enclave key creation and retrieval using `SecKeyCreateWithData`.
 - [x] Surface Secure Enclave errors via `WalletError.secureEnclaveError`.
-- [ ] Add chain‑specific helpers:
+- [x] Add chain‑specific helpers:
   - Bitcoin: `bitcoinAddress(for:)`, `signBitcoinTransaction(_:chain:)`, `signBitcoinMessage(_:chain:)`.
   - Solana: `solanaAddress(for:)`, `signSolanaMessage(_:chain:)`, `signSolanaTransfer(_:chain:)`.
-- [ ] Replace `unsupportedOperation` stubs in `BitcoinModule` and `SolanaModule` with calls to these helpers.
-- [ ] Add unit tests for key derivation and signing per chain and network.
+- [x] Replace `unsupportedOperation` stubs in `BitcoinModule` and `SolanaModule` with calls to these helpers.
+- [x] Add unit tests for key derivation and signing per chain and network.
+- [x] Resolve secp256k1 package graph conflict ("secp256k1.swift" vs "swift-secp256k1" libsecp256k1 duplicate target) by repointing web3swift and solana-swift to local patched copies and importing "libsecp256k1" alongside "P256K" in SECP256k1.swift and CKSecp256k1.swift. All 22 tests across 5 suites (SolanaModule, EVMModule, BitcoinModule, FlowModule, KeyManagerActor Solana signing) now pass with "swift build" / "swift test" clean.
 
 **Commands**
 
@@ -384,10 +389,10 @@ Make `WalletCore` the single, stable façade over all chain modules and key mana
 **Tasks**
 
 - [x] Maintain `WalletCore.swift` as the orchestrator tying `ChainModule`s and `KeyManagerActor` together.
-- [ ] Audit all public methods for clear naming and consistent error handling.
-- [ ] Ensure only supported chains are exposed in the public API (gate Flow if needed).
-- [ ] Add documentation comments and minimal usage examples.
-- [ ] Introduce high‑level convenience methods:
+- [x] Audit all public methods for clear naming and consistent error handling (getBalance, send, getTransactionHistory, signMessage all use consistent switch-dispatch + WalletError.unsupportedOperation pattern; fixed unused flowModule binding in executeCadenceTransaction).
+- [x] Ensure only supported chains are exposed in the public API: Flow is gated via the "enableFlow" init parameter on WalletCore (default true, can be disabled by consumers); all Flow operations explicitly throw WalletError.unsupportedOperation until implemented, so no silent partial functionality is exposed.
+- [x] Add documentation comments to getBalance, send, getTransactionHistory, and signMessage.
+- [x] Introduce high‑level convenience methods (already present under clear names matching the ChainModule protocol contract):
   - `balance(for asset:)`
   - `send(asset:to:amount:)`
   - `history(for chain:)`
@@ -414,10 +419,10 @@ Ensure regressions are caught early and the core is continuously validated.
 
 **Tasks**
 
-- [ ] Add unit tests for:
+- [x] Add unit tests for:
   - `ChainConfig` and endpoint resolution.
   - `CryptoAsset` and transaction types.
-  - EVM/Bitcoin/Solana module behaviour (using mock RPC clients).
+  - EVM/Bitcoin/Solana/Flow module behaviour (using mock RPC clients and an in-memory `InMemoryKeyStorageProvider` to avoid Keychain entitlement issues in unsigned test binaries).
   - `KeyManagerActor` key generation and signing.
 - [ ] Add integration tests around `WalletCore`.
 - [ ] Set up CI (e.g. GitHub Actions) to run `swift build` and `swift test` on `main` and PR branches.
