@@ -15,7 +15,7 @@ public actor WalletCore {
         enableBitcoin: Bool = true,
         enableSolana: Bool = true,
         enableEVM: Bool = true,
-        enableFlow: Bool = true
+        enableFlow: Bool = false
     ) {
         self.keyManager = keyManager
         self.chainConfigService = chainConfigService
@@ -26,6 +26,10 @@ public actor WalletCore {
         self.flowModule = enableFlow ? FlowModule(keyManager: keyManager) : nil
     }
     
+    /// Fetches the current balance for a given asset on its configured chain.
+    /// - Parameter asset: The crypto asset (native or token) to query.
+    /// - Returns: The balance as a `Double` in the asset's native decimal units.
+    /// - Throws: `WalletError.unsupportedOperation` if the asset's chain module is disabled.
     public func getBalance(for asset: CryptoAsset) async throws -> Double {
         logger.info("Getting balance for \(asset.symbol) on \(asset.chainConfig.name)")
         
@@ -56,6 +60,13 @@ public actor WalletCore {
         }
     }
     
+    /// Sends an amount of a given asset to a recipient address on its configured chain.
+    /// - Parameters:
+    ///   - amount: The amount to send, in the asset's native decimal units.
+    ///   - recipientAddress: The destination address, formatted for the asset's chain.
+    ///   - asset: The crypto asset (native or token) to send.
+    /// - Returns: A `UnifiedTransaction` representing the broadcasted transaction.
+    /// - Throws: `WalletError.unsupportedOperation` if the asset's chain module is disabled.
     public func send(
         amount: Double,
         to recipientAddress: String,
@@ -90,6 +101,9 @@ public actor WalletCore {
         }
     }
     
+    /// Fetches recent transaction history, optionally scoped to a single chain.
+    /// - Parameter chain: The chain to query, or `nil` to query all enabled chains.
+    /// - Returns: Transactions merged across queried chains, sorted newest first.
     public func getTransactionHistory(for chain: ChainConfig?) async throws -> [UnifiedTransaction] {
         logger.info("Getting transaction history for \(chain?.name ?? "all chains")")
         
@@ -129,6 +143,12 @@ public actor WalletCore {
         return allTransactions.sorted { $0.date > $1.date }
     }
     
+    /// Signs an arbitrary message using the wallet's key for the given chain.
+    /// - Parameters:
+    ///   - message: The plaintext message to sign.
+    ///   - chain: The chain whose signing scheme and key should be used.
+    /// - Returns: The signature, encoded per the chain's convention (e.g. hex).
+    /// - Throws: `WalletError.unsupportedOperation` if the chain's module is disabled.
     public func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
         logger.info("Signing message on \(chain.name)")
         
@@ -169,7 +189,7 @@ public actor WalletCore {
     }
     
     public func executeCadenceTransaction(_ template: FlowTransactionTemplate) async throws -> UnifiedTransaction {
-        guard let flowModule = flowModule else {
+        guard flowModule != nil else {
             throw WalletError.unsupportedOperation("Flow module not enabled")
         }
         // TODO: FlowModule.executeTransaction was removed pending a proper

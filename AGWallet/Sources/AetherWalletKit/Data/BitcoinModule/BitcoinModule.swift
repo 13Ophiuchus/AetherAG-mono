@@ -5,12 +5,16 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 	private let logger = Logger(label: "AetherWalletKit.BitcoinModule")
 	private let session: URLSession
 
+	private let esploraClientOverride: EsploraClient?
+
 	init(
 		keyManager: KeyManagerActor,
-		session: URLSession = .shared
+		session: URLSession = .shared,
+		esploraClientOverride: EsploraClient? = nil
 	) {
 		self.keyManager = keyManager
 		self.session = session
+		self.esploraClientOverride = esploraClientOverride
 	}
 
 	func getBalance(for asset: CryptoAsset) async throws -> Double {
@@ -68,12 +72,15 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 
 	func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
 		logger.info("Signing message on Bitcoin: \(message)")
-		throw WalletError.unsupportedOperation("Bitcoin message signing not yet implemented")
+		return try await signMessageInternal(message, chain: chain)
 	}
 
 		// MARK: - Private Helpers
 
 	private func esploraClient(for chain: ChainConfig) throws -> EsploraClient {
+		if let override = esploraClientOverride {
+			return override
+		}
 		guard let endpoint = chain.primaryEndpoint(for: .rpc) else {
 			throw WalletError.chainConfigurationError("No RPC endpoint configured for \(chain.name) [\(chain.activeNetwork.rawValue)]")
 		}
@@ -85,7 +92,7 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 	}
 
 	private func getAddress(for chain: ChainConfig) async throws -> String {
-		throw WalletError.unsupportedOperation("Bitcoin address derivation not yet implemented")
+		try await keyManager.bitcoinAddress(for: chain)
 	}
 
 	private func buildTransaction(
@@ -97,16 +104,20 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 	) throws -> BitcoinTxDraft {
 		let amountInSatoshis = Int64(amount * 100_000_000)
 
+		let feeSatoshis: Int64 = 500 // TODO: replace with dynamic fee estimation via Esplora fee-estimates endpoint
+
 		return BitcoinTxDraft(
 			from: from,
 			to: to,
 			amountInSatoshis: amountInSatoshis,
-			utxos: utxos
+			utxos: utxos,
+			feeSatoshis: feeSatoshis,
+			changeAddress: from
 		)
 	}
 
 	private func signTransaction(_ transaction: BitcoinTxDraft, for chain: ChainConfig) async throws -> String {
-		throw WalletError.unsupportedOperation("Bitcoin transaction signing not yet implemented")
+		try await keyManager.signBitcoinTransaction(transaction, chain: chain)
 	}
 
     // Helper that delegates Bitcoin message signing to KeyManagerActor.

@@ -1,0 +1,9 @@
+{
+  "object" : [
+    {
+      "mirror" : "https://github.com/gigabitcoin/secp256k1.swift",
+      "original" : "https://github.com/boilertalk/secp256k1.swift"
+    }
+  ],
+  "version" : 1
+}

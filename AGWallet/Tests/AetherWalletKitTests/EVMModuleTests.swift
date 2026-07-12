@@ -1,56 +1,54 @@
-import XCTest
+import Foundation
+import Foundation
+import Testing
 @testable import AetherWalletKit
 
-class EVMModuleTests: XCTestCase {
+@Suite("EVMModule")
+struct EVMModuleTests {
 
-    var keyManager: KeyManagerActor!
-    var evmModule: EVMModule!
-
-    override func setUp() {
-        super.setUp()
-        keyManager = KeyManagerActor()
-        evmModule = EVMModule(keyManager: keyManager)
+    private func makeModule() -> EVMModule {
+        EVMModule(keyManager: KeyManagerActor())
     }
 
+    @Test("getBalance fails with keychainError when no master key is stored")
     func testGetBalance() async throws {
-        // Given
+        let evmModule = makeModule()
         let asset = CryptoAsset.mockEthereum()
 
-        // When / Then: without a master key stored, we expect a keychainError("Master key not found").
         do {
             _ = try await evmModule.getBalance(for: asset)
-            XCTFail("Expected keychainError(\"Master key not found\") for EVM getBalance")
+            Issue.record("Expected keychainError(\"Master key not found\") for EVM getBalance")
         } catch WalletError.keychainError(let message) {
-            XCTAssertEqual(message, "Master key not found")
+            #expect(message == "Master key not found")
         }
     }
 
+    @Test("send fails with keychainError when no master key is stored")
     func testSendTransaction() async throws {
-        // Given
+        let evmModule = makeModule()
         let asset = CryptoAsset.mockEthereum()
         let amount = 0.01
         let recipient = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb9"
 
-        // When / Then: without a master key, we expect keychainError("Master key not found").
         do {
             _ = try await evmModule.send(amount: amount, to: recipient, for: asset)
-            XCTFail("Expected keychainError(\"Master key not found\") for EVM send")
+            Issue.record("Expected keychainError(\"Master key not found\") for EVM send")
         } catch WalletError.keychainError(let message) {
-            XCTAssertEqual(message, "Master key not found")
+            #expect(message == "Master key not found")
         }
     }
 
+    @Test("signMessage fails with keychainError when no master key is stored")
     func testSignMessage() async throws {
-        // Given
+        let evmModule = makeModule()
         let message = "AetherWalletKit test message"
         let chain = ChainConfig.mockEthereumChain()
 
-        // When / Then: without a master key, we expect keychainError("Master key not found").
         do {
             _ = try await evmModule.signMessage(message, on: chain)
-            XCTFail("Expected keychainError(\"Master key not found\") for EVM signMessage")
+            Issue.record("Expected keychainError(\"Master key not found\") for EVM signMessage")
         } catch WalletError.keychainError(let message) {
-            XCTAssertEqual(message, "Master key not found")
+            #expect(message == "Master key not found")
         }
     }
 }

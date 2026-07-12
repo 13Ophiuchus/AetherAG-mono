@@ -156,8 +156,8 @@ private struct EsploraTransaction: Decodable {
 }
 
 private extension Data {
-	init(hex: String) {
-		let clean = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+	init(strictHex: String) {
+		let clean = strictHex.trimmingCharacters(in: .whitespacesAndNewlines)
 		var data = Data()
 		var index = clean.startIndex
 

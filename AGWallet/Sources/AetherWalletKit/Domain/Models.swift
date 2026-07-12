@@ -275,13 +275,25 @@ public struct SolanaTransaction: Codable, Sendable {
 
 public struct SolanaInstruction: Codable, Sendable {
     public let programId: String
-    public let accounts: [String]
+    public let accounts: [SolanaAccountMeta]
     public let data: String
 
-    public init(programId: String, accounts: [String], data: String) {
+    public init(programId: String, accounts: [SolanaAccountMeta], data: String) {
         self.programId = programId
         self.accounts = accounts
         self.data = data
+    }
+}
+
+public struct SolanaAccountMeta: Codable, Sendable {
+    public let publicKey: String
+    public let isSigner: Bool
+    public let isWritable: Bool
+
+    public init(publicKey: String, isSigner: Bool, isWritable: Bool) {
+        self.publicKey = publicKey
+        self.isSigner = isSigner
+        self.isWritable = isWritable
     }
 }
 
