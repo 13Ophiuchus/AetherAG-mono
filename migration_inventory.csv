@@ -33,7 +33,7 @@ Issuance/IssuanceAccessTokenClaimsDTO.swift,move-now-plain,AetherSharedIdentity,
 Issuance/IssuerMetadataDTO.swift,move-now-split,AetherSharedIdentity,strip Vapor Content; add extension in AetherAGMailShared
 Issuance/TokenRequestDTO.swift,move-now-split,AetherSharedIdentity,strip Vapor Content; add extension in AetherAGMailShared
 Issuance/TokenResponseDTO.swift,move-now-split,AetherSharedIdentity,strip Vapor Content; add extension in AetherAGMailShared
-Network/HTTPMethod.swift,move-now-plain,AetherSharedCore,first migration candidate per plan
+Network/HTTPMethod.swift,DONE,AetherSharedCore,renamed to APIClient.swift (contained APIClient/APIClientError/EmptyRequestBody too); moved in AetherAG@e0b08c3 / AetherAG-mono@6631280; 2 consumers updated (VerificationAPI.swift x2); build+51 tests passing
 Network/VerificationAPI.swift,keep,AetherAG,
 Presentation/PresentationSubmissionDTO.swift,move-now-plain,AetherSharedIdentity,
 Presentation/VerifiablePresentation.swift,move-now-plain,AetherSharedIdentity,
