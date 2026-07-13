@@ -413,21 +413,21 @@ git push origin main
 
 ## Phase 5: Migrate identity models
 
-- [ ] 5.1 List all Credentials DTO files (discovery — paste output before moving)
+- [x] 5.1 List all Credentials DTO files (discovery — paste output before moving)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 find AetherAG/Sources/AetherAGMailShared/Credentials -type f -name '*.swift' | sort
 ```
 
-- [ ] 5.2 Check each Credentials file for disallowed imports before moving (discovery)
+- [x] 5.2 Check each Credentials file for disallowed imports before moving (discovery)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 grep -l -E '^import (Vapor|Flow|BigInt)' AetherAG/Sources/AetherAGMailShared/Credentials/*.swift
 ```
 
-- [ ] 5.3 Move all Credentials DTOs into AetherSharedIdentity (only run after confirming 5.2 output is empty)
+- [x] 5.3 Move all Credentials DTOs into AetherSharedIdentity (only run after confirming 5.2 output is empty)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -435,6 +435,8 @@ mkdir -p AetherShared/Sources/AetherSharedIdentity/Credentials
 git mv AetherAG/Sources/AetherAGMailShared/Credentials/*.swift AetherShared/Sources/AetherSharedIdentity/Credentials/
 ls AetherShared/Sources/AetherSharedIdentity/Credentials/
 ```
+
+**Note (2026-07-13):** During 5.3 execution, discovered that `VerifiableCredential.swift` depended on `DynamicCodingKeys` (previously in `AetherAGMailShared/Utilities/`), which was not listed in the original discovery scan. Resolved by relocating `DynamicCodingKeys` into `AetherSharedCore` (Foundation-only) and changing its access level from `package` to `public` so it remains visible across package boundaries. Also added generic `DynamicKeyedArray<Element>` / `KeyedArrayGroup<Element>` decoding helpers to `AetherSharedCore` for dynamic-key JSON array claims, documented in `AetherShared-DEPENDENCY-RULES.md`. Full test suite (51 tests / 34 suites) passed after migration; all 3 repos (`AetherShared`, `AetherAG`, `AetherAG-mono`) synced across their correct default branches (`main`, `master`, `main` respectively).
 
 - [ ] 5.4 List Issuance DTO files (discovery)
 

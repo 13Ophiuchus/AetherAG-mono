@@ -1,17 +1,17 @@
 file,bucket,target,notes
-Credentials/CredentialConfigurationDisplayDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/CredentialConfigurationSupportedDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/CredentialDefinitionDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/CredentialDisplayDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/CredentialDisplayLogoDTO.swift,move-now-plain,AetherSharedIdentity,
+Credentials/CredentialConfigurationDisplayDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/CredentialConfigurationSupportedDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/CredentialDefinitionDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/CredentialDisplayDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/CredentialDisplayLogoDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
 Credentials/CredentialOfferDTO.swift,move-now-split,AetherSharedIdentity,strip Vapor Content; add extension in AetherAGMailShared
-Credentials/CredentialProofDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/CredentialRequestDTO.swift,move-now-plain,AetherSharedIdentity,
+Credentials/CredentialProofDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/CredentialRequestDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
 Credentials/CredentialResponseDTO.swift,move-now-split,AetherSharedIdentity,strip Vapor Content; add extension in AetherAGMailShared
-Credentials/CredentialSubjectDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/ProofDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/ProofTypeSupportedDTO.swift,move-now-plain,AetherSharedIdentity,
-Credentials/VerifiableCredential.swift,move-now-plain,AetherSharedIdentity,
+Credentials/CredentialSubjectDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/ProofDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/ProofTypeSupportedDTO.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
+Credentials/VerifiableCredential.swift,moved,AetherSharedIdentity,MOVED 2026-07-13
 Credentials/VerifiableCredentialEnvelopeDTO.swift,move-now-split,AetherSharedIdentity,strip Vapor Content; add extension in AetherAGMailShared
 DID/DIDResolver.swift,keep,AetherAG,orchestration logic
 DID/Documents/DIDDocument.swift,keep,AetherAG,re-evaluate after Phase 4
@@ -40,7 +40,7 @@ Presentation/VerifiablePresentation.swift,move-now-plain,AetherSharedIdentity,
 Security/Services/BBSPlusSigningServiceProtocol.swift,move-later,AetherSharedProtocols,
 Storage/CiphertextBlobReference.swift,move-now-plain,AetherSharedCore,
 Utilities/Base64URL.swift,keep,AetherAG,re-evaluate for AetherSharedCore later
-Utilities/DynamicCodingKeys.swift,keep,AetherAG,re-evaluate for AetherSharedCore later
+Utilities/DynamicCodingKeys.swift,moved,AetherSharedCore,relocated from AetherAGMailShared/Utilities; changed access from package to public; MOVED 2026-07-13
 Utilities/ErrorDTO.swift,move-now-plain,AetherSharedCore,
 Utilities/ISO8601Date.swift,keep,AetherAG,re-evaluate for AetherSharedCore later
 VC/Utilities/VCJSONCanonicalizer.swift,keep,AetherAG,
@@ -50,3 +50,4 @@ Verification/VerificationResultDTO.swift,move-now-split,AetherSharedIdentity,str
 Verification/VerificationStatus.swift,move-now-plain,AetherSharedIdentity,
 Verification/VerificationStatusResponse.swift,move-now-split,AetherSharedIdentity,strip Vapor Content; add extension in AetherAGMailShared
 AetherAGMailShared.swift,do-not-move,AetherAG,module root
+AetherSharedCore/DynamicKeyedArrayDecoding.swift,created-new,AetherSharedCore,new generic DynamicKeyedArray<Element>/KeyedArrayGroup<Element> helpers added 2026-07-13; not part of original inventory scan
