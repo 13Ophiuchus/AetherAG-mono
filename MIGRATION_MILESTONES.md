@@ -324,7 +324,7 @@ git push origin main
 
 ## Phase 4: Migrate Core first
 
-- [ ] 4.1 Locate HTTPMethod.swift and view its contents (discovery — paste output before moving)
+- [x] 4.1 Locate HTTPMethod.swift and view its contents (discovery — paste output before moving)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -332,7 +332,7 @@ find AetherAG/Sources/AetherAGMailShared -iname 'HTTPMethod.swift'
 cat AetherAG/Sources/AetherAGMailShared/Network/HTTPMethod.swift 2>/dev/null
 ```
 
-- [ ] 4.2 Move HTTPMethod.swift into AetherSharedCore
+- [x] 4.2 Move HTTPMethod.swift into AetherSharedCore
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -341,14 +341,14 @@ git mv AetherAG/Sources/AetherAGMailShared/Network/HTTPMethod.swift AetherShared
 ls AetherShared/Sources/AetherSharedCore/Network/
 ```
 
-- [ ] 4.3 Find any remaining references to HTTPMethod in AetherAG that need an import added (discovery)
+- [x] 4.3 Find any remaining references to HTTPMethod in AetherAG that need an import added (discovery)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 grep -rl 'HTTPMethod' AetherAG/Sources
 ```
 
-- [ ] 4.4 Add the AetherSharedCore product dependency to AetherAGMailShared target using python3
+- [x] 4.4 Add the AetherSharedCore product dependency to AetherAGMailShared target using python3
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -373,7 +373,7 @@ else:
 grep -n -B2 -A5 'name: \"AetherAGMailShared\"' AetherAG/Package.swift | head -20
 ```
 
-- [ ] 4.5 Add the import statement to any file that used HTTPMethod (manual edit — paste grep results from 4.3 first)
+- [x] 4.5 Add the import statement to any file that used HTTPMethod (manual edit — paste grep results from 4.3 first)
 
 ```bash
 # After confirming affected files from step 4.3, add the import to each one, e.g.:
@@ -383,7 +383,7 @@ grep -n -B2 -A5 'name: \"AetherAGMailShared\"' AetherAG/Package.swift | head -20
 echo "Run this only after identifying affected files from step 4.3"
 ```
 
-- [ ] 4.6 Build AetherShared and AetherAG, then run Core tests
+- [x] 4.6 Build AetherShared and AetherAG, then run Core tests
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AetherShared
@@ -394,7 +394,7 @@ cd /Users/nicreich/AetherAG-mono/AetherAG
 swift build
 ```
 
-- [ ] 4.7 Commit the Core migration batch
+- [x] 4.7 Commit the Core migration batch
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -403,6 +403,11 @@ git status
 git commit -m "refactor: move HTTPMethod into AetherSharedCore"
 git push origin main
 ```
+
+---
+
+
+> **Note (Phase 4 actual execution):** `HTTPMethod.swift` on disk actually contained merged content — `HTTPMethod`, `APIClient`, `APIClientError`, and `EmptyRequestBody` — so the moved/renamed file is `AetherSharedCore/Network/APIClient.swift`, not `HTTPMethod.swift`. Two real consumers were updated (`AetherAGMailShared/Network/VerificationAPI.swift`, `AetherAGMailClientCore/Networking/VerificationAPI.swift`) with `import AetherSharedCore`. Full build + 51 tests / 34 suites passed. Committed as AetherAG@e0b08c3, AetherAG-mono@6631280/b9f2f2f.
 
 ---
 
