@@ -438,26 +438,27 @@ ls AetherShared/Sources/AetherSharedIdentity/Credentials/
 
 **Note (2026-07-13):** During 5.3 execution, discovered that `VerifiableCredential.swift` depended on `DynamicCodingKeys` (previously in `AetherAGMailShared/Utilities/`), which was not listed in the original discovery scan. Resolved by relocating `DynamicCodingKeys` into `AetherSharedCore` (Foundation-only) and changing its access level from `package` to `public` so it remains visible across package boundaries. Also added generic `DynamicKeyedArray<Element>` / `KeyedArrayGroup<Element>` decoding helpers to `AetherSharedCore` for dynamic-key JSON array claims, documented in `AetherShared-DEPENDENCY-RULES.md`. Full test suite (51 tests / 34 suites) passed after migration; all 3 repos (`AetherShared`, `AetherAG`, `AetherAG-mono`) synced across their correct default branches (`main`, `master`, `main` respectively).
 
-- [ ] 5.4 List Issuance DTO files (discovery)
+- [x] 5.4 List Issuance DTO files (discovery)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 find AetherAG/Sources/AetherAGMailShared/Issuance -type f -name '*.swift' | sort
 ```
 
-- [ ] 5.5 Check Issuance files for disallowed imports (discovery)
+- [x] 5.5 Check Issuance files for disallowed imports (discovery)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 grep -l -E '^import (Vapor|Flow|BigInt)' AetherAG/Sources/AetherAGMailShared/Issuance/*.swift
 ```
 
-- [ ] 5.6 Move Issuance DTOs into AetherSharedIdentity (only run after confirming 5.5 output is empty)
+- [x] 5.6 Move Issuance DTOs into AetherSharedIdentity (split plain files vs. Vapor-coupled files)
+
+**Note (2026-07-13):** Of 7 Issuance files (including `Dev/` subfolder, which the top-level `*.swift` glob missed on first pass — remember to scan subfolders separately), 2 were Foundation-only and moved outright (`IssuanceAccessTokenClaimsDTO.swift`, `DevSeedIssuanceSessionRequestDTO.swift`). The remaining 5 (`IssuerMetadataDTO`, `TokenRequestDTO`, `TokenResponseDTO`, `DevTokenRequestDTO`, `DevSeedIssuanceSessionResponseDTO`) imported `Vapor` for `Content` conformance only — split pattern applied: plain `Codable, Sendable` struct moved to `AetherSharedIdentity/Issuance/`, thin `extension X: @retroactive Content {}` left behind in `AetherAGMailShared/Issuance/` (importing both `Vapor` and `AetherSharedIdentity`). Also `AetherAG` is a git submodule and `AetherShared` is a plain top-level dir, so `git mv` cannot cross that boundary — use plain `mv` + separate `git add` in each repo instead. Two additional lessons: (1) structs split this way must explicitly declare `Codable` (or hand-write `init(from:)`/`encode(to:)`) in their own file, since Swift cannot synthesize `Codable` from a conformance declared in an external extension; (2) several consumers (`IssuanceAccessTokenPayload.swift`, `IssuerController.swift`, `OID4VCIService.swift`, plus test files `SharedDTORoundTripTests.swift`/`SharedContractsTests.swift`) imported only `AetherAGMailShared` and needed a direct `AetherSharedIdentity` import added once the DTOs moved out. Full shared (8/8) and server (32/32) test suites passed after migration; `AetherAG` submodule and `AetherAG-mono` parent both pushed (`master` c6808a8, `main` ad06c7e).
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 mkdir -p AetherShared/Sources/AetherSharedIdentity/Issuance
-git mv AetherAG/Sources/AetherAGMailShared/Issuance/*.swift AetherShared/Sources/AetherSharedIdentity/Issuance/
 ls AetherShared/Sources/AetherSharedIdentity/Issuance/
 ```
 
