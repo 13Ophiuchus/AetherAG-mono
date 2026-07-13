@@ -462,28 +462,28 @@ mkdir -p AetherShared/Sources/AetherSharedIdentity/Issuance
 ls AetherShared/Sources/AetherSharedIdentity/Issuance/
 ```
 
-- [ ] 5.7 List VC and Verification files (discovery)
+- [x] 5.7 List VC and Verification files (discovery)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 find AetherAG/Sources/AetherAGMailShared/VC AetherAG/Sources/AetherAGMailShared/Verification -type f -name '*.swift' 2>/dev/null | sort
 ```
 
-- [ ] 5.8 Check VC/Verification files for disallowed imports (discovery)
+- [x] 5.8 Check VC/Verification files for disallowed imports (discovery)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 grep -l -E '^import (Vapor|Flow|BigInt)' AetherAG/Sources/AetherAGMailShared/VC/*.swift AetherAG/Sources/AetherAGMailShared/Verification/*.swift 2>/dev/null
 ```
 
-- [ ] 5.9 Move VC/Verification pure model files (only run after reviewing 5.8 output; move file-by-file if some files must stay)
+- [x] 5.9 Move VC/Verification pure model files (split plain files vs. Vapor-coupled files)
+
+**Note (2026-07-13):** The top-level `VC/*.swift` glob matched nothing (`VCJSONCanonicalizer.swift` lives under `VC/Utilities/`) — same subfolder-glob gap as the Issuance batch; a full recursive `find` + per-file `import` scan is now the required first step, not the top-level glob. `Verification/VerificationStatus.swift` actually declares 5 types (`VerificationStatus`, `VerificationRecord`, `VerificationCreateRequest`, `VerificationSubmissionRequest`, `VerificationDecision`), and `VerificationSubmissionRequest` referenced a previously-unlisted type `PresentationSubmission`, physically defined in `Presentation/PresentationSubmissionDTO.swift` (filename says `...DTO`, but the actual struct inside is named `PresentationSubmission`, plus a second type `InputDescriptorMapping` — filenames do not reliably indicate contained type names, always grep the body). Both had to move together as a dependency chain. Final split: 4 plain Foundation-only files moved outright (`VCJSONCanonicalizer`, `VerificationPolicy`, `VerificationStatus`+4 nested types, `PresentationSubmissionDTO`); 3 Vapor-`Content`-only files split (`VerificationStatusResponse`, `VerificationResultDTO`, `VerificationRequestDTO`) using the same plain-struct + `@retroactive Content` extension pattern as Issuance. 9 non-test consumers and 5 test files (2 in `AetherAGMailSharedTests`, 3 in `AetherAGMailServerTests`) needed `AetherSharedIdentity` imports added; also fixed a pre-existing duplicate `import AetherAGMailShared` line found in `VerificationController.swift`. Full shared (8/8) and server (32/32) test suites passed after migration; `AetherAG` submodule and `AetherAG-mono` parent both pushed (`master` b875bc4, `main` 34a9e34).
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 mkdir -p AetherShared/Sources/AetherSharedIdentity/VC
 mkdir -p AetherShared/Sources/AetherSharedIdentity/Verification
-git mv AetherAG/Sources/AetherAGMailShared/VC/*.swift AetherShared/Sources/AetherSharedIdentity/VC/ 2>/dev/null
-git mv AetherAG/Sources/AetherAGMailShared/Verification/*.swift AetherShared/Sources/AetherSharedIdentity/Verification/ 2>/dev/null
 find AetherShared/Sources/AetherSharedIdentity -type f | sort
 ```
 
