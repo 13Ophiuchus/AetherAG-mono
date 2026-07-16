@@ -101,7 +101,7 @@ public actor KeyManagerActor {
             let programId = try PublicKey(string: instruction.programId)
             let keys = try instruction.accounts.map { meta in
                 let publicKey = try PublicKey(string: meta.publicKey)
-                return Account.Meta(publicKey: publicKey, isSigner: meta.isSigner, isWritable: meta.isWritable)
+                return AccountMeta(publicKey: publicKey, isSigner: meta.isSigner, isWritable: meta.isWritable)
             }
             let dataBytes = try Self.decodeHexString(instruction.data)
             return TransactionInstruction(keys: keys, programId: programId, data: dataBytes)
@@ -131,7 +131,7 @@ public actor KeyManagerActor {
         return payload.signature
     }
 
-    // Derives the SolanaSwift Account (Ed25519 keypair). Defaults to the legacy
+    // Derives the SolanaSwift KeyPair (Ed25519 keypair). Defaults to the legacy
     // raw-master-key derivation to preserve existing addresses; pass
     // derivationVersion: .hkdfV1 to opt a chain/intent into the hardened,
     // chain-scoped HKDF derivation instead.
@@ -139,7 +139,7 @@ public actor KeyManagerActor {
         for chain: ChainConfig,
         intent: SigningIntent,
         derivationVersion: KeyDerivationVersion = KeyManagerActor.defaultDerivationVersion
-    ) async throws -> Account {
+    ) async throws -> KeyPair {
         let seed: Data
         switch derivationVersion {
         case .legacy:
@@ -153,7 +153,7 @@ public actor KeyManagerActor {
             )
         }
         let keyPair = try NaclSign.KeyPair.keyPair(fromSeed: seed)
-        return try Account(secretKey: keyPair.secretKey)
+        return try KeyPair(secretKey: keyPair.secretKey)
     }
 
     private func validateSigningIntent(_ intent: SigningIntent, chain: ChainConfig) throws {

@@ -1,4 +1,4 @@
-import XCTest
+import Foundation
 @testable import AetherWalletKit
 
 extension CryptoAsset {

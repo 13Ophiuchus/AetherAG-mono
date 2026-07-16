@@ -413,6 +413,15 @@ swift test
 
 ## 5. Testing, QA, and CI/CD
 
+### Swift 6 concurrency & Swift Testing migration
+
+- [x] Audit test targets for legacy `XCTest` imports (`grep -R "^import XCTest"`) — 0 remaining.
+- [x] Confirm all test suites use `@Suite` / `@Test` (Swift Testing), not `XCTestCase`.
+- [x] Run isolated `-strict-concurrency=complete` build; first-party warnings: 0.
+- [x] Fix deprecated `Account` → `KeyPair` rename in `SolanaModule.swift` (last first-party warning).
+- [x] Add CI guardrail script to fail PRs that reintroduce `import XCTest` or first-party concurrency warnings (`scripts/guardrail_testing_concurrency.sh`, wired into `.github/workflows/concurrency-testing-guardrail.yml`; verified: 0 XCTest imports, 0 XCTestCase, 0 first-party warnings in AGWallet and AetherAG).
+- [ ] Decide vendor-warning policy for `solana-swift-patched` / `web3swift-patched` (track separately, do not block CI on vendor warnings).
+
 **Goals**
 
 Ensure regressions are caught early and the core is continuously validated.

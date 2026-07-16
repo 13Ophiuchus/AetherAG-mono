@@ -1,0 +1,16 @@
+name: Concurrency & Testing Guardrail
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  guardrail:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.app
+      - name: Run guardrail
+        run: scripts/guardrail_testing_concurrency.sh

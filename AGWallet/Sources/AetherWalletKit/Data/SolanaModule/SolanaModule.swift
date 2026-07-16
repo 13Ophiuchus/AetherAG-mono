@@ -174,7 +174,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 	private func getPublicKey(for chain: ChainConfig) async throws -> PublicKey {
 		let seed = try await getPrivateKey(for: chain)
 		let keyPair = try NaclSign.KeyPair.keyPair(fromSeed: seed)
-		let account = try Account(secretKey: keyPair.secretKey)
+		let account = try KeyPair(secretKey: keyPair.secretKey)
 		return account.publicKey
 	}
 
