@@ -872,3 +872,21 @@ git status
 git commit -m "chore: harden AetherShared (access levels, Sendable, docs) and close out migration"
 git push origin main
 ```
+
+<!-- milestone:update:56bd7ce924 -->
+## Milestone 12: AsyncMutex shutdown race + DID module extraction
+
+Fixed by replacing the actor with an explicit AsyncMutex (continuation
+waiter queue) and awaiting asyncShutdown() synchronously within the
+locked critical section. Verified with 20 consecutive full-suite runs
+against live Postgres: 51/51 passing every time. Builds clean under
+-strict-concurrency=complete.
+
+Also extracted the DID identity module (DIDDocument, DIDService,
+DIDKeyFormatter, DIDIdentifier, VerificationMethod) into
+AetherSharedIdentity, with DID API, Verification Persistence, and
+Issuer JWS kid Consistency test suites passing.
+
+AGWallet build verified clean (189/189) alongside these changes.
+
+Tagged as milestone-12-async-mutex-shutdown (ca6d25c).
