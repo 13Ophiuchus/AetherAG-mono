@@ -34,3 +34,4 @@ public struct IssuerMetadataDTO: Codable, Equatable, Sendable {
     case credentialConfigurationsSupported = "credential_configurations_supported"
   }
 }
+

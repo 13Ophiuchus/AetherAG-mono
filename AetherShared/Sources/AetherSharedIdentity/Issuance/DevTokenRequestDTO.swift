@@ -3,7 +3,9 @@
 //  AetherSharedIdentity
 //
 
-public struct DevTokenRequestDTO: Codable, Sendable {
+import Foundation
+
+public struct DevTokenRequestDTO: Codable, Equatable, Sendable {
   public let grantType: String
   public let preAuthorizedCode: String
 
@@ -20,3 +22,4 @@ public struct DevTokenRequestDTO: Codable, Sendable {
     case preAuthorizedCode = "pre-authorized_code"
   }
 }
+

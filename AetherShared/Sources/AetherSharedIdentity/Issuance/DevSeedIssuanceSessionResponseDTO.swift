@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct DevSeedIssuanceSessionResponseDTO: Codable, Sendable {
+public struct DevSeedIssuanceSessionResponseDTO: Codable, Equatable, Sendable {
   public let created: Bool
   public let id: UUID?
   public let subjectDID: String
@@ -41,3 +41,4 @@ public struct DevSeedIssuanceSessionResponseDTO: Codable, Sendable {
     self.message = message
   }
 }
+

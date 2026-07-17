@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct TokenResponseDTO: Codable, Equatable, Sendable {
+public struct TokenResponseDTO: Equatable, Sendable, Codable {
   public let accessToken: String
   public let tokenType: String
   public let expiresIn: Int
@@ -34,3 +34,4 @@ public struct TokenResponseDTO: Codable, Equatable, Sendable {
     case cNonceExpiresIn = "c_nonce_expires_in"
   }
 }
+

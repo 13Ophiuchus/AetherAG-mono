@@ -1,0 +1,17 @@
+=== Auditing AGWallet (path: AGWallet) ===
+[AGWallet] Build finished with exit code: 0
+--- AGWallet summary ---
+Total warnings:               2272
+Sendable-related:             1234
+First-party (Sources) hits:   0
+Vendored dependency hits:     530
+
+=== Auditing AetherAG (path: AetherAG) ===
+[AetherAG] Build finished with exit code: 0
+--- AetherAG summary ---
+Total warnings:               2272
+Sendable-related:             1237
+First-party (Sources) hits:   0
+Vendored dependency hits:     530
+
+=== Completed. Logs in: concurrency_audit_logs ===

@@ -31,7 +31,9 @@ public struct TokenRequestDTO: Equatable, Sendable {
     case preAuthorizedCodeSnake = "pre_authorized_code"
     case preAuthorizedCodeCamel = "preAuthorizedCode"
   }
+}
 
+extension TokenRequestDTO: Decodable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -57,7 +59,9 @@ public struct TokenRequestDTO: Equatable, Sendable {
       self.preAuthorizedCode = nil
     }
   }
+}
 
+extension TokenRequestDTO: Encodable {
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
 
@@ -67,3 +71,4 @@ public struct TokenRequestDTO: Equatable, Sendable {
     try container.encodeIfPresent(preAuthorizedCode, forKey: .preAuthorizedCodeSpec)
   }
 }
+
