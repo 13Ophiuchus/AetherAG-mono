@@ -17,6 +17,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.AETHERAG_PAT }}
       - name: Resolve dependencies
         run: swift package resolve
         working-directory: AetherAG
@@ -38,6 +39,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.AETHERAG_PAT }}
       - name: Run persistence tests
         run: swift test --filter PersistenceIssuanceTests --parallel
         working-directory: AetherAG
