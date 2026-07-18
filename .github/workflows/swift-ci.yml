@@ -10,11 +10,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Swift
-        uses: swift-actions/setup-swift@v1
         with:
-          swift-version: '6.0'
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.AETHERAG_PAT }}
+
+      - name: Select latest available Xcode
+        run: |
+          LATEST_XCODE=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n 1)
+          if [ -z "$LATEST_XCODE" ]; then
+            LATEST_XCODE=/Applications/Xcode.app
+          fi
+          echo "Selecting Xcode at: $LATEST_XCODE"
+          sudo xcode-select -s "$LATEST_XCODE"
+          swift --version
 
       - name: Build AGWallet and AetherAG
         run: |
