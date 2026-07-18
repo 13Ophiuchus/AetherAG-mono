@@ -1,5 +1,5 @@
 {
-  "originHash" : "37a2f22ab19a9d78d34f8047a6487f1d3d655c7551a09414e157c0e0dbdf63f5",
+  "originHash" : "1f5523e532f893341e6891968d14a57a1389fd8d26dff2761fefdbdddd7c41d6",
   "pins" : [
     {
       "identity" : "apns",
@@ -473,8 +473,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/bigearsenal/task-retrying-swift.git",
       "state" : {
-        "revision" : "208f1e8dfa93022a7d39ab5b334d5f43a934d4b1",
-        "version" : "2.0.0"
+        "revision" : "1249b3524378423c848cef39fb220041e00a08ec",
+        "version" : "1.0.4"
       }
     },
     {
