@@ -923,3 +923,13 @@ Ran from `AetherAG/`:
     swift test    # Test run with 51 tests in 34 suites passed after 0.380 seconds
 
 All 51 tests across 34 suites passed with no regressions. Phase 6 closes out the model-record extraction; remaining open items are Phase 5.10/5.11 (DID service-layer files, deferred as service-not-model) and formal protocol contracts in `AetherSharedProtocols` (`DIDDocumentMaking`, `CredentialIssuing`, `VerificationRequestHandling`, `JWTSigning`, `SecureStoring`) which were scaffolded but not yet wired to concrete implementations.
+
+---
+
+## Phase 5.10/5.11: DID service-layer classification (closed, no migration needed)
+
+**Note (2026-07-19):** Completed discovery for the two open Phase 5 checklist items. Three files remain in `AetherAGMailShared/DID`: `DIDResolver.swift`, `Documents/DIDDocumentService.swift`, `Documents/DIDDocumentServiceProtocol.swift`. None import Vapor/Flow/BigInt, but all three are genuine service-layer code operating on already-migrated model types (`DIDDocumentDTO`, `DIDVerificationMethodDTO`, `DIDDocument`, `VerificationMethod`, `DIDService`) rather than defining new data types: `DIDResolver` performs live HTTP resolution against an external resolver endpoint, `DIDDocumentService` contains construction business logic (precondition checks, fragment normalization), and `DIDDocumentServiceProtocol` abstracts over that service. None are plain Codable value types, so none qualify for the AetherSharedIdentity move-now bucket under the existing dependency rules.
+
+Consumer scan across `AetherAG/Sources` and `AetherAG/Tests` for `DIDDocument|DIDService|DIDKeyFormatter|DIDIdentifier|VerificationMethod|DIDResolver` found 11 referencing files (`DIDController.swift`, `DIDDocumentResponse.swift`, `DIDDocument+Vapor.swift`, the 3 DID files above, `DIDResolverStub.swift`, `DIDDocument+Mock.swift`, `DIDDocument+testDocument.swift`, `IssuerJWSKidConsistencyTests.swift`, `IssuerKeyIDConsistencyTests.swift`) — all already have `import AetherSharedIdentity`, so no import fixes were required.
+
+Phase 5 is now fully closed: 5.10/5.11 required documentation only, no code changes. Full build + test suite re-verified clean with zero regressions.
