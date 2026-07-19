@@ -487,13 +487,15 @@ mkdir -p AetherShared/Sources/AetherSharedIdentity/Verification
 find AetherShared/Sources/AetherSharedIdentity -type f | sort
 ```
 
-- [ ] 5.10 List DID files and flag which are model vs service (discovery — service files like DIDResolver should NOT move yet)
+- [x] 5.10 List DID files and flag which are model vs service (discovery — service files like DIDResolver should NOT move yet)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 find AetherAG/Sources/AetherAGMailShared/DID -type f -name '*.swift' | sort
 grep -l -E 'class .*Resolver|protocol .*Resolving|func .*resolve' AetherAG/Sources/AetherAGMailShared/DID/*.swift 2>/dev/null
 ```
+
+**Note (2026-07-19):** Found 3 DID files (`DIDResolver.swift`, `Documents/DIDDocumentService.swift`, `Documents/DIDDocumentServiceProtocol.swift`); `Methods/` and `Models/` subfolders are empty. All 3 are service/protocol code, not pure models — nothing moved in Phase 5. `DIDDocumentServiceProtocol.swift` deferred to Phase 6 protocol extraction.
 
 - [ ] 5.11 Find every file across AetherAG referencing the moved types (discovery — paste output before adding imports)
 
