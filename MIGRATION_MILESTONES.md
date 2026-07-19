@@ -497,14 +497,16 @@ grep -l -E 'class .*Resolver|protocol .*Resolving|func .*resolve' AetherAG/Sourc
 
 **Note (2026-07-19):** Found 3 DID files (`DIDResolver.swift`, `Documents/DIDDocumentService.swift`, `Documents/DIDDocumentServiceProtocol.swift`); `Methods/` and `Models/` subfolders are empty. All 3 are service/protocol code, not pure models — nothing moved in Phase 5. `DIDDocumentServiceProtocol.swift` deferred to Phase 6 protocol extraction.
 
-- [ ] 5.11 Find every file across AetherAG referencing the moved types (discovery — paste output before adding imports)
+- [x] 5.11 Find every file across AetherAG referencing the moved types (discovery — paste output before adding imports)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 grep -rl -E 'VerifiableCredential|CredentialDisplayDTO|CredentialSubjectDTO|CredentialRequestDTO|CredentialResponseDTO|IssuerMetadataDTO|TokenRequestDTO|TokenResponseDTO' AetherAG/Sources
 ```
 
-- [ ] 5.12 Add AetherSharedIdentity product dependency to AetherAGMailShared, AetherAGMailClientCore, and AetherAGMailServer using python3
+**Note (2026-07-19):** All 26 real consumer files (excluding `.build/` artifacts) already had `import AetherSharedIdentity` present from earlier Phase 5 batches — confirmed via `AetherShared-phase5-consumers.csv`. No manual import edits were needed for 5.14.
+
+- [x] 5.12 Add AetherSharedIdentity product dependency to AetherAGMailShared, AetherAGMailClientCore, and AetherAGMailServer using python3
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -532,7 +534,7 @@ pathlib.Path('AetherAG/Package.swift').write_text(text)
 grep -n 'AetherSharedIdentity' AetherAG/Package.swift
 ```
 
-- [ ] 5.13 Build AetherShared and AetherAG, run identity tests
+- [x] 5.13 Build AetherShared and AetherAG, run identity tests
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AetherShared
@@ -543,7 +545,7 @@ cd /Users/nicreich/AetherAG-mono/AetherAG
 swift build
 ```
 
-- [ ] 5.14 If build fails on missing imports, add `import AetherSharedIdentity` to each affected file found in step 5.11 (manual edit per file, then rebuild)
+- [x] 5.14 If build fails on missing imports, add `import AetherSharedIdentity` to each affected file found in step 5.11 (manual edit per file, then rebuild)
 
 ```bash
 # For each file from step 5.11 output, run (replace <file> with actual path):
