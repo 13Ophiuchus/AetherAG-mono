@@ -1,0 +1,17 @@
+file,bucket,imports
+AetherAG/Sources/AetherAGMailShared/AetherAGMailShared.swift,REVIEW,Foundation
+AetherAG/Sources/AetherAGMailShared/Credentials/CredentialOfferDTO.swift,KEEP_VAPOR_COUPLED,"Foundation,Vapor,AetherSharedIdentity"
+AetherAG/Sources/AetherAGMailShared/Credentials/CredentialResponseDTO.swift,KEEP_VAPOR_COUPLED,"Foundation,Vapor,AetherSharedIdentity"
+AetherAG/Sources/AetherAGMailShared/Credentials/VerifiableCredentialEnvelopeDTO.swift,KEEP_VAPOR_COUPLED,"Foundation,Vapor,AetherSharedIdentity"
+AetherAG/Sources/AetherAGMailShared/DID/DIDResolver.swift,REVIEW,"Foundation,AetherSharedIdentity"
+AetherAG/Sources/AetherAGMailShared/DID/Documents/DIDDocumentService.swift,REVIEW,"Foundation,AetherSharedIdentity,AetherSharedProtocols"
+AetherAG/Sources/AetherAGMailShared/DID/Documents/DIDDocumentServiceProtocol.swift,REVIEW,"Foundation,AetherSharedIdentity"
+AetherAG/Sources/AetherAGMailShared/Errors/DatabaseConfigurationError.swift,REVIEW,Foundation
+AetherAG/Sources/AetherAGMailShared/Extensions/Utilities/String+JSON.swift,REVIEW,Foundation
+AetherAG/Sources/AetherAGMailShared/Extensions/Utilities/String+Validation.swift,REVIEW,Foundation
+AetherAG/Sources/AetherAGMailShared/Network/VerificationAPI.swift,REVIEW,"AetherSharedCore,Foundation,AetherSharedIdentity"
+AetherAG/Sources/AetherAGMailShared/Presentation/VerifiablePresentation.swift,MOVE_CANDIDATE,"Foundation,AetherSharedIdentity"
+AetherAG/Sources/AetherAGMailShared/Storage/CiphertextBlobReference.swift,MOVE_CANDIDATE,Foundation
+AetherAG/Sources/AetherAGMailShared/Utilities/Base64URL.swift,REVIEW,Foundation
+AetherAG/Sources/AetherAGMailShared/Utilities/ErrorDTO.swift,MOVE_CANDIDATE,Foundation
+AetherAG/Sources/AetherAGMailShared/Utilities/ISO8601Date.swift,REVIEW,Foundation
