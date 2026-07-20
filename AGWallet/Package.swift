@@ -5,7 +5,7 @@ let package = Package(
     name: "AetherWalletKit",
     platforms: [
         .iOS(.v16),
-        .macOS(.v13)
+        .macOS(.v14)
     ],
     products: [
         .library(
@@ -14,6 +14,7 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(path: "../AetherShared"),
         .package(path: "../solana-swift-patched"),
         .package(path: "../web3swift-patched"),
         .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", revision: "7ff00d3f7ea42f9f510ea99df74d9bc9d5c7eb46"),
@@ -29,6 +30,7 @@ let package = Package(
         .target(
             name: "AetherWalletKit",
             dependencies: [
+                .product(name: "AetherSharedProtocols", package: "AetherShared"),
                 .product(name: "SolanaSwift", package: "solana-swift-patched"),
                 .product(name: "web3swift", package: "web3swift-patched"),
                 .product(name: "Flow", package: "flow-swift-macos"),

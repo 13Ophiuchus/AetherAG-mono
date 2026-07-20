@@ -1,14 +1,47 @@
 import Foundation
 import LocalAuthentication
+import AetherSharedProtocols
 
 // MARK: - KeyStorageProviding
 
 // Abstraction over secure key storage so KeyManagerActor can be tested with an
 // in-memory fake, while production code continues to use Secure Enclave/Keychain.
-public protocol KeyStorageProviding: Sendable {
+public protocol KeyStorageProviding: WalletKeyStoring {
     func storeKey(_ key: Data, for identifier: String, requiresBiometrics: Bool) throws
     func retrieveKey(for identifier: String) throws -> Data?
     func deleteKey(for identifier: String) throws
+}
+
+public extension KeyStorageProviding {
+    func storeKey(
+        _ key: Data,
+        for identifier: String,
+        requiresBiometrics: Bool
+    ) async throws {
+        try _syncStoreKey(key, for: identifier, requiresBiometrics: requiresBiometrics)
+    }
+
+    func retrieveKey(for identifier: String) async throws -> Data? {
+        try _syncRetrieveKey(for: identifier)
+    }
+
+    func deleteKey(for identifier: String) async throws {
+        try _syncDeleteKey(for: identifier)
+    }
+}
+
+private extension KeyStorageProviding {
+    func _syncStoreKey(_ key: Data, for identifier: String, requiresBiometrics: Bool) throws {
+        try storeKey(key, for: identifier, requiresBiometrics: requiresBiometrics)
+    }
+
+    func _syncRetrieveKey(for identifier: String) throws -> Data? {
+        try retrieveKey(for: identifier)
+    }
+
+    func _syncDeleteKey(for identifier: String) throws {
+        try deleteKey(for: identifier)
+    }
 }
 
 // MARK: - KeychainKeyStorageProvider
