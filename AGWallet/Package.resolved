@@ -1,5 +1,5 @@
 {
-  "originHash" : "46fc4c968fbf0187330a53717563723cf69df7f6030754c93c08e747e69bd68e",
+  "originHash" : "20e3f1e5af1833fe0dbe815164287bff190021286f97a6025e0a8fb920638782",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-crypto",
       "state" : {
-        "revision" : "1b6b2e274e85105bfa155183145a1dcfd63331f1",
-        "version" : "4.5.0"
+        "revision" : "95ba0316a9b733e92bb6b071255ff46263bbe7dc",
+        "version" : "3.15.1"
       }
     },
     {
@@ -275,8 +275,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/bigearsenal/task-retrying-swift.git",
       "state" : {
-        "revision" : "208f1e8dfa93022a7d39ab5b334d5f43a934d4b1",
-        "version" : "2.0.0"
+        "revision" : "1249b3524378423c848cef39fb220041e00a08ec",
+        "version" : "1.0.4"
       }
     },
     {
