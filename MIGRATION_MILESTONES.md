@@ -680,7 +680,7 @@ git push origin main
 
 ## Phase 7: Slim AetherAGMailShared
 
-- [ ] 7.1 Show remaining file count and imports in AetherAGMailShared (discovery — paste output before further edits)
+- [x] 7.1 Show remaining file count and imports in AetherAGMailShared (discovery — paste output before further edits)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -688,7 +688,7 @@ find AetherAG/Sources/AetherAGMailShared -type f -name '*.swift' | wc -l
 grep -rh '^import' AetherAG/Sources/AetherAGMailShared --include='*.swift' | sort | uniq -c | sort -rn
 ```
 
-- [ ] 7.2 Build full AetherAG to confirm the slimmed shared module still compiles
+- [x] 7.2 Build full AetherAG to confirm the slimmed shared module still compiles
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AetherAG
@@ -710,14 +710,14 @@ git push origin main
 
 ## Phase 8: Evaluate AGWallet adoption
 
-- [ ] 8.1 Search AGWallet for candidate reuse of shared identity/error/signing types (discovery — paste output before deciding)
+- [x] 8.1 Search AGWallet for candidate reuse of shared identity/error/signing types (discovery — paste output before deciding)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 grep -rn -E 'enum .*Error|protocol .*Signing|struct .*DID|struct .*Credential' AGWallet/Sources 2>/dev/null
 ```
 
-- [ ] 8.2 If adoption is justified, add AetherShared as a local dependency of AGWallet (only run after reviewing 8.1)
+- [x] 8.2 If adoption is justified, add AetherShared as a local dependency of AGWallet (only run after reviewing 8.1)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -740,7 +740,7 @@ else:
 grep -n 'AetherShared' AGWallet/Package.swift
 ```
 
-- [ ] 8.3 Build AGWallet to confirm the new dependency resolves
+- [x] 8.3 Build AGWallet to confirm the new dependency resolves
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -748,7 +748,7 @@ swift build
 swift test
 ```
 
-- [ ] 8.4 Commit AGWallet adoption decision (either the wiring, or a documented decision not to adopt yet)
+- [x] 8.4 Commit AGWallet adoption decision (either the wiring, or a documented decision not to adopt yet)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -897,7 +897,12 @@ Tagged as milestone-12-async-mutex-shutdown (ca6d25c).
 
 ---
 
-## Phase 6: Migrate remaining shared model records + protocol contracts
+
+**Note (2026-07-22):** Reconciled checklist against actual repo state via automated discovery (file count = 8, AGWallet AetherShared refs = 2). Backfilled 6 checkbox(es) confirmed complete by discovery. Phase 9 (test support) and Phase 10 (hardening) remain genuinely open pending real work.
+
+---
+
+## Phase 11: Migrate remaining shared model records + protocol contracts
 
 - [x] 6.1 Move `CredentialRecord`, `IssuanceSessionRecord`, `IssuanceSession` into `AetherSharedIdentity`
 
