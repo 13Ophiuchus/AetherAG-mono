@@ -1,4 +1,5 @@
 import Foundation
+import Security
 
 public actor ChainConfigurationService {
     private let keychainManager = KeychainManager()

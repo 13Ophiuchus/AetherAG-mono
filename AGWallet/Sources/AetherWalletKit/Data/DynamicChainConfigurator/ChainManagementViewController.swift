@@ -43,17 +43,19 @@ public class ChainManagementViewController: UIViewController {
     }
     
     @objc private func addChainTapped() {
-        let predefinedChains = await chainConfigService.getPredefinedChains()
-        let addChainView = AddChainView(predefinedChains: predefinedChains) { [weak self] newChain in
-            Task {
-                try? await self?.chainConfigService.addChain(newChain)
-                self?.loadChains()
-                self?.dismiss(animated: true)
+        Task {
+            let predefinedChains = await chainConfigService.getPredefinedChains()
+            let addChainView = AddChainView(predefinedChains: predefinedChains) { [weak self] newChain in
+                Task {
+                    try? await self?.chainConfigService.addChain(newChain)
+                    self?.loadChains()
+                    self?.dismiss(animated: true)
+                }
             }
+
+            let hostingController = UIHostingController(rootView: addChainView)
+            present(hostingController, animated: true)
         }
-        
-        let hostingController = UIHostingController(rootView: addChainView)
-        present(hostingController, animated: true)
     }
 }
 

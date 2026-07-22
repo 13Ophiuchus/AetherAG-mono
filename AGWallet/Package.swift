@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "AetherWalletKit",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v17),
         .macOS(.v14)
     ],
     products: [
@@ -17,7 +17,7 @@ let package = Package(
         .package(path: "../AetherShared"),
         .package(path: "../solana-swift-patched"),
         .package(path: "../web3swift-patched"),
-        .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", revision: "7ff00d3f7ea42f9f510ea99df74d9bc9d5c7eb46"),
+        .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", revision: "9a811b30d19bde7bab7cc35c872c3b98a3b03536"),
         .package(url: "https://github.com/apple/swift-crypto", "1.0.0"..<"5.0.0"),
         .package(url: "https://github.com/attaswift/BigInt.git", .upToNextMinor(from: "5.4.0")),
         .package(url: "https://github.com/swift-server/async-http-client", from: "1.19.0"),
