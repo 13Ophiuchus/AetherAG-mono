@@ -1,0 +1,58 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/**
+      - bugfix/**
+  pull_request:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Show Versions
+        run: |
+          swift --version
+          xcodebuild -version
+
+      - name: Resolve Packages
+        run: swift package resolve
+
+      - name: Build
+        run: swift build --build-tests
+
+      - name: Test
+        run: swift test --parallel
+
+      - name: Swift Format Check
+        run: |
+          if command -v swiftformat >/dev/null; then
+            swiftformat --lint .
+          fi
+
+      - name: SwiftLint
+        run: |
+          if command -v swiftlint >/dev/null; then
+            swiftlint
+          fi

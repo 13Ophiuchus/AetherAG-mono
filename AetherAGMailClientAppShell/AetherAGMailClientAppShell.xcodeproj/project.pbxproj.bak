@@ -1,0 +1,333 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		42C6E53C99DEBB77E617C806 /* AetherAGMailClientAppShellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC436C1060BA9602E6B8CEF /* AetherAGMailClientAppShellApp.swift */; };
+		53977301E640D30FF67E0058 /* AetherAGMailClientApp in Frameworks */ = {isa = PBXBuildFile; productRef = 3F28FA61958209A3B683CC9F /* AetherAGMailClientApp */; };
+		7AEFBE181D99AE9AC9002C74 /* AetherAGMailClientCore in Frameworks */ = {isa = PBXBuildFile; productRef = EBD96237707147E798FC9803 /* AetherAGMailClientCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4DC17D2451A1D14D6981BB84 /* AetherAGMailClientAppShell.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AetherAGMailClientAppShell.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EC436C1060BA9602E6B8CEF /* AetherAGMailClientAppShellApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AetherAGMailClientAppShellApp.swift; sourceTree = "<group>"; };
+		C02071F1F19402FF81E7EA95 /* AetherAG */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AetherAG; path = ../AetherAG; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0F0FA2B6E98EF99A29138C9C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53977301E640D30FF67E0058 /* AetherAGMailClientApp in Frameworks */,
+				7AEFBE181D99AE9AC9002C74 /* AetherAGMailClientCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		042E1BA04B1E4E9CEF166E12 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				C02071F1F19402FF81E7EA95 /* AetherAG */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		36CE0643FD539072750D20D8 /* AetherAGMailClientAppShell */ = {
+			isa = PBXGroup;
+			children = (
+				5EC436C1060BA9602E6B8CEF /* AetherAGMailClientAppShellApp.swift */,
+			);
+			name = AetherAGMailClientAppShell;
+			path = Sources/AetherAGMailClientAppShell;
+			sourceTree = "<group>";
+		};
+		94C42EBCEB09A4862B6B4BC6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DC17D2451A1D14D6981BB84 /* AetherAGMailClientAppShell.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EBD0D6C48570BB55A9D23761 = {
+			isa = PBXGroup;
+			children = (
+				36CE0643FD539072750D20D8 /* AetherAGMailClientAppShell */,
+				042E1BA04B1E4E9CEF166E12 /* Packages */,
+				94C42EBCEB09A4862B6B4BC6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C67D99C332190A74253A20A4 /* AetherAGMailClientAppShell */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA584F71ACF8F37F19EFE923 /* Build configuration list for PBXNativeTarget "AetherAGMailClientAppShell" */;
+			buildPhases = (
+				79298F887F266A0F10DA672E /* Sources */,
+				0F0FA2B6E98EF99A29138C9C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AetherAGMailClientAppShell;
+			packageProductDependencies = (
+				3F28FA61958209A3B683CC9F /* AetherAGMailClientApp */,
+				EBD96237707147E798FC9803 /* AetherAGMailClientCore */,
+			);
+			productName = AetherAGMailClientAppShell;
+			productReference = 4DC17D2451A1D14D6981BB84 /* AetherAGMailClientAppShell.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A7EC9A1839B7B477D6603966 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = F7FEAA6AEBF814E8A93AF9E1 /* Build configuration list for PBXProject "AetherAGMailClientAppShell" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = EBD0D6C48570BB55A9D23761;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				82AC98A998427E006816C69B /* XCLocalSwiftPackageReference "../AetherAG" */,
+			);
+			preferredProjectObjectVersion = 54;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C67D99C332190A74253A20A4 /* AetherAGMailClientAppShell */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		79298F887F266A0F10DA672E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42C6E53C99DEBB77E617C806 /* AetherAGMailClientAppShellApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6712202567F712E3370ADCE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aetherag.clientappshell;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		CB78E624B71831B57BBC493D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D971B6890EC9D1EE624AB0BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aetherag.clientappshell;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		FC2E6279FE2EA707DFCC4F60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA584F71ACF8F37F19EFE923 /* Build configuration list for PBXNativeTarget "AetherAGMailClientAppShell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6712202567F712E3370ADCE1 /* Debug */,
+				D971B6890EC9D1EE624AB0BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F7FEAA6AEBF814E8A93AF9E1 /* Build configuration list for PBXProject "AetherAGMailClientAppShell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB78E624B71831B57BBC493D /* Debug */,
+				FC2E6279FE2EA707DFCC4F60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		82AC98A998427E006816C69B /* XCLocalSwiftPackageReference "../AetherAG" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../AetherAG;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3F28FA61958209A3B683CC9F /* AetherAGMailClientApp */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AetherAGMailClientApp;
+		};
+		EBD96237707147E798FC9803 /* AetherAGMailClientCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AetherAGMailClientCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A7EC9A1839B7B477D6603966 /* Project object */;
+}

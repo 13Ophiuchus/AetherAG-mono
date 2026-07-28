@@ -1,0 +1,11 @@
+import SwiftUI
+import AetherAGMailClientApp
+
+@main
+struct AetherAGMailClientAppShellApp: App {
+    var body: some Scene {
+        WindowGroup {
+            AppRootView()
+        }
+    }
+}

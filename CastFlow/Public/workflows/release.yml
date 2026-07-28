@@ -1,0 +1,25 @@
+name: Release
+
+on:
+
+  push:
+
+    tags:
+
+      - "v*"
+
+jobs:
+
+  release:
+
+    runs-on: macos-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - run: swift build -c release
+
+      - run: swift test
+
+      - uses: softprops/action-gh-release@v2

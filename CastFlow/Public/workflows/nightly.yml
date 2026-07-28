@@ -1,0 +1,27 @@
+name: Nightly Validation
+
+on:
+
+  schedule:
+
+    - cron: "0 3 * * *"
+
+jobs:
+
+  nightly:
+
+    runs-on: macos-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - run: swift package resolve
+
+      - run: swift build
+
+      - run: swift test --parallel
+
+      - run: swift package diagnose-api-breaking-changes || true
+
+      - run: python3 Scripts/architecture_check.py

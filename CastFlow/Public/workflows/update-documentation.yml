@@ -1,0 +1,37 @@
+name: Documentation Automation
+
+on:
+
+  workflow_dispatch:
+
+  schedule:
+
+    - cron: "0 0 * * 0"
+
+jobs:
+
+  audit:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Detect Missing Documentation
+
+        run: |
+
+          python3 Scripts/check_docs.py
+
+      - name: Verify ADR References
+
+        run: |
+
+          python3 Scripts/check_adrs.py
+
+      - name: Verify Roadmap Links
+
+        run: |
+
+          python3 Scripts/check_milestones.py

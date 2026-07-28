@@ -1,0 +1,35 @@
+name: Security
+
+on:
+
+  schedule:
+    - cron: "0 4 * * 1"
+
+  workflow_dispatch:
+
+jobs:
+
+  security:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Secret Scan
+        uses: trufflesecurity/trufflehog@main
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+
+      - name: CodeQL Init
+        uses: github/codeql-action/init@v3
+        with:
+          languages: swift
+
+      - name: CodeQL Analyze
+        uses: github/codeql-action/analyze@v3

@@ -1,0 +1,48 @@
+name: Documentation
+
+on:
+
+  push:
+    paths:
+      - "Documentation/**"
+      - "**/*.md"
+
+  pull_request:
+    paths:
+      - "Documentation/**"
+      - "**/*.md"
+
+jobs:
+
+  docs:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Validate Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v16
+
+      - name: Check Links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          fail: true
+
+      - name: Verify Repository Structure
+        run: |
+
+          test -f README.md
+          test -f ROADMAP.md
+          test -f CONTRIBUTING.md
+          test -f SECURITY.md
+          test -f MILESTONES.md
+          test -f CHANGELOG.md
+
+      - name: Build DocC
+        run: |
+
+          if [ -f Package.swift ]; then
+              swift package generate-documentation || true
+          fi
