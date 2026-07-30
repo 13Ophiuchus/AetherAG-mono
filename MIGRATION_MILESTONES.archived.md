@@ -1,3 +1,7 @@
+> **ARCHIVED (2026-07-30):** This early-draft plan (Phase 0-3) was superseded by a different, more advanced phase sequence that was actually executed and merged into `AetherShared` (see `git log -- AetherShared`, which references Phase 9 and Phase 10.1). AGWallet and AetherAG both build clean against the real AetherShared package as of this date. This file is kept for historical reference only and should not be executed.
+
+---
+
 # AetherShared Migration Milestones
 
 Incremental extraction plan for introducing `AetherShared` as a foundation
