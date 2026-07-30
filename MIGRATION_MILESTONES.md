@@ -154,12 +154,12 @@ EOF
 find AetherShared/Sources -type f | sort
 ```
 
-- [ ] 2.3 Create Package.swift with tools version 6.0 (matching AetherAG)
+- [ ] 2.3 Create Package.swift with tools version 6.2 (matching AetherAG)
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
 cat << 'EOF' > AetherShared/Package.swift
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 import PackageDescription
 
 let package = Package(
