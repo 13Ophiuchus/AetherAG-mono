@@ -9,7 +9,7 @@
 import Foundation
 import AetherSharedIdentity
 
-protocol VerificationRepositoryProtocol: Sendable {
+public protocol VerificationRepositoryProtocol: Sendable {
     func create(_ record: VerificationRequestRecord) async throws -> VerificationRequestRecord
     func find(id: UUID) async throws -> VerificationRequestRecord?
     func updateStatus(id: UUID, status: VerificationStatus) async throws

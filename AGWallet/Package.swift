@@ -23,7 +23,7 @@ let package = Package(
         .package(url: "https://github.com/swift-server/async-http-client", from: "1.19.0"),
         .package(url: "https://github.com/swift-extras/swift-extras-json", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-log", from: "1.0.0"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.0.0"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.17.6"),
         .package(url: "https://github.com/21-DOT-DEV/swift-secp256k1", from: "0.21.1"),
     ],
     targets: [
