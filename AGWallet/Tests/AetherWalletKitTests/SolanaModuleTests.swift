@@ -50,7 +50,8 @@ struct SolanaModuleTests {
     func testSendTransactionHappyPath() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
-        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
 
         // Use the same known-good, correctly-decoding base58 blockhash and
         // recipient address already proven valid in KeyManagerActorSolanaTests,
@@ -97,7 +98,8 @@ struct SolanaModuleTests {
     func testGetBalanceHappyPath() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
-        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
 
         let mockClient = MockSolanaRPCClient(
             blockhashToReturn: "EETcHmMwaUhi9jSHVdaUyKWDavcYCJZ8SxLXTfRR1qud",
@@ -117,7 +119,8 @@ struct SolanaModuleTests {
     func testGetTransactionHistoryHappyPath() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
-        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
 
         let mockClient = MockSolanaRPCClient(
             blockhashToReturn: "EETcHmMwaUhi9jSHVdaUyKWDavcYCJZ8SxLXTfRR1qud",
@@ -153,7 +156,6 @@ struct SolanaModuleTests {
         mockClient.transactionsBySignature[signature] = transactionInfo
 
         let solanaModule = makeModule(withStoredMasterKey: keyManager, rpcClient: mockClient)
-        let chain = ChainConfig.mockSolanaChain()
 
         let history = try await solanaModule.getTransactionHistory(for: chain)
 

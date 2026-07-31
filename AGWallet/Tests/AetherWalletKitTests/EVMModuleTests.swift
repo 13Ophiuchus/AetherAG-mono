@@ -19,7 +19,7 @@ struct EVMModuleTests {
             _ = try await evmModule.getBalance(for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for EVM getBalance")
         } catch WalletError.keychainError(let message) {
-            #expect(message == "Master key not found")
+            #expect(message == "Private key not found for Ethereum")
         }
     }
 
@@ -34,7 +34,7 @@ struct EVMModuleTests {
             _ = try await evmModule.send(amount: amount, to: recipient, for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for EVM send")
         } catch WalletError.keychainError(let message) {
-            #expect(message == "Master key not found")
+            #expect(message == "Private key not found for Ethereum")
         }
     }
 
@@ -48,7 +48,7 @@ struct EVMModuleTests {
             _ = try await evmModule.signMessage(message, on: chain)
             Issue.record("Expected keychainError(\"Master key not found\") for EVM signMessage")
         } catch WalletError.keychainError(let message) {
-            #expect(message == "Master key not found")
+            #expect(message == "Private key not found for Ethereum")
         }
     }
 }

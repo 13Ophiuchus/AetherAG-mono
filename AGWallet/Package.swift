@@ -34,12 +34,12 @@ let package = Package(
                 .product(name: "SolanaSwift", package: "solana-swift-patched"),
                 .product(name: "web3swift", package: "web3swift-patched"),
                 .product(name: "Flow", package: "flow-swift-macos"),
+                .product(name: "P256K", package: "swift-secp256k1"),
                 .product(name: "Crypto", package: "swift-crypto"),
                 .product(name: "BigInt", package: "BigInt"),
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
                 .product(name: "ExtrasJSON", package: "swift-extras-json"),
                 .product(name: "Logging", package: "swift-log"),
-                .product(name: "P256K", package: "swift-secp256k1"),
             ],
             path: "Sources/AetherWalletKit"
         ),

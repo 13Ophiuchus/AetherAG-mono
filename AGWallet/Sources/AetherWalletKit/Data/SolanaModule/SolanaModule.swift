@@ -179,7 +179,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 	}
 
 	private func getPrivateKey(for chain: ChainConfig) async throws -> Data {
-		guard let privateKey = try await keyManager.retrievePrivateKey(for: "masterKey") else {
+		guard let privateKey = try await keyManager.retrievePrivateKey(for: chain.chainId) else {
 			throw WalletError.keychainError("Master key not found")
 		}
 		return privateKey

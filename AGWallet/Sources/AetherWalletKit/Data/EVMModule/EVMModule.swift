@@ -179,10 +179,8 @@ final class EVMModule: ChainModule, @unchecked Sendable {
 	}
 
 	private func getPrivateKeyData(for chain: ChainConfig) async throws -> Data {
-			// This assumes the master key is the EVM private key.
-			// A real implementation would use the derivation path.
-		guard let keyData = try await keyManager.retrievePrivateKey(for: "masterKey") else {
-			throw WalletError.keychainError("Master key not found")
+		guard let keyData = try await keyManager.retrievePrivateKey(for: chain.chainId) else {
+			throw WalletError.keychainError("Private key not found for \(chain.name)")
 		}
 		return keyData
 	}

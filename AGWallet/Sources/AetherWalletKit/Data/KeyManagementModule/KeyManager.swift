@@ -1,4 +1,5 @@
 import Foundation
+import P256K
 import CryptoKit
 import LocalAuthentication
 import SolanaSwift
@@ -191,7 +192,7 @@ public actor KeyManagerActor {
         let salt = derivationSalt(chain: chain, family: family, intent: intent)
         let info = Data("AetherWalletKit.cross-chain-signing.v1".utf8)
 
-        let derived = HKDF<SHA256>.deriveKey(
+        let derived = HKDF<CryptoKit.SHA256>.deriveKey(
             inputKeyMaterial: inputKey,
             salt: salt,
             info: info,
@@ -324,7 +325,7 @@ public actor KeyManagerActor {
         guard let messageData = message.data(using: .utf8) else {
             throw WalletError.signingFailed("Message is not valid UTF-8")
         }
-        let hash = Data(SHA256.hash(data: Data(SHA256.hash(data: messageData))))
+        let hash = Data(CryptoKit.SHA256.hash(data: Data(CryptoKit.SHA256.hash(data: messageData))))
         let (signature, _) = SECP256K1.signForRecovery(hash: hash, privateKey: masterKey)
         guard let signature else {
             throw WalletError.signingFailed("Bitcoin message signing failed")
@@ -360,13 +361,101 @@ public actor KeyManagerActor {
         guard let publicKey = Utilities.privateToPublic(masterKey, compressed: true) else {
             throw WalletError.signingFailed("Unable to derive Bitcoin public key")
         }
-        let sha256Hash = Data(SHA256.hash(data: publicKey))
+        let sha256Hash = Data(CryptoKit.SHA256.hash(data: publicKey))
         let hash160 = try RIPEMD160.hash(message: sha256Hash)
         let versionByte: UInt8 = chain.activeNetwork == .testnet ? 0x6f : 0x00
         var payload = Data([versionByte]) + hash160
-        let checksum = Data(SHA256.hash(data: Data(SHA256.hash(data: payload)))).prefix(4)
+        let checksum = Data(CryptoKit.SHA256.hash(data: Data(CryptoKit.SHA256.hash(data: payload)))).prefix(4)
         payload += checksum
         return Base58.encode(payload)
+    }
+
+    /// Derives a Bitcoin address for the given chain configuration and address
+    /// type. Legacy callers should keep using `bitcoinAddress(for:)`, which
+    /// defaults to `.p2pkh` and is unaffected by this addition.
+    public func bitcoinAddress(
+        for chain: ChainConfig,
+        addressType: BitcoinAddressType,
+        derivationVersion: KeyDerivationVersion = KeyManagerActor.defaultDerivationVersion
+    ) async throws -> String {
+        switch addressType {
+        case .p2pkh:
+            // Delegates to the existing, already-audited P2PKH implementation
+            // so behavior and error handling stay identical to legacy callers.
+            return try await bitcoinAddress(for: chain)
+
+        case .p2wpkh:
+            // .legacy: raw master key -> compressed pubkey (existing behaviour, unchanged).
+            // .hkdfV1: BIP84 m/84'/coin_type'/0'/0/0 HD derivation -> compressed pubkey.
+            let coinType: UInt32 = chain.activeNetwork == .mainnet ? 0 : 1
+            let publicKey: Data
+            switch derivationVersion {
+            case .legacy:
+                guard let rawMasterKey = try retrievePrivateKey(for: "masterKey") else {
+                    throw WalletError.keychainError("Master key not found")
+                }
+                let privKey = rawMasterKey.count >= 32 ? Data(rawMasterKey.prefix(32)) : rawMasterKey
+                guard let pub = Utilities.privateToPublic(privKey, compressed: true) else {
+                    throw WalletError.signingFailed("Unable to derive Bitcoin public key")
+                }
+                publicKey = pub
+            case .hkdfV1:
+                let seed = try await loadRootMasterKey()
+                publicKey = try BIP84.derivePublicKey(seed: seed, coinType: coinType)
+            }
+
+            let sha256Hash = Data(CryptoKit.SHA256.hash(data: publicKey))
+            let hash160 = try RIPEMD160.hash(message: sha256Hash)
+            let hrp = BitcoinNetworkHRP.hrp(for: chain.activeNetwork)
+
+            return try Bech32.encodeSegwitAddress(
+                hrp: hrp,
+                witnessVersion: 0,
+                program: [UInt8](hash160)
+            )
+
+        case .p2tr:
+            // BIP341 keypath-spend: derive x-only internal key, apply H_tapTweak(internalKey || "")
+            // (empty script tree = keypath-only spend), encode as SegWit v1 with Bech32m.
+            // .legacy uses raw master key; .hkdfV1 uses BIP86 m/86'/coin_type'/0'/0/0 derivation.
+            let coinType: UInt32 = chain.activeNetwork == .mainnet ? 0 : 1
+            var masterKey: Data
+            switch derivationVersion {
+            case .legacy:
+                guard let rawMasterKey = try retrievePrivateKey(for: "masterKey") else {
+                    throw WalletError.keychainError("Master key not found")
+                }
+                masterKey = rawMasterKey.count >= 32 ? Data(rawMasterKey.prefix(32)) : rawMasterKey
+            case .hkdfV1:
+                let seed = try await loadRootMasterKey()
+                masterKey = try BIP86.derivePrivateKey(seed: seed, coinType: coinType)
+            }
+            let signingPrivKey = try P256K.Signing.PrivateKey(dataRepresentation: masterKey)
+
+            // 2. Extract the x-only internal key bytes (32 bytes, no parity prefix).
+            let internalKeyBytes = [UInt8](signingPrivKey.publicKey.xonly.bytes)
+
+            // 3. Compute H_tapTweak(internalKey || "") — empty script tree = keypath-only spend.
+            //    Tagged hash per BIP340: SHA256(SHA256("TapTweak") || SHA256("TapTweak") || internalKey)
+            let tag = "TapTweak"
+            let tagHash = [UInt8](CryptoKit.SHA256.hash(data: Data(tag.utf8)))
+            let tweakInput = tagHash + tagHash + internalKeyBytes
+            let tweak = [UInt8](CryptoKit.SHA256.hash(data: Data(tweakInput)))
+
+            // 4. Tweak the private key scalar: sk' = (sk + t) mod n  →  Q = sk'·G
+            //    Using P256K.Signing.PrivateKey.add(_:) per the library's BIP-341 guidance.
+            let tweakedPrivKey = try signingPrivKey.add(tweak)
+
+            // 5. x-only bytes of the tweaked output key are the 32-byte witness program.
+            let outputKeyBytes = [UInt8](tweakedPrivKey.publicKey.xonly.bytes)
+
+            let hrp = BitcoinNetworkHRP.hrp(for: chain.activeNetwork)
+            return try Bech32.encodeSegwitAddress(
+                hrp: hrp,
+                witnessVersion: 1,
+                program: outputKeyBytes
+            )
+        }
     }
 
     // Stores a Flow account address (public data) for later balance/transaction lookups.

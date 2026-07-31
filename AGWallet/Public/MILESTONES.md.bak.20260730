@@ -277,11 +277,7 @@ Stabilise Bitcoin RPC behaviour and integrate proper signing.
   - `bitcoinAddress(for:)`
   - `signBitcoinTransaction(_:chain:)`
   - `signBitcoinMessage(_:chain:)`
-- [x] Confirm multi‑network support (mainnet, signet, regtest) via `ChainNetwork` and `ChainConfig.networks`.
-- [x] Add BIP84 (Native SegWit, `m/84'/0'/0'`) address derivation as an opt-in alongside existing legacy P2PKH.
-- [x] Add BIP86 (Taproot, `m/86'/0'/0'`) address derivation and P2TR script builder for Ordinals/advanced use cases (leverage existing P256K Schnorr/XonlyKey support already in the dependency graph).
-- [x] Introduce a `BitcoinAddressType` (legacy/segwit/taproot) so existing P2PKH wallets are unaffected by new derivation paths.
-- [x] Add Bech32/Bech32m encoding utilities alongside existing Base58Check for the new address types.
+- [ ] Confirm multi‑network support (mainnet, signet, regtest) via `ChainNetwork` and `ChainConfig.networks`.
 
 **Commands**
 
