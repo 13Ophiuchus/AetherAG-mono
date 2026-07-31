@@ -2,11 +2,22 @@ name: Swift CI
 
 on:
   push:
+    branches: [main, develop]
   pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: swift-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-and-test:
-    runs-on: macos-latest
+  # ─────────────────────────────────────────────────────────────────
+  # AGWallet — macOS only (uses Secure Enclave / Apple crypto APIs)
+  # ─────────────────────────────────────────────────────────────────
+  agwallet:
+    name: AGWallet · Build & Test
+    runs-on: macos-15
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,24 +26,160 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.AETHERAG_PAT }}
 
-      - name: Select latest available Xcode
+      - name: Select Xcode
         run: |
-          LATEST_XCODE=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n 1)
-          if [ -z "$LATEST_XCODE" ]; then
-            LATEST_XCODE=/Applications/Xcode.app
-          fi
-          echo "Selecting Xcode at: $LATEST_XCODE"
-          sudo xcode-select -s "$LATEST_XCODE"
+          LATEST=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n 1)
+          sudo xcode-select -s "${LATEST:-/Applications/Xcode.app}"
           swift --version
 
-      - name: Build AGWallet and AetherAG
-        run: |
-          cd AGWallet
-          swift build
-          cd ../AetherAG
-          swift build
+      - name: Cache SPM
+        uses: actions/cache@v4
+        with:
+          path: |
+            AGWallet/.build
+            ~/.cache/org.swift.swiftpm
+            ~/Library/Caches/org.swift.swiftpm
+          key: spm-agwallet-${{ runner.os }}-${{ hashFiles('AGWallet/Package.resolved') }}
+          restore-keys: spm-agwallet-${{ runner.os }}-
 
-      - name: Test AetherAG
+      - name: Resolve dependencies
+        working-directory: AGWallet
+        run: swift package resolve
+
+      - name: Build (strict concurrency)
+        working-directory: AGWallet
         run: |
-          cd AetherAG
-          swift test
+          swift build -Xswiftc -strict-concurrency=complete 2>&1 \
+            | grep -v "^/.*solana-swift-patched\|^/.*web3swift-patched" || true
+          swift build -Xswiftc -strict-concurrency=complete
+
+      - name: Test
+        working-directory: AGWallet
+        run: swift test --parallel
+
+      - name: Emit test summary
+        if: always()
+        working-directory: AGWallet
+        run: |
+          echo "## AGWallet Test Results" >> $GITHUB_STEP_SUMMARY
+          swift test --parallel 2>&1 \
+            | grep -E "✔|✘|passed|failed|Suite" \
+            | sed 's/✔/✅/g; s/✘/❌/g' \
+            >> $GITHUB_STEP_SUMMARY || true
+
+  # ─────────────────────────────────────────────────────────────────
+  # AetherAG — Linux (Vapor/Fluent backend)
+  # ─────────────────────────────────────────────────────────────────
+  aether-linux:
+    name: AetherAG · Linux Build & Test
+    runs-on: ubuntu-latest
+    container:
+      image: swift:6.2
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: vapor_username
+          POSTGRES_PASSWORD: vapor_password
+          POSTGRES_DB: vapor_database
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgres://vapor_username:vapor_password@postgres:5432/vapor_database
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.AETHERAG_PAT }}
+
+      - name: Cache SPM (Linux)
+        uses: actions/cache@v4
+        with:
+          path: |
+            AetherAG/.build
+            ~/.cache/org.swift.swiftpm
+          key: spm-aether-linux-${{ hashFiles('AetherAG/Package.resolved') }}
+          restore-keys: spm-aether-linux-
+
+      - name: Resolve dependencies
+        working-directory: AetherAG
+        run: swift package resolve
+
+      - name: Build
+        working-directory: AetherAG
+        run: swift build --configuration debug
+
+      - name: Test (parallel)
+        working-directory: AetherAG
+        run: swift test --parallel
+
+      - name: Persistence tests
+        working-directory: AetherAG
+        run: swift test --filter PersistenceIssuanceTests --parallel
+
+  # ─────────────────────────────────────────────────────────────────
+  # AetherAG — macOS (client + server, needs AGWallet green first)
+  # ─────────────────────────────────────────────────────────────────
+  aether-macos:
+    name: AetherAG · macOS Build & Test
+    runs-on: macos-15
+    needs: agwallet
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.AETHERAG_PAT }}
+
+      - name: Select Xcode
+        run: |
+          LATEST=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n 1)
+          sudo xcode-select -s "${LATEST:-/Applications/Xcode.app}"
+          swift --version
+
+      - name: Cache SPM (macOS)
+        uses: actions/cache@v4
+        with:
+          path: |
+            AetherAG/.build
+            ~/Library/Caches/org.swift.swiftpm
+          key: spm-aether-macos-${{ runner.os }}-${{ hashFiles('AetherAG/Package.resolved') }}
+          restore-keys: spm-aether-macos-${{ runner.os }}-
+
+      - name: Resolve dependencies
+        working-directory: AetherAG
+        run: swift package resolve
+
+      - name: Build
+        working-directory: AetherAG
+        run: swift build --configuration debug
+
+      - name: Test
+        working-directory: AetherAG
+        run: swift test --parallel
+
+  # ─────────────────────────────────────────────────────────────────
+  # Secret scanning (TruffleHog — verified secrets only)
+  # ─────────────────────────────────────────────────────────────────
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          extra_args: --only-verified
