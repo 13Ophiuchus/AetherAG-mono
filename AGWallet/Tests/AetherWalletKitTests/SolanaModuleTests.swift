@@ -51,6 +51,8 @@ struct SolanaModuleTests {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
         let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
         try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
 
         // Use the same known-good, correctly-decoding base58 blockhash and
@@ -99,6 +101,8 @@ struct SolanaModuleTests {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
         let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
         try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
 
         let mockClient = MockSolanaRPCClient(
@@ -120,6 +124,8 @@ struct SolanaModuleTests {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
         let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
         try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
 
         let mockClient = MockSolanaRPCClient(
