@@ -92,10 +92,8 @@ jobs:
           echo "## 🔐 AGWallet Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ -f .test-results/agwallet-raw.log ]; then
-            PASSED=$(grep -c "Test Case.*passed" .test-results/agwallet-raw.log 2>/dev/null || echo "0")
-            PASSED="${PASSED:-0}"
-            FAILED=$(grep -c "Test Case.*failed" .test-results/agwallet-raw.log 2>/dev/null || echo "0")
-            FAILED="${FAILED:-0}"
+            PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
+            FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
             TOTAL=$((PASSED + FAILED))
             echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
             echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
@@ -224,10 +222,8 @@ jobs:
           echo "## 🌐 AetherAG Linux (Vapor) Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ -f .test-results/aether-linux-raw.log ]; then
-            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-linux-raw.log 2>/dev/null || echo "0")
-            PASSED="${PASSED:-0}"
-            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-linux-raw.log 2>/dev/null || echo "0")
-            FAILED="${FAILED:-0}"
+            PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
+            FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
             TOTAL=$((PASSED + FAILED))
             echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
             echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
@@ -328,10 +324,8 @@ jobs:
           echo "## 🍎 AetherAG macOS Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ -f .test-results/aether-macos-raw.log ]; then
-            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-macos-raw.log 2>/dev/null || echo "0")
-            PASSED="${PASSED:-0}"
-            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-macos-raw.log 2>/dev/null || echo "0")
-            FAILED="${FAILED:-0}"
+            PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
+            FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
             TOTAL=$((PASSED + FAILED))
             echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
             echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
