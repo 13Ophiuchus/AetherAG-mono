@@ -177,6 +177,14 @@ jobs:
             2>&1 | tee .test-results/aether-linux-raw.log
         continue-on-error: true
 
+      - name: Wait for Postgres to be ready
+        run: |
+          for i in $(seq 1 10); do
+            pg_isready -h postgres -U vapor_username -d vapor_database && break
+            echo "Waiting for postgres... $i/10"
+            sleep 3
+          done
+
       - name: Test — Persistence / Issuance (XUnit output)
         id: aether_linux_persistence_test
         working-directory: AetherAG
