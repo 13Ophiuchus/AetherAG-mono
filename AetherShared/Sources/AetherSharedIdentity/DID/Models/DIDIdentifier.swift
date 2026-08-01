@@ -87,13 +87,13 @@ public struct DIDIdentifier: Hashable, Sendable, Codable, CustomStringConvertibl
     guard !method.isEmpty, !methodSpecificID.isEmpty else { return false }
 
     let methodRegex = "^[a-z0-9]+$"
-    guard NSPredicate(format: "SELF MATCHES %@", methodRegex).evaluate(with: method) else {
+    guard method.range(of: methodRegex, options: .regularExpression) != nil else {
       return false
     }
 
     let methodSpecificIDRegex = "^[A-Za-z0-9._:%-]+$"
     guard
-      NSPredicate(format: "SELF MATCHES %@", methodSpecificIDRegex).evaluate(with: methodSpecificID)
+      methodSpecificID.range(of: methodSpecificIDRegex, options: .regularExpression) != nil
     else {
       return false
     }
