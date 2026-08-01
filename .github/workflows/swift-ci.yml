@@ -159,8 +159,8 @@ jobs:
           path: |
             AetherAG/.build
             ~/.cache/org.swift.swiftpm
-          key: spm-aether-linux-${{ hashFiles('AetherAG/Package.resolved') }}
-          restore-keys: spm-aether-linux-
+          key: spm-aether-linux-v2-${{ hashFiles('AetherAG/Package.resolved') }}
+          restore-keys: spm-aether-linux-v2-
 
       - name: Resolve dependencies
         working-directory: AetherAG
