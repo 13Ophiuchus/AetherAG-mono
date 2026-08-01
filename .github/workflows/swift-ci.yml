@@ -44,8 +44,8 @@ jobs:
             AGWallet/.build
             ~/.cache/org.swift.swiftpm
             ~/Library/Caches/org.swift.swiftpm
-          key: spm-agwallet-${{ runner.os }}-${{ hashFiles('AGWallet/Package.resolved') }}
-          restore-keys: spm-agwallet-${{ runner.os }}-
+          key: spm-agwallet-${{ runner.os }}-v2-${{ hashFiles('AGWallet/Package.resolved') }}
+          restore-keys: spm-agwallet-${{ runner.os }}-v2-
 
       - name: Resolve dependencies
         working-directory: AGWallet
@@ -279,8 +279,8 @@ jobs:
           path: |
             AetherAG/.build
             ~/Library/Caches/org.swift.swiftpm
-          key: spm-aether-macos-${{ runner.os }}-${{ hashFiles('AetherAG/Package.resolved') }}
-          restore-keys: spm-aether-macos-${{ runner.os }}-
+          key: spm-aether-macos-${{ runner.os }}-v2-${{ hashFiles('AetherAG/Package.resolved') }}
+          restore-keys: spm-aether-macos-${{ runner.os }}-v2-
 
       - name: Resolve dependencies
         working-directory: AetherAG
