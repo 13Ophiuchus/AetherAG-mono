@@ -92,8 +92,10 @@ jobs:
           echo "## 🔐 AGWallet Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ -f .test-results/agwallet-raw.log ]; then
-            PASSED=$(grep -c "Test Case.*passed" .test-results/agwallet-raw.log 2>/dev/null || echo "0"); PASSED="${PASSED:-0}"
-            FAILED=$(grep -c "Test Case.*failed" .test-results/agwallet-raw.log 2>/dev/null || echo "0"); FAILED="${FAILED:-0}"
+            PASSED=$(grep -c "Test Case.*passed" .test-results/agwallet-raw.log 2>/dev/null || echo "0")
+            PASSED="${PASSED:-0}"
+            FAILED=$(grep -c "Test Case.*failed" .test-results/agwallet-raw.log 2>/dev/null || echo "0")
+            FAILED="${FAILED:-0}"
             TOTAL=$((PASSED + FAILED))
             echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
             echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
@@ -149,6 +151,9 @@ jobs:
           submodules: recursive
           fetch-depth: 0
           token: ${{ secrets.AETHERAG_PAT }}
+
+      - name: Trust repo directory (git safe.directory)
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Cache SPM (Linux)
         uses: actions/cache@v4
@@ -219,8 +224,10 @@ jobs:
           echo "## 🌐 AetherAG Linux (Vapor) Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ -f .test-results/aether-linux-raw.log ]; then
-            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-linux-raw.log 2>/dev/null || echo "0"); PASSED="${PASSED:-0}"
-            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-linux-raw.log 2>/dev/null || echo "0"); FAILED="${FAILED:-0}"
+            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-linux-raw.log 2>/dev/null || echo "0")
+            PASSED="${PASSED:-0}"
+            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-linux-raw.log 2>/dev/null || echo "0")
+            FAILED="${FAILED:-0}"
             TOTAL=$((PASSED + FAILED))
             echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
             echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
@@ -321,8 +328,10 @@ jobs:
           echo "## 🍎 AetherAG macOS Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ -f .test-results/aether-macos-raw.log ]; then
-            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-macos-raw.log 2>/dev/null || echo "0"); PASSED="${PASSED:-0}"
-            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-macos-raw.log 2>/dev/null || echo "0"); FAILED="${FAILED:-0}"
+            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-macos-raw.log 2>/dev/null || echo "0")
+            PASSED="${PASSED:-0}"
+            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-macos-raw.log 2>/dev/null || echo "0")
+            FAILED="${FAILED:-0}"
             TOTAL=$((PASSED + FAILED))
             echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
             echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
