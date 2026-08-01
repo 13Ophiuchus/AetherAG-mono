@@ -163,6 +163,15 @@ jobs:
         working-directory: AetherAG
         run: swift package resolve
 
+      - name: Wait for Postgres to be ready
+        run: |
+          apt-get install -y -q postgresql-client 2>/dev/null || true
+          for i in $(seq 1 10); do
+            pg_isready -h postgres -U vapor_username -d vapor_database && break
+            echo "Waiting for postgres... $i/10"
+            sleep 3
+          done
+
       - name: Build
         working-directory: AetherAG
         run: swift build --configuration debug
@@ -176,14 +185,6 @@ jobs:
             --xunit-output .test-results/aether-linux.xml \
             2>&1 | tee .test-results/aether-linux-raw.log
         continue-on-error: true
-
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in $(seq 1 10); do
-            pg_isready -h postgres -U vapor_username -d vapor_database && break
-            echo "Waiting for postgres... $i/10"
-            sleep 3
-          done
 
       - name: Test — Persistence / Issuance (XUnit output)
         id: aether_linux_persistence_test
