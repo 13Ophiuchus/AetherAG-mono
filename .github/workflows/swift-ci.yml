@@ -18,6 +18,11 @@ jobs:
     name: AGWallet · Build & Test
     runs-on: macos-15
 
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -113,6 +118,11 @@ jobs:
   aether-linux:
     name: AetherAG · Linux Build & Test
     runs-on: ubuntu-latest
+
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
     container:
       image: swift:6.2
 
@@ -231,6 +241,11 @@ jobs:
     name: AetherAG · macOS Build & Test
     runs-on: macos-15
     needs: agwallet
+
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
 
     steps:
       - name: Checkout
