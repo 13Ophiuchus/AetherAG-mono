@@ -53,19 +53,59 @@ jobs:
             | grep -v "^/.*solana-swift-patched\|^/.*web3swift-patched" || true
           swift build -Xswiftc -strict-concurrency=complete
 
-      - name: Test
+      - name: Test (XUnit output)
+        id: agwallet_test
         working-directory: AGWallet
-        run: swift test --parallel
+        run: |
+          mkdir -p .test-results
+          swift test --parallel \
+            --xunit-output .test-results/agwallet.xml \
+            2>&1 | tee .test-results/agwallet-raw.log
+        continue-on-error: true
 
-      - name: Emit test summary
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agwallet-test-results
+          path: AGWallet/.test-results/
+          retention-days: 14
+
+      - name: Publish test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: AGWallet Tests
+          path: AGWallet/.test-results/agwallet.xml
+          reporter: java-junit
+          fail-on-error: false
+
+      - name: Emit job summary
         if: always()
         working-directory: AGWallet
         run: |
-          echo "## AGWallet Test Results" >> $GITHUB_STEP_SUMMARY
-          swift test --parallel 2>&1 \
-            | grep -E "✔|✘|passed|failed|Suite" \
-            | sed 's/✔/✅/g; s/✘/❌/g' \
-            >> $GITHUB_STEP_SUMMARY || true
+          echo "## 🔐 AGWallet Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f .test-results/agwallet-raw.log ]; then
+            PASSED=$(grep -c "Test Case.*passed" .test-results/agwallet-raw.log || echo 0)
+            FAILED=$(grep -c "Test Case.*failed" .test-results/agwallet-raw.log || echo 0)
+            TOTAL=$((PASSED + FAILED))
+            echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
+            echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
+            if [ "$FAILED" -gt 0 ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              grep "Test Case.*failed" .test-results/agwallet-raw.log >> $GITHUB_STEP_SUMMARY || true
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
+      - name: Fail job if tests failed
+        if: steps.agwallet_test.outcome == 'failure'
+        run: exit 1
 
   # ─────────────────────────────────────────────────────────────────
   # AetherAG — Linux (Vapor/Fluent backend)
@@ -117,13 +157,72 @@ jobs:
         working-directory: AetherAG
         run: swift build --configuration debug
 
-      - name: Test (parallel)
+      - name: Test — all suites (XUnit output)
+        id: aether_linux_test
         working-directory: AetherAG
-        run: swift test --parallel
+        run: |
+          mkdir -p .test-results
+          swift test --parallel \
+            --xunit-output .test-results/aether-linux.xml \
+            2>&1 | tee .test-results/aether-linux-raw.log
+        continue-on-error: true
 
-      - name: Persistence tests
+      - name: Test — Persistence / Issuance (XUnit output)
+        id: aether_linux_persistence_test
         working-directory: AetherAG
-        run: swift test --filter PersistenceIssuanceTests --parallel
+        run: |
+          swift test --filter PersistenceIssuanceTests --parallel \
+            --xunit-output .test-results/aether-linux-persistence.xml \
+            2>&1 | tee -a .test-results/aether-linux-raw.log
+        continue-on-error: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aether-linux-test-results
+          path: AetherAG/.test-results/
+          retention-days: 14
+
+      - name: Publish test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: AetherAG Linux Tests
+          path: AetherAG/.test-results/aether-linux*.xml
+          reporter: java-junit
+          fail-on-error: false
+
+      - name: Emit job summary
+        if: always()
+        working-directory: AetherAG
+        run: |
+          echo "## 🌐 AetherAG Linux (Vapor) Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f .test-results/aether-linux-raw.log ]; then
+            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-linux-raw.log || echo 0)
+            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-linux-raw.log || echo 0)
+            TOTAL=$((PASSED + FAILED))
+            echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
+            echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Suites run:** All · PersistenceIssuanceTests" >> $GITHUB_STEP_SUMMARY
+            if [ "$FAILED" -gt 0 ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              grep "Test Case.*failed" .test-results/aether-linux-raw.log >> $GITHUB_STEP_SUMMARY || true
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
+      - name: Fail job if tests failed
+        if: >
+          steps.aether_linux_test.outcome == 'failure' ||
+          steps.aether_linux_persistence_test.outcome == 'failure'
+        run: exit 1
 
   # ─────────────────────────────────────────────────────────────────
   # AetherAG — macOS (client + server, needs AGWallet green first)
@@ -164,9 +263,59 @@ jobs:
         working-directory: AetherAG
         run: swift build --configuration debug
 
-      - name: Test
+      - name: Test (XUnit output)
+        id: aether_macos_test
         working-directory: AetherAG
-        run: swift test --parallel
+        run: |
+          mkdir -p .test-results
+          swift test --parallel \
+            --xunit-output .test-results/aether-macos.xml \
+            2>&1 | tee .test-results/aether-macos-raw.log
+        continue-on-error: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aether-macos-test-results
+          path: AetherAG/.test-results/
+          retention-days: 14
+
+      - name: Publish test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: AetherAG macOS Tests
+          path: AetherAG/.test-results/aether-macos.xml
+          reporter: java-junit
+          fail-on-error: false
+
+      - name: Emit job summary
+        if: always()
+        working-directory: AetherAG
+        run: |
+          echo "## 🍎 AetherAG macOS Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f .test-results/aether-macos-raw.log ]; then
+            PASSED=$(grep -c "Test Case.*passed" .test-results/aether-macos-raw.log || echo 0)
+            FAILED=$(grep -c "Test Case.*failed" .test-results/aether-macos-raw.log || echo 0)
+            TOTAL=$((PASSED + FAILED))
+            echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
+            echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
+            if [ "$FAILED" -gt 0 ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              grep "Test Case.*failed" .test-results/aether-macos-raw.log >> $GITHUB_STEP_SUMMARY || true
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
+      - name: Fail job if tests failed
+        if: steps.aether_macos_test.outcome == 'failure'
+        run: exit 1
 
   # ─────────────────────────────────────────────────────────────────
   # Secret scanning (TruffleHog — verified secrets only)
