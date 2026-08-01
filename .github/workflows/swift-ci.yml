@@ -279,12 +279,16 @@ jobs:
           path: |
             AetherAG/.build
             ~/Library/Caches/org.swift.swiftpm
-          key: spm-aether-macos-${{ runner.os }}-v2-${{ hashFiles('AetherAG/Package.resolved') }}
-          restore-keys: spm-aether-macos-${{ runner.os }}-v2-
+          key: spm-aether-macos-${{ runner.os }}-v3-${{ hashFiles('AetherAG/Package.resolved') }}
+          restore-keys: spm-aether-macos-${{ runner.os }}-v3-
 
       - name: Resolve dependencies
         working-directory: AetherAG
         run: swift package resolve
+
+      - name: Clean build artifacts
+        working-directory: AetherAG
+        run: rm -rf .build
 
       - name: Build
         working-directory: AetherAG
