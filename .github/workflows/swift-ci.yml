@@ -162,6 +162,10 @@ jobs:
           key: spm-aether-linux-v2-${{ hashFiles('AetherAG/Package.resolved') }}
           restore-keys: spm-aether-linux-v2-
 
+
+      - name: Linux pre-flight check
+        run: bash scripts/linux-preflight.sh
+
       - name: Resolve dependencies
         working-directory: AetherAG
         run: swift package resolve
