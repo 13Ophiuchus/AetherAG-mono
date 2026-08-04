@@ -1,8 +1,815 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Workspace version="1.0">
-   <FileRef location="group:AetherAG">
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:AetherAG">
    </FileRef>
-   <FileRef location="group:AGWallet">
+   <FileRef
+      location = "group:AGWallet">
    </FileRef>
-   <FileRef location="group:AetherAGMailClientAppShell/AetherAGMailClientAppShell.xcodeproj" />
+   <FileRef
+      location = "group:AetherAGMailClientAppShell/AetherAGMailClientAppShell.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CHANGELOG.md">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:MILESTONES.md">
+   </FileRef>
+   <FileRef
+      location = "group:Package.resolved">
+   </FileRef>
+   <FileRef
+      location = "group:Package.swift">
+   </FileRef>
+   <FileRef
+      location = "group:README 2.md">
+   </FileRef>
+   <FileRef
+      location = "group:SolanaSwift.podspec">
+   </FileRef>
+   <Group
+      location = "group:Sources"
+      name = "Sources">
+      <Group
+         location = "group:SolanaSwift"
+         name = "SolanaSwift">
+         <FileRef
+            location = "group:Constants.swift">
+         </FileRef>
+         <Group
+            location = "group:Logger"
+            name = "Logger">
+            <FileRef
+               location = "group:SolanaSwiftLogger.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:BlockchainClient"
+            name = "BlockchainClient">
+            <FileRef
+               location = "group:SolanaBlockchainClient.swift">
+            </FileRef>
+            <FileRef
+               location = "group:BlockchainClient+Extensions.swift">
+            </FileRef>
+            <Group
+               location = "group:FeeCalculator"
+               name = "FeeCalculator">
+               <FileRef
+                  location = "group:FeeCalculator.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:BlockchainClient.swift">
+            </FileRef>
+            <Group
+               location = "group:Helpers"
+               name = "Helpers">
+               <FileRef
+                  location = "group:HMAC.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:NaclLowLevel.swift">
+               </FileRef>
+               <Group
+                  location = "group:CryptoSwift"
+                  name = "CryptoSwift">
+                  <FileRef
+                     location = "group:CS_String+Extension.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:SHA256.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:PBKDF2.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:CS_Array+Extension.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:CS_Data+Extensions.swift">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:CKSecp256k1.swift">
+               </FileRef>
+               <Group
+                  location = "group:Int2X"
+                  name = "Int2X">
+                  <FileRef
+                     location = "group:Int2X.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:UInt2X.swift">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:Ed25519HD"
+                  name = "Ed25519HD">
+                  <FileRef
+                     location = "group:Ed25519HDKeyError.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Keys.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Extensions.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Ed25519HDKey.swift">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:Borsh"
+                  name = "Borsh">
+                  <FileRef
+                     location = "group:BorshSerialize.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:BinaryReader.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:BorshDeserialize.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:BorshDecoder.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Borsh.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:BorshEncoder.swift">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:BIP39"
+                  name = "BIP39">
+                  <FileRef
+                     location = "group:Wordlists.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Mnemonic.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:MnemonicError.swift">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:Base58.swift">
+               </FileRef>
+               <Group
+                  location = "group:AskCoin-HD"
+                  name = "AskCoin-HD">
+                  <FileRef
+                     location = "group:ASKHDUtils.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Keychain.swift">
+                  </FileRef>
+                  <Group
+                     location = "group:SwiftBigInteger"
+                     name = "SwiftBigInteger">
+                     <FileRef
+                        location = "group:SMP.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:SMP Bignum Extensions.swift">
+                     </FileRef>
+                  </Group>
+                  <FileRef
+                     location = "group:KeyDerivationError.swift">
+                  </FileRef>
+                  <Group
+                     location = "group:RIPEMD"
+                     name = "RIPEMD">
+                     <FileRef
+                        location = "group:UInt32+CircularShift.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:RIPEMD.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:RIPEMD+Block.swift">
+                     </FileRef>
+                  </Group>
+               </Group>
+            </Group>
+         </Group>
+         <Group
+            location = "group:APIClient"
+            name = "APIClient">
+            <FileRef
+               location = "group:SolanaAPIClient.swift">
+            </FileRef>
+            <FileRef
+               location = "group:APIClient+Extension.swift">
+            </FileRef>
+            <Group
+               location = "group:Networking"
+               name = "Networking">
+               <FileRef
+                  location = "group:JSONRPCAPIClient.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:NetworkManager.swift">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:Models"
+               name = "Models">
+               <FileRef
+                  location = "group:TransactionConfirmationError.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:APIClientError.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:APIResponse.swift">
+            </FileRef>
+            <FileRef
+               location = "group:APIRequest.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Models"
+            name = "Models">
+            <Group
+               location = "group:Transaction"
+               name = "Transaction">
+               <FileRef
+                  location = "group:VersionedTransaction.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:VersionedTransactionError.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:Transaction.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:TransactionMessage.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:KeyPair.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SwapResponse.swift">
+            </FileRef>
+            <FileRef
+               location = "group:PublicKey.swift">
+            </FileRef>
+            <Group
+               location = "group:BufferLayout"
+               name = "BufferLayout">
+               <FileRef
+                  location = "group:TokenSwapInfo.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:Data+BufferLayout.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:EmptyInfo.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:VecU8.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:BufferLayout.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:PreparedTransaction.swift">
+            </FileRef>
+            <FileRef
+               location = "group:AccountInstructions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SPLTokenDestinationAddress.swift">
+            </FileRef>
+            <FileRef
+               location = "group:PendingTransactionStatus.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ConfirmedTransaction.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Network.swift">
+            </FileRef>
+            <Group
+               location = "group:Message"
+               name = "Message">
+               <FileRef
+                  location = "group:LoadedAddresses.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:MessageAddressTableLookup.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:IMessage.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:CompiledInstruction.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:CompiledKeys.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:LegacyMessage.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:MessageV0.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:VersionedMessage.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:VersionedMessageError.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:MessageHeader.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:Throwable.swift">
+            </FileRef>
+            <FileRef
+               location = "group:PreparedVersionedTransaction.swift">
+            </FileRef>
+            <FileRef
+               location = "group:RequestModels.swift">
+            </FileRef>
+            <FileRef
+               location = "group:DerivablePath.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Models.swift">
+            </FileRef>
+            <FileRef
+               location = "group:TransactionInstruction.swift">
+            </FileRef>
+            <FileRef
+               location = "group:FeeAmount.swift">
+            </FileRef>
+            <FileRef
+               location = "group:APIEndPoint.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ParsedInstructionData.swift">
+            </FileRef>
+            <FileRef
+               location = "group:AccountMeta.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Extensions"
+            name = "Extensions">
+            <FileRef
+               location = "group:Array+Extensions.swift">
+            </FileRef>
+            <Group
+               location = "group:PublicKey"
+               name = "PublicKey">
+               <FileRef
+                  location = "group:PublicKey+AssociatedTokenProgram.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:PublicKey+StringLiteral.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:PublicKey+Validation.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:Decimals+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:NSRegularExpression+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:URLRequest+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:BytesEncodable.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Bytes+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Number+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Token+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Data+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Error+Extensions.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Collection+Extensions.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Programs"
+            name = "Programs">
+            <FileRef
+               location = "group:SolanaBasicProgram.swift">
+            </FileRef>
+            <FileRef
+               location = "group:TokenSwapProgram.swift">
+            </FileRef>
+            <Group
+               location = "group:AddressLookUpTable"
+               name = "AddressLookUpTable">
+               <FileRef
+                  location = "group:LookupTableMeta.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:LookUpTableProgram.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:AssociatedTokenProgram.swift">
+            </FileRef>
+            <FileRef
+               location = "group:MemoProgram.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SystemProgram.swift">
+            </FileRef>
+            <Group
+               location = "group:TokenPrograms"
+               name = "TokenPrograms">
+               <FileRef
+                  location = "group:SolanaTokenProgram.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:MintLayoutState.swift">
+               </FileRef>
+               <Group
+                  location = "group:Token2022Program"
+                  name = "Token2022Program">
+                  <FileRef
+                     location = "group:Token2022MintState.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Token2022AccountState.swift">
+                  </FileRef>
+                  <Group
+                     location = "group:ExtensionReader"
+                     name = "ExtensionReader">
+                     <FileRef
+                        location = "group:AnyToken2022ExtensionState.swift">
+                     </FileRef>
+                     <Group
+                        location = "group:Extensions"
+                        name = "Extensions">
+                        <FileRef
+                           location = "group:TransferFeeConfigExtensionState.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:InterestBearingConfigExtensionState.swift">
+                        </FileRef>
+                     </Group>
+                     <FileRef
+                        location = "group:Token2022ExtensionType.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:Token2022ExtensionState.swift">
+                     </FileRef>
+                  </Group>
+                  <FileRef
+                     location = "group:Token2022Program.swift">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:TokenAccountLayoutState.swift">
+               </FileRef>
+               <Group
+                  location = "group:TokenProgram"
+                  name = "TokenProgram">
+                  <FileRef
+                     location = "group:TokenProgram.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:TokenMintState.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:TokenAccountState.swift">
+                  </FileRef>
+               </Group>
+            </Group>
+            <FileRef
+               location = "group:OwnerValidationProgram.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:AccountStorage"
+            name = "AccountStorage">
+            <FileRef
+               location = "group:AccountStorage.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:SolanaTokenMetadata"
+            name = "SolanaTokenMetadata">
+            <FileRef
+               location = "group:AccountBalance.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SolanaTokenListStorage.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SolanaTokenListRepository.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SolanaAPIClient+getAccountBalances.swift">
+            </FileRef>
+            <FileRef
+               location = "group:TokenMetadata.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SolanaTokenListSource.swift">
+            </FileRef>
+            <FileRef
+               location = "group:TokenRepository.swift">
+            </FileRef>
+            <FileRef
+               location = "group:CommonTokens.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Helpers"
+            name = "Helpers">
+            <FileRef
+               location = "group:URLSession+NetworkManager.swift">
+            </FileRef>
+            <Group
+               location = "group:Cache"
+               name = "Cache">
+               <FileRef
+                  location = "group:Cache.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:TransactionMonitor.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ThrowInfix.swift">
+            </FileRef>
+            <FileRef
+               location = "group:AnyCodable.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Socket"
+            name = "Socket">
+            <FileRef
+               location = "group:ReconnectionPolicy.swift">
+            </FileRef>
+            <FileRef
+               location = "group:WebSocketError.swift">
+            </FileRef>
+            <Group
+               location = "group:Models"
+               name = "Models">
+               <FileRef
+                  location = "group:SocketNativeAccountNotification.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:SocketUnsubscriptionResponse.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:SocketTokenAccountNotification.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:SocketLogsNotification.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:SocketProgramAccountNotification.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:SocketSubscriptionResponse.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:SocketMethod.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:SocketSignatureNotification.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:WebSocketTask+Ping.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SocketInterfaces.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Socket.swift">
+            </FileRef>
+         </Group>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Tests"
+      name = "Tests">
+      <Group
+         location = "group:SolanaSwiftIntegrationTests"
+         name = "SolanaSwiftIntegrationTests">
+         <Group
+            location = "group:APIClient"
+            name = "APIClient">
+            <FileRef
+               location = "group:APIClientTests.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Socket"
+            name = "Socket">
+            <FileRef
+               location = "group:SocketIntegrationTests.swift">
+            </FileRef>
+         </Group>
+      </Group>
+      <Group
+         location = "group:SolanaSwiftUnitTests"
+         name = "SolanaSwiftUnitTests">
+         <Group
+            location = "group:BlockchainClient"
+            name = "BlockchainClient">
+            <FileRef
+               location = "group:BlockchainClientWithNativeSOLTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:BlockchainClientWithTokenProgramTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:FeeCalculatorTests.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:APIClient"
+            name = "APIClient">
+            <FileRef
+               location = "group:APIClientTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ObserveTransactionStatusTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:APIClientExtensionsTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:APIClientSendTransactionTests.swift">
+            </FileRef>
+            <Group
+               location = "group:NetworkManagerMock"
+               name = "NetworkManagerMock">
+               <FileRef
+                  location = "group:NetworkManagerMock.swift">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:Resources"
+            name = "Resources">
+            <FileRef
+               location = "group:get_all_tokens_info.json">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Other"
+            name = "Other">
+            <FileRef
+               location = "group:RegexTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:PublicKeyTests.swift">
+            </FileRef>
+            <Group
+               location = "group:BufferLayout"
+               name = "BufferLayout">
+               <FileRef
+                  location = "group:BufferLayoutDecodingTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:BufferLayoutEncodingTests.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:KeyPairTests.swift">
+            </FileRef>
+            <Group
+               location = "group:CodableTests"
+               name = "CodableTests">
+               <FileRef
+                  location = "group:EncodingTests.swift">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:Models"
+            name = "Models">
+            <Group
+               location = "group:SendingTransaction"
+               name = "SendingTransaction">
+               <FileRef
+                  location = "group:TransactionTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:MessageTests.swift">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:TestDoubles"
+            name = "TestDoubles">
+            <FileRef
+               location = "group:MessageStub.swift">
+            </FileRef>
+            <FileRef
+               location = "group:File.swift">
+            </FileRef>
+            <FileRef
+               location = "group:FixedWidthIntegerArrayStub.swift">
+            </FileRef>
+            <FileRef
+               location = "group:PublicKeyStub.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Programs"
+            name = "Programs">
+            <FileRef
+               location = "group:TokenSwapProgramTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SystemProgramTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:AssociatedTokenProgramTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:Token2022ProgramTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:MemoProgramTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:TokenProgramTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:OwnerValidationProgramTests.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:SolanaTokenMetadata"
+            name = "SolanaTokenMetadata">
+            <FileRef
+               location = "group:GetAccountBalancesTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:TokensRepositoryTests.swift">
+            </FileRef>
+            <Group
+               location = "group:Testable"
+               name = "Testable">
+               <FileRef
+                  location = "group:TestableSolanaTokenListSource.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:TestableSolanaTokenListStorage.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:TokensRepositoryPerformanceTests.swift">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:Socket"
+            name = "Socket">
+            <FileRef
+               location = "group:SocketDecodingTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:ReconnectionPolicyTests.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SocketTestsHelper.swift">
+            </FileRef>
+            <FileRef
+               location = "group:SocketTests.swift">
+            </FileRef>
+         </Group>
+      </Group>
+   </Group>
+   <FileRef
+      location = "group:upversion">
+   </FileRef>
 </Workspace>
