@@ -71,6 +71,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Local-only monorepo packages (no remote submodule). Comma-delimited.
+          LOCAL_ONLY_PACKAGES=",AetherShared,"
           registered="$(git config --file .gitmodules --get-regexp 'submodule\..*\.path' \
             | awk '{print $2}')"
           pkg_paths="$(grep -oE '\.package\(path:[[:space:]]*"\.\./[^"]+' \
@@ -79,6 +81,9 @@ jobs:
           FAIL=0
           while IFS= read -r p; do
             [ -z "${p}" ] && continue
+            case "${LOCAL_ONLY_PACKAGES}" in *,"${p}",*)
+              echo "  SKIP (local-only): ${p}"; continue ;;
+            esac
             if ! echo "${registered}" | grep -qx "${p}"; then
               echo "ERROR: '../${p}' not a registered submodule"; FAIL=1
             else
