@@ -78,7 +78,7 @@ jobs:
 
       - name: Publish test report
         if: always()
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: AGWallet Tests
           path: AGWallet/.test-results/agwallet.xml
@@ -212,7 +212,7 @@ jobs:
 
       - name: Publish test report
         if: always()
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: AetherAG Linux Tests
           path: AetherAG/.test-results/aether-linux*.xml
@@ -318,7 +318,7 @@ jobs:
 
       - name: Publish test report
         if: always()
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: AetherAG macOS Tests
           path: AetherAG/.test-results/aether-macos.xml
