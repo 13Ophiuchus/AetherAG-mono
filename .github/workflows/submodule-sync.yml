@@ -1,0 +1,88 @@
+name: Submodule Sync Guard
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: submodule-sync-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  submodule-desync-check:
+    name: Submodule Desync Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout superproject
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+          fetch-depth: 0
+          token: ${{ secrets.AETHERAG_PAT }}
+
+      - name: Validate .gitmodules
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f .gitmodules ]; then echo "No .gitmodules; skip."; exit 0; fi
+          git config --file .gitmodules --get-regexp 'submodule\..*\.path' > /tmp/sm-paths.txt
+          while read -r key path; do
+            name="${key#submodule.}"; name="${name%.path}"
+            url="$(git config --file .gitmodules "submodule.${name}.url" || true)"
+            if [ -z "${url}" ]; then
+              echo "ERROR: submodule '${name}' has no url in .gitmodules"; exit 1
+            fi
+            echo "  OK: ${name} -> ${path} -> ${url}"
+          done < /tmp/sm-paths.txt
+
+      - name: Check tree vs .gitmodules
+        shell: bash
+        run: |
+          set -euo pipefail
+          awk '$2=="commit" {print $4}' <(git ls-tree HEAD) | sort > /tmp/tree-sm.txt
+          git config --file .gitmodules --get-regexp 'submodule\..*\.path' \
+            | awk '{print $2}' | sort > /tmp/reg-sm.txt
+          echo "Tree entries:"; cat /tmp/tree-sm.txt
+          echo "Registered:";   cat /tmp/reg-sm.txt
+          if ! diff -u /tmp/reg-sm.txt /tmp/tree-sm.txt; then
+            echo "ERROR: .gitmodules and git tree submodule entries differ"; exit 1
+          fi
+          echo "  OK: tree matches .gitmodules"
+
+      - name: Init submodules
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
+
+      - name: Check pointer drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Submodule status:"; git submodule status --recursive
+          if git submodule status --recursive | grep -qE '^[+-]'; then
+            echo "ERROR: pointer drift detected (+ ahead, - uninit)"; exit 1
+          fi
+          echo "  OK: all pointers match"
+
+      - name: Verify AGWallet Package.swift refs
+        shell: bash
+        run: |
+          set -euo pipefail
+          registered="$(git config --file .gitmodules --get-regexp 'submodule\..*\.path' \
+            | awk '{print $2}')"
+          pkg_paths="$(grep -oE '\.package\(path:[[:space:]]*"\.\./[^"]+' \
+            AGWallet/Package.swift | sed -E 's|.*"\.\./([^"]+)|\1|' || true)"
+          echo "Package.swift refs:"; echo "${pkg_paths}" | sed 's/^/  /'
+          FAIL=0
+          while IFS= read -r p; do
+            [ -z "${p}" ] && continue
+            if ! echo "${registered}" | grep -qx "${p}"; then
+              echo "ERROR: '../${p}' not a registered submodule"; FAIL=1
+            else
+              echo "  OK: ${p}"
+            fi
+          done <<< "${pkg_paths}"
+          exit $FAIL
