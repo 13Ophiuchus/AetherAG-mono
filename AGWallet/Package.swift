@@ -15,8 +15,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../AetherShared"),
-        .package(path: "../solana-swift-patched"),
-        .package(path: "../web3swift-patched"),
+        .package(path: "../solana-swift-concurrency"),
+        .package(path: "../web3swift-concurrency"),
         .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", revision: "9a811b30d19bde7bab7cc35c872c3b98a3b03536"),
         .package(url: "https://github.com/apple/swift-crypto", "1.0.0"..<"5.0.0"),
         .package(url: "https://github.com/attaswift/BigInt.git", .upToNextMinor(from: "5.4.0")),
@@ -31,8 +31,8 @@ let package = Package(
             name: "AetherWalletKit",
             dependencies: [
                 .product(name: "AetherSharedProtocols", package: "AetherShared"),
-                .product(name: "SolanaSwift", package: "solana-swift-patched"),
-                .product(name: "web3swift", package: "web3swift-patched"),
+                .product(name: "SolanaSwift", package: "solana-swift-concurrency"),
+                .product(name: "web3swift", package: "web3swift-concurrency"),
                 .product(name: "Flow", package: "flow-swift-macos"),
                 .product(name: "P256K", package: "swift-secp256k1"),
                 .product(name: "Crypto", package: "swift-crypto"),
