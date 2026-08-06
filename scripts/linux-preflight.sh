@@ -3,7 +3,7 @@
 set -euo pipefail
 
 SEARCH_DIRS=(
-  "solana-swift-patched/Sources"
+  "solana-swift-concurrency/Sources"
   "web3swift-patched/Sources"
   "AetherShared/Sources"
   "AetherAG/Sources"

@@ -28,7 +28,7 @@ run_audit() {
   local total firstparty vendor
   total=$(grep -c "warning:" "$raw_log")
   firstparty=$(grep -E "AetherAG-mono/(AGWallet|AetherAG)/Sources" "$raw_log" | wc -l | tr -d ' ')
-  vendor=$(grep -E "solana-swift-patched|web3swift-patched" "$raw_log" | wc -l | tr -d ' ')
+  vendor=$(grep -E "solana-swift-concurrency|web3swift-patched" "$raw_log" | wc -l | tr -d ' ')
 
   echo "Total: ${total} | First-party: ${firstparty} | Vendor: ${vendor}"
   echo
