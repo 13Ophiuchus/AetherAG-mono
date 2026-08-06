@@ -12,6 +12,14 @@ public struct VerificationRequestRecord: Codable, Sendable {
     public let createdAt: Date
     public let updatedAt: Date?
 
+    // OID4VP fields
+    public let nonce: String?
+    public let jti: String?
+    public let responseUri: String?
+    public let clientId: String?
+    public let presentationDefinition: Data?
+    public let expiresAt: Date?
+
     public init(
         id: UUID,
         challenge: String,
@@ -22,7 +30,13 @@ public struct VerificationRequestRecord: Codable, Sendable {
         policy: VerificationPolicy,
         submission: Data?,
         createdAt: Date,
-        updatedAt: Date?
+        updatedAt: Date?,
+        nonce: String? = nil,
+        jti: String? = nil,
+        responseUri: String? = nil,
+        clientId: String? = nil,
+        presentationDefinition: Data? = nil,
+        expiresAt: Date? = nil
     ) {
         self.id = id
         self.challenge = challenge
@@ -34,5 +48,11 @@ public struct VerificationRequestRecord: Codable, Sendable {
         self.submission = submission
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.nonce = nonce
+        self.jti = jti
+        self.responseUri = responseUri
+        self.clientId = clientId
+        self.presentationDefinition = presentationDefinition
+        self.expiresAt = expiresAt
     }
 }
