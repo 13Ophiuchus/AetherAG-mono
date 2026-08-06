@@ -95,9 +95,9 @@ public struct VerifiableCredential: Codable, Identifiable, Sendable {
     enum CodingKeys: String, CodingKey {
       case type
       case created
-      case proofPurpose = "proof_purpose"
+      case proofPurpose
       case verificationMethod
-      case proofValue = "proof_value"
+      case proofValue
     }
 
     public init(
