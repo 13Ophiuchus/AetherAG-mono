@@ -8,7 +8,7 @@ public struct VerificationRequestRecord: Codable, Sendable {
     public let subjectDID: String?
     public let status: VerificationStatus
     public let policy: VerificationPolicy
-    public let submission: VerificationSubmissionRequest?
+    public let submission: Data?
     public let createdAt: Date
     public let updatedAt: Date?
 
@@ -20,7 +20,7 @@ public struct VerificationRequestRecord: Codable, Sendable {
         subjectDID: String?,
         status: VerificationStatus,
         policy: VerificationPolicy,
-        submission: VerificationSubmissionRequest?,
+        submission: Data?,
         createdAt: Date,
         updatedAt: Date?
     ) {
