@@ -6,7 +6,11 @@
 //
 
 import Foundation
+#if canImport(CryptoKit)
 import CryptoKit
+#else
+import Crypto
+#endif
 import SolanaSwift // provides public Base58.decode(_:) -> [UInt8]
 
 struct BitcoinTxInput: Sendable {
