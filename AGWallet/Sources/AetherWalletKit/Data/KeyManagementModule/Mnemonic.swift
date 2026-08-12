@@ -1,6 +1,12 @@
 import Foundation
+#if canImport(CryptoKit)
 import CryptoKit
+#else
+import Crypto
+#endif
+#if canImport(CommonCrypto)
 import CommonCrypto
+#endif
 
 public enum MnemonicError: Error {
     case entropyGenerationFailed
@@ -81,6 +87,7 @@ public struct Mnemonic {
 public func seed(passphrase: String = "") -> Data {
         let password = phrase.data(using: .utf8)!
         let salt = ("mnemonic" + passphrase).data(using: .utf8)!
+#if canImport(CommonCrypto)
         var derivedKey = Data(count: 64)
         _ = derivedKey.withUnsafeMutableBytes { derivedKeyBytes in
             password.withUnsafeBytes { passwordBytes in
@@ -100,5 +107,40 @@ public func seed(passphrase: String = "") -> Data {
             }
         }
         return derivedKey
+#else
+        // Portable PBKDF2-HMAC-SHA512 (BIP39 spec: 2048 iterations, 64-byte output),
+        // using swift-crypto's HMAC since CommonCrypto is Darwin-only.
+        return Mnemonic.pbkdf2HMACSHA512(password: password, salt: salt, iterations: 2048, keyLength: 64)
+#endif
     }
+
+#if !canImport(CommonCrypto)
+    private static func pbkdf2HMACSHA512(password: Data, salt: Data, iterations: Int, keyLength: Int) -> Data {
+        let hLen = 64 // SHA512 output size
+        let blockCount = Int(ceil(Double(keyLength) / Double(hLen)))
+        var derivedKey = Data()
+        let key = SymmetricKey(data: password)
+
+        for blockIndex in 1...blockCount {
+            var blockIndexBE = UInt32(blockIndex).bigEndian
+            var saltWithBlockIndex = salt
+            withUnsafeBytes(of: &blockIndexBE) { saltWithBlockIndex.append(contentsOf: $0) }
+
+            var u = Data(HMAC<SHA512>.authenticationCode(for: saltWithBlockIndex, using: key))
+            var t = u
+
+            if iterations > 1 {
+                for _ in 2...iterations {
+                    u = Data(HMAC<SHA512>.authenticationCode(for: u, using: key))
+                    for i in 0..<t.count {
+                        t[i] ^= u[i]
+                    }
+                }
+            }
+            derivedKey.append(t)
+        }
+
+        return derivedKey.prefix(keyLength)
+    }
+#endif
 }
