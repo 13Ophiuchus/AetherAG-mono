@@ -5,7 +5,7 @@ let package = Package(
     name: "AetherWalletKit",
     platforms: [
         .iOS(.v17),
-        .macOS(.v14)
+        .macOS(.v15)
     ],
     products: [
         .library(
