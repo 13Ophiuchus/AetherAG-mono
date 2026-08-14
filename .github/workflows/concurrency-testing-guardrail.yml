@@ -7,21 +7,17 @@ on:
 
 jobs:
   guardrail:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
           token: ${{ secrets.AETHERAG_PAT }}
-      - name: Select latest available Xcode
+      - name: Select Xcode
         run: |
-          LATEST_XCODE=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n 1)
-          if [ -z "$LATEST_XCODE" ]; then
-            LATEST_XCODE=/Applications/Xcode.app
-          fi
-          echo "Selecting Xcode at: $LATEST_XCODE"
-          sudo xcode-select -s "$LATEST_XCODE"
-          xcodebuild -version
+          # Pin to Xcode 16.4 (bundles Swift 6.3)
+          sudo xcode-select -s /Applications/Xcode_16.4.app
+          swift --version
       - name: Run guardrail
         run: scripts/guardrail_testing_concurrency.sh

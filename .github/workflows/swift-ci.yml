@@ -33,8 +33,8 @@ jobs:
 
       - name: Select Xcode
         run: |
-          LATEST=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n 1)
-          sudo xcode-select -s "${LATEST:-/Applications/Xcode.app}"
+          # Pin to Xcode 16.4 (bundles Swift 6.3) — matches local toolchain
+          sudo xcode-select -s /Applications/Xcode_16.4.app
           swift --version
 
       - name: Cache SPM
@@ -44,8 +44,8 @@ jobs:
             AGWallet/.build
             ~/.cache/org.swift.swiftpm
             ~/Library/Caches/org.swift.swiftpm
-          key: spm-agwallet-${{ runner.os }}-v2-${{ hashFiles('AGWallet/Package.resolved') }}
-          restore-keys: spm-agwallet-${{ runner.os }}-v2-
+          key: spm-agwallet-${{ runner.os }}-v3-${{ hashFiles('AGWallet/Package.resolved') }}
+          restore-keys: spm-agwallet-${{ runner.os }}-v3-
 
       - name: Resolve dependencies
         working-directory: AGWallet
@@ -55,7 +55,7 @@ jobs:
         working-directory: AGWallet
         run: |
           swift build -Xswiftc -strict-concurrency=complete 2>&1 \
-            | grep -v "^/.*solana-swift-patched\|^/.*web3swift-patched" || true
+            | grep -v "^/.*solana-swift-concurrency\|^/.*web3swift-concurrency" || true
           swift build -Xswiftc -strict-concurrency=complete
 
       - name: Test (XUnit output)
@@ -124,7 +124,7 @@ jobs:
       pull-requests: write
       contents: read
     container:
-      image: swift:6.2
+      image: swift:6.3
 
     services:
       postgres:
@@ -159,8 +159,8 @@ jobs:
           path: |
             AetherAG/.build
             ~/.cache/org.swift.swiftpm
-          key: spm-aether-linux-v2-${{ hashFiles('AetherAG/Package.resolved') }}
-          restore-keys: spm-aether-linux-v2-
+          key: spm-aether-linux-v3-${{ hashFiles('AetherAG/Package.resolved') }}
+          restore-keys: spm-aether-linux-v3-
 
 
       - name: Linux pre-flight check
@@ -273,8 +273,8 @@ jobs:
 
       - name: Select Xcode
         run: |
-          LATEST=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -n 1)
-          sudo xcode-select -s "${LATEST:-/Applications/Xcode.app}"
+          # Pin to Xcode 16.4 (bundles Swift 6.3) — matches local toolchain
+          sudo xcode-select -s /Applications/Xcode_16.4.app
           swift --version
 
       - name: Cache SPM (macOS)
