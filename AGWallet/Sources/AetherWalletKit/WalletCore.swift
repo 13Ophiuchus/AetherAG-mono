@@ -198,5 +198,34 @@ public actor WalletCore {
     }
 }
 
+    /// Returns the deposit/receive address for the given chain.
+    /// - Parameter chain: The chain whose address to retrieve.
+    /// - Returns: The address string, formatted per the chain's convention.
+    public func getReceiveAddress(for chain: ChainConfig) async throws -> String {
+        logger.info("Getting receive address for \(chain.name)")
+        switch chain.type {
+        case .bitcoin:
+            guard let bitcoinModule else {
+                throw WalletError.unsupportedOperation("Bitcoin module not enabled")
+            }
+            return try await bitcoinModule.getReceiveAddress(for: chain)
+        case .solana:
+            guard let solanaModule else {
+                throw WalletError.unsupportedOperation("Solana module not enabled")
+            }
+            return try await solanaModule.getReceiveAddress(for: chain)
+        case .evm:
+            guard let evmModule else {
+                throw WalletError.unsupportedOperation("EVM module not enabled")
+            }
+            return try await evmModule.getReceiveAddress(for: chain)
+        case .flow:
+            guard let flowModule else {
+                throw WalletError.unsupportedOperation("Flow module not enabled")
+            }
+            return try await flowModule.getReceiveAddress(for: chain)
+        }
+    }
+
 // MARK: - Protocol Definitions
 

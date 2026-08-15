@@ -166,6 +166,10 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 		return try rpcClient(for: chain)
 	}
 
+	public func getReceiveAddress(for chain: ChainConfig) async throws -> String {
+		try await getAddress(for: chain)
+	}
+
 	private func getAddress(for chain: ChainConfig) async throws -> String {
 		let publicKey = try await getPublicKey(for: chain)
 		return publicKey.base58EncodedString

@@ -91,6 +91,10 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
 		)
 	}
 
+	public func getReceiveAddress(for chain: ChainConfig) async throws -> String {
+		try await getAddress(for: chain)
+	}
+
 	private func getAddress(for chain: ChainConfig) async throws -> String {
 		try await keyManager.bitcoinAddress(for: chain)
 	}
