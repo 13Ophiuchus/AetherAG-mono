@@ -39,6 +39,17 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 		self.keyManager = keyManager
 	}
 
+	public func getReceiveAddress(for chain: ChainConfig) async throws -> String {
+		logger.info("Getting receive address for \(chain.name)")
+		guard let addressHex = try keyManager.flowAddress() else {
+			throw WalletError.keychainError(
+				"Flow address not found; call storeFlowAddress(_:) after account creation"
+			)
+		}
+		// Flow.Address normalises and zero-pads to 8 bytes, .hex adds 0x prefix
+		return Flow.Address(hex: addressHex).hex
+	}
+
 	func getBalance(for asset: CryptoAsset) async throws -> Double {
 		logger.info("Getting Flow balance for \(asset.symbol)")
 
