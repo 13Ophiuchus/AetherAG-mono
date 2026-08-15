@@ -3,9 +3,6 @@ import Flow
 
 // MARK: - Cadence query for FlowToken balance
 
-// Borrows the account's public FlowToken balance capability and returns its balance.
-// Uses the idiomatic Cadence `borrow()` pattern: a live reference into account storage
-// rather than a copy, so this respects Cadence's resource-linearity guarantees.
 private struct GetFlowBalanceQuery: CadenceTargetType {
 	let address: Flow.Address
 
@@ -39,28 +36,24 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 		self.keyManager = keyManager
 	}
 
-	public func getReceiveAddress(for chain: ChainConfig) async throws -> String {
+	func getReceiveAddress(for chain: ChainConfig) async throws -> String {
 		logger.info("Getting receive address for \(chain.name)")
-		guard let addressHex = try keyManager.flowAddress() else {
+		guard let addressHex = try await keyManager.flowAddress() else {
 			throw WalletError.keychainError(
 				"Flow address not found; call storeFlowAddress(_:) after account creation"
 			)
 		}
-		// Flow.Address normalises and zero-pads to 8 bytes, .hex adds 0x prefix
 		return Flow.Address(hex: addressHex).hex
 	}
 
 	func getBalance(for asset: CryptoAsset) async throws -> Double {
 		logger.info("Getting Flow balance for \(asset.symbol)")
-
 		guard let addressHex = try await keyManager.flowAddress() else {
 			throw WalletError.keychainError("Flow address not found; call storeFlowAddress(_:) before querying balance")
 		}
-
 		let flowAddress = Flow.Address(hex: addressHex)
 		let chainID: Flow.ChainID = asset.chainConfig.activeNetwork == .testnet ? .testnet : .mainnet
 		let flowClient = Flow()
-
 		do {
 			let balanceString: String = try await flowClient.query(
 				GetFlowBalanceQuery(address: flowAddress),
