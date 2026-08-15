@@ -184,6 +184,10 @@ final class EVMModule: ChainModule, @unchecked Sendable {
 		}
 		return keyData
 	}
+	func getReceiveAddress(for chain: ChainConfig) async throws -> String {
+		let address = try await getEthereumAddress(for: chain)
+		return address.address
+	}
 }
 
 	// A minimal ERC20 ABI for balance and transfer
