@@ -72,11 +72,47 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 
 	func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
 		logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
-		logger.warning("Flow transfer not yet implemented; requires FlowSigner bridge to KeyManagerActor.")
-		throw WalletError.unsupportedOperation("Flow token transfer not yet implemented")
+
+		guard let addressHex = try await keyManager.flowAddress() else {
+			throw WalletError.keychainError("Flow address not found; call storeFlowAddress(_:) before sending")
+		}
+		let fromAddress = Flow.Address(hex: addressHex)
+		let toAddress = Flow.Address(hex: recipientAddress)
+		let keyIndex = try await keyManager.flowKeyIndex()
+		let chainID: Flow.ChainID = asset.chainConfig.activeNetwork == .testnet ? .testnet : .mainnet
+
+		let signer = KeyManagerFlowSigner(address: fromAddress, keyIndex: keyIndex, keyManager: keyManager)
+		let target = TransferFlowTokenTarget(to: toAddress, amount: amount)
+
+		do {
+			let flowClient = Flow()
+			let txId = try await flowClient.sendTransaction(target, signers: [signer], chainID: chainID)
+
+			logger.info("Successfully submitted Flow transaction with ID: \(txId.hex)")
+
+			let unifiedTx = FlowTransaction(
+				id: txId.hex,
+				script: target.cadenceBase64,
+				arguments: [
+					FlowArgument(type: "UFix64", value: String(amount)),
+					FlowArgument(type: "Address", value: toAddress.hex)
+				],
+				proposer: fromAddress.hex,
+				authorizers: [fromAddress.hex],
+				payer: fromAddress.hex,
+				gasLimit: 999,
+				status: .pending,
+				timestamp: Date()
+			)
+			return .flow(unifiedTx)
+		} catch let error as WalletError {
+			throw error
+		} catch {
+			throw WalletError.signingFailed("Flow transaction failed: \(error.localizedDescription)")
+		}
 	}
 
-	func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
+		func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
 		logger.info("Getting Flow transaction history for \(chain.name)")
 		logger.warning("Flow transaction history requires an indexer integration; not yet implemented.")
 		return []
@@ -93,5 +129,62 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 		logger.info("Executing Flow script")
 		logger.warning("Flow script execution bridge not yet implemented for current Flow SDK.")
 		throw WalletError.unsupportedOperation("Flow script execution not yet implemented")
+	}
+}
+
+// MARK: - TransferFlowTokenTarget
+
+/// Cadence transaction target for a plain FlowToken transfer, following the
+/// same `CadenceTargetType` pattern as `GetFlowBalanceQuery` above.
+private struct TransferFlowTokenTarget: CadenceTargetType {
+	let to: Flow.Address
+	let amount: Double
+
+	var type: CadenceType { .transaction }
+	var returnType: Decodable.Type { String.self }
+	var arguments: [Flow.Argument] {
+		[
+			Flow.Argument(value: .ufix64(Decimal(amount))),
+			Flow.Argument(value: .address(to))
+		]
+	}
+
+	var cadenceBase64: String {
+		let script = """
+		import FungibleToken from 0xf233dcee88fe0abe
+		import FlowToken from 0x1654653399040a61
+
+		transaction(amount: UFix64, to: Address) {
+		    let sentVault: @{FungibleToken.Vault}
+		    prepare(signer: auth(BorrowValue) &Account) {
+		        let vaultRef = signer.storage.borrow<auth(FungibleToken.Withdraw) &FlowToken.Vault>(from: /storage/flowTokenVault)
+		            ?? panic("Could not borrow reference to the owner's Vault!")
+		        self.sentVault <- vaultRef.withdraw(amount: amount)
+		    }
+		    execute {
+		        let recipient = getAccount(to)
+		        let receiverRef = recipient.capabilities.get<&{FungibleToken.Receiver}>(/public/flowTokenReceiver)
+		            .borrow()
+		            ?? panic("Could not borrow receiver reference to the recipient's Vault")
+		        receiverRef.deposit(from: <-self.sentVault)
+		    }
+		}
+		"""
+		return Data(script.utf8).base64EncodedString()
+	}
+}
+
+// MARK: - KeyManagerFlowSigner
+
+/// Bridges `KeyManagerActor`'s stored master key into the `Flow` SDK's
+/// `FlowSigner` protocol so transactions can be signed without exposing
+/// raw key material outside the actor boundary.
+struct KeyManagerFlowSigner: FlowSigner {
+	var address: Flow.Address
+	var keyIndex: Int
+	let keyManager: KeyManagerActor
+
+	func sign(signableData: Data, transaction: Flow.Transaction?) async throws -> Data {
+		try await keyManager.signFlowTransactionEnvelope(signableData)
 	}
 }
