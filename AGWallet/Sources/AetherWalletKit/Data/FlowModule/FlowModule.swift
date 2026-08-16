@@ -3,7 +3,7 @@ import Flow
 
 // MARK: - Cadence query for FlowToken balance
 
-private struct GetFlowBalanceQuery: CadenceTargetType {
+struct GetFlowBalanceQuery: CadenceTargetType {
 	let address: Flow.Address
 
 	var type: CadenceType { .query }
@@ -136,7 +136,7 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 
 /// Cadence transaction target for a plain FlowToken transfer, following the
 /// same `CadenceTargetType` pattern as `GetFlowBalanceQuery` above.
-private struct TransferFlowTokenTarget: CadenceTargetType {
+struct TransferFlowTokenTarget: CadenceTargetType {
 	let to: Flow.Address
 	let amount: Double
 

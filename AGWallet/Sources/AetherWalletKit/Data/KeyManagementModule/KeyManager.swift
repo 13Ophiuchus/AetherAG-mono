@@ -337,6 +337,27 @@ public actor KeyManagerActor {
     // Flow's signing algorithm for the default account key is ECDSA on the P-256 curve
     // (secp256r1), distinct from Bitcoin/EVM's secp256k1. This uses the same master key
     // material via P256, matching the generic `sign(data:withKeyIdentifier:)` helper below.
+    /// Signs a raw Flow transaction envelope (already-hashed signable payload)
+    /// using the stored master key, for use by a `FlowSigner` bridge. Unlike
+    /// `signFlowMessage`, this does not treat input as a UTF-8 string — Flow
+    /// transaction envelopes are opaque RLP-encoded bytes provided by the
+    /// Flow SDK's signing callback.
+    public func signFlowTransactionEnvelope(_ signableData: Data, keyIdentifier: String = "masterKey") async throws -> Data {
+        guard let rawMasterKey = try retrievePrivateKey(for: keyIdentifier) else {
+            throw WalletError.keychainError("Master key not found")
+        }
+        let masterKey = rawMasterKey.count >= 32 ? Data(rawMasterKey.prefix(32)) : rawMasterKey
+        let signingKey = try P256.Signing.PrivateKey(rawRepresentation: masterKey)
+        let signature = try signingKey.signature(for: signableData)
+        return signature.rawRepresentation
+    }
+
+    /// Returns the Flow account key index to sign with. Defaults to 0 for
+    /// single-key accounts; multi-key account support can extend this later.
+    public func flowKeyIndex() throws -> Int {
+        0
+    }
+
     public func signFlowMessage(_ message: String, chain: ChainConfig, keyIdentifier: String = "masterKey") async throws -> String {
         guard let rawMasterKey = try retrievePrivateKey(for: keyIdentifier) else {
             throw WalletError.keychainError("Master key not found")

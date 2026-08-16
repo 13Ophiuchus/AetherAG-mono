@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+import Flow
 @testable import AetherWalletKit
 
 @Suite("TransferFlowTokenTarget")
@@ -41,6 +42,6 @@ struct TransferFlowTokenTargetTests {
     func metadataIsCorrect() throws {
         let target = TransferFlowTokenTarget(to: Flow.Address(hex: "0x03"), amount: 1.0)
         #expect(target.type == .transaction)
-        #expect(target.returnType == String.self)
+        #expect(ObjectIdentifier(target.returnType) == ObjectIdentifier(String.self))
     }
 }
