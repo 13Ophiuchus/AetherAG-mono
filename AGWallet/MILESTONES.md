@@ -5,6 +5,7 @@
 - [x] `KeyManagerFlowSigner` — bridges `FlowSigner` protocol to `KeyManagerActor.signFlowTransactionEnvelope`, keeping raw key material inside the actor boundary
 - [x] Fixed invalid redeclaration bug — duplicate `TransferFlowTokenTarget` block (introduced by a non-idempotent append-only patch script) removed; only one definition remains
 - [x] AGWallet build clean under Swift 6.3 / arm64-apple-macosx26.0 (70/70 targets, FlowModule.swift + AetherWalletKit module emission)
+- [x] `TransferFlowTokenTargetTests` — 3/3 Swift Testing tests passing (cadence script content, ufix64/address argument encoding+order, CadenceTargetType metadata); fixed private->internal visibility for @testable access and ObjectIdentifier workaround for #expect metatype comparison macro bug
 
 ## Milestone 18: getReceiveAddress across all chains (2026-08-15)
 
