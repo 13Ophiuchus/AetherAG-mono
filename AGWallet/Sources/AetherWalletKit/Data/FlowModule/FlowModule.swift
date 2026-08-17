@@ -112,10 +112,65 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 		}
 	}
 
-		func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
+	func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
 		logger.info("Getting Flow transaction history for \(chain.name)")
-		logger.warning("Flow transaction history requires an indexer integration; not yet implemented.")
-		return []
+
+		guard let addressHex = try await keyManager.flowAddress() else {
+			throw WalletError.keychainError("Flow address not found; call storeFlowAddress(_:) before querying history")
+		}
+		let watchedAddress = Flow.Address(hex: addressHex).hex
+		let chainID: Flow.ChainID = chain.activeNetwork == .testnet ? .testnet : .mainnet
+		let flowClient = Flow()
+		await flowClient.configure(chainID: chainID, accessAPI: flowClient.createHTTPAccessAPI(chainID: chainID))
+
+		do {
+			let latestHeight = try await flowClient.accessAPI.getLatestBlockHeader(blockStatus: .sealed).height
+			let lookbackRange: UInt64 = 5_000
+			let startHeight = latestHeight > lookbackRange ? latestHeight - lookbackRange : 0
+			let range = startHeight...latestHeight
+
+			let depositedType = "A.1654653399040a61.FlowToken.TokensDeposited"
+			let withdrawnType = "A.1654653399040a61.FlowToken.TokensWithdrawn"
+
+			async let depositedResults = flowClient.accessAPI.getEventsForHeightRange(type: depositedType, range: range)
+			async let withdrawnResults = flowClient.accessAPI.getEventsForHeightRange(type: withdrawnType, range: range)
+
+			let (deposited, withdrawn) = try await (depositedResults, withdrawnResults)
+			let allEvents = deposited + withdrawn
+
+			var transactions: [UnifiedTransaction] = []
+			for result in allEvents {
+				for event in result.events {
+					guard let toField: String = event.getField("to"),
+					      toField == watchedAddress || (event.getField("from") as String?) == watchedAddress
+					else { continue }
+
+					let amount: String = event.getField("amount") ?? "0.0"
+					let isDeposit = event.type == depositedType
+
+					let unifiedTx = FlowTransaction(
+						id: event.transactionId.hex,
+						script: event.type,
+						arguments: [
+							FlowArgument(type: "UFix64", value: amount),
+							FlowArgument(type: "Address", value: watchedAddress)
+						],
+						proposer: isDeposit ? (event.getField("from") ?? "") : watchedAddress,
+						authorizers: [watchedAddress],
+						payer: watchedAddress,
+						gasLimit: 0,
+						status: .committed,
+						timestamp: Date()
+					)
+					transactions.append(.flow(unifiedTx))
+				}
+			}
+			return transactions
+		} catch let error as WalletError {
+			throw error
+		} catch {
+			throw WalletError.signingFailed("Flow transaction history query failed: \(error.localizedDescription)")
+		}
 	}
 
 	func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
@@ -186,5 +241,42 @@ struct KeyManagerFlowSigner: FlowSigner {
 
 	func sign(signableData: Data, transaction: Flow.Transaction?) async throws -> Data {
 		try await keyManager.signFlowTransactionEnvelope(signableData)
+	}
+}
+
+// MARK: - FlowTokenEventType
+
+/// Resolves canonical FlowToken contract event type identifiers per Flow chain,
+/// following the `A.<address>.FlowToken.<EventName>` Cadence event naming convention.
+/// Pulled out as a pure, network-independent helper so contract-address selection
+/// can be unit tested without hitting the Flow access API.
+enum FlowTokenEventType {
+	static func contractAddress(chainID: Flow.ChainID) -> String {
+		chainID == .testnet ? "7e60df042a9c0868" : "1654653399040a61"
+	}
+
+	static func deposited(chainID: Flow.ChainID) -> String {
+		"A.\(contractAddress(chainID: chainID)).FlowToken.TokensDeposited"
+	}
+
+	static func withdrawn(chainID: Flow.ChainID) -> String {
+		"A.\(contractAddress(chainID: chainID)).FlowToken.TokensWithdrawn"
+	}
+}
+
+// MARK: - FlowTransactionHistoryMatcher
+
+/// Determines whether a FlowToken transfer event pertains to the watched wallet
+/// address. `TokensDeposited` reliably populates `to`; `TokensWithdrawn` reliably
+/// populates `from`. Extracted as a pure function for unit testing without needing
+/// real Cadence-encoded event payloads.
+enum FlowTransactionHistoryMatcher {
+	static func matches(
+		isDeposit: Bool,
+		toField: String?,
+		fromField: String?,
+		watchedAddress: String
+	) -> Bool {
+		isDeposit ? toField == watchedAddress : fromField == watchedAddress
 	}
 }
