@@ -129,8 +129,8 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 			let startHeight = latestHeight > lookbackRange ? latestHeight - lookbackRange : 0
 			let range = startHeight...latestHeight
 
-			let depositedType = "A.1654653399040a61.FlowToken.TokensDeposited"
-			let withdrawnType = "A.1654653399040a61.FlowToken.TokensWithdrawn"
+			let depositedType = FlowTokenEventType.deposited(chainID: chainID)
+			let withdrawnType = FlowTokenEventType.withdrawn(chainID: chainID)
 
 			async let depositedResults = flowClient.accessAPI.getEventsForHeightRange(type: depositedType, range: range)
 			async let withdrawnResults = flowClient.accessAPI.getEventsForHeightRange(type: withdrawnType, range: range)
@@ -141,12 +141,18 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 			var transactions: [UnifiedTransaction] = []
 			for result in allEvents {
 				for event in result.events {
-					guard let toField: String = event.getField("to"),
-					      toField == watchedAddress || (event.getField("from") as String?) == watchedAddress
-					else { continue }
+					let isDeposit = event.type == depositedType
+					let toField: String? = event.getField("to")
+					let fromField: String? = event.getField("from")
+
+					guard FlowTransactionHistoryMatcher.matches(
+						isDeposit: isDeposit,
+						toField: toField,
+						fromField: fromField,
+						watchedAddress: watchedAddress
+					) else { continue }
 
 					let amount: String = event.getField("amount") ?? "0.0"
-					let isDeposit = event.type == depositedType
 
 					let unifiedTx = FlowTransaction(
 						id: event.transactionId.hex,
@@ -155,7 +161,7 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 							FlowArgument(type: "UFix64", value: amount),
 							FlowArgument(type: "Address", value: watchedAddress)
 						],
-						proposer: isDeposit ? (event.getField("from") ?? "") : watchedAddress,
+						proposer: isDeposit ? (fromField ?? "unknown") : watchedAddress,
 						authorizers: [watchedAddress],
 						payer: watchedAddress,
 						gasLimit: 0,
