@@ -1,3 +1,13 @@
+## Milestone 21: Flow Script Execution + ChainID Consolidation (2026-08-17)
+
+- [x] `FlowModule.executeScript` — replaced `unsupportedOperation` stub with real Cadence script execution via `FlowAccessProtocol.executeScriptAtLatestBlock`
+- [x] Signature widened to `executeScript(_:arguments:on:)` — required because `Flow().accessAPI` reads from a shared actor-isolated singleton (`FlowActors.access`) with global configuration state; an unconfigured client would silently execute against whichever chain was last configured elsewhere in the process
+- [x] `FlowChainIDResolver` — extracted the `ChainConfig` → `Flow.ChainID` mapping duplicated across `getBalance`/`send`/`getTransactionHistory`/`executeScript` into one pure, tested helper
+- [x] `FlowChainIDResolverTests` — 3/3 Swift Testing tests covering mainnet, testnet, and fallback-to-mainnet for signet/regtest/devnet/local
+- [x] Fixed stale `FlowModuleTests.testSendTransaction` — leftover pre-Milestone-19 assertion expecting `unsupportedOperation`; now correctly expects `keychainError`
+- [x] Confirmed via grep: no pre-existing call sites for `executeScript`, so the signature change is non-breaking
+- [x] Full test suite: 81/81 tests passing across Bitcoin/EVM/Solana/Flow/WalletCore under Swift 6.3 / arm64-apple-macosx26.0
+
 ## Milestone 20: Flow Transaction History via Events (2026-08-16)
 
 - [x] `FlowModule.getTransactionHistory` — replaced empty-array stub with real implementation querying `FungibleToken.TokensDeposited`/`TokensWithdrawn` events over a 5000-block lookback via `FlowAccessProtocol.getEventsForHeightRange`
