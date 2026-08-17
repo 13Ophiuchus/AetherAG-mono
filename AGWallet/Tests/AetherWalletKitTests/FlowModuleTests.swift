@@ -10,7 +10,7 @@ struct FlowModuleTests {
         FlowModule(keyManager: KeyManagerActor())
     }
 
-    @Test("send fails with unsupportedOperation before Flow token transfer is implemented")
+    @Test("send fails with keychainError when no Flow address is stored")
     func testSendTransaction() async throws {
         let flowModule = makeModule()
         let asset = CryptoAsset.mockFlow()
@@ -19,9 +19,10 @@ struct FlowModuleTests {
 
         do {
             _ = try await flowModule.send(amount: amount, to: recipient, for: asset)
-            Issue.record("Expected unsupportedOperation for Flow token transfer")
-        } catch WalletError.unsupportedOperation(let message) {
-            #expect(message.contains("Flow token transfer"))
+            Issue.record("Expected keychainError when no Flow address is stored")
+        } catch WalletError.keychainError {
+            // expected: send() is fully implemented since Milestone 19, but
+            // requires storeFlowAddress(_:) to have been called first
         }
     }
 

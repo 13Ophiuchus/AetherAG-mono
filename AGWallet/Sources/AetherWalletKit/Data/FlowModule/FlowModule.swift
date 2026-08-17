@@ -52,7 +52,7 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 			throw WalletError.keychainError("Flow address not found; call storeFlowAddress(_:) before querying balance")
 		}
 		let flowAddress = Flow.Address(hex: addressHex)
-		let chainID: Flow.ChainID = asset.chainConfig.activeNetwork == .testnet ? .testnet : .mainnet
+		let chainID = FlowChainIDResolver.resolve(asset.chainConfig)
 		let flowClient = Flow()
 		do {
 			let balanceString: String = try await flowClient.query(
@@ -79,7 +79,7 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 		let fromAddress = Flow.Address(hex: addressHex)
 		let toAddress = Flow.Address(hex: recipientAddress)
 		let keyIndex = try await keyManager.flowKeyIndex()
-		let chainID: Flow.ChainID = asset.chainConfig.activeNetwork == .testnet ? .testnet : .mainnet
+		let chainID = FlowChainIDResolver.resolve(asset.chainConfig)
 
 		let signer = KeyManagerFlowSigner(address: fromAddress, keyIndex: keyIndex, keyManager: keyManager)
 		let target = TransferFlowTokenTarget(to: toAddress, amount: amount)
@@ -119,7 +119,7 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 			throw WalletError.keychainError("Flow address not found; call storeFlowAddress(_:) before querying history")
 		}
 		let watchedAddress = Flow.Address(hex: addressHex).hex
-		let chainID: Flow.ChainID = chain.activeNetwork == .testnet ? .testnet : .mainnet
+		let chainID = FlowChainIDResolver.resolve(chain)
 		let flowClient = Flow()
 		await flowClient.configure(chainID: chainID, accessAPI: flowClient.createHTTPAccessAPI(chainID: chainID))
 
@@ -186,10 +186,32 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 
 	// MARK: - Flow Specific Methods
 
-	func executeScript(_ script: String, arguments: [Flow.Cadence.FValue]) async throws -> Flow.Cadence.FValue {
-		logger.info("Executing Flow script")
-		logger.warning("Flow script execution bridge not yet implemented for current Flow SDK.")
-		throw WalletError.unsupportedOperation("Flow script execution not yet implemented")
+	func executeScript(
+		_ script: String,
+		arguments: [Flow.Cadence.FValue],
+		on chain: ChainConfig
+	) async throws -> Flow.Cadence.FValue {
+		logger.info("Executing Flow script on \(chain.name)")
+
+		let chainID = FlowChainIDResolver.resolve(chain)
+		let flowClient = Flow()
+		await flowClient.configure(chainID: chainID, accessAPI: flowClient.createHTTPAccessAPI(chainID: chainID))
+
+		do {
+			let response = try await flowClient.accessAPI.executeScriptAtLatestBlock(
+				cadence: script,
+				arguments: arguments,
+				blockStatus: .final
+			)
+			guard let value = response.fields?.value else {
+				throw WalletError.signingFailed("Flow script response did not contain a decodable value")
+			}
+			return value
+		} catch let error as WalletError {
+			throw error
+		} catch {
+			throw WalletError.signingFailed("Flow script execution failed: \(error.localizedDescription)")
+		}
 	}
 }
 
@@ -284,5 +306,18 @@ enum FlowTransactionHistoryMatcher {
 		watchedAddress: String
 	) -> Bool {
 		isDeposit ? toField == watchedAddress : fromField == watchedAddress
+	}
+}
+
+// MARK: - FlowChainIDResolver
+
+/// Maps a shared `ChainConfig` to the Flow SDK's `Flow.ChainID`, following the
+/// convention that any non-testnet active network resolves to mainnet.
+/// Extracted as a pure, network-independent helper (was previously duplicated
+/// inline across getBalance/send/getTransactionHistory/executeScript) so the
+/// mapping logic can be unit tested without a live Flow client.
+enum FlowChainIDResolver {
+	static func resolve(_ chain: ChainConfig) -> Flow.ChainID {
+		chain.activeNetwork == .testnet ? .testnet : .mainnet
 	}
 }
