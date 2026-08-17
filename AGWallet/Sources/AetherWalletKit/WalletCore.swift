@@ -1,4 +1,5 @@
 import Foundation
+import Flow
 
 public actor WalletCore {
     private let keyManager: KeyManagerActor
@@ -15,7 +16,7 @@ public actor WalletCore {
         enableBitcoin: Bool = true,
         enableSolana: Bool = true,
         enableEVM: Bool = true,
-        enableFlow: Bool = false
+        enableFlow: Bool = true
     ) {
         self.keyManager = keyManager
         self.chainConfigService = chainConfigService
@@ -171,6 +172,27 @@ public actor WalletCore {
             }
             return try await flowModule.getReceiveAddress(for: chain)
         }
+    }
+
+    // MARK: - executeFlowScript
+
+    /// Executes a read-only Cadence script on the Flow blockchain. This is
+    /// Flow-specific (not part of the shared ChainModule protocol shared by
+    /// Bitcoin/EVM/Solana), so it is exposed as its own facade method rather
+    /// than being routed through a chain-type switch like the other operations.
+    public func executeFlowScript(
+        _ script: String,
+        arguments: [Flow.Cadence.FValue],
+        on chain: ChainConfig
+    ) async throws -> Flow.Cadence.FValue {
+        logger.info("Executing Flow script on \(chain.name)")
+        guard chain.type == .flow else {
+            throw WalletError.unsupportedOperation("executeFlowScript requires a Flow ChainConfig")
+        }
+        guard let flowModule = flowModule else {
+            throw WalletError.unsupportedOperation("Flow module not enabled")
+        }
+        return try await flowModule.executeScript(script, arguments: arguments, on: chain)
     }
 }
 
