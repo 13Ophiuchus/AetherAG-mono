@@ -1,3 +1,11 @@
+## Milestone 22: WalletCore Flow Integration (2026-08-17)
+
+- [x] `WalletCore.enableFlow` default flipped `false` -> `true`, matching Bitcoin/EVM/Solana, now that `FlowModule` has no remaining stubs
+- [x] `WalletCore.executeFlowScript(_:arguments:on:)` — new facade method bridging to `FlowModule.executeScript`; Flow-specific method exposed outside the shared `ChainModule` switch pattern
+- [x] Confirmed via grep: all existing `WalletCore(...)` call sites already pass `enableFlow` explicitly, so the default flip is non-breaking
+- [x] 3/3 new Swift Testing tests: non-Flow chain rejection, disabled-module rejection, default-initializer-enables-Flow verification
+- [x] Full test suite: 84/84 tests passing across Bitcoin/EVM/Solana/Flow/WalletCore under Swift 6.3 / arm64-apple-macosx26.0
+
 ## Milestone 21: Flow Script Execution + ChainID Consolidation (2026-08-17)
 
 - [x] `FlowModule.executeScript` — replaced `unsupportedOperation` stub with real Cadence script execution via `FlowAccessProtocol.executeScriptAtLatestBlock`
