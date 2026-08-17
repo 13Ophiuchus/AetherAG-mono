@@ -4,6 +4,7 @@
 - [x] `FlowTokenEventType` — pure helper resolving canonical `A.<address>.FlowToken.<Event>` identifiers per mainnet/testnet chain ID
 - [x] `FlowTransactionHistoryMatcher` — pure helper fixing a matching bug where `TokensWithdrawn` events (which only populate `from`, not `to`) would have been silently dropped by a naive `to`-only guard
 - [x] `FlowTokenEventTypeTests` / `FlowTransactionHistoryMatcherTests` — 8/8 Swift Testing tests covering contract address resolution (mainnet/testnet) and event-matching edge cases (nil fields, mismatched address)
+- [x] Correction: initial commit (ed28ee1) added FlowTokenEventType/FlowTransactionHistoryMatcher helpers + tests but two patch substitutions silently failed, leaving getTransactionHistory on the old buggy inline logic (mainnet-only address, dropped TokensWithdrawn events); verified via grep and re-wired in follow-up commit
 - [x] AGWallet build clean under Swift 6.3 / arm64-apple-macosx26.0
 
 ## Milestone 19: Flow Token Transfer Signing Bridge (2026-08-15)
