@@ -1,3 +1,11 @@
+## Milestone 20: Flow Transaction History via Events (2026-08-16)
+
+- [x] `FlowModule.getTransactionHistory` — replaced empty-array stub with real implementation querying `FungibleToken.TokensDeposited`/`TokensWithdrawn` events over a 5000-block lookback via `FlowAccessProtocol.getEventsForHeightRange`
+- [x] `FlowTokenEventType` — pure helper resolving canonical `A.<address>.FlowToken.<Event>` identifiers per mainnet/testnet chain ID
+- [x] `FlowTransactionHistoryMatcher` — pure helper fixing a matching bug where `TokensWithdrawn` events (which only populate `from`, not `to`) would have been silently dropped by a naive `to`-only guard
+- [x] `FlowTokenEventTypeTests` / `FlowTransactionHistoryMatcherTests` — 8/8 Swift Testing tests covering contract address resolution (mainnet/testnet) and event-matching edge cases (nil fields, mismatched address)
+- [x] AGWallet build clean under Swift 6.3 / arm64-apple-macosx26.0
+
 ## Milestone 19: Flow Token Transfer Signing Bridge (2026-08-15)
 
 - [x] `FlowModule.send` rewritten using real `CadenceTargetType` + `FlowSigner` API instead of placeholder/stub
