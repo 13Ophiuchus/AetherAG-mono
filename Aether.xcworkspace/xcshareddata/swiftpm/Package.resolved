@@ -69,7 +69,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/13Ophiuchus/flow-swift-macos.git",
       "state" : {
-        "revision" : "9a811b30d19bde7bab7cc35c872c3b98a3b03536"
+        "revision" : "702c52ecbe0f0640f5eaae00bff07da8229e6949"
       }
     },
     {
