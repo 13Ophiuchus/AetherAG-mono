@@ -1,0 +1,12 @@
+**/.build
+**/DerivedData
+**/.git
+*.log
+*.xcworkspace
+*.xcodeproj
+scratch/
+CastFlow/
+flow-swift-macos/
+flow-testnet-bootstrap/
+flow-wallet-research/
+AetherAGMailClientAppShell/
