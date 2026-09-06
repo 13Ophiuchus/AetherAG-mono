@@ -9,3 +9,6 @@
 	path = solana-swift-concurrency
 	url = https://github.com/13Ophiuchus/solana-swift.git
 	branch = fix/secp256k1-21dotdev
+[submodule "flow-swift-macos"]
+	path = flow-swift-macos
+	url = https://github.com/13Ophiuchus/flow-swift-macos.git
