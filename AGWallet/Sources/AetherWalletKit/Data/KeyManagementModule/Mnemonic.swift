@@ -25,8 +25,15 @@ public struct Mnemonic {
         }
         let byteCount = strength / 8
         var entropy = [UInt8](repeating: 0, count: byteCount)
+#if canImport(Security)
         let status = SecRandomCopyBytes(kSecRandomDefault, byteCount, &entropy)
         guard status == errSecSuccess else { throw MnemonicError.entropyGenerationFailed }
+#else
+        var rng = SystemRandomNumberGenerator()
+        for i in entropy.indices {
+            entropy[i] = UInt8.random(in: .min ... .max, using: &rng)
+        }
+#endif
         return try fromEntropy(entropy)
     }
 

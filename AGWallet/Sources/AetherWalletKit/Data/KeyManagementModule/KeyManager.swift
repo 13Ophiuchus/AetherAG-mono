@@ -1,7 +1,15 @@
 import Foundation
 import P256K
+#if canImport(CryptoKit)
 import CryptoKit
+private typealias AetherSHA256 = CryptoKit.SHA256
+#else
+import Crypto
+private typealias AetherSHA256 = Crypto.SHA256
+#endif
+#if canImport(LocalAuthentication)
 import LocalAuthentication
+#endif
 import SolanaSwift
 import TweetNacl
 import web3swift
@@ -51,9 +59,15 @@ public actor KeyManagerActor {
     // as visible as the function that uses them.
     public static let defaultDerivationVersion: KeyDerivationVersion = .legacy
 
+    #if canImport(Security) && canImport(LocalAuthentication)
     public init(storageProvider: KeyStorageProviding = KeychainKeyStorageProvider()) {
         self.storageProvider = storageProvider
     }
+#else
+    public init(storageProvider: KeyStorageProviding) {
+        self.storageProvider = storageProvider
+    }
+#endif
 
     // MARK: - Chain helpers
 
@@ -192,7 +206,7 @@ public actor KeyManagerActor {
         let salt = derivationSalt(chain: chain, family: family, intent: intent)
         let info = Data("AetherWalletKit.cross-chain-signing.v1".utf8)
 
-        let derived = HKDF<CryptoKit.SHA256>.deriveKey(
+        let derived = HKDF<AetherSHA256>.deriveKey(
             inputKeyMaterial: inputKey,
             salt: salt,
             info: info,
@@ -325,7 +339,7 @@ public actor KeyManagerActor {
         guard let messageData = message.data(using: .utf8) else {
             throw WalletError.signingFailed("Message is not valid UTF-8")
         }
-        let hash = Data(CryptoKit.SHA256.hash(data: Data(CryptoKit.SHA256.hash(data: messageData))))
+        let hash = Data(AetherSHA256.hash(data: Data(AetherSHA256.hash(data: messageData))))
         let (signature, _) = SECP256K1.signForRecovery(hash: hash, privateKey: masterKey)
         guard let signature else {
             throw WalletError.signingFailed("Bitcoin message signing failed")
@@ -382,11 +396,11 @@ public actor KeyManagerActor {
         guard let publicKey = Utilities.privateToPublic(masterKey, compressed: true) else {
             throw WalletError.signingFailed("Unable to derive Bitcoin public key")
         }
-        let sha256Hash = Data(CryptoKit.SHA256.hash(data: publicKey))
+        let sha256Hash = Data(AetherSHA256.hash(data: publicKey))
         let hash160 = try RIPEMD160.hash(message: sha256Hash)
         let versionByte: UInt8 = chain.activeNetwork == .testnet ? 0x6f : 0x00
         var payload = Data([versionByte]) + hash160
-        let checksum = Data(CryptoKit.SHA256.hash(data: Data(CryptoKit.SHA256.hash(data: payload)))).prefix(4)
+        let checksum = Data(AetherSHA256.hash(data: Data(AetherSHA256.hash(data: payload)))).prefix(4)
         payload += checksum
         return Base58.encode(payload)
     }
@@ -425,7 +439,7 @@ public actor KeyManagerActor {
                 publicKey = try BIP84.derivePublicKey(seed: seed, coinType: coinType)
             }
 
-            let sha256Hash = Data(CryptoKit.SHA256.hash(data: publicKey))
+            let sha256Hash = Data(AetherSHA256.hash(data: publicKey))
             let hash160 = try RIPEMD160.hash(message: sha256Hash)
             let hrp = BitcoinNetworkHRP.hrp(for: chain.activeNetwork)
 
@@ -459,9 +473,9 @@ public actor KeyManagerActor {
             // 3. Compute H_tapTweak(internalKey || "") — empty script tree = keypath-only spend.
             //    Tagged hash per BIP340: SHA256(SHA256("TapTweak") || SHA256("TapTweak") || internalKey)
             let tag = "TapTweak"
-            let tagHash = [UInt8](CryptoKit.SHA256.hash(data: Data(tag.utf8)))
+            let tagHash = [UInt8](AetherSHA256.hash(data: Data(tag.utf8)))
             let tweakInput = tagHash + tagHash + internalKeyBytes
-            let tweak = [UInt8](CryptoKit.SHA256.hash(data: Data(tweakInput)))
+            let tweak = [UInt8](AetherSHA256.hash(data: Data(tweakInput)))
 
             // 4. Tweak the private key scalar: sk' = (sk + t) mod n  →  Q = sk'·G
             //    Using P256K.Signing.PrivateKey.add(_:) per the library's BIP-341 guidance.
@@ -542,6 +556,7 @@ public actor KeyManagerActor {
 
 // MARK: - SecureEnclaveManager
 
+#if canImport(LocalAuthentication)
 final class KeyManagerSecureEnclaveStore {
     var isAvailable: Bool {
         // Secure Enclave availability check: requires biometry/device support.
@@ -619,9 +634,11 @@ final class KeyManagerSecureEnclaveStore {
         )!
     }
 }
+#endif
 
 // MARK: - KeychainManager
 
+#if canImport(Security)
 final class KeyManagerKeychainStore {
     func store(_ data: Data, with identifier: String, accessControl: SecAccessControl? = nil) throws {
         var query: [String: Any] = [
@@ -672,6 +689,7 @@ final class KeyManagerKeychainStore {
         }
     }
 }
+#endif
 
 public enum DerivationPathError: Error, LocalizedError {
     case emptyPath

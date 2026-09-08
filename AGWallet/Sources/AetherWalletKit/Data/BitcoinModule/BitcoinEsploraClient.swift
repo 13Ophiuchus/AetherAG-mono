@@ -8,6 +8,9 @@
 
 import Foundation
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 final class BitcoinEsploraClient: EsploraClient, @unchecked Sendable {
 	private let baseURL: URL
 	private let session: URLSession

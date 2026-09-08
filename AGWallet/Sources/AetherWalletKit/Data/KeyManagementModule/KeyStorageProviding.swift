@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(LocalAuthentication)
 import LocalAuthentication
+#endif
 import AetherSharedProtocols
 
 // MARK: - KeyStorageProviding
@@ -46,6 +48,7 @@ private extension KeyStorageProviding {
 
 // MARK: - KeychainKeyStorageProvider
 
+#if canImport(Security) && canImport(LocalAuthentication)
 // Production storage provider backed by Secure Enclave (when available) and Keychain.
 public final class KeychainKeyStorageProvider: KeyStorageProviding, @unchecked Sendable {
     private let secureEnclaveManager = KeyManagerSecureEnclaveStore()
@@ -88,6 +91,7 @@ public final class KeychainKeyStorageProvider: KeyStorageProviding, @unchecked S
         try keychainManager.delete(with: identifier)
     }
 }
+#endif
 
 // MARK: - InMemoryKeyStorageProvider
 

@@ -1,5 +1,8 @@
 import Foundation
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 final class BitcoinModule: ChainModule, @unchecked Sendable {
 	private let keyManager: KeyManagerActor
 	private let logger = Logger(label: "AetherWalletKit.BitcoinModule")

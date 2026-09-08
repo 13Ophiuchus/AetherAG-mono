@@ -1,8 +1,9 @@
 import Foundation
+#if canImport(Security)
 import Security
+#endif
 
 public actor ChainConfigurationService {
-    private let keychainManager = KeychainManager()
     private let predefinedChains: [ChainConfig]
     
     public private(set) var availableChains: [ChainConfig] = []
@@ -48,6 +49,9 @@ public actor ChainConfigurationService {
         return predefinedChains
     }
     
+#if canImport(Security)
+    private let keychainManager = KeychainManager()
+
     private func loadChains() -> [ChainConfig] {
         do {
             guard let data = try keychainManager.retrieve(with: "AetherWalletKit.ChainConfigs") else {
@@ -65,9 +69,17 @@ public actor ChainConfigurationService {
         let data = try JSONEncoder().encode(availableChains)
         try keychainManager.store(data, with: "AetherWalletKit.ChainConfigs")
     }
+#else
+    private func loadChains() -> [ChainConfig] {
+        return predefinedChains
+    }
+
+    private func saveChains() throws {
+    }
+#endif
 }
 
-
+#if canImport(Security)
 private class KeychainManager {
     func store(_ data: Data, with identifier: String) throws {
         let query: [String: Any] = [
@@ -102,3 +114,4 @@ private class KeychainManager {
         return item as? Data
     }
 }
+#endif
