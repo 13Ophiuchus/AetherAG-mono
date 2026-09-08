@@ -1,3 +1,15 @@
+## Milestone 23: Linux Cross-Platform Gating Committed to AGWallet History (2026-09-08)
+
+- [x] Committed the Linux `#if canImport` platform-gating work across `KeyManager.swift`, `Logger.swift`, `ChainConfigurationService.swift`, `KeyStorageProviding.swift`, `Mnemonic.swift`, `BitcoinModule.swift`, and `BitcoinEsploraClient.swift` — verified functionally during Milestone 67 (AetherAG's full mono Docker build) but never previously committed inside AGWallet's own repository history, leaving it exposed and undocumented at the package level
+- [x] `KeyManager.swift`: `CryptoKit`/`Crypto` `SHA256` typealias switch (`AetherSHA256`); `KeyManagerActor.init(storageProvider:)` split so the Keychain-defaulted initializer only compiles where `Security`+`LocalAuthentication` are available
+- [x] `Logger.swift`: `os.Logger` preserved on Apple platforms; `print()`-based fallback on Linux, gated by `canImport(os.log)`
+- [x] `ChainConfigurationService.swift`: `KeychainManager` and Keychain-backed `loadChains()`/`saveChains()` gated to `canImport(Security)`; Linux build degrades to a predefined-chains-only no-op rather than a fake-secure persistence path
+- [x] `KeyStorageProviding.swift`: `KeychainKeyStorageProvider` (Secure Enclave + Keychain) gated to `canImport(Security) && canImport(LocalAuthentication)` — the type does not exist at all on Linux, forcing explicit use of `InMemoryKeyStorageProvider` rather than silently substituting an insecure default
+- [x] `Mnemonic.swift`: `SecRandomCopyBytes` preserved on Apple platforms for entropy generation; `SystemRandomNumberGenerator` (OS CSPRNG-backed on Linux via `getrandom(2)`) fallback where `Security` is unavailable
+- [x] `BitcoinModule.swift`, `BitcoinEsploraClient.swift`: `FoundationNetworking` import gated for Linux's split-out `URLSession`
+- [x] Security review confirmed no weakening of Apple-platform behavior: all gates are purely additive, Linux fallbacks either match Apple's security properties (CSPRNG-backed entropy) or explicitly degrade to no-op/in-memory rather than masquerading as secure storage
+- [x] Full test suite: 84/84 tests passing across Bitcoin/EVM/Solana/Flow/WalletCore, matching the Milestone 22 baseline exactly — zero regression from platform gating
+
 ## Milestone 22: WalletCore Flow Integration (2026-08-17)
 
 - [x] `WalletCore.enableFlow` default flipped `false` -> `true`, matching Bitcoin/EVM/Solana, now that `FlowModule` has no remaining stubs
