@@ -1,9 +1,0 @@
-FROM ubuntu:24.04
-WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libssl3 libz-dev libsqlite3-0 ca-certificates \
-  && rm -rf /var/lib/apt/lists/*
-COPY AetherAG/.build/release/AetherAGMailServerRun ./AetherAGMailServerRun
-COPY AetherAG/Resources ./Resources
-EXPOSE 8080
-ENTRYPOINT ["./AetherAGMailServerRun", "serve", "--hostname", "0.0.0.0", "--port", "8080"]
