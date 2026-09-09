@@ -1,0 +1,14 @@
+excluded:
+  - "**/.build"
+  - "**/DerivedData"
+  - "flow-swift-macos"
+  - "solana-swift-concurrency"
+  - "solana-swift-patched"
+  - "web3swift-concurrency"
+  - "CastFlow"
+  - "flow-wallet-research"
+  - "flow-testnet-bootstrap"
+
+included:
+  - AGWallet/Sources
+  - AetherAG/Sources
