@@ -18,3 +18,4 @@ AGWallet/Public/KeyManagementBackups/
 AGWallet/Backups/
 AetherShared-phase7-inventory.csv
 .docker-swift-cache/
+**/xcuserdata/
