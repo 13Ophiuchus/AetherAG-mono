@@ -1,12 +1,24 @@
-**/.build
+# Explicit .build exclusions (** glob unreliable in Docker)
+.build
+AetherAG/.build
+AGWallet/.build
+AetherShared/.build
+solana-swift-concurrency/.build
+web3swift-concurrency/.build
+flow-swift-macos/.build
+
+# Derived/git artifacts
 **/DerivedData
 **/.git
+**/*.xcworkspace
+**/*.xcodeproj
+
+# Logs and misc
 *.log
-*.xcworkspace
-*.xcodeproj
+container-build/
 scratch/
 CastFlow/
-flow-swift-macos/
 flow-testnet-bootstrap/
 flow-wallet-research/
 AetherAGMailClientAppShell/
+site/
