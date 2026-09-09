@@ -19,3 +19,4 @@ AGWallet/Backups/
 AetherShared-phase7-inventory.csv
 .docker-swift-cache/
 **/xcuserdata/
+container-build/
