@@ -60,3 +60,18 @@
 - [x] Bumped `.macOS(.v14)` → `.macOS(.v15)` in `Package.swift` to satisfy Swift 6.3 toolchain minimum
 - [x] All downstream `solana-swift-concurrency` fixes landed (P256K API, socket guards, TaskRetryingError)
 - [x] `AGWallet` build clean under Swift 6.3 / arm64-apple-macosx26.0
+
+## Milestone 8: Solana SPL Token Send + Message Signing (planned)
+
+Native SOL transfer signing is implemented (signSolanaTransferPayload,
+KeyManager.swift), but two SolanaModule operations remain unsupportedOperation
+stubs:
+
+- [ ] SolanaModule.swift:55 — implement SPL token send (currently throws
+      "SPL token send not yet implemented")
+- [ ] SolanaModule.swift:140 — implement Solana message signing (currently
+      throws "Solana message signing not yet implemented")
+- [ ] Add KeyManagerActor helper(s) analogous to signSolanaTransferPayload
+      for SPL token instruction signing and raw message signing
+- [ ] Tests covering both paths, matching the Swift Testing style used in
+      WalletCoreReceiveAddressTests / TransferFlowTokenTargetTests
