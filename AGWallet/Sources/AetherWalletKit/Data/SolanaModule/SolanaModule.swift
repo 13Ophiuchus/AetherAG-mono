@@ -137,7 +137,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 
 	func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
 		logger.info("Signing message on Solana: \(message)")
-		throw WalletError.unsupportedOperation("Solana message signing not yet implemented")
+		return try await signMessageInternal(message, chain: chain)
 	}
 
 		// MARK: - Private Helpers

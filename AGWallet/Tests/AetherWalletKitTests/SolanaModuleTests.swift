@@ -82,7 +82,7 @@ struct SolanaModuleTests {
         #expect(mockClient.sendTransactionCallCount == 1)
     }
 
-        @Test("signMessage fails with unsupportedOperation before Solana message signing is implemented")
+    @Test("signMessage fails with keychainError when no master key is stored")
     func testSignMessage() async throws {
         let solanaModule = makeModule()
         let message = "AetherWalletKit test message"
@@ -90,9 +90,9 @@ struct SolanaModuleTests {
 
         do {
             _ = try await solanaModule.signMessage(message, on: chain)
-            Issue.record("Expected unsupportedOperation for Solana message signing")
-        } catch WalletError.unsupportedOperation(let message) {
-            #expect(message.contains("Solana message signing"))
+            Issue.record("Expected keychainError when no master key is stored")
+        } catch WalletError.keychainError(let reason) {
+            #expect(reason.contains("Master key not found"))
         }
     }
 
