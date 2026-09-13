@@ -14,6 +14,7 @@ protocol SolanaRPCClientProtocol {
     func getBalance(account: String, commitment: Commitment?) async throws -> UInt64
     func getSignaturesForAddress(address: String, configs: RequestConfiguration?) async throws -> [SignatureInfo]
     func getTransaction(signature: String, commitment: Commitment?) async throws -> TransactionInfo?
+    func getTokenAccountBalance(pubkey: String, commitment: Commitment?) async throws -> TokenAccountBalance
 }
 
 extension JSONRPCAPIClient: SolanaRPCClientProtocol {}
@@ -36,10 +37,19 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
         let client = try resolvedRPCClient(for: asset.chainConfig)
         let address = try await getAddress(for: asset.chainConfig)
 
-        if asset.contractAddress != nil {
-            throw WalletError.unsupportedOperation(
-                "SPL token balance RPC not yet implemented for address \(address)"
+        if let mintAddress = asset.contractAddress {
+            let owner = try PublicKey(string: address)
+            let mint = try PublicKey(string: mintAddress)
+            let ata = try PublicKey.associatedTokenAddress(
+                walletAddress: owner,
+                tokenMintAddress: mint,
+                tokenProgramId: TokenProgram.id
             )
+            let tokenBalance = try await client.getTokenAccountBalance(
+                pubkey: ata.base58EncodedString,
+                commitment: nil
+            )
+            return tokenBalance.uiAmount ?? 0.0
         } else {
             let lamports = try await client.getBalance(account: address, commitment: nil)
             return Double(lamports) / 1_000_000_000
@@ -51,8 +61,35 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 
         let client = try resolvedRPCClient(for: asset.chainConfig)
 
-        if asset.contractAddress != nil {
-            throw WalletError.unsupportedOperation("SPL token send not yet implemented")
+        if let mintAddress = asset.contractAddress {
+            let senderAddress = try await getAddress(for: asset.chainConfig)
+            let recentBlockhash = try await client.getRecentBlockhash(commitment: nil)
+
+            let signedPayload = try await keyManager.signSPLTransferPayload(
+                mint: mintAddress,
+                from: senderAddress,
+                to: recipientAddress,
+                amount: amount,
+                decimals: asset.decimals,
+                recentBlockhash: recentBlockhash,
+                chain: asset.chainConfig
+            )
+
+            let transactionId = try await client.sendTransaction(
+                transaction: signedPayload.serializedTransactionBase64,
+                configs: RequestConfiguration(encoding: "base64")!
+            )
+            logger.info("Broadcasted SPL transfer with signature \(signedPayload.signature), txid \(transactionId)")
+
+            let unifiedTx = SolanaTransaction(
+                signature: signedPayload.signature,
+                recentBlockhash: recentBlockhash,
+                instructions: [],
+                fee: 0.000005,
+                slot: nil,
+                timestamp: Date()
+            )
+            return .solana(unifiedTx)
         }
 
         let senderAddress = try await getAddress(for: asset.chainConfig)

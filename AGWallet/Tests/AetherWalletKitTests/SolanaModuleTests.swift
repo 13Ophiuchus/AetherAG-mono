@@ -117,6 +117,67 @@ struct SolanaModuleTests {
         #expect(balance == 1.5)
     }
 
+    @Test("getBalance returns SPL token balance via associatedTokenAddress + getTokenAccountBalance")
+    func getBalanceSPLHappyPath() async throws {
+        let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
+        let masterKey = Data(repeating: 0x42, count: 32)
+        let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
+
+        let mockClient = MockSolanaRPCClient(
+            blockhashToReturn: "EETcHmMwaUhi9jSHVdaUyKWDavcYCJZ8SxLXTfRR1qud",
+            transactionIdToReturn: "5VfYmGC1CLK1ynr6oGuBGbmNjZsFHunbP7L1rQpKcz2h"
+        )
+        mockClient.tokenBalanceToReturn = TokenAccountBalance(
+            uiAmount: 42.5, amount: "42500000", decimals: 6, uiAmountString: "42.5"
+        )
+
+        let solanaModule = makeModule(withStoredMasterKey: keyManager, rpcClient: mockClient)
+        let splAsset = CryptoAsset(
+            name: "USD Coin", symbol: "USDC", decimals: 6,
+            contractAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            chainConfig: chain
+        )
+
+        let balance = try await solanaModule.getBalance(for: splAsset)
+
+        #expect(balance == 42.5)
+        #expect(mockClient.getTokenAccountBalanceCallCount == 1)
+    }
+
+    @Test("send broadcasts an SPL token transfer using the injected mock RPC client")
+    func sendSPLTransactionHappyPath() async throws {
+        let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
+        let masterKey = Data(repeating: 0x42, count: 32)
+        let chain = ChainConfig.mockSolanaChain()
+        try await keyManager.storePrivateKey(masterKey, for: "masterKey", requiresBiometrics: false)
+        try await keyManager.storePrivateKey(masterKey, for: chain.chainId, requiresBiometrics: false)
+
+        let mockClient = MockSolanaRPCClient(
+            blockhashToReturn: "EETcHmMwaUhi9jSHVdaUyKWDavcYCJZ8SxLXTfRR1qud",
+            transactionIdToReturn: "5VfYmGC1CLK1ynr6oGuBGbmNjZsFHunbP7L1rQpKcz2h"
+        )
+
+        let solanaModule = makeModule(withStoredMasterKey: keyManager, rpcClient: mockClient)
+        let splAsset = CryptoAsset(
+            name: "USD Coin", symbol: "USDC", decimals: 6,
+            contractAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            chainConfig: chain
+        )
+        let recipient = "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM"
+
+        let result = try await solanaModule.send(amount: 1.5, to: recipient, for: splAsset)
+
+        guard case let .solana(signedTx) = result else {
+            Issue.record("Expected .solana(UnifiedTransaction) case")
+            return
+        }
+        #expect(!signedTx.signature.isEmpty)
+        #expect(mockClient.getRecentBlockhashCallCount == 1)
+        #expect(mockClient.sendTransactionCallCount == 1)
+    }
+
     @Test("getTransactionHistory maps signatures and transaction info into UnifiedTransaction entries")
     func getTransactionHistoryHappyPath() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
@@ -199,6 +260,15 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol {
     var balanceToReturn: UInt64 = 0
     var signaturesToReturn: [SignatureInfo] = []
     var transactionsBySignature: [String: TransactionInfo] = [:]
+    var tokenBalanceToReturn: TokenAccountBalance = TokenAccountBalance(
+        uiAmount: 0, amount: "0", decimals: 6, uiAmountString: "0"
+    )
+    private(set) var getTokenAccountBalanceCallCount = 0
+
+    func getTokenAccountBalance(pubkey: String, commitment: Commitment?) async throws -> TokenAccountBalance {
+        getTokenAccountBalanceCallCount += 1
+        return tokenBalanceToReturn
+    }
 
     private(set) var getRecentBlockhashCallCount = 0
     private(set) var sendTransactionCallCount = 0

@@ -148,6 +148,62 @@ public actor KeyManagerActor {
         return payload.signature
     }
 
+    /// Signs an SPL Token Program transfer, mirroring signSolanaTransferPayload's
+    /// structure for native SOL transfers. Derives sender/recipient associated
+    /// token accounts locally via PublicKey.associatedTokenAddress (no RPC
+    /// round-trip) and builds a SolanaTokenProgram transfer instruction.
+    public func signSPLTransferPayload(
+        mint mintAddress: String,
+        from senderAddress: String,
+        to recipientAddress: String,
+        amount: Double,
+        decimals: Int,
+        recentBlockhash: String,
+        chain: ChainConfig,
+        derivationVersion: KeyDerivationVersion = KeyManagerActor.defaultDerivationVersion
+    ) async throws -> SolanaSignedPayload {
+        try validateSigningIntent(.tokenTransfer, chain: chain)
+        let account = try await solanaAccount(for: chain, intent: .tokenTransfer, derivationVersion: derivationVersion)
+        let feePayer = account.publicKey
+
+        let mint = try PublicKey(string: mintAddress)
+        let sender = try PublicKey(string: senderAddress)
+        let recipient = try PublicKey(string: recipientAddress)
+
+        let senderATA = try PublicKey.associatedTokenAddress(
+            walletAddress: sender, tokenMintAddress: mint, tokenProgramId: TokenProgram.id
+        )
+        let recipientATA = try PublicKey.associatedTokenAddress(
+            walletAddress: recipient, tokenMintAddress: mint, tokenProgramId: TokenProgram.id
+        )
+
+        let rawAmount = UInt64((amount * pow(10.0, Double(decimals))).rounded())
+
+        let transferInstruction = TokenProgram.transferInstruction(
+            source: senderATA,
+            destination: recipientATA,
+            owner: sender,
+            amount: rawAmount
+        )
+
+        var solanaTransaction = Transaction(
+            instructions: [transferInstruction],
+            recentBlockhash: recentBlockhash,
+            feePayer: feePayer
+        )
+        try solanaTransaction.sign(signers: [account])
+
+        guard let signatureData = solanaTransaction.signatures.first?.signature else {
+            throw WalletError.signingFailed("Signed SPL transfer transaction missing signature")
+        }
+        let serializedTransactionBase64 = try solanaTransaction.serialize().bytes.toBase64()
+
+        return SolanaSignedPayload(
+            signature: Base58.encode(signatureData),
+            serializedTransactionBase64: serializedTransactionBase64
+        )
+    }
+
     // Derives the SolanaSwift KeyPair (Ed25519 keypair). Defaults to the legacy
     // raw-master-key derivation to preserve existing addresses; pass
     // derivationVersion: .hkdfV1 to opt a chain/intent into the hardened,
