@@ -20,3 +20,6 @@ AetherShared-phase7-inventory.csv
 .docker-swift-cache/
 **/xcuserdata/
 container-build/
+scripts/discovery/
+scripts/steps/
+scratch/
