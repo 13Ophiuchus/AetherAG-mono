@@ -67,13 +67,13 @@ Native SOL transfer signing is implemented (signSolanaTransferPayload,
 KeyManager.swift), but two SolanaModule operations remain unsupportedOperation
 stubs:
 
-- [ ] SolanaModule.swift:55 — implement SPL token send (currently throws
+- [x] SolanaModule.swift:55 — implement SPL token send (currently throws
       "SPL token send not yet implemented")
 - [x] SolanaModule.swift:140 — implement Solana message signing (2026-09-09:
       wired signMessage(_:on:) to the pre-existing signMessageInternal helper,
       which delegates to KeyManagerActor.signSolanaMessage; was dead code sitting
       next to a live stub, not a missing implementation)
-- [ ] Add KeyManagerActor helper(s) analogous to signSolanaTransferPayload
+- [x] Add KeyManagerActor helper(s) analogous to signSolanaTransferPayload
       for SPL token instruction signing and raw message signing
-- [ ] Tests covering both paths, matching the Swift Testing style used in
+- [x] Tests covering both paths, matching the Swift Testing style used in
       WalletCoreReceiveAddressTests / TransferFlowTokenTargetTests
