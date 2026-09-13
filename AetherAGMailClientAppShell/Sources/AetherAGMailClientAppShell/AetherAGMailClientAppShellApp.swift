@@ -1,5 +1,5 @@
-import SwiftUI
 import AetherAGMailClientApp
+import SwiftUI
 
 @main
 struct AetherAGMailClientAppShellApp: App {
