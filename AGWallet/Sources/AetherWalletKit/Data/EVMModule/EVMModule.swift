@@ -1,196 +1,199 @@
-import Foundation
-import web3swift
-import Web3Core
 import BigInt
+import Foundation
+import Web3Core
+import web3swift
 
 final class EVMModule: ChainModule, @unchecked Sendable {
-	private let keyManager: KeyManagerActor
-	private let logger = Logger(label: "AetherWalletKit.EVMModule")
+    private let keyManager: KeyManagerActor
+    private let logger = Logger(label: "AetherWalletKit.EVMModule")
 
-	init(keyManager: KeyManagerActor) {
-		self.keyManager = keyManager
-	}
+    init(keyManager: KeyManagerActor) {
+        self.keyManager = keyManager
+    }
 
-	func getBalance(for asset: CryptoAsset) async throws -> Double {
-		logger.info("Getting EVM balance for \(asset.symbol)")
-		let web3 = try await getWeb3(for: asset.chainConfig)
-		let address = try await getEthereumAddress(for: asset.chainConfig)
+    func getBalance(for asset: CryptoAsset) async throws -> Double {
+        logger.info("Getting EVM balance for \(asset.symbol)")
+        let web3 = try await getWeb3(for: asset.chainConfig)
+        let address = try await getEthereumAddress(for: asset.chainConfig)
 
-		if let contractAddressString = asset.contractAddress {
-				// ERC‑20 token balance
-			guard let contractAddress = EthereumAddress(contractAddressString) else {
-				throw WalletError.chainConfigurationError("Invalid contract address")
-			}
-			guard let contract = web3.contract(ERC20ABI, at: contractAddress) else {
-				throw WalletError.chainConfigurationError("Failed to load ERC20 contract")
-			}
-			guard let readOp = contract.createReadOperation(
-				"balanceOf",
-				parameters: [address.address]
-			) else {
-				throw WalletError.chainConfigurationError("Failed to create read operation")
-			}
+        if let contractAddressString = asset.contractAddress {
+            // ERC‑20 token balance
+            guard let contractAddress = EthereumAddress(contractAddressString) else {
+                throw WalletError.chainConfigurationError("Invalid contract address")
+            }
+            guard let contract = web3.contract(ERC20ABI, at: contractAddress) else {
+                throw WalletError.chainConfigurationError("Failed to load ERC20 contract")
+            }
+            guard let readOp = contract.createReadOperation(
+                "balanceOf",
+                parameters: [address.address]
+            ) else {
+                throw WalletError.chainConfigurationError("Failed to create read operation")
+            }
 
-			let result = try await readOp.callContractMethod()
-			guard let balanceBigInt = result["0"] as? BigUInt else {
-				throw WalletError.chainConfigurationError("Failed to decode balance")
-			}
+            let result = try await readOp.callContractMethod()
+            guard let balanceBigInt = result["0"] as? BigUInt else {
+                throw WalletError.chainConfigurationError("Failed to decode balance")
+            }
 
-			return Double(balanceBigInt) / pow(10, Double(asset.decimals))
-		} else {
-				// Native chain token balance (ETH, MATIC, etc.)
-			let balance = try await web3.eth.getBalance(for: address, onBlock: .latest)
-			return Double(balance) / pow(10, 18)
-		}
-	}
+            return Double(balanceBigInt) / pow(10, Double(asset.decimals))
+        } else {
+            // Native chain token balance (ETH, MATIC, etc.)
+            let balance = try await web3.eth.getBalance(for: address, onBlock: .latest)
+            return Double(balance) / pow(10, 18)
+        }
+    }
 
-	func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
-		logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
+    func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
+        logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
 
-		let web3 = try await getWeb3(for: asset.chainConfig)
-		let fromAddress = try await getEthereumAddress(for: asset.chainConfig)
+        let web3 = try await getWeb3(for: asset.chainConfig)
+        let fromAddress = try await getEthereumAddress(for: asset.chainConfig)
 
-		guard let toAddress = EthereumAddress(recipientAddress) else {
-			throw WalletError.chainConfigurationError("Invalid recipient address")
-		}
+        guard let toAddress = EthereumAddress(recipientAddress) else {
+            throw WalletError.chainConfigurationError("Invalid recipient address")
+        }
 
-		let privateKeyData = try await getPrivateKeyData(for: asset.chainConfig)
+        let privateKeyData = try await getPrivateKeyData(for: asset.chainConfig)
 
-		var transaction: CodableTransaction
+        var transaction: CodableTransaction
 
-		if let contractAddressString = asset.contractAddress {
-				// ERC‑20 token transfer
-			guard let contractAddress = EthereumAddress(contractAddressString) else {
-				throw WalletError.chainConfigurationError("Invalid contract address")
-			}
-			guard let contract = web3.contract(ERC20ABI, at: contractAddress) else {
-				throw WalletError.chainConfigurationError("Failed to load ERC20 contract")
-			}
+        if let contractAddressString = asset.contractAddress {
+            // ERC‑20 token transfer
+            guard let contractAddress = EthereumAddress(contractAddressString) else {
+                throw WalletError.chainConfigurationError("Invalid contract address")
+            }
+            guard let contract = web3.contract(ERC20ABI, at: contractAddress) else {
+                throw WalletError.chainConfigurationError("Failed to load ERC20 contract")
+            }
 
-			let amountBigInt = BigUInt(amount * pow(10, Double(asset.decimals)))
+            let amountBigInt = BigUInt(amount * pow(10, Double(asset.decimals)))
 
-			guard let writeOp = contract.createWriteOperation(
-				"transfer",
-				parameters: [toAddress.address, amountBigInt]
-			) else {
-				throw WalletError.chainConfigurationError("Failed to create write operation")
-			}
+            guard let writeOp = contract.createWriteOperation(
+                "transfer",
+                parameters: [toAddress.address, amountBigInt]
+            ) else {
+                throw WalletError.chainConfigurationError("Failed to create write operation")
+            }
 
-			transaction = writeOp.transaction
-		} else {
-				// Native token transfer
-			let amountInWei = BigUInt(amount * pow(10, 18))
-			transaction = CodableTransaction(to: toAddress, value: amountInWei)
-		}
+            transaction = writeOp.transaction
+        } else {
+            // Native token transfer
+            let amountInWei = BigUInt(amount * pow(10, 18))
+            transaction = CodableTransaction(to: toAddress, value: amountInWei)
+        }
 
-		transaction.from = fromAddress
+        transaction.from = fromAddress
 
-		if let chainIdInt = Int(asset.chainConfig.chainId) {
-			transaction.chainID = BigUInt(chainIdInt)
-		} else {
-			throw WalletError.chainConfigurationError(
-				"Invalid numeric chainId '\(asset.chainConfig.chainId)'"
-			)
-		}
+        if let chainIdInt = Int(asset.chainConfig.chainId) {
+            transaction.chainID = BigUInt(chainIdInt)
+        } else {
+            throw WalletError.chainConfigurationError(
+                "Invalid numeric chainId '\(asset.chainConfig.chainId)'"
+            )
+        }
 
-		let resolvedNonce = try await web3.eth.getTransactionCount(for: fromAddress, onBlock: .pending)
-		transaction.nonce = resolvedNonce
+        let resolvedNonce = try await web3.eth.getTransactionCount(for: fromAddress, onBlock: .pending)
+        transaction.nonce = resolvedNonce
 
-		let resolvedGasPrice = try await web3.eth.gasPrice()
-		transaction.gasPrice = resolvedGasPrice
+        let resolvedGasPrice = try await web3.eth.gasPrice()
+        transaction.gasPrice = resolvedGasPrice
 
-		let resolvedGasLimit = try await web3.eth.estimateGas(for: transaction)
-		transaction.gasLimit = resolvedGasLimit
+        let resolvedGasLimit = try await web3.eth.estimateGas(for: transaction)
+        transaction.gasLimit = resolvedGasLimit
 
-		try transaction.sign(privateKey: privateKeyData)
+        try transaction.sign(privateKey: privateKeyData)
 
-		guard let encodedTx = transaction.encode(for: .transaction) else {
-			throw WalletError.chainConfigurationError("Failed to encode signed transaction")
-		}
+        guard let encodedTx = transaction.encode(for: .transaction) else {
+            throw WalletError.chainConfigurationError("Failed to encode signed transaction")
+        }
 
-		let result = try await web3.eth.send(raw: encodedTx)
+        let result = try await web3.eth.send(raw: encodedTx)
 
-		logger.info("Successfully broadcasted EVM transaction with hash: \(result.hash)")
+        logger.info("Successfully broadcasted EVM transaction with hash: \(result.hash)")
 
-		let unifiedTx = EVMTransaction(
-			hash: result.hash,
-			from: fromAddress.address,
-			to: toAddress.address,
-			value: String(amount),
-			gasPrice: String(resolvedGasPrice),
-			gasLimit: String(resolvedGasLimit),
-			nonce: Int(resolvedNonce),
-			chainId: Int(asset.chainConfig.chainId) ?? 0,
-			blockNumber: nil,
-			timestamp: Date()
-		)
+        let unifiedTx = EVMTransaction(
+            hash: result.hash,
+            from: fromAddress.address,
+            to: toAddress.address,
+            value: String(amount),
+            gasPrice: String(resolvedGasPrice),
+            gasLimit: String(resolvedGasLimit),
+            nonce: Int(resolvedNonce),
+            chainId: Int(asset.chainConfig.chainId) ?? 0,
+            blockNumber: nil,
+            timestamp: Date()
+        )
 
-		return .evm(unifiedTx)
-	}
+        return .evm(unifiedTx)
+    }
 
-	func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
-		logger.info("Getting EVM transaction history for \(chain.name)")
-			// This would typically involve a service like Etherscan or a full‑node query.
-		logger.warning("Using mocked transaction history for EVM.")
-		return []
-	}
+    func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
+        logger.info("Getting EVM transaction history for \(chain.name)")
+        // This would typically involve a service like Etherscan or a full‑node query.
+        logger.warning("Using mocked transaction history for EVM.")
+        return []
+    }
 
-	func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
-		logger.info("Signing message on EVM: \(message)")
+    func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
+        logger.info("Signing message on EVM: \(message)")
 
-		let privateKeyData = try await getPrivateKeyData(for: chain)
+        let privateKeyData = try await getPrivateKeyData(for: chain)
 
-		guard let messageData = message.data(using: .utf8),
-			  let hash = Utilities.hashPersonalMessage(messageData) else {
-			throw WalletError.chainConfigurationError("Failed to hash message")
-		}
+        guard let messageData = message.data(using: .utf8),
+              let hash = Utilities.hashPersonalMessage(messageData)
+        else {
+            throw WalletError.chainConfigurationError("Failed to hash message")
+        }
 
-		let (signature, _) = SECP256K1.signForRecovery(hash: hash, privateKey: privateKeyData)
+        let (signature, _) = SECP256K1.signForRecovery(hash: hash, privateKey: privateKeyData)
 
-		guard let signature else {
-			throw WalletError.chainConfigurationError("Failed to sign message")
-		}
+        guard let signature else {
+            throw WalletError.chainConfigurationError("Failed to sign message")
+        }
 
-		return signature.toHexString()
-	}
+        return signature.toHexString()
+    }
 
-		// MARK: - Private Helpers
+    // MARK: - Private Helpers
 
-	private func getWeb3(for chain: ChainConfig) async throws -> Web3 {
-		guard let rpcURL = chain.primaryEndpoint(for: .rpc) else {
-			throw WalletError.chainConfigurationError(
-				"No RPC endpoint found for \(chain.name) [\(chain.activeNetwork.rawValue)]"
-			)
-		}
+    private func getWeb3(for chain: ChainConfig) async throws -> Web3 {
+        guard let rpcURL = chain.primaryEndpoint(for: .rpc) else {
+            throw WalletError.chainConfigurationError(
+                "No RPC endpoint found for \(chain.name) [\(chain.activeNetwork.rawValue)]"
+            )
+        }
 
-			// web3swift 3.x async factory
-		return try await Web3.new(rpcURL)
-	}
+        // web3swift 3.x async factory
+        return try await Web3.new(rpcURL)
+    }
 
-	private func getEthereumAddress(for chain: ChainConfig) async throws -> EthereumAddress {
-		let privateKeyData = try await getPrivateKeyData(for: chain)
+    private func getEthereumAddress(for chain: ChainConfig) async throws -> EthereumAddress {
+        let privateKeyData = try await getPrivateKeyData(for: chain)
 
-		guard let publicKey = Utilities.privateToPublic(privateKeyData),
-			  let address = Utilities.publicToAddress(publicKey) else {
-			throw WalletError.chainConfigurationError("Failed to derive address from private key")
-		}
+        guard let publicKey = Utilities.privateToPublic(privateKeyData),
+              let address = Utilities.publicToAddress(publicKey)
+        else {
+            throw WalletError.chainConfigurationError("Failed to derive address from private key")
+        }
 
-		return address
-	}
+        return address
+    }
 
-	private func getPrivateKeyData(for chain: ChainConfig) async throws -> Data {
-		guard let keyData = try await keyManager.retrievePrivateKey(for: chain.chainId) else {
-			throw WalletError.keychainError("Private key not found for \(chain.name)")
-		}
-		return keyData
-	}
-	func getReceiveAddress(for chain: ChainConfig) async throws -> String {
-		let address = try await getEthereumAddress(for: chain)
-		return address.address
-	}
+    private func getPrivateKeyData(for chain: ChainConfig) async throws -> Data {
+        guard let keyData = try await keyManager.retrievePrivateKey(for: chain.chainId) else {
+            throw WalletError.keychainError("Private key not found for \(chain.name)")
+        }
+        return keyData
+    }
+
+    func getReceiveAddress(for chain: ChainConfig) async throws -> String {
+        let address = try await getEthereumAddress(for: chain)
+        return address.address
+    }
 }
 
-	// A minimal ERC20 ABI for balance and transfer
+// A minimal ERC20 ABI for balance and transfer
 let ERC20ABI = """
 [
 	{

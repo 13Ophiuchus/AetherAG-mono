@@ -1,12 +1,10 @@
+@testable import AetherWalletKit
 import Foundation
 import SolanaSwift
-import Foundation
 import Testing
-@testable import AetherWalletKit
 
 @Suite("SolanaModule")
 struct SolanaModuleTests {
-
     private func makeModule() -> SolanaModule {
         SolanaModule(keyManager: KeyManagerActor())
     }
@@ -26,7 +24,7 @@ struct SolanaModuleTests {
         do {
             _ = try await solanaModule.getBalance(for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for Solana getBalance")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Master key not found")
         }
     }
@@ -41,13 +39,13 @@ struct SolanaModuleTests {
         do {
             _ = try await solanaModule.send(amount: amount, to: recipient, for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for native SOL send")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Master key not found")
         }
     }
 
-@Test("send broadcasts a real native SOL transfer using the injected mock RPC client")
-    func testSendTransactionHappyPath() async throws {
+    @Test("send broadcasts a real native SOL transfer using the injected mock RPC client")
+    func sendTransactionHappyPath() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
         let chain = ChainConfig.mockSolanaChain()
@@ -91,13 +89,13 @@ struct SolanaModuleTests {
         do {
             _ = try await solanaModule.signMessage(message, on: chain)
             Issue.record("Expected keychainError when no master key is stored")
-        } catch WalletError.keychainError(let reason) {
+        } catch let WalletError.keychainError(reason) {
             #expect(reason.contains("Master key not found"))
         }
     }
 
     @Test("getBalance returns native SOL balance converted from lamports using the injected mock RPC client")
-    func testGetBalanceHappyPath() async throws {
+    func getBalanceHappyPath() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
         let chain = ChainConfig.mockSolanaChain()
@@ -120,7 +118,7 @@ struct SolanaModuleTests {
     }
 
     @Test("getTransactionHistory maps signatures and transaction info into UnifiedTransaction entries")
-    func testGetTransactionHistoryHappyPath() async throws {
+    func getTransactionHistoryHappyPath() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let masterKey = Data(repeating: 0x42, count: 32)
         let chain = ChainConfig.mockSolanaChain()
@@ -135,7 +133,7 @@ struct SolanaModuleTests {
 
         let signature = "5VfYmGC1CLK1ynr6oGuBGbmNjZsFHunbP7L1rQpKcz2h"
         mockClient.signaturesToReturn = [
-            SignatureInfo(signature: signature)
+            SignatureInfo(signature: signature),
         ]
 
         let transactionJSON = """
@@ -211,27 +209,26 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol {
         self.transactionIdToReturn = transactionIdToReturn
     }
 
-    func getRecentBlockhash(commitment: Commitment?) async throws -> String {
+    func getRecentBlockhash(commitment _: Commitment?) async throws -> String {
         getRecentBlockhashCallCount += 1
         return blockhashToReturn
     }
 
-    func getBalance(account: String, commitment: Commitment?) async throws -> UInt64 {
+    func getBalance(account _: String, commitment _: Commitment?) async throws -> UInt64 {
         balanceToReturn
     }
 
-    func getSignaturesForAddress(address: String, configs: RequestConfiguration?) async throws -> [SignatureInfo] {
+    func getSignaturesForAddress(address _: String, configs _: RequestConfiguration?) async throws -> [SignatureInfo] {
         signaturesToReturn
     }
 
-    func getTransaction(signature: String, commitment: Commitment?) async throws -> TransactionInfo? {
+    func getTransaction(signature: String, commitment _: Commitment?) async throws -> TransactionInfo? {
         transactionsBySignature[signature]
     }
 
-    func sendTransaction(transaction: String, configs: RequestConfiguration) async throws -> String {
+    func sendTransaction(transaction: String, configs _: RequestConfiguration) async throws -> String {
         sendTransactionCallCount += 1
         lastSentTransactionBase64 = transaction
         return transactionIdToReturn
     }
 }
-

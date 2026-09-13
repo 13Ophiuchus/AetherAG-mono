@@ -1,5 +1,5 @@
-import Foundation
 import AetherSharedIdentity
+import Foundation
 
 public protocol DIDDocumentMaking: Sendable {
     func makeDIDDocument(

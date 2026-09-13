@@ -22,7 +22,7 @@ enum Bech32Encoding {
     fileprivate var checksumConstant: UInt32 {
         switch self {
         case .bech32: return 1
-        case .bech32m: return 0x2bc8_30a3
+        case .bech32m: return 0x2BC8_30A3
         }
     }
 }
@@ -86,7 +86,7 @@ enum Bech32 {
         let lowered = input.lowercased()
         guard let separatorIndex = lowered.lastIndex(of: "1") else { throw Bech32Error.invalidCharacter }
 
-        let hrp = String(lowered[lowered.startIndex..<separatorIndex])
+        let hrp = String(lowered[lowered.startIndex ..< separatorIndex])
         let dataPart = String(lowered[lowered.index(after: separatorIndex)...])
 
         guard !hrp.isEmpty, dataPart.count >= 6 else { throw Bech32Error.invalidLength }
@@ -124,7 +124,7 @@ enum Bech32 {
     ///     P2WSH or P2TR.
     static func encodeSegwitAddress(hrp: String, witnessVersion: UInt8, program: [UInt8]) throws -> String {
         guard witnessVersion <= 16 else { throw Bech32Error.invalidWitnessVersion }
-        guard (2...40).contains(program.count) else { throw Bech32Error.invalidWitnessProgramLength }
+        guard (2 ... 40).contains(program.count) else { throw Bech32Error.invalidWitnessProgramLength }
         // BIP173 §"Segwit address format": v0 must be 20 or 32 bytes exactly.
         if witnessVersion == 0 {
             guard program.count == 20 || program.count == 32 else {
@@ -155,7 +155,7 @@ enum Bech32 {
         guard let program = convertBits(Array(words.dropFirst()), fromBits: 5, toBits: 8, pad: false) else {
             throw Bech32Error.dataConversionFailed
         }
-        guard (2...40).contains(program.count) else { throw Bech32Error.invalidWitnessProgramLength }
+        guard (2 ... 40).contains(program.count) else { throw Bech32Error.invalidWitnessProgramLength }
         if witnessVersion == 0 {
             guard program.count == 20 || program.count == 32 else {
                 throw Bech32Error.invalidWitnessProgramLength
@@ -167,12 +167,12 @@ enum Bech32 {
     // MARK: - Internal checksum machinery (BIP173 / BIP350 reference implementation)
 
     private static func polymod(_ values: [UInt8]) -> UInt32 {
-        let generator: [UInt32] = [0x3b6a_57b2, 0x2650_8e6d, 0x1ea1_19fa, 0x3d42_33dd, 0x2a14_62b3]
+        let generator: [UInt32] = [0x3B6A_57B2, 0x2650_8E6D, 0x1EA1_19FA, 0x3D42_33DD, 0x2A14_62B3]
         var chk: UInt32 = 1
         for value in values {
             let top = chk >> 25
-            chk = (chk & 0x1ff_ffff) << 5 ^ UInt32(value)
-            for i in 0..<5 {
+            chk = (chk & 0x1FFFFFF) << 5 ^ UInt32(value)
+            for i in 0 ..< 5 {
                 if (top >> UInt32(i)) & 1 == 1 {
                     chk ^= generator[i]
                 }
@@ -193,7 +193,7 @@ enum Bech32 {
         let values = hrpExpand(hrp) + words + [0, 0, 0, 0, 0, 0]
         let polymodResult = polymod(values) ^ encoding.checksumConstant
         var checksum: [UInt8] = []
-        for i in 0..<6 {
+        for i in 0 ..< 6 {
             checksum.append(UInt8((polymodResult >> (5 * (5 - i))) & 31))
         }
         return checksum
@@ -207,8 +207,8 @@ enum Bech32 {
     /// Converts a byte array between arbitrary bit-widths (8-bit bytes <-> 5-bit
     /// Bech32 words), per BIP173's `convertbits` reference algorithm.
     private static func convertBits(_ data: [UInt8], fromBits: Int, toBits: Int, pad: Bool) -> [UInt8]? {
-        var acc: Int = 0
-        var bits: Int = 0
+        var acc = 0
+        var bits = 0
         var result: [UInt8] = []
         let maxValue = (1 << toBits) - 1
         let maxAcc = (1 << (fromBits + toBits - 1)) - 1

@@ -1,17 +1,15 @@
-import Foundation
+@testable import AetherWalletKit
 import Foundation
 import Testing
-@testable import AetherWalletKit
 
 @Suite("FlowModule")
 struct FlowModuleTests {
-
     private func makeModule() -> FlowModule {
         FlowModule(keyManager: KeyManagerActor())
     }
 
     @Test("send fails with keychainError when no Flow address is stored")
-    func testSendTransaction() async throws {
+    func sendTransaction() async throws {
         let flowModule = makeModule()
         let asset = CryptoAsset.mockFlow()
         let amount = 10.0
@@ -27,7 +25,7 @@ struct FlowModuleTests {
     }
 
     @Test("signMessage fails with keychainError when no master key is stored")
-    func testSignMessageNoKey() async throws {
+    func signMessageNoKey() async throws {
         let flowModule = makeModule()
         let message = "AetherWalletKit test message"
         let chain = ChainConfig.mockFlowChain()
@@ -41,7 +39,7 @@ struct FlowModuleTests {
     }
 
     @Test("signFlowMessage produces valid non-empty signatures (ECDSA_P256 is non-deterministic by design)")
-    func testSignFlowMessageDeterministic() async throws {
+    func signFlowMessageDeterministic() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let keyIdentifier = "masterKey-flowTest-\(UUID().uuidString)"
         let mnemonic = try await keyManager.generateMnemonic()
@@ -70,7 +68,7 @@ struct FlowModuleTests {
     }
 
     @Test("getBalance fails with keychainError when no Flow address is stored")
-    func testGetBalanceNoAddress() async throws {
+    func getBalanceNoAddress() async throws {
         let flowModule = makeModule()
         let asset = CryptoAsset.mockFlow()
 

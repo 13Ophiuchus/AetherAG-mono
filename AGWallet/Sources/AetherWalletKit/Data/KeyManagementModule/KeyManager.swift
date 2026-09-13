@@ -1,19 +1,21 @@
 import Foundation
 import P256K
 #if canImport(CryptoKit)
-import CryptoKit
-private typealias AetherSHA256 = CryptoKit.SHA256
+    import CryptoKit
+
+    private typealias AetherSHA256 = CryptoKit.SHA256
 #else
-import Crypto
-private typealias AetherSHA256 = Crypto.SHA256
+    import Crypto
+
+    private typealias AetherSHA256 = Crypto.SHA256
 #endif
 #if canImport(LocalAuthentication)
-import LocalAuthentication
+    import LocalAuthentication
 #endif
 import SolanaSwift
 import TweetNacl
-import web3swift
 import Web3Core
+import web3swift
 
 // MARK: - KeyManagerActor
 
@@ -60,14 +62,14 @@ public actor KeyManagerActor {
     public static let defaultDerivationVersion: KeyDerivationVersion = .legacy
 
     #if canImport(Security) && canImport(LocalAuthentication)
-    public init(storageProvider: KeyStorageProviding = KeychainKeyStorageProvider()) {
-        self.storageProvider = storageProvider
-    }
-#else
-    public init(storageProvider: KeyStorageProviding) {
-        self.storageProvider = storageProvider
-    }
-#endif
+        public init(storageProvider: KeyStorageProviding = KeychainKeyStorageProvider()) {
+            self.storageProvider = storageProvider
+        }
+    #else
+        public init(storageProvider: KeyStorageProviding) {
+            self.storageProvider = storageProvider
+        }
+    #endif
 
     // MARK: - Chain helpers
 
@@ -242,7 +244,7 @@ public actor KeyManagerActor {
         var index = normalized.startIndex
         while index < normalized.endIndex {
             let next = normalized.index(index, offsetBy: 2)
-            let pair = normalized[index..<next]
+            let pair = normalized[index ..< next]
             guard let byte = UInt8(pair, radix: 16) else {
                 throw WalletError.signingFailed("Solana instruction data contains non-hex characters")
             }
@@ -288,14 +290,14 @@ public actor KeyManagerActor {
         let changeScript = try BitcoinScript.p2pkhScript(forAddress: draft.changeAddress)
 
         var outputs: [BitcoinTxOutput] = [
-            BitcoinTxOutput(valueSatoshis: draft.amountInSatoshis, scriptPubKey: toScript)
+            BitcoinTxOutput(valueSatoshis: draft.amountInSatoshis, scriptPubKey: toScript),
         ]
         if draft.changeSatoshis > 0 {
             outputs.append(BitcoinTxOutput(valueSatoshis: draft.changeSatoshis, scriptPubKey: changeScript))
         }
 
         let unsignedInputs = draft.utxos.map {
-            BitcoinTxInput(txid: $0.txid, vout: $0.vout, scriptSig: Data(), sequence: 0xFFFFFFFF)
+            BitcoinTxInput(txid: $0.txid, vout: $0.vout, scriptSig: Data(), sequence: 0xFFFF_FFFF)
         }
 
         var signedInputs: [BitcoinTxInput] = []
@@ -320,7 +322,7 @@ public actor KeyManagerActor {
             let derSignature = try BitcoinScript.derEncode(signature: rawSignature) + Data([0x01]) // SIGHASH_ALL
             let scriptSig = BitcoinScript.pushData(derSignature) + BitcoinScript.pushData(publicKey)
             signedInputs.append(
-                BitcoinTxInput(txid: utxo.txid, vout: utxo.vout, scriptSig: scriptSig, sequence: 0xFFFFFFFF)
+                BitcoinTxInput(txid: utxo.txid, vout: utxo.vout, scriptSig: scriptSig, sequence: 0xFFFF_FFFF)
             )
         }
 
@@ -331,7 +333,7 @@ public actor KeyManagerActor {
     // Signs a Bitcoin message for the given chain configuration.
     // This implementation is deliberately conservative; it should be refined
     // once secp256k1 signing and message encoding strategy are finalized.
-    public func signBitcoinMessage(_ message: String, chain: ChainConfig) async throws -> String {
+    public func signBitcoinMessage(_ message: String, chain _: ChainConfig) async throws -> String {
         guard let rawMasterKey = try retrievePrivateKey(for: "masterKey") else {
             throw WalletError.keychainError("Master key not found")
         }
@@ -372,7 +374,7 @@ public actor KeyManagerActor {
         0
     }
 
-    public func signFlowMessage(_ message: String, chain: ChainConfig, keyIdentifier: String = "masterKey") async throws -> String {
+    public func signFlowMessage(_ message: String, chain _: ChainConfig, keyIdentifier: String = "masterKey") async throws -> String {
         guard let rawMasterKey = try retrievePrivateKey(for: keyIdentifier) else {
             throw WalletError.keychainError("Master key not found")
         }
@@ -398,7 +400,7 @@ public actor KeyManagerActor {
         }
         let sha256Hash = Data(AetherSHA256.hash(data: publicKey))
         let hash160 = try RIPEMD160.hash(message: sha256Hash)
-        let versionByte: UInt8 = chain.activeNetwork == .testnet ? 0x6f : 0x00
+        let versionByte: UInt8 = chain.activeNetwork == .testnet ? 0x6F : 0x00
         var payload = Data([versionByte]) + hash160
         let checksum = Data(AetherSHA256.hash(data: Data(AetherSHA256.hash(data: payload)))).prefix(4)
         payload += checksum
@@ -523,12 +525,12 @@ public actor KeyManagerActor {
     public func derivePrivateKey(masterKey: Data, path: String) throws -> Data {
         let derivationPath = try DerivationPath(path)
         var currentKey = masterKey
-        
+
         for index in derivationPath.indexes {
             let hmac = HMAC<SHA512>.authenticationCode(for: currentKey, using: SymmetricKey(data: index.data))
             currentKey = Data(hmac)
         }
-        
+
         return currentKey
     }
 
@@ -548,7 +550,7 @@ public actor KeyManagerActor {
         guard let privateKey = try retrievePrivateKey(for: identifier) else {
             throw WalletError.keychainError("Private key not found")
         }
-        
+
         let signingKey = try P256.Signing.PrivateKey(rawRepresentation: privateKey)
         return try signingKey.signature(for: data).rawRepresentation
     }
@@ -557,138 +559,138 @@ public actor KeyManagerActor {
 // MARK: - SecureEnclaveManager
 
 #if canImport(LocalAuthentication)
-final class KeyManagerSecureEnclaveStore {
-    var isAvailable: Bool {
-        // Secure Enclave availability check: requires biometry/device support.
-        // SecKeyIsAlgorithmSupported needs an actual SecKey instance to query,
-        // so we use LAContext to check hardware capability instead.
-        var error: NSError?
-        let context = LAContext()
-        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-    }
+    final class KeyManagerSecureEnclaveStore {
+        var isAvailable: Bool {
+            // Secure Enclave availability check: requires biometry/device support.
+            // SecKeyIsAlgorithmSupported needs an actual SecKey instance to query,
+            // so we use LAContext to check hardware capability instead.
+            var error: NSError?
+            let context = LAContext()
+            return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        }
 
-    func storeKey(_ key: Data, with identifier: String) throws {
-        let attributes: [String: Any] = [
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecAttrKeySizeInBits as String: 256,
-            kSecAttrTokenID as String: kSecAttrTokenIDSecureEnclave,
-            kSecPrivateKeyAttrs as String: [
-                kSecAttrIsPermanent as String: true,
-                kSecAttrApplicationTag as String: identifier.data(using: .utf8)!,
-                kSecAttrAccessControl as String: createAccessControl()
+        func storeKey(_ key: Data, with identifier: String) throws {
+            let attributes: [String: Any] = [
+                kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+                kSecAttrKeySizeInBits as String: 256,
+                kSecAttrTokenID as String: kSecAttrTokenIDSecureEnclave,
+                kSecPrivateKeyAttrs as String: [
+                    kSecAttrIsPermanent as String: true,
+                    kSecAttrApplicationTag as String: identifier.data(using: .utf8)!,
+                    kSecAttrAccessControl as String: createAccessControl(),
+                ],
             ]
-        ]
-        
-		var error: Unmanaged<CFError>?
-		guard SecKeyCreateWithData(key as CFData, attributes as CFDictionary, &error) != nil else {
-			throw WalletError.secureEnclaveError(error.debugDescription)
-		}
-    }
 
-    func retrieveKey(with identifier: String) throws -> Data? {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassKey,
-            kSecAttrApplicationTag as String: identifier.data(using: .utf8)!,
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecReturnData as String: true
-        ]
-        
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
-        
-        guard status == errSecSuccess else {
-            throw WalletError.secureEnclaveError("Failed to retrieve key: \(status)")
+            var error: Unmanaged<CFError>?
+            guard SecKeyCreateWithData(key as CFData, attributes as CFDictionary, &error) != nil else {
+                throw WalletError.secureEnclaveError(error.debugDescription)
+            }
         }
-        
-        return item as? Data
-    }
 
-    func keyExists(with identifier: String) -> Bool {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassKey,
-            kSecAttrApplicationTag as String: identifier.data(using: .utf8)!,
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom
-        ]
-        
-        return SecItemCopyMatching(query as CFDictionary, nil) == errSecSuccess
-    }
+        func retrieveKey(with identifier: String) throws -> Data? {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassKey,
+                kSecAttrApplicationTag as String: identifier.data(using: .utf8)!,
+                kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+                kSecReturnData as String: true,
+            ]
 
-    func deleteKey(with identifier: String) throws {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassKey,
-            kSecAttrApplicationTag as String: identifier.data(using: .utf8)!
-        ]
-        
-        let status = SecItemDelete(query as CFDictionary)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            throw WalletError.secureEnclaveError("Failed to delete key: \(status)")
+            var item: CFTypeRef?
+            let status = SecItemCopyMatching(query as CFDictionary, &item)
+
+            guard status == errSecSuccess else {
+                throw WalletError.secureEnclaveError("Failed to retrieve key: \(status)")
+            }
+
+            return item as? Data
+        }
+
+        func keyExists(with identifier: String) -> Bool {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassKey,
+                kSecAttrApplicationTag as String: identifier.data(using: .utf8)!,
+                kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            ]
+
+            return SecItemCopyMatching(query as CFDictionary, nil) == errSecSuccess
+        }
+
+        func deleteKey(with identifier: String) throws {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassKey,
+                kSecAttrApplicationTag as String: identifier.data(using: .utf8)!,
+            ]
+
+            let status = SecItemDelete(query as CFDictionary)
+            guard status == errSecSuccess || status == errSecItemNotFound else {
+                throw WalletError.secureEnclaveError("Failed to delete key: \(status)")
+            }
+        }
+
+        private func createAccessControl() -> SecAccessControl {
+            return SecAccessControlCreateWithFlags(
+                kCFAllocatorDefault,
+                kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                .privateKeyUsage,
+                nil
+            )!
         }
     }
-
-    private func createAccessControl() -> SecAccessControl {
-        return SecAccessControlCreateWithFlags(
-            kCFAllocatorDefault,
-            kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-            .privateKeyUsage,
-            nil
-        )!
-    }
-}
 #endif
 
 // MARK: - KeychainManager
 
 #if canImport(Security)
-final class KeyManagerKeychainStore {
-    func store(_ data: Data, with identifier: String, accessControl: SecAccessControl? = nil) throws {
-        var query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: identifier,
-            kSecValueData as String: data
-        ]
-        
-        if let accessControl = accessControl {
-            query[kSecAttrAccessControl as String] = accessControl
-        }
-        
-        SecItemDelete(query as CFDictionary)
-        
-        let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else {
-            throw WalletError.keychainError("Failed to store item: \(status)")
-        }
-    }
+    final class KeyManagerKeychainStore {
+        func store(_ data: Data, with identifier: String, accessControl: SecAccessControl? = nil) throws {
+            var query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: identifier,
+                kSecValueData as String: data,
+            ]
 
-    func retrieve(with identifier: String) throws -> Data? {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: identifier,
-            kSecReturnData as String: kCFBooleanTrue!,
-            kSecMatchLimit as String: kSecMatchLimitOne
-        ]
-        
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
-        
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            throw WalletError.keychainError("Failed to retrieve item: \(status)")
-        }
-        
-        return item as? Data
-    }
+            if let accessControl = accessControl {
+                query[kSecAttrAccessControl as String] = accessControl
+            }
 
-    func delete(with identifier: String) throws {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: identifier
-        ]
-        
-        let status = SecItemDelete(query as CFDictionary)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            throw WalletError.keychainError("Failed to delete item: \(status)")
+            SecItemDelete(query as CFDictionary)
+
+            let status = SecItemAdd(query as CFDictionary, nil)
+            guard status == errSecSuccess else {
+                throw WalletError.keychainError("Failed to store item: \(status)")
+            }
+        }
+
+        func retrieve(with identifier: String) throws -> Data? {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: identifier,
+                kSecReturnData as String: kCFBooleanTrue!,
+                kSecMatchLimit as String: kSecMatchLimitOne,
+            ]
+
+            var item: CFTypeRef?
+            let status = SecItemCopyMatching(query as CFDictionary, &item)
+
+            guard status == errSecSuccess || status == errSecItemNotFound else {
+                throw WalletError.keychainError("Failed to retrieve item: \(status)")
+            }
+
+            return item as? Data
+        }
+
+        func delete(with identifier: String) throws {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: identifier,
+            ]
+
+            let status = SecItemDelete(query as CFDictionary)
+            guard status == errSecSuccess || status == errSecItemNotFound else {
+                throw WalletError.keychainError("Failed to delete item: \(status)")
+            }
         }
     }
-}
 #endif
 
 public enum DerivationPathError: Error, LocalizedError {
@@ -700,9 +702,9 @@ public enum DerivationPathError: Error, LocalizedError {
         switch self {
         case .emptyPath:
             return "Derivation path is empty"
-        case .invalidComponent(let c):
+        case let .invalidComponent(c):
             return "Invalid derivation path component: \(c)"
-        case .invalidHardenedIndex(let c):
+        case let .invalidHardenedIndex(c):
             return "Invalid hardened index value: \(c)"
         }
     }
@@ -724,10 +726,10 @@ public struct DerivationPath {
             if comp == "m" { continue }
             if comp.hasSuffix("'") || comp.hasSuffix("h") {
                 let numStr = String(comp.dropLast())
-                guard let number = UInt32(numStr), number < 0x80000000 else {
+                guard let number = UInt32(numStr), number < 0x8000_0000 else {
                     throw DerivationPathError.invalidHardenedIndex(comp)
                 }
-                parsedIndexes.append(number | 0x80000000)
+                parsedIndexes.append(number | 0x8000_0000)
             } else {
                 guard let value = UInt32(comp) else {
                     throw DerivationPathError.invalidComponent(comp)
@@ -735,13 +737,13 @@ public struct DerivationPath {
                 parsedIndexes.append(value)
             }
         }
-        self.indexes = parsedIndexes
+        indexes = parsedIndexes
     }
 }
 
 extension UInt32 {
     var data: Data {
-        var int = self.bigEndian
+        var int = bigEndian
         return Data(bytes: &int, count: MemoryLayout<UInt32>.size)
     }
 }

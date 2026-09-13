@@ -8,13 +8,13 @@
 import Foundation
 
 public struct ProofTypeSupportedDTO: Codable, Equatable, Hashable, Sendable {
-  public let proofSigningAlgValuesSupported: [String]
+    public let proofSigningAlgValuesSupported: [String]
 
-  public init(proofSigningAlgValuesSupported: [String]) {
-    self.proofSigningAlgValuesSupported = proofSigningAlgValuesSupported
-  }
+    public init(proofSigningAlgValuesSupported: [String]) {
+        self.proofSigningAlgValuesSupported = proofSigningAlgValuesSupported
+    }
 
-  public enum CodingKeys: String, CodingKey {
-    case proofSigningAlgValuesSupported = "proof_signing_alg_values_supported"
-  }
+    public enum CodingKeys: String, CodingKey {
+        case proofSigningAlgValuesSupported = "proof_signing_alg_values_supported"
+    }
 }

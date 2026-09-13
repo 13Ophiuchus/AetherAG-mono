@@ -1,5 +1,5 @@
-import Foundation
 import AetherSharedIdentity
+import Foundation
 
 public protocol SecureStoring: Sendable {
     func create(_ session: IssuanceSessionRecord) async throws -> IssuanceSessionRecord

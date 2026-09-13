@@ -20,46 +20,46 @@ public enum WalletError: Error, LocalizedError, Sendable {
     case serializationError(String)
     case deserializationError(String)
     case unsupportedOperation(String)
-    
+
     public var errorDescription: String? {
         switch self {
         case .insufficientFunds:
             return "Insufficient funds for this transaction"
-        case .networkFailure(let message):
+        case let .networkFailure(message):
             return "Network failure: \(message)"
-        case .unknownChain(let chain):
+        case let .unknownChain(chain):
             return "Unknown chain: \(chain)"
-        case .invalidAddress(let address):
+        case let .invalidAddress(address):
             return "Invalid address: \(address)"
-        case .invalidAmount(let amount):
+        case let .invalidAmount(amount):
             return "Invalid amount: \(amount)"
-        case .keyGenerationFailed(let message):
+        case let .keyGenerationFailed(message):
             return "Key generation failed: \(message)"
-        case .keyDerivationFailed(let message):
+        case let .keyDerivationFailed(message):
             return "Key derivation failed: \(message)"
-        case .signingFailed(let message):
+        case let .signingFailed(message):
             return "Signing failed: \(message)"
-        case .transactionBuildingFailed(let message):
+        case let .transactionBuildingFailed(message):
             return "Transaction building failed: \(message)"
-        case .transactionBroadcastFailed(let message):
+        case let .transactionBroadcastFailed(message):
             return "Transaction broadcast failed: \(message)"
-        case .keychainError(let message):
+        case let .keychainError(message):
             return "Keychain error: \(message)"
-        case .secureEnclaveError(let message):
+        case let .secureEnclaveError(message):
             return "Secure Enclave error: \(message)"
-        case .mnemonicGenerationFailed(let message):
+        case let .mnemonicGenerationFailed(message):
             return "Mnemonic generation failed: \(message)"
-        case .chainConfigurationError(let message):
+        case let .chainConfigurationError(message):
             return "Chain configuration error: \(message)"
-        case .rpcError(let message):
+        case let .rpcError(message):
             return "RPC error: \(message)"
-        case .invalidResponse(let message):
+        case let .invalidResponse(message):
             return "Invalid response: \(message)"
-        case .serializationError(let message):
+        case let .serializationError(message):
             return "Serialization error: \(message)"
-        case .deserializationError(let message):
+        case let .deserializationError(message):
             return "Deserialization error: \(message)"
-        case .unsupportedOperation(let message):
+        case let .unsupportedOperation(message):
             return "Unsupported operation: \(message)"
         }
     }
@@ -71,7 +71,7 @@ public enum KeyDerivationError: Error, LocalizedError, Sendable {
     case unsupportedCurve
     case keyNotFound
     case invalidSeed
-    
+
     public var errorDescription: String? {
         switch self {
         case .invalidMnemonic:

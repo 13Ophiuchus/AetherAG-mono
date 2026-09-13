@@ -3,13 +3,12 @@
 //  AGWallet
 //
 
+@testable import AetherWalletKit
 import Foundation
 import Testing
-@testable import AetherWalletKit
 
 @Suite("BitcoinAddressType")
 struct BitcoinAddressTypeTests {
-
     private func makeKeyManagerWithMasterKey() async throws -> KeyManagerActor {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let mnemonic = try await keyManager.generateMnemonic()
@@ -34,7 +33,7 @@ struct BitcoinAddressTypeTests {
     }
 
     @Test("Testnet P2WPKH address uses tb1q prefix")
-    func testnetPrefix() async throws {
+    func netPrefix() async throws {
         let keyManager = try await makeKeyManagerWithMasterKey()
         let address = try await keyManager.bitcoinAddress(
             for: testChain(network: .testnet),
@@ -104,7 +103,8 @@ struct BitcoinAddressTypeTests {
         let keyManager = try await makeKeyManagerWithMasterKey()
         let chain = testChain(network: .mainnet)
         let address = try await keyManager.bitcoinAddress(
-            for: chain, addressType: .p2wpkh, derivationVersion: .hkdfV1)
+            for: chain, addressType: .p2wpkh, derivationVersion: .hkdfV1
+        )
         #expect(address.hasPrefix("bc1q"), "Expected bc1q prefix, got \(address)")
     }
 
@@ -113,10 +113,11 @@ struct BitcoinAddressTypeTests {
         let keyManager = try await makeKeyManagerWithMasterKey()
         let chain = testChain(network: .mainnet)
         let legacyAddr = try await keyManager.bitcoinAddress(
-            for: chain, addressType: .p2wpkh, derivationVersion: .legacy)
+            for: chain, addressType: .p2wpkh, derivationVersion: .legacy
+        )
         let hkdfAddr = try await keyManager.bitcoinAddress(
-            for: chain, addressType: .p2wpkh, derivationVersion: .hkdfV1)
+            for: chain, addressType: .p2wpkh, derivationVersion: .hkdfV1
+        )
         #expect(legacyAddr != hkdfAddr)
     }
 }
-

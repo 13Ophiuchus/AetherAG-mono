@@ -1,6 +1,6 @@
 import Foundation
 #if canImport(LocalAuthentication)
-import LocalAuthentication
+    import LocalAuthentication
 #endif
 import AetherSharedProtocols
 
@@ -49,48 +49,48 @@ private extension KeyStorageProviding {
 // MARK: - KeychainKeyStorageProvider
 
 #if canImport(Security) && canImport(LocalAuthentication)
-// Production storage provider backed by Secure Enclave (when available) and Keychain.
-public final class KeychainKeyStorageProvider: KeyStorageProviding, @unchecked Sendable {
-    private let secureEnclaveManager = KeyManagerSecureEnclaveStore()
-    private let keychainManager = KeyManagerKeychainStore()
+    // Production storage provider backed by Secure Enclave (when available) and Keychain.
+    public final class KeychainKeyStorageProvider: KeyStorageProviding, @unchecked Sendable {
+        private let secureEnclaveManager = KeyManagerSecureEnclaveStore()
+        private let keychainManager = KeyManagerKeychainStore()
 
-    public init() {}
+        public init() {}
 
-    public func storeKey(_ key: Data, for identifier: String, requiresBiometrics: Bool) throws {
-        if secureEnclaveManager.isAvailable, requiresBiometrics {
-            try secureEnclaveManager.storeKey(key, with: identifier)
-        } else {
-            let context = LAContext()
-            var error: NSError?
-
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                let accessControl = SecAccessControlCreateWithFlags(
-                    kCFAllocatorDefault,
-                    kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-                    .userPresence,
-                    nil
-                )!
-                try keychainManager.store(key, with: identifier, accessControl: accessControl)
+        public func storeKey(_ key: Data, for identifier: String, requiresBiometrics: Bool) throws {
+            if secureEnclaveManager.isAvailable, requiresBiometrics {
+                try secureEnclaveManager.storeKey(key, with: identifier)
             } else {
-                try keychainManager.store(key, with: identifier)
+                let context = LAContext()
+                var error: NSError?
+
+                if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                    let accessControl = SecAccessControlCreateWithFlags(
+                        kCFAllocatorDefault,
+                        kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                        .userPresence,
+                        nil
+                    )!
+                    try keychainManager.store(key, with: identifier, accessControl: accessControl)
+                } else {
+                    try keychainManager.store(key, with: identifier)
+                }
             }
         }
-    }
 
-    public func retrieveKey(for identifier: String) throws -> Data? {
-        if secureEnclaveManager.isAvailable, secureEnclaveManager.keyExists(with: identifier) {
-            return try secureEnclaveManager.retrieveKey(with: identifier)
+        public func retrieveKey(for identifier: String) throws -> Data? {
+            if secureEnclaveManager.isAvailable, secureEnclaveManager.keyExists(with: identifier) {
+                return try secureEnclaveManager.retrieveKey(with: identifier)
+            }
+            return try keychainManager.retrieve(with: identifier)
         }
-        return try keychainManager.retrieve(with: identifier)
-    }
 
-    public func deleteKey(for identifier: String) throws {
-        if secureEnclaveManager.isAvailable, secureEnclaveManager.keyExists(with: identifier) {
-            try secureEnclaveManager.deleteKey(with: identifier)
+        public func deleteKey(for identifier: String) throws {
+            if secureEnclaveManager.isAvailable, secureEnclaveManager.keyExists(with: identifier) {
+                try secureEnclaveManager.deleteKey(with: identifier)
+            }
+            try keychainManager.delete(with: identifier)
         }
-        try keychainManager.delete(with: identifier)
     }
-}
 #endif
 
 // MARK: - InMemoryKeyStorageProvider
@@ -103,7 +103,7 @@ public final class InMemoryKeyStorageProvider: KeyStorageProviding, @unchecked S
 
     public init() {}
 
-    public func storeKey(_ key: Data, for identifier: String, requiresBiometrics: Bool) throws {
+    public func storeKey(_ key: Data, for identifier: String, requiresBiometrics _: Bool) throws {
         lock.lock()
         defer { lock.unlock() }
         storage[identifier] = key

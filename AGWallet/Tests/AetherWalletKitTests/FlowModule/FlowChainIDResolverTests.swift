@@ -1,11 +1,10 @@
-import Testing
-import Foundation
-import Flow
 @testable import AetherWalletKit
+import Flow
+import Foundation
+import Testing
 
 @Suite("FlowChainIDResolver")
 struct FlowChainIDResolverTests {
-
     private func makeChainConfig(network: ChainNetwork) -> ChainConfig {
         ChainConfig(
             chainId: "flow-\(network.rawValue)",
@@ -25,7 +24,7 @@ struct FlowChainIDResolverTests {
     }
 
     @Test("testnet ChainConfig resolves to Flow.ChainID.testnet")
-    func testnetResolves() {
+    func netResolves() {
         let config = makeChainConfig(network: .testnet)
         #expect(FlowChainIDResolver.resolve(config) == .testnet)
     }

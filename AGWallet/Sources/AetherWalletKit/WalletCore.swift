@@ -1,5 +1,5 @@
-import Foundation
 import Flow
+import Foundation
 
 public actor WalletCore {
     private let keyManager: KeyManagerActor
@@ -9,7 +9,7 @@ public actor WalletCore {
     private let evmModule: EVMModule?
     private let flowModule: FlowModule?
     private let logger = Logger(label: "AetherWalletKit.WalletCore")
-    
+
     public init(
         keyManager: KeyManagerActor,
         chainConfigService: ChainConfigurationService,
@@ -20,10 +20,10 @@ public actor WalletCore {
     ) {
         self.keyManager = keyManager
         self.chainConfigService = chainConfigService
-        self.bitcoinModule = enableBitcoin ? BitcoinModule(keyManager: keyManager) : nil
-        self.solanaModule = enableSolana ? SolanaModule(keyManager: keyManager) : nil
-        self.evmModule = enableEVM ? EVMModule(keyManager: keyManager) : nil
-        self.flowModule = enableFlow ? FlowModule(keyManager: keyManager) : nil
+        bitcoinModule = enableBitcoin ? BitcoinModule(keyManager: keyManager) : nil
+        solanaModule = enableSolana ? SolanaModule(keyManager: keyManager) : nil
+        evmModule = enableEVM ? EVMModule(keyManager: keyManager) : nil
+        flowModule = enableFlow ? FlowModule(keyManager: keyManager) : nil
     }
 
     // MARK: - getBalance

@@ -1,10 +1,9 @@
+@testable import AetherWalletKit
 import Foundation
 import Testing
-@testable import AetherWalletKit
 
 @Suite("KeyManagerActor Solana signing")
 struct KeyManagerActorSolanaTests {
-
     private func solanaTestChain() -> ChainConfig {
         ChainConfig(
             chainId: "solana",
@@ -25,7 +24,7 @@ struct KeyManagerActorSolanaTests {
     }
 
     @Test("solanaAddress(for:) returns a valid base58 address after key storage")
-    func testSolanaAddressDerivation() async throws {
+    func solanaAddressDerivation() async throws {
         let manager = try await makeManagerWithMasterKey()
         let chain = solanaTestChain()
 
@@ -36,7 +35,7 @@ struct KeyManagerActorSolanaTests {
     }
 
     @Test("signSolanaMessage produces a non-empty deterministic signature for the same key and message")
-    func testSolanaMessageSigningIsDeterministic() async throws {
+    func solanaMessageSigningIsDeterministic() async throws {
         let manager = try await makeManagerWithMasterKey()
         let chain = solanaTestChain()
 
@@ -48,7 +47,7 @@ struct KeyManagerActorSolanaTests {
     }
 
     @Test("signSolanaMessage produces different signatures for different messages")
-    func testSolanaMessageSigningDiffersByMessage() async throws {
+    func solanaMessageSigningDiffersByMessage() async throws {
         let manager = try await makeManagerWithMasterKey()
         let chain = solanaTestChain()
 
@@ -71,7 +70,7 @@ struct KeyManagerActorSolanaTests {
             programId: systemProgramId,
             accounts: [
                 SolanaAccountMeta(publicKey: senderAddress, isSigner: true, isWritable: true),
-                SolanaAccountMeta(publicKey: recipientAddress, isSigner: false, isWritable: true)
+                SolanaAccountMeta(publicKey: recipientAddress, isSigner: false, isWritable: true),
             ],
             data: dataHex
         )
@@ -87,7 +86,7 @@ struct KeyManagerActorSolanaTests {
     }
 
     @Test("signSolanaTransfer produces a non-empty base58 signature for a native SOL transfer")
-    func testSolanaTransferSigning() async throws {
+    func solanaTransferSigning() async throws {
         let manager = try await makeManagerWithMasterKey()
         let chain = solanaTestChain()
         let senderAddress = try await manager.solanaAddress(for: chain)
@@ -100,7 +99,7 @@ struct KeyManagerActorSolanaTests {
     }
 
     @Test("signSolanaTransfer is deterministic for the same transaction and key")
-    func testSolanaTransferSigningIsDeterministic() async throws {
+    func solanaTransferSigningIsDeterministic() async throws {
         let manager = try await makeManagerWithMasterKey()
         let chain = solanaTestChain()
         let senderAddress = try await manager.solanaAddress(for: chain)

@@ -3,9 +3,9 @@
 //  AetherSharedProtocols
 //
 
-import Foundation
 import AetherSharedIdentity
+import Foundation
 
 public protocol DIDResolving: Sendable {
-  func resolve(_ did: String) async throws -> DIDDocument
+    func resolve(_ did: String) async throws -> DIDDocument
 }

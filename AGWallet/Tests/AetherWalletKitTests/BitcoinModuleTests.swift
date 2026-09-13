@@ -1,11 +1,9 @@
-import Foundation
+@testable import AetherWalletKit
 import Foundation
 import Testing
-@testable import AetherWalletKit
 
 @Suite("BitcoinModule")
 struct BitcoinModuleTests {
-
     private func makeModule() -> BitcoinModule {
         BitcoinModule(keyManager: KeyManagerActor())
     }
@@ -26,13 +24,13 @@ struct BitcoinModuleTests {
         do {
             _ = try await bitcoinModule.getBalance(for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for Bitcoin getBalance")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Master key not found")
         }
     }
 
     @Test("send fails with keychainError when no master key is stored")
-    func testSendTransaction() async throws {
+    func sendTransaction() async throws {
         let bitcoinModule = makeModule()
         let asset = CryptoAsset.mockBitcoin()
         let amount = 0.5
@@ -41,7 +39,7 @@ struct BitcoinModuleTests {
         do {
             _ = try await bitcoinModule.send(amount: amount, to: recipient, for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for Bitcoin send")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Master key not found")
         }
     }
@@ -55,13 +53,13 @@ struct BitcoinModuleTests {
         do {
             _ = try await bitcoinModule.signMessage(message, on: chain)
             Issue.record("Expected keychainError(\"Master key not found\") for Bitcoin signMessage")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Master key not found")
         }
     }
 
     @Test("bitcoinAddress(for:) returns a non-empty address once a master key is stored")
-    func testBitcoinAddressWithKey() async throws {
+    func bitcoinAddressWithKey() async throws {
         let (_, keyManager) = try await makeModuleWithKey()
         let chain = ChainConfig.mockBitcoinChain()
 
@@ -71,7 +69,7 @@ struct BitcoinModuleTests {
     }
 
     @Test("signBitcoinMessage produces a non-empty deterministic signature for the same key and message")
-    func testSignBitcoinMessageWithKey() async throws {
+    func signBitcoinMessageWithKey() async throws {
         let (_, keyManager) = try await makeModuleWithKey()
         let message = "AetherWalletKit test message"
         let chain = ChainConfig.mockBitcoinChain()
@@ -84,7 +82,7 @@ struct BitcoinModuleTests {
     }
 
     @Test("signBitcoinMessage produces different signatures for different messages")
-    func testSignBitcoinMessageDifferentInputs() async throws {
+    func signBitcoinMessageDifferentInputs() async throws {
         let (_, keyManager) = try await makeModuleWithKey()
         let chain = ChainConfig.mockBitcoinChain()
 
@@ -95,7 +93,7 @@ struct BitcoinModuleTests {
     }
 
     @Test("send broadcasts a real native BTC transfer using the injected mock Esplora client")
-    func testSendTransactionWithMockEsploraClient() async throws {
+    func sendTransactionWithMockEsploraClient() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let mnemonic = try await keyManager.generateMnemonic()
         let masterKey = try await keyManager.generateMasterPrivateKey(from: mnemonic)
@@ -106,10 +104,10 @@ struct BitcoinModuleTests {
 
         // scriptPubKeyHex below is the P2PKH script for fromAddress itself so that
         // BitcoinScript.p2pkhScript(forAddress:) parity can be exercised end-to-end.
-        let mockUTXO = UTXO(
+        let mockUTXO = try UTXO(
             outpoint: "aaaabbbbccccddddeeeeffff00001111222233334444555566667777888899:0",
             valueSatoshis: 100_000,
-            scriptPubKeyHex: try BitcoinScript.p2pkhScript(forAddress: fromAddress).toHexString()
+            scriptPubKeyHex: BitcoinScript.p2pkhScript(forAddress: fromAddress).toHexString()
         )
 
         let mockClient = MockEsploraClient(
@@ -168,12 +166,12 @@ final class MockEsploraClient: EsploraClient, @unchecked Sendable {
         self.txIdToReturn = txIdToReturn
     }
 
-    func getUTXOs(for address: String) async throws -> [UTXO] {
+    func getUTXOs(for _: String) async throws -> [UTXO] {
         getUTXOsCallCount += 1
         return utxosToReturn
     }
 
-    func getTransactionHistory(for address: String) async throws -> [UnifiedTransaction] {
+    func getTransactionHistory(for _: String) async throws -> [UnifiedTransaction] {
         return []
     }
 

@@ -7,9 +7,9 @@
 import Foundation
 
 public struct CredentialDefinitionDTO: Codable, Equatable, Hashable, Sendable {
-  public let type: [String]
+    public let type: [String]
 
-  public init(type: [String]) {
-    self.type = type
-  }
+    public init(type: [String]) {
+        self.type = type
+    }
 }

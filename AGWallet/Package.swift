@@ -5,7 +5,7 @@ let package = Package(
     name: "AetherWalletKit",
     platforms: [
         .iOS(.v17),
-        .macOS(.v15)
+        .macOS(.v15),
     ],
     products: [
         .library(
@@ -18,7 +18,7 @@ let package = Package(
         .package(path: "../solana-swift-concurrency"),
         .package(path: "../web3swift-concurrency"),
         .package(path: "../flow-swift-macos"),
-        .package(url: "https://github.com/apple/swift-crypto", "4.5.1"..<"5.0.0"),
+        .package(url: "https://github.com/apple/swift-crypto", "4.5.1" ..< "5.0.0"),
         .package(url: "https://github.com/attaswift/BigInt.git", .upToNextMinor(from: "5.4.0")),
         .package(url: "https://github.com/swift-server/async-http-client", from: "1.19.0"),
         .package(url: "https://github.com/swift-extras/swift-extras-json", from: "0.6.0"),
@@ -47,7 +47,7 @@ let package = Package(
             name: "AetherWalletKitTests",
             dependencies: [
                 "AetherWalletKit",
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
             ],
             path: "Tests/AetherWalletKitTests"
         ),

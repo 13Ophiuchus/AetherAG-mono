@@ -1,12 +1,11 @@
-import Testing
-import Foundation
 @testable import AetherWalletKit
+import Foundation
+import Testing
 
 @Suite("Mnemonic BIP-39 seed derivation")
 struct MnemonicSeedDerivationTests {
-
     @Test("Known BIP-39 test vector produces expected seed")
-    func testKnownVectorSeed() throws {
+    func knownVectorSeed() throws {
         let words = Array(repeating: "abandon", count: 11) + ["about"]
         let mnemonic = Mnemonic(words: words)
         let seed = mnemonic.seed(passphrase: "")
@@ -18,7 +17,7 @@ struct MnemonicSeedDerivationTests {
     }
 
     @Test("Seed derivation produces 64-byte output regardless of iteration guard")
-    func testSeedLength() throws {
+    func seedLength() throws {
         let words = Array(repeating: "abandon", count: 11) + ["about"]
         let mnemonic = Mnemonic(words: words)
         let seed = mnemonic.seed(passphrase: "TREZOR")

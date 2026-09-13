@@ -1,5 +1,5 @@
-import Foundation
 import AetherSharedIdentity
+import Foundation
 
 public protocol CredentialIssuing: Sendable {
     func findByCredentialID(_ credentialID: String) async throws -> CredentialRecord?

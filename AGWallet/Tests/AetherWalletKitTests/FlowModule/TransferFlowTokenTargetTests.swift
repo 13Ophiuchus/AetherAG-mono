@@ -1,11 +1,10 @@
-import Testing
-import Foundation
-import Flow
 @testable import AetherWalletKit
+import Flow
+import Foundation
+import Testing
 
 @Suite("TransferFlowTokenTarget")
 struct TransferFlowTokenTargetTests {
-
     @Test("cadenceBase64 encodes a valid FlowToken transfer script")
     func cadenceScriptEncodesCorrectly() throws {
         let target = TransferFlowTokenTarget(to: Flow.Address(hex: "0x01"), amount: 1.5)

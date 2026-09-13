@@ -1,5 +1,5 @@
-import Foundation
 import AetherSharedIdentity
+import Foundation
 
 public protocol CredentialVerifying: Sendable {
     /// Verify a raw attestation string (e.g. Secure Enclave attestation).

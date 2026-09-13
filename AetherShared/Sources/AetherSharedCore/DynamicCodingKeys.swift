@@ -8,20 +8,20 @@
 import Foundation
 
 public struct DynamicCodingKeys: CodingKey {
-  public var stringValue: String
-  public var intValue: Int?
+    public var stringValue: String
+    public var intValue: Int?
 
-  public init(_ stringValue: String) {
-    self.stringValue = stringValue
-    self.intValue = nil
-  }
+    public init(_ stringValue: String) {
+        self.stringValue = stringValue
+        intValue = nil
+    }
 
-  public init?(stringValue: String) {
-    self.init(stringValue)
-  }
+    public init?(stringValue: String) {
+        self.init(stringValue)
+    }
 
-  public init?(intValue: Int) {
-    self.stringValue = "\(intValue)"
-    self.intValue = intValue
-  }
+    public init?(intValue: Int) {
+        stringValue = "\(intValue)"
+        self.intValue = intValue
+    }
 }

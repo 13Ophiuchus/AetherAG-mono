@@ -1,11 +1,10 @@
-import Testing
-import Foundation
-import Flow
 @testable import AetherWalletKit
+import Flow
+import Foundation
+import Testing
 
 @Suite("WalletCore.executeFlowScript")
 struct WalletCoreExecuteFlowScriptTests {
-
     private func makeCore(enableFlow: Bool) -> WalletCore {
         WalletCore(
             keyManager: KeyManagerActor(),
@@ -22,7 +21,7 @@ struct WalletCoreExecuteFlowScriptTests {
         do {
             _ = try await core.executeFlowScript("access(all) fun main(): Int { return 1 }", arguments: [], on: evmChain)
             Issue.record("Expected unsupportedOperation for non-Flow chain")
-        } catch WalletError.unsupportedOperation(let message) {
+        } catch let WalletError.unsupportedOperation(message) {
             #expect(message.contains("Flow ChainConfig"))
         }
     }
@@ -35,7 +34,7 @@ struct WalletCoreExecuteFlowScriptTests {
         do {
             _ = try await core.executeFlowScript("access(all) fun main(): Int { return 1 }", arguments: [], on: flowChain)
             Issue.record("Expected unsupportedOperation when Flow module not enabled")
-        } catch WalletError.unsupportedOperation(let message) {
+        } catch let WalletError.unsupportedOperation(message) {
             #expect(message.contains("Flow module not enabled"))
         }
     }
@@ -54,7 +53,7 @@ struct WalletCoreExecuteFlowScriptTests {
         do {
             _ = try await core.executeFlowScript("access(all) fun main(): Int { return 1 }", arguments: [], on: ChainConfig.mockEVM())
             Issue.record("Expected unsupportedOperation for non-Flow chain")
-        } catch WalletError.unsupportedOperation(let message) {
+        } catch let WalletError.unsupportedOperation(message) {
             #expect(message.contains("Flow ChainConfig"))
             #expect(!message.contains("Flow module not enabled"))
         }

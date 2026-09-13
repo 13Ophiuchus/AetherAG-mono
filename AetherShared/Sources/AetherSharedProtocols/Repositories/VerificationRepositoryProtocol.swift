@@ -5,9 +5,8 @@
 //  Created by Nicholas Reich on 5/6/26.
 //
 
-
-import Foundation
 import AetherSharedIdentity
+import Foundation
 
 public protocol VerificationRepositoryProtocol: Sendable {
     func create(_ record: VerificationRequestRecord) async throws -> VerificationRequestRecord

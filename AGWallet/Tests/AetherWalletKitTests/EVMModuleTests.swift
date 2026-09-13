@@ -1,11 +1,9 @@
-import Foundation
+@testable import AetherWalletKit
 import Foundation
 import Testing
-@testable import AetherWalletKit
 
 @Suite("EVMModule")
 struct EVMModuleTests {
-
     private func makeModule() -> EVMModule {
         EVMModule(keyManager: KeyManagerActor())
     }
@@ -18,13 +16,13 @@ struct EVMModuleTests {
         do {
             _ = try await evmModule.getBalance(for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for EVM getBalance")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Private key not found for Ethereum")
         }
     }
 
     @Test("send fails with keychainError when no master key is stored")
-    func testSendTransaction() async throws {
+    func sendTransaction() async throws {
         let evmModule = makeModule()
         let asset = CryptoAsset.mockEthereum()
         let amount = 0.01
@@ -33,7 +31,7 @@ struct EVMModuleTests {
         do {
             _ = try await evmModule.send(amount: amount, to: recipient, for: asset)
             Issue.record("Expected keychainError(\"Master key not found\") for EVM send")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Private key not found for Ethereum")
         }
     }
@@ -47,7 +45,7 @@ struct EVMModuleTests {
         do {
             _ = try await evmModule.signMessage(message, on: chain)
             Issue.record("Expected keychainError(\"Master key not found\") for EVM signMessage")
-        } catch WalletError.keychainError(let message) {
+        } catch let WalletError.keychainError(message) {
             #expect(message == "Private key not found for Ethereum")
         }
     }

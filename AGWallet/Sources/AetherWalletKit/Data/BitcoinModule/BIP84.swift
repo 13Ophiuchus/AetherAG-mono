@@ -20,7 +20,8 @@ public enum BIP84 {
         let path = receivePath(coinType: coinType, account: account, index: index)
         guard let node = HDNode(seed: seed)?.derive(path: path, derivePrivateKey: true),
               let privKey = node.privateKey,
-              let pubKey = Utilities.privateToPublic(privKey, compressed: true) else {
+              let pubKey = Utilities.privateToPublic(privKey, compressed: true)
+        else {
             throw WalletError.signingFailed("BIP84 HD derivation failed for path \(path)")
         }
         return pubKey

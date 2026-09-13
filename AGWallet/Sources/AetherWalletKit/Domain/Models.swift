@@ -94,13 +94,13 @@ public struct ChainConfig: Codable, Sendable, Equatable {
         self.chainId = chainId
         self.name = name
         self.type = type
-        self.activeNetwork = network
-        self.networks = [
+        activeNetwork = network
+        networks = [
             network: NetworkEndpointSet(
                 network: network,
                 endpointsByRole: [.rpc: rpcEndpoints, .broadcast: rpcEndpoints],
                 explorerUrl: explorerUrl
-            )
+            ),
         ]
         self.derivationPath = derivationPath
         self.nativeAssetSymbol = nativeAssetSymbol
@@ -402,10 +402,10 @@ public enum UnifiedTransaction: Codable, Sendable {
 public extension UnifiedTransaction {
     var date: Date {
         switch self {
-        case .bitcoin(let tx): return tx.timestamp
-        case .solana(let tx): return tx.timestamp
-        case .evm(let tx):     return tx.timestamp
-        case .flow(let tx):    return tx.timestamp
+        case let .bitcoin(tx): return tx.timestamp
+        case let .solana(tx): return tx.timestamp
+        case let .evm(tx): return tx.timestamp
+        case let .flow(tx): return tx.timestamp
         }
     }
 }

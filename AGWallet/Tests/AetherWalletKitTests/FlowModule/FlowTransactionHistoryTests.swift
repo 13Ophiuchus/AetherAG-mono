@@ -1,11 +1,10 @@
-import Testing
-import Foundation
-import Flow
 @testable import AetherWalletKit
+import Flow
+import Foundation
+import Testing
 
 @Suite("FlowTokenEventType")
 struct FlowTokenEventTypeTests {
-
     @Test("mainnet uses canonical FlowToken contract address")
     func mainnetContractAddress() {
         #expect(FlowTokenEventType.contractAddress(chainID: .mainnet) == "1654653399040a61")
@@ -14,7 +13,7 @@ struct FlowTokenEventTypeTests {
     }
 
     @Test("testnet uses canonical FlowToken contract address")
-    func testnetContractAddress() {
+    func netContractAddress() {
         #expect(FlowTokenEventType.contractAddress(chainID: .testnet) == "7e60df042a9c0868")
         #expect(FlowTokenEventType.deposited(chainID: .testnet) == "A.7e60df042a9c0868.FlowToken.TokensDeposited")
         #expect(FlowTokenEventType.withdrawn(chainID: .testnet) == "A.7e60df042a9c0868.FlowToken.TokensWithdrawn")
@@ -23,7 +22,6 @@ struct FlowTokenEventTypeTests {
 
 @Suite("FlowTransactionHistoryMatcher")
 struct FlowTransactionHistoryMatcherTests {
-
     let watched = "0x01"
 
     @Test("deposit event matches when toField equals watched address")

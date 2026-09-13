@@ -3,9 +3,9 @@
 //  AGWallet
 //
 
-import Testing
-import Foundation
 @testable import AetherWalletKit
+import Foundation
+import Testing
 
 // MARK: - ChainConfig test helpers (EVM/Bitcoin/Solana/Flow)
 
@@ -17,6 +17,7 @@ extension ChainConfig {
             derivationPath: "m/44'/60'/0'/0/0", nativeAssetSymbol: "ETH"
         )
     }
+
     static func mockBitcoin() -> ChainConfig {
         ChainConfig(
             chainId: "bitcoin", name: "Bitcoin", type: .bitcoin,
@@ -24,6 +25,7 @@ extension ChainConfig {
             derivationPath: "m/44'/0'/0'/0/0", nativeAssetSymbol: "BTC"
         )
     }
+
     static func mockSolana() -> ChainConfig {
         ChainConfig(
             chainId: "solana", name: "Solana", type: .solana,
@@ -31,6 +33,7 @@ extension ChainConfig {
             derivationPath: "m/44'/501'/0'/0'", nativeAssetSymbol: "SOL"
         )
     }
+
     static func mockFlow() -> ChainConfig {
         ChainConfig(
             chainId: "flow-mainnet", name: "Flow", type: .flow,
@@ -44,7 +47,6 @@ extension ChainConfig {
 
 @Suite("EVMModule.getReceiveAddress")
 struct EVMModuleReceiveAddressTests {
-
     @Test("returns keychainError when no master key is stored")
     func noKeyReturnsKeychainError() async throws {
         let module = EVMModule(keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()))
@@ -88,7 +90,6 @@ struct EVMModuleReceiveAddressTests {
 
 @Suite("FlowModule.getReceiveAddress")
 struct FlowModuleReceiveAddressTests {
-
     @Test("returns keychainError when no Flow address is stored")
     func noAddressReturnsKeychainError() async throws {
         let module = FlowModule(keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()))
@@ -102,7 +103,7 @@ struct FlowModuleReceiveAddressTests {
     func returnsStoredFlowAddress() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
         let testAddress = "7659f11a8bdf8b31"
-        try await keyManager.storeFlowAddress(testAddress)   // sync — not async
+        try await keyManager.storeFlowAddress(testAddress) // sync — not async
 
         let address = try await FlowModule(keyManager: keyManager).getReceiveAddress(for: .mockFlow())
         #expect(address.hasPrefix("0x"))
@@ -114,7 +115,6 @@ struct FlowModuleReceiveAddressTests {
 
 @Suite("BitcoinModule.getReceiveAddress")
 struct BitcoinModuleReceiveAddressTests {
-
     @Test("returns keychainError when no master key is stored")
     func noKeyReturnsKeychainError() async throws {
         let module = BitcoinModule(keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()))
@@ -179,7 +179,6 @@ struct BitcoinModuleReceiveAddressTests {
 
 @Suite("SolanaModule.getReceiveAddress")
 struct SolanaModuleReceiveAddressTests {
-
     @Test("returns keychainError when no master key is stored")
     func noKeyReturnsKeychainError() async throws {
         let module = SolanaModule(keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()))
@@ -237,7 +236,6 @@ struct SolanaModuleReceiveAddressTests {
 
 @Suite("WalletCore.getReceiveAddress")
 struct WalletCoreReceiveAddressTests {
-
     private func allDisabled() -> WalletCore {
         WalletCore(
             keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()),
@@ -251,7 +249,7 @@ struct WalletCoreReceiveAddressTests {
         do {
             _ = try await allDisabled().getReceiveAddress(for: .mockEVM())
             Issue.record("Expected unsupportedOperation")
-        } catch WalletError.unsupportedOperation(let msg) {
+        } catch let WalletError.unsupportedOperation(msg) {
             #expect(msg.contains("EVM"))
         }
     }
@@ -261,7 +259,7 @@ struct WalletCoreReceiveAddressTests {
         do {
             _ = try await allDisabled().getReceiveAddress(for: .mockBitcoin())
             Issue.record("Expected unsupportedOperation")
-        } catch WalletError.unsupportedOperation(let msg) {
+        } catch let WalletError.unsupportedOperation(msg) {
             #expect(msg.contains("Bitcoin"))
         }
     }
@@ -271,7 +269,7 @@ struct WalletCoreReceiveAddressTests {
         do {
             _ = try await allDisabled().getReceiveAddress(for: .mockSolana())
             Issue.record("Expected unsupportedOperation")
-        } catch WalletError.unsupportedOperation(let msg) {
+        } catch let WalletError.unsupportedOperation(msg) {
             #expect(msg.contains("Solana"))
         }
     }
@@ -281,7 +279,7 @@ struct WalletCoreReceiveAddressTests {
         do {
             _ = try await allDisabled().getReceiveAddress(for: .mockFlow())
             Issue.record("Expected unsupportedOperation")
-        } catch WalletError.unsupportedOperation(let msg) {
+        } catch let WalletError.unsupportedOperation(msg) {
             #expect(msg.contains("Flow"))
         }
     }
@@ -307,7 +305,7 @@ struct WalletCoreReceiveAddressTests {
     @Test("Flow enabled — delegates to FlowModule, returns stored address")
     func flowEnabledDelegates() async throws {
         let keyManager = KeyManagerActor(storageProvider: InMemoryKeyStorageProvider())
-        try await keyManager.storeFlowAddress("7659f11a8bdf8b31")   // sync
+        try await keyManager.storeFlowAddress("7659f11a8bdf8b31") // sync
 
         let core = WalletCore(
             keyManager: keyManager, chainConfigService: ChainConfigurationService(),

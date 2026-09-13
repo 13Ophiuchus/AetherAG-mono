@@ -6,13 +6,12 @@
 //  BIP173 and BIP350 test vectors.
 //
 
-import Testing
-import Foundation
 @testable import AetherWalletKit
+import Foundation
+import Testing
 
 @Suite("Bech32")
 struct Bech32Tests {
-
     // MARK: - BIP173 valid Bech32 (SegWit v0) address vectors
 
     @Test("BIP173 valid v0 addresses decode and round-trip", arguments: [
@@ -21,7 +20,7 @@ struct Bech32Tests {
         "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4",
         "BC1SW50QGDZ25J",
         "bc1zw508d6qejxtdg4y5r3zarvaryvaxxpcs",
-        "tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy"
+        "tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy",
     ])
     func bip173ValidAddressesDecode(_ address: String) throws {
         let decoded = try Bech32.decodeSegwitAddress(address)
@@ -38,7 +37,7 @@ struct Bech32Tests {
     @Test("BIP350 valid v1 (Taproot) addresses decode and round-trip", arguments: [
         "BC1SW50QGDZ25J",
         "bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqzk5jj0",
-        "tb1pqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesf3hn0c"
+        "tb1pqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesf3hn0c",
     ])
     func bip350ValidTaprootAddressesDecode(_ address: String) throws {
         let decoded = try Bech32.decodeSegwitAddress(address)
@@ -59,7 +58,7 @@ struct Bech32Tests {
         "bc1pw5dgrnzv", // invalid program length
         "bc1p38j9r5y49hruaue7wxjce0updqjuyyx0kh56v8s25huc6995vvpql3jow4", // invalid v0 program length disguised as v1
         "BC130XLXVLHEMJA6C4DQV22UAPCTQUPFHLXM9H8Z3K2E72Q4K9HCZ7VQ7ZWS8R", // invalid witness version
-        "bc1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4" // mixed case is only invalid if truly mixed; validate separately below
+        "bc1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4", // mixed case is only invalid if truly mixed; validate separately below
     ])
     func invalidAddressesAreRejectedOrHandled(_ address: String) {
         // Some of these are intentionally malformed per BIP173/350 appendix "Invalid address" test vectors.
@@ -147,7 +146,7 @@ struct Bech32Tests {
     func v0WithBech32mChecksumIsRejected() throws {
         // Manually construct a v0 witness address but force Bech32m checksum encoding
         // to verify the BIP350 cross-variant validation rule is enforced.
-        let hash160: [UInt8] = [UInt8](repeating: 0x11, count: 20)
+        let hash160 = [UInt8](repeating: 0x11, count: 20)
         guard let words5bit = try? Bech32.encode(hrp: "bc", words: [0] + convertBitsForTest(hash160), encoding: .bech32m) else {
             Issue.record("Failed to construct malformed test address")
             return
@@ -166,11 +165,11 @@ struct Bech32Tests {
             bits += 8
             while bits >= 5 {
                 bits -= 5
-                result.append(UInt8((acc >> bits) & 0x1f))
+                result.append(UInt8((acc >> bits) & 0x1F))
             }
         }
         if bits > 0 {
-            result.append(UInt8((acc << (5 - bits)) & 0x1f))
+            result.append(UInt8((acc << (5 - bits)) & 0x1F))
         }
         return result
     }

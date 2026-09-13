@@ -1,5 +1,5 @@
-import Foundation
 @testable import AetherWalletKit
+import Foundation
 
 // In-memory KeyStorageProviding used in tests so that signing/storage tests
 // don't depend on the real Keychain, which requires code-signing entitlements
@@ -8,7 +8,7 @@ final class InMemoryKeyStorageProvider: KeyStorageProviding, @unchecked Sendable
     private let lock = NSLock()
     private var storage: [String: Data] = [:]
 
-    func storeKey(_ key: Data, for identifier: String, requiresBiometrics: Bool) throws {
+    func storeKey(_ key: Data, for identifier: String, requiresBiometrics _: Bool) throws {
         lock.lock()
         defer { lock.unlock() }
         storage[identifier] = key

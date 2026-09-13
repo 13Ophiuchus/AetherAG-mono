@@ -8,10 +8,10 @@
 import Foundation
 
 public protocol DateProviding: Sendable {
-  func now() -> Date
+    func now() -> Date
 }
 
 public struct SystemDateProvider: DateProviding {
-  public init() {}
-  public func now() -> Date { Date() }
+    public init() {}
+    public func now() -> Date { Date() }
 }

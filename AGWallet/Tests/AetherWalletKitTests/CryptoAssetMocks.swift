@@ -1,5 +1,5 @@
-import Foundation
 @testable import AetherWalletKit
+import Foundation
 
 extension CryptoAsset {
     static func mockBitcoin() -> CryptoAsset {
