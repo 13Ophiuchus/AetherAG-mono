@@ -61,7 +61,7 @@
 - [x] All downstream `solana-swift-concurrency` fixes landed (P256K API, socket guards, TaskRetryingError)
 - [x] `AGWallet` build clean under Swift 6.3 / arm64-apple-macosx26.0
 
-## Milestone 8: Solana SPL Token Send + Message Signing (planned)
+## Milestone 8: Solana SPL Token Send + Message Signing (complete)
 
 Native SOL transfer signing is implemented (signSolanaTransferPayload,
 KeyManager.swift), but two SolanaModule operations remain unsupportedOperation
