@@ -293,6 +293,20 @@ Not yet retrieved. (M65, M67, M68, M69 are covered below.)
 
 ---
 
+### Milestone 70 — EVM Transaction History via Indexer (2026-09-14)
+- [x] `EVMIndexerClient` — new Etherscan-compatible indexer client added under
+      `Data/EVMModule/EVMIndexerClient.swift`; takes `baseURL` + optional `apiKey`.
+- [x] `EVMModule.getTransactionHistory` — replaced mocked empty-array stub with real
+      implementation: resolves `chain.indexerEndpoints.first`, validates `chain.chainId`
+      as `Int`, then delegates to `EVMIndexerClient.getTransactionHistory(for:chainId:)`.
+- [x] Guard ordering fixed — indexer-endpoint and chainId checks now run before
+      `getEthereumAddress(for:)`, so the no-indexer-configured fallback returns `[]`
+      without an unnecessary keychain lookup (caught via failing test before commit).
+- [x] `EVMModuleTests.testGetTransactionHistoryNoIndexer` — new test added; confirms
+      empty-array fallback when `ChainConfig` has no `.indexer` endpoint configured.
+- [x] Full suite: **87/87 tests passing** across Bitcoin/EVM/Solana/Flow/WalletCore,
+      3 consecutive clean runs, Swift 6.3 / arm64-apple-macosx26.0.
+
 ## Corrections From Prior Version of This Document
 
 The version of `MASTER_MILESTONES.md` produced earlier in this session (before live

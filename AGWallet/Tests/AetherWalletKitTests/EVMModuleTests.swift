@@ -49,6 +49,18 @@ struct EVMModuleTests {
             #expect(message == "Private key not found for Ethereum")
         }
     }
+
+    @Test("getTransactionHistory returns empty array when no indexer endpoint is configured")
+    func testGetTransactionHistoryNoIndexer() async throws {
+        let evmModule = makeModule()
+        // mockEthereumChain() has no .indexer role endpoint configured --
+        // confirms the non-breaking fallback path added alongside the real
+        // EVMIndexerClient-backed implementation.
+        let chain = ChainConfig.mockEthereumChain()
+
+        let history = try await evmModule.getTransactionHistory(for: chain)
+        #expect(history.isEmpty)
+    }
 }
 
 // MARK: - Mocks

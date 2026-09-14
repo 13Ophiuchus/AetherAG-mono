@@ -130,9 +130,30 @@ final class EVMModule: ChainModule, @unchecked Sendable {
 
     func getTransactionHistory(for chain: ChainConfig) async throws -> [UnifiedTransaction] {
         logger.info("Getting EVM transaction history for \(chain.name)")
-        // This would typically involve a service like Etherscan or a full‑node query.
-        logger.warning("Using mocked transaction history for EVM.")
-        return []
+
+        guard let indexerURL = chain.indexerEndpoints.first else {
+            logger.warning(
+                "No indexer endpoint configured for \(chain.name); returning empty history. " +
+                "Configure ChainConfig.EndpointRole.indexer to enable real transaction history."
+            )
+            return []
+        }
+
+        guard let chainIdInt = Int(chain.chainId) else {
+            throw WalletError.chainConfigurationError(
+                "Invalid numeric chainId '\(chain.chainId)'"
+            )
+        }
+
+        let address = try await getEthereumAddress(for: chain)
+
+        let apiKey = chain.customConfig?["indexerApiKey"]
+        let indexerClient = EVMIndexerClient(baseURL: indexerURL, apiKey: apiKey)
+
+        return try await indexerClient.getTransactionHistory(
+            for: address.address,
+            chainId: chainIdInt
+        )
     }
 
     func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
