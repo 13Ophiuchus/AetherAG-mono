@@ -77,3 +77,34 @@ stubs:
       for SPL token instruction signing and raw message signing
 - [x] Tests covering both paths, matching the Swift Testing style used in
       WalletCoreReceiveAddressTests / TransferFlowTokenTargetTests
+
+## Milestone 9: FlowAccessActor Injection Seam Added (Partial)
+
+Adds a non-breaking `access: FlowAccessActor = FlowActors.access` parameter
+to `buildTransaction`/`sendTransaction` in flow-swift-macos's
+`TransactionBuild.swift` (commit `2d0dbad`), unblocking future test
+isolation without touching any existing call site.
+
+- [x] `access:` parameter added to core `buildTransaction` and both root
+      `sendTransaction` overloads, forwarded through every convenience
+      wrapper. Default value preserves current production behavior
+      exactly.
+- [x] Verified via isolated bisect (stash-based): with ONLY this file
+      changed, the existing 217-test flow-swift-macos suite still runs
+      to completion under default `swift test` flags, hitting only the
+      known pre-existing `FlowActors.access` cross-suite race (~24-30
+      issues, tracked in Milestone [flow-swift-macos race'], not a new
+      failure).
+- [x] Downstream `AGWallet` build + test confirmed unaffected (86/86
+      tests, 18 suites, clean build).
+- [ ] Migrate `BuildTransactionTests` (in flow-swift-macos) to use a
+      suite-local `FlowAccessActor` via this new parameter — BLOCKED on
+      a confirmed Swift 6.3 compiler bug in swift-testing's `@Test` macro
+      expansion (`@section`/`@const` global-variable rejection; see
+      forums.swift.org/t/xcode-26-4-testing-const-value-should-be-
+      initialized-with-a-compile-time-value/85732). Confirmed fixed in
+      Swift 6.4; not yet installable on this machine as of 2026-09-14
+      (6.4-snapshot toolchain returns 404 for this platform via
+      `swiftly`). Revisit once Swift 6.4 is stable/available.
+- [ ] `flow-swift-macos`'s `--no-parallel` requirement (`run-tests.sh`,
+      CI) remains in place until the above completes.
