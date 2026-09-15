@@ -307,6 +307,26 @@ Not yet retrieved. (M65, M67, M68, M69 are covered below.)
 - [x] Full suite: **87/87 tests passing** across Bitcoin/EVM/Solana/Flow/WalletCore,
       3 consecutive clean runs, Swift 6.3 / arm64-apple-macosx26.0.
 
+### Correction — SolanaModule SPL Token Support Already Complete (verified 2026-09-14)
+- [x] Confirmed via direct source read: `SolanaModule.getBalance` and `SolanaModule.send`
+      both have complete, non-stubbed SPL branches gated on `asset.contractAddress != nil`.
+- [x] `KeyManager.signSPLTransferPayload` — derives sender/recipient associated token
+      accounts locally via `PublicKey.associatedTokenAddress` (no RPC round-trip), builds a
+      real `TokenProgram.transferInstruction`, signs, and serializes — mirrors
+      `signSolanaTransferPayload`'s structure for native SOL transfers.
+- [x] `SigningIntent.tokenTransfer` — already validated as a first-class signing intent
+      alongside `.nativeTransfer`, `.addressDerivation`, `.messageSigning`.
+- [x] Test coverage confirmed present and green: `"getBalance returns SPL token balance via
+      associatedTokenAddress + getTokenAccountBalance"` and `"send broadcasts an SPL token
+      transfer using the injected mock RPC client"` — both passing, 3/3 consecutive runs.
+- [x] Full suite: 87/87 tests passing, unchanged from Milestone 70 baseline (no code changed
+      here, only verification + documentation).
+- **Correction**: this directly contradicts `AetherAG-mono_Architecture_and_Production_Plan.md`
+  section 2.4, which listed "SPL token balance" and "SPL token send" as not-yet-implemented,
+  citing specific line numbers (~39-41, ~54-55) as throwing `unsupportedOperation`. That
+  characterization was stale as of this verification — no `unsupportedOperation` remains
+  anywhere in `SolanaModule.swift`'s SPL paths.
+
 ## Corrections From Prior Version of This Document
 
 The version of `MASTER_MILESTONES.md` produced earlier in this session (before live
