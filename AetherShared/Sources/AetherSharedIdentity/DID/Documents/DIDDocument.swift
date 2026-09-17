@@ -7,10 +7,6 @@
 
 import Foundation
 
-#if canImport(Vapor)
-    import Vapor
-#endif
-
 public struct DIDDocument: Codable, Sendable {
     public var context: [String]
     public var id: String
