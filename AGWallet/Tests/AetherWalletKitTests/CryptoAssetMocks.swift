@@ -74,3 +74,29 @@ extension CryptoAsset {
         )
     }
 }
+
+extension ChainConfig {
+    /// Minimal Ethereum ChainConfig for unit tests (no indexer endpoint).
+    static func mockEthereumChain() -> ChainConfig {
+        ChainConfig(
+            chainId: "1",
+            name: "Ethereum",
+            type: .evm,
+            rpcEndpoints: [URL(string: "https://mainnet.infura.io/v3/TEST")!],
+            derivationPath: "m/44'/60'/0'/0/0",
+            nativeAssetSymbol: "ETH"
+        )
+    }
+
+    /// Minimal Solana ChainConfig for unit tests.
+    static func mockSolanaChain() -> ChainConfig {
+        ChainConfig(
+            chainId: "solana",
+            name: "Solana",
+            type: .solana,
+            rpcEndpoints: [URL(string: "https://api.mainnet-beta.solana.com")!],
+            derivationPath: "m/44'/501'/0'/0'",
+            nativeAssetSymbol: "SOL"
+        )
+    }
+}

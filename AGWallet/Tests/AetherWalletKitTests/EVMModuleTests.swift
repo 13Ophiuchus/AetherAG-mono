@@ -62,18 +62,3 @@ struct EVMModuleTests {
         #expect(history.isEmpty)
     }
 }
-
-// MARK: - Mocks
-
-extension ChainConfig {
-    static func mockEthereumChain() -> ChainConfig {
-        return ChainConfig(
-            chainId: "1",
-            name: "Ethereum",
-            type: .evm,
-            rpcEndpoints: [URL(string: "https://mainnet.infura.io/v3/YOUR_PROJECT_ID")!],
-            derivationPath: "m/44'/60'/0'/0/0",
-            nativeAssetSymbol: "ETH"
-        )
-    }
-}

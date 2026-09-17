@@ -235,21 +235,6 @@ struct SolanaModuleTests {
     }
 }
 
-// MARK: - Mocks
-
-extension ChainConfig {
-    static func mockSolanaChain() -> ChainConfig {
-        return ChainConfig(
-            chainId: "solana",
-            name: "Solana",
-            type: .solana,
-            rpcEndpoints: [URL(string: "https://api.mainnet-beta.solana.com")!],
-            derivationPath: "m/44'/501'/0'/0'",
-            nativeAssetSymbol: "SOL"
-        )
-    }
-}
-
 // MARK: - Mock RPC Client
 
 // Records calls and returns canned responses so send() can be tested
