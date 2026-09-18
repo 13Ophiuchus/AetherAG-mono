@@ -274,6 +274,24 @@ Not yet retrieved. (M65, M67, M68, M69 are covered below.)
       succeeded), `3a3634c` + `77dc7ad` (AetherAG-mono submodule bumps + corrected
       milestone note), `fa28928` (AetherAG milestone-note correction itself).
 
+### Milestone 70 (AetherAG-side) — OID4VCI Rate Limiting + VP Consolidation + Flow Idempotency (2026-09-17)
+- [x] Added `OID4VCIRateLimitMiddleware` -- Redis sliding-window limiter (20 req/60s per IP)
+      on `POST /oid4vci/token` and `POST /oid4vci/credential`; passes through transparently
+      when Redis is not configured (in-memory/test mode).
+- [x] Removed `VPSubmissionController` -- VP submission and revocation checks consolidated
+      into `VerificationController` via `VPTokenVerificationService`, eliminating the
+      insecure parallel validation path.
+- [x] Added `VPSubmissionRevocationTests` (end-to-end revoked-credential rejection) and
+      `VPTokenVerificationServiceCredentialIDTests` (unit coverage of `extractCredentialIDs`).
+- [x] Made credential issuance idempotent after Flow sealing via `credential_issuance_records`
+      table; `IssueCredentialJob` skips re-issuance when `anchor_status IN (issued, sealed)`.
+- [x] Added `docs/AetherAGMailServer.md` operational guide (install, env vars,
+      `DISABLE_FLOW_RUNTIME` kill switch, startup/migrate workflows).
+- [x] Full suite: 174 tests, 53 suites passing, clean release build. Commits: `a534a20`
+      (Flow idempotency), `34e5343` (rate limiting + VP consolidation), `7b423b0`
+      (.gitignore hygiene), `8f25149` (ActivityLogView fix), `f22e097` (docs),
+      `b332f1d` (AetherAG/MILESTONES.md M71 entry -- separate numbering track from this file).
+
 ---
 
 ## Part C — Cross-Repo / Housekeeping Backlog
@@ -326,6 +344,19 @@ Not yet retrieved. (M65, M67, M68, M69 are covered below.)
   citing specific line numbers (~39-41, ~54-55) as throwing `unsupportedOperation`. That
   characterization was stale as of this verification — no `unsupportedOperation` remains
   anywhere in `SolanaModule.swift`'s SPL paths.
+
+### Milestone 71 — SolanaModule SPL Token Balance + Send (2026-09-16, confirmed)
+- [x] `KeyManagerActor.signSPLTransferPayload` — ATA derivation, Token Program transfer instruction, Ed25519 sign, base64 serialize.
+- [x] `SolanaModule.getBalance` — SPL path via `getTokenAccountBalance`; native SOL fallback via `getBalance`.
+- [x] `SolanaModule.send` — SPL path via `signSPLTransferPayload` + broadcast; returns `UnifiedTransaction`.
+- [x] Test suite: 12/12 passing across 2 suites (`SolanaModuleTests`, `KeyManagerActorSolanaTests`) — 3 consecutive parallel runs green (2026-09-16).
+
+### Milestone B1 — flow-swift-macos: FlowActors.access global-state race eliminated (2026-09-16)
+- [x] Audited all `FlowActors.access` / `FlowAccessActor.shared` call sites across Sources/ and Tests/.
+- [x] Refactored every test suite to own a discrete, locally-constructed `FlowAccessActor` instance — no mutation of the global singleton from test code.
+- [x] `TestFlowContext` teardown no longer reassigns `FlowActors.access`; original-client restore removed.
+- [x] `swift test` (parallel, default flags) passes 218/218 tests across 30 suites — verified in 6 consecutive runs.
+- [x] `--no-parallel` workaround removed; CI can use standard `swift test`.
 
 ## Corrections From Prior Version of This Document
 
