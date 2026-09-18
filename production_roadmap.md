@@ -357,3 +357,8 @@ it's reasonable to interleave A1 and A2 rather than strictly sequence them.
 - **C4** Rate limiting load-test coverage — **DONE**. `Tests/AetherAGMailServerTests/OID4VCIRateLimitMiddlewareTests.swift` added; proves 429 on 4th request within window (live Redis) and pass-through when Redis unconfigured. 176/176 tests passing, 54/54 suites green.
 - **flow_scheduler blocked status** — **RESOLVED**. `PollFlowTransactionsScheduler.swift` now queries `credential_issuance_records` for `anchor_status = 'pending'` and dispatches `PollFlowTransactionStatusJob` per row, replacing the prior no-op TODO stub.
 - **Deferred to Milestone 72**: APNS push wiring (`configureAPNS` stub never called in `configure.swift`) and email provider integration (no SMTP/SendGrid dependency exists in monorepo yet).
+
+## Corrections (2026-09-18, session 3)
+
+- **Structured logging migration** — **DONE**. All 6 remaining `Jobs/` files (`SendVerificationEmailJob`, `SendPushNotificationJob`, `IssueCredentialJob`, `ExpireIssuanceSessionsJob`, `ExpireIssuanceSessionsScheduler`, `PollFlowTransactionStatusJob`) now use module-level `private let logger = Logger(label: "aetherag.jobs.<name>")` instead of ad-hoc `context.logger.*`. 176/176 tests passing after migration; build clean.
+- **flow_scheduler: "blocked"` in production-readiness audit** — clarified as expected/correct. The audit script (`scripts/production_readiness_audit.py:47`) flags *any* `TODO` string anywhere in `Jobs/`, not scheduler dispatch health specifically. The only remaining TODOs are the deliberately-deferred APNS (`SendPushNotificationJob`) and email (`SendVerificationEmailJob`) provider stubs tracked under Milestone 72. Actual Flow transaction polling logic is fully implemented and tested.
