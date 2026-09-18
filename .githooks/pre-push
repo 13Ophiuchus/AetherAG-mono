@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec python3 "$(git rev-parse --show-toplevel)/.githooks/pre_push_check.py"
