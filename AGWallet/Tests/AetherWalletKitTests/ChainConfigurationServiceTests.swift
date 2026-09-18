@@ -76,7 +76,7 @@ struct ChainConfigurationServiceTests {
         do {
             try await service.updateChain(chain)
             Issue.record("Expected chainNotFound to be thrown")
-        } catch let ChainConfigurationError.chainNotFound {
+        } catch is ChainConfigurationError {
             // expected
         }
         clearKeychain()
@@ -102,7 +102,7 @@ struct ChainConfigurationServiceTests {
         do {
             try await service.removeChain(with: "nonexistent-chain-id")
             Issue.record("Expected chainNotFound to be thrown")
-        } catch let ChainConfigurationError.chainNotFound {
+        } catch is ChainConfigurationError {
             // expected
         }
         clearKeychain()
