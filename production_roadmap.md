@@ -351,3 +351,9 @@ other repos, and follows the exact same guard-check-then-implement-then-test pat
 that just worked for EVM history. **A2 (revocation test)** is equally low-risk and
 addresses an actual security completeness gap per the project's NIST-identity rule, so
 it's reasonable to interleave A1 and A2 rather than strictly sequence them.
+
+## Corrections (2026-09-18, session 2)
+
+- **C4** Rate limiting load-test coverage — **DONE**. `Tests/AetherAGMailServerTests/OID4VCIRateLimitMiddlewareTests.swift` added; proves 429 on 4th request within window (live Redis) and pass-through when Redis unconfigured. 176/176 tests passing, 54/54 suites green.
+- **flow_scheduler blocked status** — **RESOLVED**. `PollFlowTransactionsScheduler.swift` now queries `credential_issuance_records` for `anchor_status = 'pending'` and dispatches `PollFlowTransactionStatusJob` per row, replacing the prior no-op TODO stub.
+- **Deferred to Milestone 72**: APNS push wiring (`configureAPNS` stub never called in `configure.swift`) and email provider integration (no SMTP/SendGrid dependency exists in monorepo yet).
