@@ -10,4 +10,7 @@
    <FileRef
       location = "group:AetherAGMailClientAppShell/AetherAGMailClientAppShell.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:final_sprint.md">
+   </FileRef>
 </Workspace>
