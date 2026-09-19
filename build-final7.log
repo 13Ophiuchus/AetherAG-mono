@@ -1,0 +1,89 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.12kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/swift:6.2-jammy
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#3 ...
+
+#4 [auth] library/swift:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#3 DONE 0.9s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 161B done
+#5 DONE 0.0s
+
+#6 [build 1/7] FROM docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9
+#6 resolve docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9 0.0s done
+#6 DONE 0.0s
+
+#7 [stage-1 1/5] FROM docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03
+#7 resolve docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03 0.0s done
+#7 DONE 0.0s
+
+#8 [stage-1 2/5] WORKDIR /app
+#8 CACHED
+
+#9 [internal] load build context
+#9 transferring context: 920.93kB 0.5s done
+#9 DONE 0.5s
+
+#10 [build 2/7] WORKDIR /build
+#10 CACHED
+
+#11 [build 3/7] COPY . .
+#11 DONE 2.4s
+
+#12 [build 4/7] WORKDIR /build/AetherAG
+#12 DONE 0.1s
+
+#13 [build 5/7] RUN git config --global http.lowSpeedLimit 0 &&     git config --global http.lowSpeedTime 999999 &&     git config --global http.postBuffer 524288000
+#13 DONE 0.1s
+
+#14 [build 6/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     echo "cache bust: 1789795140" &&     for i in 1 2 3; do         swift package resolve && break || { echo "Resolve attempt $i failed, retrying in 10s..."; sleep 10; };     done
+#14 0.144 cache bust: 1789795140
+#14 DONE 7.2s
+
+#15 [build 7/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     swift build -c release --product AetherAGMailServerRun
+#15 6.795 [0/1] Planning build
+#15 6.933 Building for production...
+#15 7.065 [0/4] Write sources
+#15 7.101 [1/4] Write swift-version-24593BA9C3E375BF.txt
+#15 8.489 [3/14] Compiling Flow FlowAccessActor.swift
+#15 8.489 /build/AetherAG/.build/checkouts/flow-swift-macos/Sources/Cadence/Cadence+Child.swift:9:8: error: no such module 'SwiftUI'
+#15 8.489  7 | 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+#15 8.489  8 | 
+#15 8.489  9 | import SwiftUI
+#15 8.489    |        `- error: no such module 'SwiftUI'
+#15 8.489 10 | 
+#15 8.489 11 | extension CadenceLoader.Category {
+#15 ERROR: process "/bin/sh -c swift build -c release --product AetherAGMailServerRun" did not complete successfully: exit code: 1
+------
+ > [build 7/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     swift build -c release --product AetherAGMailServerRun:
+7.065 [0/4] Write sources
+7.101 [1/4] Write swift-version-24593BA9C3E375BF.txt
+8.489 [3/14] Compiling Flow FlowAccessActor.swift
+8.489 /build/AetherAG/.build/checkouts/flow-swift-macos/Sources/Cadence/Cadence+Child.swift:9:8: error: no such module 'SwiftUI'
+8.489  7 | 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+8.489  8 | 
+8.489  9 | import SwiftUI
+8.489    |        `- error: no such module 'SwiftUI'
+8.489 10 | 
+8.489 11 | extension CadenceLoader.Category {
+------
+Dockerfile:15
+--------------------
+  14 |         done
+  15 | >>> RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm \
+  16 | >>>     --mount=type=cache,target=/build/AetherAG/.build \
+  17 | >>>     swift build -c release --product AetherAGMailServerRun
+  18 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c swift build -c release --product AetherAGMailServerRun" did not complete successfully: exit code: 1

@@ -1,5 +1,4 @@
 FROM swift:6.2-jammy AS build
-ARG CACHE_BUST=1
 WORKDIR /build
 COPY . .
 WORKDIR /build/AetherAG
@@ -8,7 +7,8 @@ RUN git config --global http.lowSpeedLimit 0 && \
     git config --global http.postBuffer 524288000
 RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm \
     --mount=type=cache,target=/build/AetherAG/.build \
-    echo "cache bust: ${CACHE_BUST}" && \
+    rm -rf /build/AetherAG/.build/checkouts/flow-swift-macos && \
+    rm -rf /root/.cache/org.swift.swiftpm/repositories/flow-swift-macos-* && \
     for i in 1 2 3; do \
         swift package resolve && break || { echo "Resolve attempt $i failed, retrying in 10s..."; sleep 10; }; \
     done
