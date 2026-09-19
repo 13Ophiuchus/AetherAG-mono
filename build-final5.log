@@ -1,0 +1,1484 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.06kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/swift:6.2-jammy
+#2 DONE 0.0s
+
+#3 [auth] library/swift:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#4 DONE 1.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 161B done
+#5 DONE 0.0s
+
+#6 [stage-1 1/5] FROM docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03
+#6 resolve docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03 done
+#6 CACHED
+
+#7 [stage-1 2/5] WORKDIR /app
+#7 DONE 0.0s
+
+#8 [build 1/7] FROM docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9
+#8 resolve docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9 done
+#8 DONE 0.0s
+
+#9 [build 2/7] WORKDIR /build
+#9 DONE 0.0s
+
+#10 [internal] load build context
+#10 transferring context: 528.87MB 5.0s
+#10 transferring context: 562.52MB 5.4s done
+#10 DONE 5.4s
+
+#11 [build 3/7] COPY . .
+#11 DONE 1.6s
+
+#12 [build 4/7] WORKDIR /build/AetherAG
+#12 DONE 0.1s
+
+#13 [build 5/7] RUN git config --global http.lowSpeedLimit 0 &&     git config --global http.lowSpeedTime 999999 &&     git config --global http.postBuffer 524288000
+#13 DONE 0.1s
+
+#14 [build 6/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     for i in 1 2 3; do         swift package resolve && break || { echo "Resolve attempt $i failed, retrying in 10s..."; sleep 10; };     done
+#14 0.459 Fetching https://github.com/vapor/apns.git
+#14 0.459 Fetching https://github.com/vapor/sqlite-nio.git
+#14 0.460 Fetching https://github.com/apple/swift-async-algorithms
+#14 0.460 Fetching https://github.com/apple/swift-nio.git
+#14 0.460 Fetching https://github.com/apple/swift-configuration.git
+#14 0.460 Fetching https://github.com/vapor/jwt.git
+#14 0.460 Fetching https://github.com/apple/swift-certificates.git
+#14 1.377 [1/799] Fetching apns
+#14 1.454 [145/4554] Fetching apns, swift-configuration
+#14 2.113 [4555/12127] Fetching apns, swift-configuration, swift-certificates
+#14 2.121 [4556/14895] Fetching apns, swift-configuration, swift-certificates, jwt
+#14 2.301 [5808/16909] Fetching apns, swift-configuration, swift-certificates, jwt, sqlite-nio
+#14 2.484 Fetched https://github.com/vapor/jwt.git from cache (2.02s)
+#14 2.486 Fetching https://github.com/apple/swift-collections.git
+#14 2.487 [5429/14141] Fetching apns, swift-configuration, swift-certificates, sqlite-nio
+#14 3.071 [5960/20864] Fetching apns, swift-configuration, swift-certificates, sqlite-nio, swift-async-algorithms
+#14 4.648 [7741/106937] Fetching apns, swift-configuration, swift-certificates, sqlite-nio, swift-async-algorithms, swift-nio
+#14 7.452 [11632/134289] Fetching apns, swift-configuration, swift-certificates, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections
+#14 17.10 Fetched https://github.com/apple/swift-certificates.git from cache (16.64s)
+#14 17.10 Fetching https://github.com/vapor/postgres-nio.git
+#14 17.10 [15203/126716] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections
+#14 18.31 [16146/142140] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections, postgres-nio
+#14 43.90 Fetched https://github.com/vapor/postgres-nio.git from cache (26.80s)
+#14 43.90 Fetching https://github.com/attaswift/BigInt.git
+#14 44.08 [22757/126716] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections
+#14 44.45 [23100/131655] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections, bigint
+#14 61.58 Fetched https://github.com/attaswift/BigInt.git from cache (17.68s)
+#14 61.58 Fetching https://github.com/apple/swift-http-types.git
+#14 61.78 [30702/126716] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections
+#14 62.40 [31524/128651] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections, swift-http-types
+#14 64.70 Fetched https://github.com/apple/swift-http-types.git from cache (3.12s)
+#14 64.70 Fetching https://github.com/apple/swift-nio-ssl.git
+#14 65.63 [33983/126716] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections
+#14 66.50 [34103/142781] Fetching apns, swift-configuration, sqlite-nio, swift-async-algorithms, swift-nio, swift-collections, swift-nio-ssl
+#14 96.13 Fetched https://github.com/vapor/apns.git from cache (95.67s)
+#14 96.13 Fetching https://github.com/apple/swift-http-structured-headers.git
+#14 96.14 Fetched https://github.com/vapor/sqlite-nio.git from cache (95.68s)
+#14 96.14 Fetching https://github.com/swift-server/async-http-client
+#14 96.25 [50132/139968] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-collections, swift-nio-ssl
+#14 106.2 Fetching https://github.com/vapor/sql-kit.git
+#14 106.2 Fetching https://github.com/apple/swift-crypto
+#14 109.4 [66838/158510] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-collections, swift-nio-ssl, swift-crypto
+#14 109.9 [67090/164868] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-collections, swift-nio-ssl, swift-crypto, sql-kit
+#14 118.3 Fetched https://github.com/vapor/sql-kit.git from cache (12.15s)
+#14 118.3 Fetching https://github.com/vapor/multipart-kit.git
+#14 118.5 [69637/158510] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-collections, swift-nio-ssl, swift-crypto
+#14 119.1 [69756/164788] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-collections, swift-nio-ssl, swift-crypto, multipart-kit
+#14 157.5 Fetched https://github.com/apple/swift-collections.git from cache (154.98s)
+#14 157.5 Fetching https://github.com/vapor/postgres-kit.git
+#14 157.5 [71974/137436] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-nio-ssl, swift-crypto, multipart-kit
+#14 158.0 Fetched https://github.com/apple/swift-nio-ssl.git from cache (93.34s)
+#14 158.0 Fetching https://github.com/vapor/fluent-sqlite-driver.git
+#14 158.4 [56295/126890] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, postgres-kit
+#14 159.4 [58128/128263] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, postgres-kit, fluent-sqlite-driver
+#14 161.5 Fetched https://github.com/vapor/fluent-sqlite-driver.git from cache (3.43s)
+#14 161.5 Fetching https://github.com/vapor/sqlite-kit.git
+#14 161.6 [61902/126890] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, postgres-kit
+#14 162.6 Fetched https://github.com/vapor/postgres-kit.git from cache (5.14s)
+#14 162.6 Fetching https://github.com/vapor/redis.git
+#14 162.6 [57416/123568] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, sqlite-kit
+#14 164.1 [59306/127393] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, sqlite-kit, redis
+#14 168.2 Fetched https://github.com/vapor/redis.git from cache (5.59s)
+#14 168.2 Fetching https://github.com/vapor/fluent.git
+#14 168.4 [61029/123568] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, sqlite-kit
+#14 169.6 [61129/137085] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, sqlite-kit, fluent
+#14 192.5 Fetched https://github.com/vapor/fluent.git from cache (24.34s)
+#14 192.5 Fetching https://github.com/vapor/fluent-kit.git
+#14 192.7 [67317/123568] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, sqlite-kit
+#14 193.5 [67318/137536] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, sqlite-kit, fluent-kit
+#14 196.4 Fetched https://github.com/vapor/sqlite-kit.git from cache (34.89s)
+#14 196.4 Fetching https://github.com/13Ophiuchus/flow-swift-macos.git
+#14 196.4 [66773/135339] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, fluent-kit
+#14 196.9 [67412/139226] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, fluent-kit, flow-swift-macos
+#14 223.1 Fetched https://github.com/vapor/fluent-kit.git from cache (30.55s)
+#14 223.1 Fetching https://github.com/krzyzanowskim/CryptoSwift.git
+#14 223.4 [71102/125258] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, flow-swift-macos
+#14 224.0 [71145/138697] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, flow-swift-macos, cryptoswift
+#14 254.5 Fetched https://github.com/13Ophiuchus/flow-swift-macos.git from cache (58.16s)
+#14 254.5 Fetching https://github.com/apple/swift-nio-transport-services.git
+#14 254.8 [73150/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 255.6 [73338/137673] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, swift-nio-transport-services
+#14 258.6 Fetched https://github.com/apple/swift-nio-transport-services.git from cache (4.13s)
+#14 258.6 Fetching https://github.com/bitmark-inc/tweetnacl-swiftwrap
+#14 258.7 [73820/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 259.5 [73921/135231] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, tweetnacl-swiftwrap
+#14 262.3 Fetched https://github.com/bitmark-inc/tweetnacl-swiftwrap from cache (3.69s)
+#14 262.3 Fetching https://github.com/apple/swift-nio-extras.git
+#14 262.5 [74028/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 263.3 [74157/141500] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, swift-nio-extras
+#14 288.9 Fetched https://github.com/apple/swift-nio-extras.git from cache (26.62s)
+#14 288.9 Fetching https://github.com/vapor/console-kit.git
+#14 289.0 [80458/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 289.5 [80459/141653] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, console-kit
+#14 300.6 Fetched https://github.com/vapor/console-kit.git from cache (11.62s)
+#14 300.6 Fetching https://github.com/swift-server/swift-service-lifecycle.git
+#14 300.6 [84267/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 301.3 [84466/137653] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, swift-service-lifecycle
+#14 306.2 Fetched https://github.com/swift-server/swift-service-lifecycle.git from cache (5.64s)
+#14 306.2 Fetching https://github.com/apple/swift-metrics.git
+#14 306.3 [87935/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 307.0 [88076/138318] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, swift-metrics
+#14 317.2 Fetched https://github.com/apple/swift-metrics.git from cache (11.04s)
+#14 317.2 Fetching https://github.com/vapor-community/sendgrid.git
+#14 317.4 [90691/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 317.8 [90693/135889] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, sendgrid
+#14 319.4 Fetched https://github.com/vapor-community/sendgrid.git from cache (2.19s)
+#14 319.4 Fetching https://github.com/vapor/queues.git
+#14 319.5 [90692/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 320.1 [90694/138237] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift, queues
+#14 323.1 Fetched https://github.com/vapor/queues.git from cache (3.65s)
+#14 323.1 Fetching https://github.com/swift-extras/swift-extras-json
+#14 323.2 [91574/134810] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-crypto, multipart-kit, cryptoswift
+#14 323.4 Fetched https://github.com/apple/swift-crypto from cache (217.31s)
+#14 323.4 Fetching https://github.com/vapor/queues-redis-driver.git
+#14 323.6 [73150/117362] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, swift-extras-json
+#14 324.1 [73391/118051] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, swift-extras-json, queues-redis-driver
+#14 325.3 Fetched https://github.com/vapor/queues-redis-driver.git from cache (1.82s)
+#14 325.3 Fetching https://github.com/vapor-community/sendgrid-kit.git
+#14 325.4 [74241/117362] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, swift-extras-json
+#14 325.7 Fetched https://github.com/swift-extras/swift-extras-json from cache (2.59s)
+#14 325.7 Fetching https://github.com/vapor/websocket-kit.git
+#14 325.7 [73212/116268] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift
+#14 326.1 [73213/116957] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, sendgrid-kit
+#14 326.3 [73234/119627] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, sendgrid-kit, websocket-kit
+#14 327.9 Fetched https://github.com/vapor/websocket-kit.git from cache (2.19s)
+#14 327.9 Fetching https://github.com/apple/swift-distributed-tracing.git
+#14 327.9 [73754/116957] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, sendgrid-kit
+#14 328.4 Fetched https://github.com/vapor-community/sendgrid-kit.git from cache (3.17s)
+#14 328.4 Fetching https://github.com/apple/swift-service-context.git
+#14 328.5 [73245/122573] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, swift-distributed-tracing
+#14 329.6 [74682/123937] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, swift-distributed-tracing, swift-service-context
+#14 334.5 Fetched https://github.com/apple/swift-service-context.git from cache (6.04s)
+#14 334.5 Fetching https://github.com/swift-server-community/APNSwift.git
+#14 334.6 [77026/122573] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, swift-distributed-tracing
+#14 335.2 [77030/128700] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, swift-distributed-tracing, apnswift
+#14 340.8 Fetched https://github.com/apple/swift-distributed-tracing.git from cache (12.90s)
+#14 340.8 Fetching https://github.com/apple/swift-system.git
+#14 340.8 [74086/122395] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, apnswift
+#14 341.9 [74161/129293] Fetching swift-configuration, swift-async-algorithms, swift-nio, multipart-kit, cryptoswift, apnswift, swift-system
+#14 361.6 Fetched https://github.com/vapor/multipart-kit.git from cache (243.33s)
+#14 361.6 Fetching https://github.com/apple/swift-numerics.git
+#14 361.6 [80915/123015] Fetching swift-configuration, swift-async-algorithms, swift-nio, cryptoswift, apnswift, swift-system
+#14 362.3 [81498/129651] Fetching swift-configuration, swift-async-algorithms, swift-nio, cryptoswift, apnswift, swift-system, swift-numerics
+#14 366.1 Fetched https://github.com/apple/swift-system.git from cache (25.34s)
+#14 366.1 Fetching https://github.com/vapor/jwt-kit.git
+#14 366.1 [82138/122753] Fetching swift-configuration, swift-async-algorithms, swift-nio, cryptoswift, apnswift, swift-numerics
+#14 367.0 [83493/132986] Fetching swift-configuration, swift-async-algorithms, swift-nio, cryptoswift, apnswift, swift-numerics, jwt-kit
+#14 369.7 Fetched https://github.com/apple/swift-numerics.git from cache (8.05s)
+#14 369.7 Fetching https://github.com/21-DOT-DEV/swift-secp256k1
+#14 369.9 [81003/126350] Fetching swift-configuration, swift-async-algorithms, swift-nio, cryptoswift, apnswift, jwt-kit
+#14 378.3 Fetched https://github.com/swift-server-community/APNSwift.git from cache (43.81s)
+#14 378.3 Fetching https://github.com/apple/swift-asn1.git
+#14 378.6 [83326/120223] Fetching swift-configuration, swift-async-algorithms, swift-nio, cryptoswift, jwt-kit
+#14 379.6 Fetched https://github.com/krzyzanowskim/CryptoSwift.git from cache (156.49s)
+#14 379.6 Fetching https://github.com/apple/swift-atomics.git
+#14 379.6 [70731/106784] Fetching swift-configuration, swift-async-algorithms, swift-nio, jwt-kit
+#14 380.0 [71680/108767] Fetching swift-configuration, swift-async-algorithms, swift-nio, jwt-kit, swift-asn1
+#14 380.2 [71760/110642] Fetching swift-configuration, swift-async-algorithms, swift-nio, jwt-kit, swift-asn1, swift-atomics
+#14 380.6 warning: 'swift-secp256k1': skipping cache due to an error: Failed to clone repository https://github.com/21-DOT-DEV/swift-secp256k1:
+#14 380.6     Cloning into bare repository '/root/.cache/org.swift.swiftpm/repositories/swift-secp256k1-2eb9e3c5'...
+#14 380.6     error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+#14 380.6     fatal: error reading section header 'shallow-info'
+#14 382.3 [73906/121729] Fetching swift-configuration, swift-async-algorithms, swift-nio, jwt-kit, swift-asn1, swift-atomics, swift-secp256k1
+#14 385.3 Fetched https://github.com/apple/swift-asn1.git from cache (7.05s)
+#14 385.3 Fetching https://github.com/vapor/vapor.git
+#14 385.4 [74111/119746] Fetching swift-configuration, swift-async-algorithms, swift-nio, jwt-kit, swift-atomics, swift-secp256k1
+#14 391.9 Fetched https://github.com/apple/swift-atomics.git from cache (12.34s)
+#14 391.9 Fetching https://github.com/bigearsenal/task-retrying-swift
+#14 392.0 [75288/117871] Fetching swift-configuration, swift-async-algorithms, swift-nio, jwt-kit, swift-secp256k1
+#14 400.9 Fetched https://github.com/vapor/jwt-kit.git from cache (34.78s)
+#14 400.9 Fetching https://github.com/apple/swift-algorithms.git
+#14 401.1 [70918/107638] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-secp256k1
+#14 459.0 Fetched https://github.com/21-DOT-DEV/swift-secp256k1 from cache (89.29s)
+#14 459.0 Fetching https://github.com/swift-server/RediStack.git
+#14 463.0 [78317/101354] Fetching swift-configuration, swift-async-algorithms, swift-nio, redistack
+#14 465.0 Fetched https://github.com/swift-server/RediStack.git from cache (6.00s)
+#14 465.0 Fetching https://github.com/apple/swift-log
+#14 467.4 [78317/104647] Fetching swift-configuration, swift-async-algorithms, swift-nio, swift-log
+#14 470.3 Fetched https://github.com/apple/swift-log from cache (5.34s)
+#14 470.3 Fetching https://github.com/vapor/fluent-postgres-driver.git
+#14 470.9 [78383/96551] Fetching swift-configuration, swift-async-algorithms, swift-nio
+#14 474.4 [78915/96604] Fetching swift-configuration, swift-async-algorithms, swift-nio, task-retrying-swift
+#14 474.4 Fetched https://github.com/bigearsenal/task-retrying-swift from cache (82.48s)
+#14 474.4 Fetching https://github.com/apple/swift-nio-http2.git
+#14 474.7 [79110/96551] Fetching swift-configuration, swift-async-algorithms, swift-nio
+#14 477.0 warning: 'vapor': skipping cache due to an error: Failed to clone repository https://github.com/vapor/vapor.git:
+#14 477.0     Cloning into bare repository '/root/.cache/org.swift.swiftpm/repositories/vapor-ad7b9039'...
+#14 477.0     fatal: unable to access 'https://github.com/vapor/vapor.git/': GnuTLS recv error (-110): The TLS connection was non-properly terminated.
+#14 485.9 warning: 'fluent-postgres-driver': skipping cache due to an error: Failed to clone repository https://github.com/vapor/fluent-postgres-driver.git:
+#14 485.9     Cloning into bare repository '/root/.cache/org.swift.swiftpm/repositories/fluent-postgres-driver-2b05c6f9'...
+#14 485.9     error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+#14 485.9     fatal: error reading section header 'shallow-info'
+#14 490.8 warning: 'swift-nio-http2': skipping cache due to an error: Failed to clone repository https://github.com/apple/swift-nio-http2.git:
+#14 490.8     Cloning into bare repository '/root/.cache/org.swift.swiftpm/repositories/swift-nio-http2-440d95c6'...
+#14 490.8     error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+#14 490.8     fatal: error reading section header 'shallow-info'
+#14 495.7 Fetched https://github.com/apple/swift-async-algorithms from cache (495.22s)
+#14 495.7 Fetched https://github.com/apple/swift-configuration.git from cache (495.22s)
+#14 495.7 Fetching https://github.com/vapor/async-kit.git
+#14 495.7 Fetched https://github.com/apple/swift-nio.git from cache (495.26s)
+#14 498.0 [1/2728] Fetching fluent-postgres-driver
+#14 499.1 [902/14980] Fetching fluent-postgres-driver, swift-nio-http2
+#14 499.1 [1503/17494] Fetching fluent-postgres-driver, swift-nio-http2, async-kit
+#14 499.3 Fetched https://github.com/vapor/fluent-postgres-driver.git from cache (29.04s)
+#14 499.3 [422/14766] Fetching swift-nio-http2, async-kit
+#14 499.7 [3496/20911] Fetching swift-nio-http2, async-kit, swift-algorithms
+#14 499.8 Fetching https://github.com/vapor/routing-kit.git
+#14 499.8 Fetched https://github.com/vapor/async-kit.git from cache (4.11s)
+#14 499.9 [1104/18397] Fetching swift-nio-http2, swift-algorithms
+#14 500.7 [2946/39953] Fetching swift-nio-http2, swift-algorithms, routing-kit
+#14 506.4 Fetched https://github.com/apple/swift-algorithms.git from cache (105.45s)
+#14 506.4 [6087/33808] Fetching swift-nio-http2, routing-kit
+#14 523.1 Fetched https://github.com/apple/swift-nio-http2.git from cache (48.69s)
+#14 523.9 [16119/21556] Fetching routing-kit
+#14 530.9 Fetched https://github.com/vapor/routing-kit.git from cache (31.10s)
+#14 530.9 Creating working copy for https://github.com/vapor/sqlite-nio.git
+#14 530.9 Creating working copy for https://github.com/apple/swift-async-algorithms
+#14 530.9 Creating working copy for https://github.com/vapor/postgres-nio.git
+#14 530.9 Creating working copy for https://github.com/apple/swift-certificates.git
+#14 530.9 error: 'swift-http-structured-headers': Git command 'git -C /root/.cache/org.swift.swiftpm/repositories/swift-http-structured-headers-efdd7ab3 config --get remote.origin.url' failed: fatal: cannot change to '/root/.cache/org.swift.swiftpm/repositories/swift-http-structured-headers-efdd7ab3': No such file or directory
+#14 530.9 error: 'async-http-client': Git command 'git -C /root/.cache/org.swift.swiftpm/repositories/async-http-client-afefb790 config --get remote.origin.url' failed: fatal: cannot change to '/root/.cache/org.swift.swiftpm/repositories/async-http-client-afefb790': No such file or directory
+#14 530.9 Creating working copy for https://github.com/attaswift/BigInt.git
+#14 530.9 Creating working copy for https://github.com/apple/swift-configuration.git
+#14 530.9 Creating working copy for https://github.com/apple/swift-http-types.git
+#14 530.9 Creating working copy for https://github.com/apple/swift-collections.git
+#14 530.9 Creating working copy for https://github.com/apple/swift-nio.git
+#14 530.9 Creating working copy for https://github.com/vapor/sqlite-kit.git
+#14 530.9 Working copy of https://github.com/attaswift/BigInt.git resolved at 5.4.1
+#14 530.9 Creating working copy for https://github.com/vapor/fluent-sqlite-driver.git
+#14 530.9 Working copy of https://github.com/vapor/sqlite-nio.git resolved at 1.13.0
+#14 530.9 Creating working copy for https://github.com/apple/swift-nio-ssl.git
+#14 530.9 Working copy of https://github.com/apple/swift-certificates.git resolved at 1.19.4
+#14 530.9 Working copy of https://github.com/apple/swift-async-algorithms resolved at 1.1.5
+#14 530.9 Creating working copy for https://github.com/vapor/fluent.git
+#14 530.9 Working copy of https://github.com/apple/swift-http-types.git resolved at 1.6.0
+#14 531.0 Creating working copy for https://github.com/vapor/postgres-kit.git
+#14 531.0 Working copy of https://github.com/vapor/sqlite-kit.git resolved at 4.5.2
+#14 531.0 Working copy of https://github.com/apple/swift-configuration.git resolved at 1.2.0
+#14 531.0 Working copy of https://github.com/vapor/postgres-nio.git resolved at 1.33.1
+#14 531.0 Creating working copy for https://github.com/vapor/multipart-kit.git
+#14 531.0 Working copy of https://github.com/vapor/fluent-sqlite-driver.git resolved at 4.9.0
+#14 531.0 Creating working copy for https://github.com/krzyzanowskim/CryptoSwift.git
+#14 531.0 Creating working copy for https://github.com/bitmark-inc/tweetnacl-swiftwrap
+#14 531.0 Creating working copy for https://github.com/vapor/jwt.git
+#14 531.0 Working copy of https://github.com/vapor/fluent.git resolved at 4.13.0
+#14 531.0 Creating working copy for https://github.com/vapor/queues.git
+#14 531.0 Working copy of https://github.com/vapor/multipart-kit.git resolved at 4.7.1
+#14 531.0 Creating working copy for https://github.com/swift-server/RediStack.git
+#14 531.0 Working copy of https://github.com/vapor/postgres-kit.git resolved at 2.16.1
+#14 531.0 Creating working copy for https://github.com/swift-server/swift-service-lifecycle.git
+#14 531.0 Working copy of https://github.com/bitmark-inc/tweetnacl-swiftwrap resolved at 1.1.0
+#14 531.0 Creating working copy for https://github.com/vapor-community/sendgrid-kit.git
+#14 531.0 Working copy of https://github.com/vapor/jwt.git resolved at 5.1.2
+#14 531.0 Creating working copy for https://github.com/vapor/apns.git
+#14 531.0 Working copy of https://github.com/vapor/queues.git resolved at 1.18.0
+#14 531.0 Working copy of https://github.com/krzyzanowskim/CryptoSwift.git resolved at 1.10.0
+#14 531.0 Creating working copy for https://github.com/vapor/console-kit.git
+#14 531.0 Creating working copy for https://github.com/apple/swift-metrics.git
+#14 531.0 Working copy of https://github.com/swift-server/swift-service-lifecycle.git resolved at 2.11.0
+#14 531.0 Creating working copy for https://github.com/vapor/queues-redis-driver.git
+#14 531.0 Working copy of https://github.com/swift-server/RediStack.git resolved at 1.6.3
+#14 531.0 Creating working copy for https://github.com/13Ophiuchus/flow-swift-macos.git
+#14 531.0 Working copy of https://github.com/vapor/apns.git resolved at 5.0.0
+#14 531.0 Creating working copy for https://github.com/vapor/websocket-kit.git
+#14 531.0 Working copy of https://github.com/apple/swift-collections.git resolved at 1.6.0
+#14 531.0 Working copy of https://github.com/vapor-community/sendgrid-kit.git resolved at 3.1.0
+#14 531.0 Working copy of https://github.com/apple/swift-nio.git resolved at 2.101.3
+#14 531.0 Creating working copy for https://github.com/apple/swift-asn1.git
+#14 531.0 Working copy of https://github.com/vapor/queues-redis-driver.git resolved at 1.1.2
+#14 531.1 Working copy of https://github.com/apple/swift-metrics.git resolved at 2.11.0
+#14 531.1 Creating working copy for https://github.com/vapor/redis.git
+#14 531.1 Creating working copy for https://github.com/swift-extras/swift-extras-json
+#14 531.1 Creating working copy for https://github.com/vapor/fluent-kit.git
+#14 531.1 Working copy of https://github.com/vapor/console-kit.git resolved at 4.16.0
+#14 531.1 Creating working copy for https://github.com/apple/swift-numerics.git
+#14 531.1 error: 'vapor': Failed to clone repository https://github.com/vapor/vapor.git:
+#14 531.1     Cloning into bare repository '/build/AetherAG/.build/repositories/vapor-ad7b9039'...
+#14 531.1     error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+#14 531.1     fatal: error reading section header 'shallow-info'
+#14 531.1 Working copy of https://github.com/vapor/websocket-kit.git resolved at 2.16.2
+#14 531.1 Creating working copy for https://github.com/apple/swift-system.git
+#14 531.1 Working copy of https://github.com/vapor/redis.git resolved at 4.14.0
+#14 531.1 Creating working copy for https://github.com/apple/swift-distributed-tracing.git
+#14 531.1 Working copy of https://github.com/apple/swift-numerics.git resolved at 1.1.1
+#14 531.1 Creating working copy for https://github.com/apple/swift-crypto
+#14 531.1 Working copy of https://github.com/apple/swift-asn1.git resolved at 1.7.1
+#14 531.1 Creating working copy for https://github.com/vapor-community/sendgrid.git
+#14 531.1 Working copy of https://github.com/apple/swift-nio-ssl.git resolved at 2.37.2
+#14 531.1 Creating working copy for https://github.com/21-DOT-DEV/swift-secp256k1
+#14 531.1 Working copy of https://github.com/swift-extras/swift-extras-json resolved at 0.6.0
+#14 531.1 Working copy of https://github.com/vapor/fluent-kit.git resolved at 1.57.0
+#14 531.1 Creating working copy for https://github.com/vapor/jwt-kit.git
+#14 531.1 Creating working copy for https://github.com/vapor/async-kit.git
+#14 531.1 Working copy of https://github.com/apple/swift-system.git resolved at 1.8.0
+#14 531.1 Creating working copy for https://github.com/apple/swift-atomics.git
+#14 531.1 Working copy of https://github.com/vapor-community/sendgrid.git resolved at 6.0.0
+#14 531.1 Creating working copy for https://github.com/vapor/sql-kit.git
+#14 531.1 Creating working copy for https://github.com/bigearsenal/task-retrying-swift
+#14 531.1 Working copy of https://github.com/apple/swift-distributed-tracing.git resolved at 1.4.1
+#14 531.1 Creating working copy for https://github.com/apple/swift-nio-extras.git
+#14 531.1 Creating working copy for https://github.com/apple/swift-service-context.git
+#14 531.1 Working copy of https://github.com/13Ophiuchus/flow-swift-macos.git resolved at 0.1.1
+#14 531.1 Working copy of https://github.com/vapor/async-kit.git resolved at 1.22.0
+#14 531.1 Working copy of https://github.com/bigearsenal/task-retrying-swift resolved at 1.0.4
+#14 531.1 Creating working copy for https://github.com/apple/swift-algorithms.git
+#14 531.1 Working copy of https://github.com/vapor/jwt-kit.git resolved at 5.2.0
+#14 531.2 Creating working copy for https://github.com/swift-server-community/APNSwift.git
+#14 531.2 Working copy of https://github.com/vapor/sql-kit.git resolved at 3.36.0
+#14 531.2 Creating working copy for https://github.com/apple/swift-nio-transport-services.git
+#14 531.2 Working copy of https://github.com/apple/swift-atomics.git resolved at 1.3.1
+#14 531.2 Creating working copy for https://github.com/apple/swift-log
+#14 531.2 Working copy of https://github.com/apple/swift-service-context.git resolved at 1.3.0
+#14 531.2 Creating working copy for https://github.com/vapor/fluent-postgres-driver.git
+#14 531.2 Creating working copy for https://github.com/vapor/routing-kit.git
+#14 531.2 Creating working copy for https://github.com/apple/swift-nio-http2.git
+#14 531.2 Working copy of https://github.com/apple/swift-algorithms.git resolved at 1.2.1
+#14 531.2 Working copy of https://github.com/apple/swift-nio-extras.git resolved at 1.34.3
+#14 531.2 Working copy of https://github.com/vapor/fluent-postgres-driver.git resolved at 2.12.0
+#14 531.2 Working copy of https://github.com/swift-server-community/APNSwift.git resolved at 6.6.0
+#14 531.2 Working copy of https://github.com/vapor/routing-kit.git resolved at 4.9.3
+#14 531.2 Working copy of https://github.com/apple/swift-nio-transport-services.git resolved at 1.28.0
+#14 531.2 Working copy of https://github.com/apple/swift-log resolved at 1.15.0
+#14 531.3 Working copy of https://github.com/apple/swift-nio-http2.git resolved at 1.45.0
+#14 531.4 Working copy of https://github.com/apple/swift-crypto resolved at 4.5.2
+#14 531.5 Working copy of https://github.com/21-DOT-DEV/swift-secp256k1 resolved at 0.23.2
+#14 531.5 error: fatalError
+#14 531.5 Resolve attempt 1 failed, retrying in 10s...
+#14 541.7 Fetching https://github.com/vapor/vapor.git
+#14 541.7 Fetching https://github.com/apple/swift-http-structured-headers.git
+#14 542.8 [1/1253] Fetching swift-http-structured-headers
+#14 543.5 Fetched https://github.com/apple/swift-http-structured-headers.git from cache (1.86s)
+#14 543.6 Fetching https://github.com/swift-server/async-http-client
+#14 552.3 [1/81396] Fetching vapor
+#14 561.5 warning: 'async-http-client': skipping cache due to an error: Failed to clone repository https://github.com/swift-server/async-http-client:
+#14 561.5     Cloning into bare repository '/root/.cache/org.swift.swiftpm/repositories/async-http-client-afefb790'...
+#14 561.5     error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+#14 561.5     fatal: error reading section header 'shallow-info'
+#14 590.8 Fetched https://github.com/vapor/vapor.git from cache (49.16s)
+#14 590.8 error: 'async-http-client': Failed to clone repository https://github.com/swift-server/async-http-client:
+#14 590.8     Cloning into bare repository '/build/AetherAG/.build/repositories/async-http-client-afefb790'...
+#14 590.8     error: RPC failed; HTTP 408 curl 22 The requested URL returned error: 408
+#14 590.8     fatal: error reading section header 'shallow-info'
+#14 590.8 Creating working copy for https://github.com/vapor/vapor.git
+#14 590.8 Creating working copy for https://github.com/apple/swift-http-structured-headers.git
+#14 590.9 Working copy of https://github.com/apple/swift-http-structured-headers.git resolved at 1.7.0
+#14 590.9 Working copy of https://github.com/vapor/vapor.git resolved at 4.122.0
+#14 590.9 error: fatalError
+#14 590.9 Resolve attempt 2 failed, retrying in 10s...
+#14 601.0 Fetching https://github.com/swift-server/async-http-client
+#14 608.2 [1/16197] Fetching async-http-client
+#14 616.8 Fetched https://github.com/swift-server/async-http-client from cache (15.79s)
+#14 616.8 Creating working copy for https://github.com/swift-server/async-http-client
+#14 616.9 Working copy of https://github.com/swift-server/async-http-client resolved at 1.36.0
+#14 DONE 623.8s
+
+#15 [build 7/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     swift build -c release --product AetherAGMailServerRun
+#15 6.680 Building for production...
+#15 6.772 [0/920] Write sources
+#15 6.812 [1/920] Write swift-version-24593BA9C3E375BF.txt
+#15 6.938 [2/920] Compiling a_i2d_fp.cc
+#15 6.950 [3/920] Compiling tasn_fre.cc
+#15 6.971 [3/920] Compiling precomputed_ecmult_gen.c
+#15 6.974 [3/920] Compiling tasn_typ.cc
+#15 6.974 [3/920] Write sources
+#15 6.984 [3/920] Compiling _NumericsShims _NumericsShims.c
+#15 6.984 [3/920] Write sources
+#15 6.989 [15/920] Compiling base64.cc
+#15 7.001 [16/920] Compiling _AtomicsShims.c
+#15 7.004 [17/920] Compiling tasn_enc.cc
+#15 7.079 [18/923] Compiling tasn_utl.cc
+#15 7.080 [19/923] Write sources
+#15 7.080 [21/923] Copying wk.bridge.min.js
+#15 7.082 [22/923] Copying browser.min.js
+#15 7.084 [23/923] Copying browser.js
+#15 7.084 [24/923] Write sources
+#15 7.095 [25/923] Compiling tasn_new.cc
+#15 7.095 [25/923] Write sources
+#15 7.132 [33/923] Compiling a_int.cc
+#15 7.132 [34/923] Write sources
+#15 7.151 [35/924] Compiling tasn_dec.cc
+#15 7.151 [35/924] Write sources
+#15 7.432 [43/926] Compiling Utility.c
+#15 7.432 [43/926] Write sources
+#15 7.486 [55/927] Compiling _NIOBase64 Base64.swift
+#15 7.492 [55/927] Write sources
+#15 7.494 [88/927] Copying CommonCadence
+#15 7.507 [90/927] Compiling _CertificateInternals _TinyArray.swift
+#15 7.517 [91/927] Compiling ServiceContextModule ServiceContext.swift
+#15 7.783 [92/930] Compiling Instrumentation Instrument.swift
+#15 7.790 [92/930] Write sources
+#15 7.821 [107/930] Compiling CXKCPShims shims.c
+#15 7.943 [109/931] Compiling RealModule AlgebraicField.swift
+#15 7.992 [110/932] Compiling _NIODataStructures Heap.swift
+#15 8.066 [110/933] Compiling precomputed_ecmult.c
+#15 8.371 [112/934] Compiling Task_retrying Task+retrying.swift
+#15 8.604 [113/935] Compiling ConcurrencyHelpers Lock.swift
+#15 8.655 [114/936] Compiling InternalCollectionsUtilities Debugging.swift
+#15 9.015 [115/937] Compiling Tracing InstrumentationSystem+Tracing.swift
+#15 9.605 [116/938] Compiling UnixSignals UnixSignal.swift
+#15 9.691 [117/939] Compiling CoreMetrics Locks.swift
+#15 9.715 [118/939] Compiling Logging MultiplexLogHandler.swift
+#15 10.03 [119/941] Compiling Metrics Metrics.swift
+#15 10.14 [120/942] Compiling HeapModule Heap+Descriptions.swift
+#15 10.45 [121/943] Compiling ContainersPreview OutputSpan+Extras.swift
+#15 10.53 [122/943] Compiling RoutingKit AnyRouter.swift
+#15 10.56 [122/944] Compiling SimpleFIPS202.c
+#15 10.60 [123/944] Compiling KeccakSponge.c
+#15 12.58 [125/944] Compiling ExtrasJSON ArrayKey.swift
+#15 12.61 [125/944] Compiling KeccakHash.c
+#15 12.71 [126/944] Compiling CVaporBcrypt blf.c
+#15 12.75 [127/944] Compiling CVaporBcrypt bcrypt.c
+#15 12.77 [128/944] Compiling KeccakP-1600-opt64.c
+#15 12.83 [130/944] Compiling OrderedCollections _HashTable+Bucket.swift
+#15 12.83 [130/944] Compiling CSystem shims.c
+#15 12.85 [131/944] Compiling CNIOWindows WSAStartup.c
+#15 12.85 [132/944] Compiling CNIOWindows shim.c
+#15 12.86 [133/944] Compiling CNIOWASI CNIOWASI.c
+#15 12.91 [134/945] Compiling CNIOSHA1 c_nio_sha1.c
+#15 12.92 [135/945] Compiling CNIOPosix event_loop_id.c
+#15 12.94 [136/945] Compiling CNIOOpenBSD shim.c
+#15 13.02 [137/945] Compiling CNIOLinux shim.c
+#15 13.03 [138/945] Compiling CNIOLinux liburing_shims.c
+#15 13.18 [139/945] Compiling secp256k1.c
+#15 13.22 [140/945] Compiling CTweetNacl ctweetnacl.c
+#15 14.04 [142/947] Compiling DequeModule Deque+Codable.swift
+#15 14.11 [142/947] Compiling CNIOLLHTTP c_nio_http.c
+#15 14.30 [143/947] Compiling CNIOLLHTTP c_nio_api.c
+#15 14.32 [144/947] Compiling CNIOFreeBSD shim.c
+#15 14.37 [145/947] Compiling CNIOExtrasZlib zutil.c
+#15 14.50 [146/947] Compiling CNIOLLHTTP c_nio_llhttp.c
+#15 14.57 [147/947] Compiling CNIOExtrasZlib inftrees.c
+#15 14.57 [148/947] Compiling CNIOExtrasZlib trees.c
+#15 14.61 [150/947] Compiling SwiftASN1 ASN1.swift
+#15 14.66 [150/947] Compiling CNIOExtrasZlib inffast.c
+#15 14.74 [151/947] Compiling CNIOExtrasZlib crc32.c
+#15 14.89 [152/947] Compiling CNIOExtrasZlib adler32.c
+#15 14.90 [153/947] Compiling CNIODarwin shim.c
+#15 14.91 [154/947] Compiling CNIOExtrasZlib deflate.c
+#15 14.93 [155/947] Compiling fiat_p256_adx_sqr.S
+#15 14.96 [156/947] Compiling fiat_p256_adx_mul.S
+#15 14.98 [157/947] Compiling fiat_curve25519_adx_square.S
+#15 15.00 [158/947] Compiling fiat_curve25519_adx_mul.S
+#15 15.15 [159/947] Compiling CNIOExtrasZlib inflate.c
+#15 15.24 [160/947] Compiling CNIOBoringSSLShims shims.c
+#15 15.27 [162/947] Compiling TweetNacl Constant.swift
+#15 15.64 [163/947] Compiling HashTreeCollections _AncestorHashSlots.swift
+#15 15.77 [163/947] Compiling tls_record.cc
+#15 15.98 [164/947] Compiling tls_method.cc
+#15 16.22 [165/947] Compiling tls13_enc.cc
+#15 16.31 [166/947] Compiling tls13_server.cc
+#15 16.50 [167/947] Compiling tls13_client.cc
+#15 16.62 [168/947] Compiling tls13_both.cc
+#15 16.66 [169/947] Compiling t1_enc.cc
+#15 17.00 [170/947] Compiling ssl_versions.cc
+#15 17.14 [171/947] Compiling ssl_x509.cc
+#15 17.22 [172/947] Compiling ssl_transcript.cc
+#15 17.25 [173/947] Compiling ssl_stat.cc
+#15 17.64 [174/947] Compiling ssl_session.cc
+#15 17.85 [175/947] Compiling ssl_privkey.cc
+#15 18.00 [176/947] Compiling ssl_file.cc
+#15 18.00 [177/947] Compiling ssl_key_share.cc
+#15 18.89 [178/947] Compiling ssl_buffer.cc
+#15 18.92 [179/947] Compiling ssl_lib.cc
+#15 18.97 [181/947] Compiling SystemPackage Errno.swift
+#15 18.99 [181/947] Compiling ssl_credential.cc
+#15 19.44 [182/948] Compiling ssl_cipher.cc
+#15 19.63 [183/948] Compiling ssl_cert.cc
+#15 19.89 [184/948] Compiling ssl_asn1.cc
+#15 20.08 [186/948] Compiling _RopeModule BigString+Builder.swift
+#15 20.22 [186/948] Compiling s3_lib.cc
+#15 20.23 [187/948] Compiling s3_pkt.cc
+#15 20.28 [188/948] Compiling ssl_aead_ctx.cc
+#15 20.53 [189/948] Compiling s3_both.cc
+#15 21.13 [191/948] Compiling P256K Placeholder.swift
+#15 21.22 [191/948] Compiling handshake_client.cc
+#15 21.37 [192/948] Compiling handshake.cc
+#15 21.38 [193/948] Compiling handshake_server.cc
+#15 21.42 [194/948] Compiling handoff.cc
+#15 21.74 [195/948] Compiling encrypted_client_hello.cc
+#15 21.80 [196/948] Compiling extensions.cc
+#15 21.95 [197/948] Compiling dtls_method.cc
+#15 21.97 [198/948] Compiling d1_srtp.cc
+#15 21.97 [199/948] Compiling dtls_record.cc
+#15 21.99 [200/948] Compiling md5-x86_64-linux.S
+#15 22.00 [201/948] Compiling md5-x86_64-apple.S
+#15 22.01 [202/948] Compiling d1_pkt.cc
+#15 22.01 [203/948] Compiling md5-586-linux.S
+#15 22.01 [204/948] Compiling md5-586-apple.S
+#15 22.03 [205/948] Compiling chacha20_poly1305_x86_64-apple.S
+#15 22.03 [206/948] Compiling chacha20_poly1305_x86_64-linux.S
+#15 22.04 [207/948] Compiling chacha20_poly1305_armv8-win.S
+#15 22.06 [208/948] Compiling chacha20_poly1305_armv8-apple.S
+#15 22.07 [209/948] Compiling chacha-x86_64-linux.S
+#15 22.07 [210/948] Compiling chacha20_poly1305_armv8-linux.S
+#15 22.08 [211/948] Compiling chacha-x86_64-apple.S
+#15 22.09 [212/948] Compiling chacha-x86-apple.S
+#15 22.10 [213/948] Compiling chacha-x86-linux.S
+#15 22.11 [214/948] Compiling chacha-armv8-win.S
+#15 22.14 [215/948] Compiling chacha-armv8-linux.S
+#15 22.14 [216/948] Compiling chacha-armv4-linux.S
+#15 22.15 [217/948] Compiling err_data.cc
+#15 22.16 [218/948] Compiling chacha-armv8-apple.S
+#15 22.16 [218/948] Compiling d1_lib.cc
+#15 22.17 [220/948] Compiling aes128gcmsiv-x86_64-linux.S
+#15 22.17 [221/948] Compiling aes128gcmsiv-x86_64-apple.S
+#15 22.18 [222/948] Compiling x86_64-mont5-linux.S
+#15 22.18 [223/948] Compiling x86_64-mont5-apple.S
+#15 22.18 [224/948] Compiling x86_64-mont-linux.S
+#15 22.19 [225/948] Compiling x86-mont-linux.S
+#15 22.20 [226/948] Compiling x86_64-mont-apple.S
+#15 22.21 [227/948] Compiling vpaes-x86_64-linux.S
+#15 22.21 [228/948] Compiling x86-mont-apple.S
+#15 22.22 [229/948] Compiling vpaes-x86_64-apple.S
+#15 22.22 [229/948] Compiling vpaes-x86-linux.S
+#15 22.24 [231/948] Compiling vpaes-armv8-win.S
+#15 22.24 [232/948] Compiling vpaes-x86-apple.S
+#15 22.25 [233/948] Compiling vpaes-armv8-linux.S
+#15 22.25 [234/948] Compiling vpaes-armv7-linux.S
+#15 22.26 [235/948] Compiling vpaes-armv8-apple.S
+#15 22.26 [236/948] Compiling sha512-x86_64-apple.S
+#15 22.28 [237/948] Compiling sha512-x86_64-linux.S
+#15 22.29 [238/948] Compiling sha512-armv8-win.S
+#15 22.29 [239/948] Compiling sha512-armv4-linux.S
+#15 22.29 [240/948] Compiling sha512-armv8-apple.S
+#15 22.30 [241/948] Compiling sha512-586-linux.S
+#15 22.30 [242/948] Compiling sha512-armv8-linux.S
+#15 22.32 [243/948] Compiling bio_ssl.cc
+#15 22.32 [244/948] Compiling sha256-x86_64-linux.S
+#15 22.32 [245/948] Compiling sha256-armv8-win.S
+#15 22.33 [246/948] Compiling sha512-586-apple.S
+#15 22.33 [246/948] Compiling sha256-x86_64-apple.S
+#15 22.34 [248/948] Compiling sha256-armv8-linux.S
+#15 22.35 [249/948] Compiling sha256-586-linux.S
+#15 22.35 [250/948] Compiling sha256-armv4-linux.S
+#15 22.35 [250/948] Compiling sha1-x86_64-linux.S
+#15 22.36 [252/948] Compiling sha256-armv8-apple.S
+#15 22.36 [252/948] Compiling sha256-586-apple.S
+#15 22.38 [254/948] Compiling sha1-x86_64-apple.S
+#15 22.38 [255/948] Compiling sha1-586-linux.S
+#15 22.39 [256/948] Compiling sha1-armv8-apple.S
+#15 22.39 [257/948] Compiling sha1-armv8-win.S
+#15 22.39 [258/948] Compiling sha1-armv8-linux.S
+#15 22.39 [259/948] Compiling sha1-armv4-large-linux.S
+#15 22.41 [260/948] Compiling sha1-586-apple.S
+#15 22.41 [261/948] Compiling rsaz-avx2-linux.S
+#15 22.41 [261/948] Compiling rdrand-x86_64-linux.S
+#15 22.42 [263/948] Compiling rsaz-avx2-apple.S
+#15 22.42 [264/948] Compiling p256_beeu-x86_64-asm-linux.S
+#15 22.42 [265/948] Compiling rdrand-x86_64-apple.S
+#15 22.44 [266/948] Compiling p256_beeu-x86_64-asm-apple.S
+#15 22.45 [267/948] Compiling p256_beeu-armv8-asm-apple.S
+#15 22.45 [268/948] Compiling p256_beeu-armv8-asm-linux.S
+#15 22.45 [269/948] Compiling p256_beeu-armv8-asm-win.S
+#15 22.45 [270/948] Compiling p256-x86_64-asm-linux.S
+#15 22.46 [271/948] Compiling p256-x86_64-asm-apple.S
+#15 22.47 [272/948] Compiling p256-armv8-asm-apple.S
+#15 22.47 [273/948] Compiling p256-armv8-asm-win.S
+#15 22.48 [274/948] Compiling ghashv8-armv8-win.S
+#15 22.49 [275/948] Compiling p256-armv8-asm-linux.S
+#15 22.49 [276/948] Compiling ghashv8-armv8-linux.S
+#15 22.50 [277/948] Compiling ghashv8-armv8-apple.S
+#15 22.50 [278/948] Compiling ghash-x86_64-apple.S
+#15 22.50 [279/948] Compiling ghashv8-armv7-linux.S
+#15 22.51 [280/948] Compiling ghash-x86_64-linux.S
+#15 22.52 [281/948] Compiling ghash-ssse3-x86_64-linux.S
+#15 22.52 [281/948] Compiling ghash-x86-apple.S
+#15 22.52 [283/948] Compiling ghash-x86-linux.S
+#15 22.53 [284/948] Compiling ghash-ssse3-x86_64-apple.S
+#15 22.53 [285/948] Compiling ghash-ssse3-x86-linux.S
+#15 22.54 [286/948] Compiling ghash-ssse3-x86-apple.S
+#15 22.55 [287/948] Compiling ghash-neon-armv8-linux.S
+#15 22.55 [288/948] Compiling ghash-neon-armv8-win.S
+#15 22.56 [289/948] Compiling ghash-neon-armv8-apple.S
+#15 22.56 [290/948] Compiling ghash-armv4-linux.S
+#15 22.57 [291/948] Compiling co-586-linux.S
+#15 22.57 [292/948] Compiling co-586-apple.S
+#15 22.58 [293/948] Compiling bsaes-armv7-linux.S
+#15 22.58 [294/948] Compiling bn-armv8-win.S
+#15 22.58 [295/948] Compiling bn-armv8-linux.S
+#15 22.59 [296/948] Compiling bn-armv8-apple.S
+#15 22.59 [297/948] Compiling bn-586-linux.S
+#15 22.61 [298/948] Compiling bn-586-apple.S
+#15 22.61 [298/948] Compiling armv8-mont-apple.S
+#15 22.61 [300/948] Compiling armv8-mont-win.S
+#15 22.61 [301/948] Compiling aesv8-gcm-armv8-win.S
+#15 22.62 [302/948] Compiling armv4-mont-linux.S
+#15 22.63 [303/948] Compiling armv8-mont-linux.S
+#15 22.64 [304/948] Compiling aesv8-armv8-apple.S
+#15 22.64 [305/948] Compiling aesv8-armv8-win.S
+#15 22.65 [306/948] Compiling aesv8-gcm-armv8-apple.S
+#15 22.65 [307/948] Compiling aesv8-gcm-armv8-linux.S
+#15 22.65 [308/948] Compiling aesv8-armv7-linux.S
+#15 22.67 [309/948] Compiling aesv8-armv8-linux.S
+#15 22.67 [310/948] Compiling aesni-x86_64-linux.S
+#15 22.68 [311/948] Compiling aesni-x86-linux.S
+#15 22.68 [312/948] Compiling aesni-x86-apple.S
+#15 22.68 [313/948] Compiling aesni-x86_64-apple.S
+#15 22.69 [314/948] Compiling aesni-gcm-x86_64-linux.S
+#15 22.70 [315/948] Compiling aes-gcm-avx2-x86_64-linux.S
+#15 22.70 [316/948] Compiling aesni-gcm-x86_64-apple.S
+#15 22.70 [317/948] Compiling aes-gcm-avx10-x86_64-linux.S
+#15 22.71 [318/948] Compiling aes-gcm-avx2-x86_64-apple.S
+#15 22.71 [319/948] Compiling aes-gcm-avx10-x86_64-apple.S
+#15 22.79 [320/948] Compiling d1_both.cc
+#15 23.08 [321/948] Compiling x_spki.cc
+#15 23.08 [322/948] Compiling x_val.cc
+#15 23.09 [323/948] Compiling x_sig.cc
+#15 23.14 [324/948] Compiling x_req.cc
+#15 23.14 [325/948] Compiling x_x509a.cc
+#15 23.16 [326/948] Compiling x_x509.cc
+#15 23.23 [327/948] Compiling x_pubkey.cc
+#15 23.44 [328/948] Compiling x_exten.cc
+#15 23.52 [329/948] Compiling x_name.cc
+#15 23.53 [330/948] Compiling x_attrib.cc
+#15 23.54 [331/948] Compiling x_crl.cc
+#15 23.55 [332/948] Compiling x_algor.cc
+#15 23.62 [333/948] Compiling x509spki.cc
+#15 23.65 [334/948] Compiling x_all.cc
+#15 23.86 [335/948] Compiling x509rset.cc
+#15 23.94 [336/948] Compiling x509cset.cc
+#15 23.95 [337/948] Compiling x509_vpm.cc
+#15 23.98 [338/948] Compiling x509name.cc
+#15 24.01 [339/948] Compiling x509_v3.cc
+#15 24.07 [340/948] Compiling x509_txt.cc
+#15 24.12 [341/948] Compiling x509_vfy.cc
+#15 24.26 [342/948] Compiling x509_trs.cc
+#15 24.36 [343/948] Compiling x509_req.cc
+#15 24.37 [344/948] Compiling x509_obj.cc
+#15 24.38 [345/948] Compiling x509_set.cc
+#15 24.45 [346/948] Compiling x509_lu.cc
+#15 24.48 [347/948] Compiling x509_def.cc
+#15 24.51 [348/948] Compiling x509_ext.cc
+#15 24.63 [349/948] Compiling x509_d2.cc
+#15 24.75 [350/948] Compiling x509.cc
+#15 24.79 [351/948] Compiling x509_cmp.cc
+#15 24.81 [352/948] Compiling x509_att.cc
+#15 24.92 [353/948] Compiling v3_skey.cc
+#15 24.97 [354/948] Compiling v3_purp.cc
+#15 24.99 [355/948] Compiling v3_utl.cc
+#15 25.02 [356/948] Compiling v3_prn.cc
+#15 25.14 [357/948] Compiling v3_pmaps.cc
+#15 25.15 [358/948] Compiling v3_ocsp.cc
+#15 25.21 [359/948] Compiling v3_pcons.cc
+#15 25.34 [360/948] Compiling v3_ncons.cc
+#15 25.40 [361/948] Compiling v3_int.cc
+#15 25.42 [362/948] Compiling v3_info.cc
+#15 25.42 [362/948] Compiling v3_lib.cc
+#15 25.51 [364/948] Compiling v3_ia5.cc
+#15 25.58 [365/948] Compiling v3_genn.cc
+#15 25.59 [366/948] Compiling v3_extku.cc
+#15 25.72 [367/948] Compiling v3_enum.cc
+#15 25.83 [368/948] Compiling v3_conf.cc
+#15 25.86 [369/948] Compiling v3_crld.cc
+#15 25.87 [370/948] Compiling v3_cpols.cc
+#15 25.89 [371/948] Compiling v3_bitst.cc
+#15 25.97 [372/948] Compiling v3_bcons.cc
+#15 26.06 [373/948] Compiling v3_alt.cc
+#15 26.11 [374/948] Compiling v3_akeya.cc
+#15 26.25 [375/948] Compiling t_x509a.cc
+#15 26.27 [376/948] Compiling v3_akey.cc
+#15 26.36 [377/948] Compiling t_req.cc
+#15 26.41 [378/948] Compiling t_x509.cc
+#15 26.51 [379/948] Compiling t_crl.cc
+#15 26.62 [380/948] Compiling i2d_pr.cc
+#15 26.67 [381/948] Compiling rsa_pss.cc
+#15 27.05 [382/948] Compiling name_print.cc
+#15 27.12 [383/948] Compiling a_verify.cc
+#15 27.24 [384/948] Compiling policy.cc
+#15 27.43 [385/948] Compiling asn1_gen.cc
+#15 27.46 [386/948] Compiling a_digest.cc
+#15 27.67 [387/948] Compiling by_file.cc
+#15 27.72 [388/948] Compiling by_dir.cc
+#15 27.93 [389/948] Compiling trust_token.cc
+#15 27.97 [390/948] Compiling algorithm.cc
+#15 28.02 [391/948] Compiling thread_win.cc
+#15 28.05 [392/948] Compiling pmbtoken.cc
+#15 28.06 [393/948] Compiling thread_pthread.cc
+#15 28.11 [394/948] Compiling a_sign.cc
+#15 28.13 [395/948] Compiling thread_none.cc
+#15 28.14 [396/948] Compiling voprf.cc
+#15 28.18 [397/948] Compiling thread.cc
+#15 28.20 [399/948] Compiling CryptoSwift AEAD.swift
+#15 28.28 [399/948] Compiling siphash.cc
+#15 28.28 [400/948] Compiling sha512.cc
+#15 28.31 [401/948] Compiling stack.cc
+#15 28.32 [402/948] Compiling sha1.cc
+#15 28.33 [403/948] Compiling slhdsa.cc
+#15 28.34 [404/948] Compiling sha256.cc
+#15 28.40 [405/948] Compiling rsa_print.cc
+#15 28.41 [406/948] Compiling spake2plus.cc
+#15 28.42 [407/948] Compiling rsa_extra.cc
+#15 28.45 [408/948] Compiling rc4.cc
+#15 28.47 [409/948] Compiling refcount.cc
+#15 28.48 [410/948] Compiling windows.cc
+#15 28.55 [411/948] Compiling rsa_crypt.cc
+#15 28.55 [412/948] Compiling trusty.cc
+#15 28.56 [413/948] Compiling rand.cc
+#15 28.58 [414/948] Compiling ios.cc
+#15 28.58 [415/948] Compiling urandom.cc
+#15 28.60 [416/948] Compiling rsa_asn1.cc
+#15 28.60 [417/948] Compiling passive.cc
+#15 28.61 [418/948] Compiling getentropy.cc
+#15 28.62 [419/948] Compiling poly1305_arm_asm.S
+#15 28.69 [420/948] Compiling deterministic.cc
+#15 28.73 [421/948] Compiling poly1305_vec.cc
+#15 28.74 [422/948] Compiling fork_detect.cc
+#15 28.76 [423/948] Compiling forkunsafe.cc
+#15 28.77 [424/948] Compiling poly1305_arm.cc
+#15 28.80 [425/948] Compiling poly1305.cc
+#15 28.85 [426/948] Compiling pool.cc
+#15 29.03 [427/948] Compiling pkcs7.cc
+#15 29.11 [428/948] Compiling pkcs8.cc
+#15 29.11 [429/948] Compiling pkcs8_x509.cc
+#15 29.13 [430/948] Compiling pem_xaux.cc
+#15 29.13 [430/948] Compiling p5_pbev2.cc
+#15 29.15 [432/948] Compiling pem_x509.cc
+#15 29.19 [433/948] Compiling pkcs7_x509.cc
+#15 29.21 [434/948] Compiling pem_pkey.cc
+#15 29.35 [435/948] Compiling mlkem.cc
+#15 29.40 [436/948] Compiling obj_xref.cc
+#15 29.46 [437/948] Compiling pem_pk8.cc
+#15 29.47 [438/948] Compiling pem_oth.cc
+#15 29.50 [439/948] Compiling mldsa.cc
+#15 29.50 [440/948] Compiling pem_info.cc
+#15 29.52 [441/948] Compiling pem_all.cc
+#15 29.56 [442/948] Compiling obj.cc
+#15 29.58 [443/948] Compiling poly_rq_mul.S
+#15 29.59 [444/948] Compiling pem_lib.cc
+#15 29.61 [445/948] Compiling fips_shared_support.cc
+#15 29.62 [446/948] Compiling mem.cc
+#15 29.62 [448/948] Compiling Configuration AccessReporter.swift
+#15 29.67 [448/948] Compiling md4.cc
+#15 29.69 [449/948] Compiling md5.cc
+#15 29.70 [450/948] Compiling lhash.cc
+#15 29.78 [451/948] Compiling ex_data.cc
+#15 29.80 [452/948] Compiling sign.cc
+#15 29.87 [453/948] Compiling pbkdf.cc
+#15 29.89 [454/948] Compiling scrypt.cc
+#15 29.93 [455/948] Compiling print.cc
+#15 29.95 [456/948] Compiling hpke.cc
+#15 29.95 [457/948] Compiling p_x25519.cc
+#15 30.00 [458/948] Compiling kyber.cc
+#15 30.06 [459/948] Compiling p_x25519_asn1.cc
+#15 30.14 [460/948] Compiling p_ed25519.cc
+#15 30.17 [461/948] Compiling hrss.cc
+#15 30.19 [462/948] Compiling p_rsa_asn1.cc
+#15 30.21 [463/948] Compiling p_hkdf.cc
+#15 30.22 [464/948] Compiling p_ed25519_asn1.cc
+#15 30.23 [465/948] Compiling p_rsa.cc
+#15 30.28 [466/948] Compiling p_ec.cc
+#15 30.29 [467/948] Compiling p_ec_asn1.cc
+#15 30.39 [468/948] Compiling p_dh_asn1.cc
+#15 30.41 [469/948] Compiling p_dh.cc
+#15 30.44 [470/948] Compiling evp_ctx.cc
+#15 30.46 [471/948] Compiling engine.cc
+#15 30.47 [472/948] Compiling evp.cc
+#15 30.48 [473/948] Compiling p_dsa_asn1.cc
+#15 30.56 [474/948] Compiling err.cc
+#15 30.57 [475/948] Compiling evp_asn1.cc
+#15 30.58 [476/948] Compiling ecdh.cc
+#15 30.63 [477/948] Compiling ec_derive.cc
+#15 30.67 [478/948] Compiling ecdsa_asn1.cc
+#15 30.75 [479/948] Compiling hash_to_curve.cc
+#15 30.79 [480/948] Compiling dsa_asn1.cc
+#15 30.84 [481/948] Compiling params.cc
+#15 30.84 [482/948] Compiling ec_asn1.cc
+#15 30.85 [483/948] Compiling dsa.cc
+#15 30.86 [484/948] Compiling x25519-asm-arm.S
+#15 30.88 [485/948] Compiling digest_extra.cc
+#15 30.95 [486/948] Compiling dh_asn1.cc
+#15 30.96 [487/948] Compiling curve25519_64_adx.cc
+#15 30.99 [488/948] Compiling crypto.cc
+#15 31.01 [489/948] Compiling cpu_intel.cc
+#15 31.03 [490/948] Compiling cpu_arm_linux.cc
+#15 31.05 [491/948] Compiling spake25519.cc
+#15 31.06 [492/948] Compiling des.cc
+#15 31.10 [493/948] Compiling cpu_arm_freebsd.cc
+#15 31.12 [494/948] Compiling cpu_aarch64_sysreg.cc
+#15 31.13 [495/948] Compiling cpu_aarch64_openbsd.cc
+#15 31.13 [496/948] Compiling cpu_aarch64_win.cc
+#15 31.18 [497/948] Compiling cpu_aarch64_linux.cc
+#15 31.21 [498/948] Compiling cpu_aarch64_fuchsia.cc
+#15 31.21 [499/948] Compiling cpu_aarch64_apple.cc
+#15 31.30 [500/948] Compiling get_cipher.cc
+#15 31.32 [501/948] Compiling conf.cc
+#15 31.35 [502/948] Compiling e_rc4.cc
+#15 31.36 [503/948] Compiling tls_cbc.cc
+#15 31.37 [504/948] Compiling e_tls.cc
+#15 31.37 [505/948] Compiling e_null.cc
+#15 31.43 [506/948] Compiling e_rc2.cc
+#15 31.47 [507/948] Compiling e_des.cc
+#15 31.48 [508/948] Compiling curve25519.cc
+#15 31.51 [509/948] Compiling e_chacha20poly1305.cc
+#15 31.53 [510/948] Compiling chacha.cc
+#15 31.55 [511/948] Compiling e_aesgcmsiv.cc
+#15 31.56 [512/948] Compiling e_aesctrhmac.cc
+#15 31.56 [513/948] Compiling derive_key.cc
+#15 31.67 [514/948] Compiling unicode.cc
+#15 31.70 [515/948] Compiling buf.cc
+#15 31.74 [516/948] Compiling ber.cc
+#15 31.79 [517/948] Compiling bn_asn1.cc
+#15 31.80 [518/948] Compiling asn1_compat.cc
+#15 31.84 [519/948] Compiling cbb.cc
+#15 31.88 [520/948] Compiling cbs.cc
+#15 31.89 [521/948] Compiling convert.cc
+#15 31.90 [522/948] Compiling socket_helper.cc
+#15 31.90 [522/948] Compiling blake2.cc
+#15 31.94 [524/948] Compiling socket.cc
+#15 31.96 [525/948] Compiling printf.cc
+#15 31.98 [526/948] Compiling pair.cc
+#15 32.02 [527/948] Compiling hexdump.cc
+#15 32.06 [528/948] Compiling fd.cc
+#15 32.06 [528/948] Compiling file.cc
+#15 32.07 [530/948] Compiling errno.cc
+#15 32.11 [531/948] Compiling connect.cc
+#15 32.13 [532/948] Compiling bio_mem.cc
+#15 32.19 [533/948] Compiling base64.cc
+#15 32.23 [534/948] Compiling tasn_fre.cc
+#15 32.27 [535/948] Compiling bio.cc
+#15 32.31 [536/948] Compiling tasn_typ.cc
+#15 32.33 [537/948] Compiling tasn_utl.cc
+#15 32.36 [538/948] Compiling tasn_enc.cc
+#15 32.37 [539/948] Compiling posix_time.cc
+#15 32.37 [539/948] Compiling tasn_new.cc
+#15 32.40 [541/948] Compiling f_string.cc
+#15 32.45 [542/948] Compiling f_int.cc
+#15 32.48 [543/948] Compiling asn_pack.cc
+#15 32.49 [544/948] Compiling tasn_dec.cc
+#15 32.50 [545/948] Compiling asn1_par.cc
+#15 32.63 [546/948] Compiling a_utctm.cc
+#15 32.64 [547/948] Compiling a_type.cc
+#15 32.65 [548/948] Compiling a_octet.cc
+#15 32.65 [549/948] Compiling asn1_lib.cc
+#15 32.67 [550/948] Compiling a_time.cc
+#15 32.77 [551/948] Compiling a_strnid.cc
+#15 32.79 [552/948] Compiling a_i2d_fp.cc
+#15 32.80 [553/948] Compiling a_object.cc
+#15 32.84 [554/948] Compiling a_strex.cc
+#15 32.87 [555/948] Compiling a_dup.cc
+#15 32.93 [556/948] Compiling a_mbstr.cc
+#15 32.94 [557/948] Compiling a_gentm.cc
+#15 32.96 [558/948] Compiling fiat_p256_adx_sqr.S
+#15 32.96 [559/948] Compiling a_d2i_fp.cc
+#15 32.99 [560/948] Compiling fiat_p256_adx_mul.S
+#15 32.99 [561/948] Compiling fiat_curve25519_adx_square.S
+#15 33.01 [562/948] Compiling a_int.cc
+#15 33.01 [563/948] Compiling fiat_curve25519_adx_mul.S
+#15 33.02 [564/948] Compiling a_bitstr.cc
+#15 33.02 [565/948] Compiling md5-x86_64-linux.S
+#15 33.04 [566/948] Compiling md5-586-apple.S
+#15 33.04 [566/948] Compiling md5-x86_64-apple.S
+#15 33.05 [568/948] Compiling md5-586-linux.S
+#15 33.05 [569/948] Compiling CCryptoBoringSSLShims shims.c
+#15 33.06 [570/948] Compiling a_bool.cc
+#15 33.06 [571/948] Compiling chacha20_poly1305_x86_64-apple.S
+#15 33.07 [572/948] Compiling chacha20_poly1305_x86_64-linux.S
+#15 33.08 [573/948] Compiling chacha20_poly1305_armv8-win.S
+#15 33.08 [574/948] Compiling chacha20_poly1305_armv8-apple.S
+#15 33.08 [575/948] Compiling chacha-x86_64-linux.S
+#15 33.10 [576/948] Compiling chacha20_poly1305_armv8-linux.S
+#15 33.10 [576/948] Compiling chacha-x86-linux.S
+#15 33.10 [578/948] Compiling chacha-x86_64-apple.S
+#15 33.10 [579/948] Compiling chacha-x86-apple.S
+#15 33.11 [580/948] Compiling chacha-armv8-win.S
+#15 33.12 [581/948] Compiling chacha-armv8-apple.S
+#15 33.12 [582/948] Compiling aes128gcmsiv-x86_64-linux.S
+#15 33.13 [583/948] Compiling chacha-armv4-linux.S
+#15 33.13 [584/948] Compiling aes128gcmsiv-x86_64-apple.S
+#15 33.13 [585/948] Compiling chacha-armv8-linux.S
+#15 33.14 [586/948] Compiling x86_64-mont5-linux.S
+#15 33.14 [587/948] Compiling x86_64-mont5-apple.S
+#15 33.15 [588/948] Compiling x86_64-mont-linux.S
+#15 33.15 [589/948] Compiling x86_64-mont-apple.S
+#15 33.16 [590/948] Compiling x86-mont-linux.S
+#15 33.17 [591/948] Compiling x86-mont-apple.S
+#15 33.17 [591/948] Compiling vpaes-x86_64-apple.S
+#15 33.17 [593/948] Compiling vpaes-x86-linux.S
+#15 33.18 [594/948] Compiling vpaes-x86_64-linux.S
+#15 33.18 [595/948] Compiling vpaes-x86-apple.S
+#15 33.18 [596/948] Compiling err_data.cc
+#15 33.20 [597/948] Compiling vpaes-armv8-win.S
+#15 33.21 [598/948] Compiling vpaes-armv8-linux.S
+#15 33.21 [599/948] Compiling vpaes-armv8-apple.S
+#15 33.21 [600/948] Compiling vpaes-armv7-linux.S
+#15 33.21 [601/948] Compiling sha512-x86_64-linux.S
+#15 33.23 [602/948] Compiling sha512-armv8-win.S
+#15 33.23 [603/948] Compiling sha512-x86_64-apple.S
+#15 33.24 [604/948] Compiling sha512-armv8-apple.S
+#15 33.24 [605/948] Compiling sha512-armv4-linux.S
+#15 33.24 [606/948] Compiling sha512-586-linux.S
+#15 33.25 [607/948] Compiling sha512-armv8-linux.S
+#15 33.25 [607/948] Compiling sha512-586-apple.S
+#15 33.26 [609/948] Compiling sha256-x86_64-linux.S
+#15 33.27 [610/948] Compiling sha256-armv8-win.S
+#15 33.27 [611/948] Compiling sha256-armv8-apple.S
+#15 33.28 [612/948] Compiling sha256-x86_64-apple.S
+#15 33.28 [613/948] Compiling sha256-armv4-linux.S
+#15 33.29 [614/948] Compiling sha256-586-linux.S
+#15 33.29 [615/948] Compiling sha256-armv8-linux.S
+#15 33.29 [616/948] Compiling sha1-x86_64-linux.S
+#15 33.30 [617/948] Compiling sha1-armv8-win.S
+#15 33.30 [618/948] Compiling sha256-586-apple.S
+#15 33.30 [619/948] Compiling sha1-x86_64-apple.S
+#15 33.32 [620/948] Compiling sha1-armv8-apple.S
+#15 33.32 [621/948] Compiling sha1-armv4-large-linux.S
+#15 33.32 [622/948] Compiling sha1-586-linux.S
+#15 33.32 [623/948] Compiling sha1-armv8-linux.S
+#15 33.33 [624/948] Compiling sha1-586-apple.S
+#15 33.33 [625/948] Compiling rsaz-avx2-linux.S
+#15 33.34 [626/948] Compiling rdrand-x86_64-linux.S
+#15 33.34 [627/948] Compiling rdrand-x86_64-apple.S
+#15 33.34 [628/948] Compiling rsaz-avx2-apple.S
+#15 33.35 [629/948] Compiling p256_beeu-armv8-asm-win.S
+#15 33.35 [629/948] Compiling p256_beeu-x86_64-asm-linux.S
+#15 33.36 [631/948] Compiling p256_beeu-x86_64-asm-apple.S
+#15 33.36 [632/948] Compiling p256_beeu-armv8-asm-apple.S
+#15 33.37 [633/948] Compiling p256-x86_64-asm-linux.S
+#15 33.37 [634/948] Compiling p256_beeu-armv8-asm-linux.S
+#15 33.37 [635/948] Compiling p256-x86_64-asm-apple.S
+#15 33.38 [636/948] Compiling p256-armv8-asm-win.S
+#15 33.39 [637/948] Compiling ghashv8-armv8-win.S
+#15 33.39 [638/948] Compiling p256-armv8-asm-linux.S
+#15 33.39 [639/948] Compiling p256-armv8-asm-apple.S
+#15 33.40 [640/948] Compiling ghashv8-armv8-linux.S
+#15 33.40 [641/948] Compiling ghashv8-armv8-apple.S
+#15 33.40 [642/948] Compiling ghashv8-armv7-linux.S
+#15 33.41 [643/948] Compiling ghash-x86_64-linux.S
+#15 33.41 [644/948] Compiling ghash-x86-linux.S
+#15 33.42 [645/948] Compiling ghash-ssse3-x86_64-apple.S
+#15 33.43 [646/948] Compiling ghash-x86-apple.S
+#15 33.43 [647/948] Compiling ghash-x86_64-apple.S
+#15 33.43 [648/948] Compiling ghash-ssse3-x86_64-linux.S
+#15 33.44 [649/948] Compiling ghash-ssse3-x86-apple.S
+#15 33.44 [650/948] Compiling ghash-neon-armv8-win.S
+#15 33.45 [651/948] Compiling ghash-ssse3-x86-linux.S
+#15 33.46 [652/948] Compiling ghash-neon-armv8-linux.S
+#15 33.46 [653/948] Compiling ghash-armv4-linux.S
+#15 33.46 [654/948] Compiling co-586-linux.S
+#15 33.46 [655/948] Compiling ghash-neon-armv8-apple.S
+#15 33.47 [656/948] Compiling co-586-apple.S
+#15 33.48 [657/948] Compiling bsaes-armv7-linux.S
+#15 33.49 [658/948] Compiling bn-armv8-win.S
+#15 33.49 [659/948] Compiling bn-armv8-apple.S
+#15 33.49 [660/948] Compiling bn-armv8-linux.S
+#15 33.49 [660/948] Compiling bn-586-linux.S
+#15 33.49 [660/948] Compiling bn-586-apple.S
+#15 33.51 [663/948] Compiling armv8-mont-win.S
+#15 33.52 [664/948] Compiling armv4-mont-linux.S
+#15 33.52 [665/948] Compiling armv8-mont-apple.S
+#15 33.52 [666/948] Compiling aesv8-gcm-armv8-win.S
+#15 33.53 [667/948] Compiling aesv8-gcm-armv8-linux.S
+#15 33.53 [668/948] Compiling armv8-mont-linux.S
+#15 33.53 [669/948] Compiling aesv8-gcm-armv8-apple.S
+#15 33.54 [670/948] Compiling aesv8-armv8-win.S
+#15 33.55 [671/948] Compiling aesv8-armv8-linux.S
+#15 33.56 [672/948] Compiling aesv8-armv8-apple.S
+#15 33.56 [673/948] Compiling aesv8-armv7-linux.S
+#15 33.56 [674/948] Compiling aesni-x86_64-linux.S
+#15 33.57 [675/948] Compiling aesni-x86-linux.S
+#15 33.57 [676/948] Compiling aesni-x86_64-apple.S
+#15 33.58 [677/948] Compiling aesni-gcm-x86_64-linux.S
+#15 33.59 [678/948] Compiling aesni-x86-apple.S
+#15 33.59 [679/948] Compiling aes-gcm-avx512-x86_64-linux.S
+#15 33.59 [680/948] Compiling aesni-gcm-x86_64-apple.S
+#15 33.59 [681/948] Compiling aes-gcm-avx2-x86_64-linux.S
+#15 33.61 [682/948] Compiling aes-gcm-avx512-x86_64-apple.S
+#15 33.61 [683/948] Compiling aes-gcm-avx2-x86_64-apple.S
+#15 33.66 [684/948] Compiling c-nioatomics.c
+#15 33.68 [685/948] Compiling c-atomics.c
+#15 33.86 [686/948] Compiling xwing.cc
+#15 33.93 [687/949] Compiling x_spki.cc
+#15 34.03 [688/949] Compiling x_x509.cc
+#15 34.03 [689/949] Compiling x_req.cc
+#15 34.04 [690/949] Compiling x_x509a.cc
+#15 34.05 [691/949] Compiling x_sig.cc
+#15 34.08 [692/949] Compiling x_pubkey.cc
+#15 34.09 [693/949] Compiling x_name.cc
+#15 34.33 [694/949] Compiling x_exten.cc
+#15 34.42 [695/949] Compiling x509spki.cc
+#15 34.42 [696/949] Compiling x_crl.cc
+#15 34.43 [697/949] Compiling x509rset.cc
+#15 34.47 [698/949] Compiling x_attrib.cc
+#15 34.62 [699/949] Compiling x_all.cc
+#15 34.64 [700/949] Compiling x_algor.cc
+#15 34.73 [701/949] Compiling x509name.cc
+#15 34.78 [702/949] Compiling x509cset.cc
+#15 34.80 [703/949] Compiling x509_vpm.cc
+#15 34.91 [704/949] Compiling x509_v3.cc
+#15 34.93 [705/949] Compiling x509_vfy.cc
+#15 35.02 [706/949] Compiling x509_txt.cc
+#15 35.06 [707/949] Compiling x509_trs.cc
+#15 35.07 [709/949] Compiling NIOConcurrencyHelpers NIOAtomic.swift
+#15 35.15 [709/950] Compiling x509_set.cc
+#15 35.20 [710/950] Compiling x509_obj.cc
+#15 35.25 [711/950] Compiling x509_req.cc
+#15 35.28 [712/950] Compiling x509_ext.cc
+#15 35.39 [713/950] Compiling x509_def.cc
+#15 35.40 [714/950] Compiling x509_lu.cc
+#15 35.46 [715/950] Compiling x509_d2.cc
+#15 35.50 [716/950] Compiling x509_cmp.cc
+#15 35.57 [717/950] Compiling x509_att.cc
+#15 35.57 [718/950] Compiling x509.cc
+#15 35.75 [719/950] Compiling v3_utl.cc
+#15 35.86 [720/950] Compiling v3_skey.cc
+#15 35.86 [721/950] Compiling v3_prn.cc
+#15 35.88 [722/950] Compiling v3_pmaps.cc
+#15 35.89 [723/950] Compiling v3_purp.cc
+#15 35.91 [724/950] Compiling v3_ocsp.cc
+#15 35.91 [725/950] Compiling v3_pcons.cc
+#15 36.14 [726/950] Compiling v3_ncons.cc
+#15 36.25 [727/950] Compiling v3_extku.cc
+#15 36.27 [728/950] Compiling v3_genn.cc
+#15 36.28 [729/950] Compiling v3_info.cc
+#15 36.30 [730/950] Compiling v3_int.cc
+#15 36.31 [731/950] Compiling v3_lib.cc
+#15 36.36 [732/950] Compiling v3_ia5.cc
+#15 36.48 [733/950] Compiling v3_enum.cc
+#15 36.65 [734/950] Compiling v3_crld.cc
+#15 36.66 [735/950] Compiling v3_cpols.cc
+#15 36.68 [736/950] Compiling v3_conf.cc
+#15 36.72 [737/950] Compiling v3_bitst.cc
+#15 36.75 [738/950] Compiling v3_bcons.cc
+#15 36.82 [739/950] Compiling v3_akeya.cc
+#15 36.84 [740/950] Compiling v3_alt.cc
+#15 36.99 [741/950] Compiling v3_akey.cc
+#15 37.01 [742/950] Compiling t_x509a.cc
+#15 37.05 [743/950] Compiling t_x509.cc
+#15 37.17 [744/950] Compiling t_crl.cc
+#15 37.17 [745/950] Compiling i2d_pr.cc
+#15 37.18 [746/950] Compiling t_req.cc
+#15 37.18 [747/950] Compiling rsa_pss.cc
+#15 37.37 [748/950] Compiling name_print.cc
+#15 37.41 [749/950] Compiling policy.cc
+#15 37.48 [750/950] Compiling by_file.cc
+#15 37.62 [751/950] Compiling a_verify.cc
+#15 37.68 [752/950] Compiling algorithm.cc
+#15 37.74 [753/950] Compiling asn1_gen.cc
+#15 37.81 [754/950] Compiling a_digest.cc
+#15 37.82 [755/950] Compiling by_dir.cc
+#15 37.82 [757/950] Compiling ConsoleKitTerminal ActivityBar.swift
+#15 37.87 [757/950] Compiling a_sign.cc
+#15 37.90 [758/950] Compiling voprf.cc
+#15 37.91 [759/951] Compiling thread_win.cc
+#15 37.96 [760/951] Compiling thread.cc
+#15 37.97 [761/951] Compiling thread_none.cc
+#15 37.97 [762/951] Compiling thread_pthread.cc
+#15 38.01 [763/951] Compiling trust_token.cc
+#15 38.11 [764/951] Compiling stack.cc
+#15 38.12 [765/951] Compiling sha256.cc
+#15 38.14 [766/951] Compiling siphash.cc
+#15 38.15 [767/951] Compiling sha512.cc
+#15 38.16 [768/951] Compiling pmbtoken.cc
+#15 38.23 [769/951] Compiling slhdsa.cc
+#15 38.24 [770/951] Compiling sha1.cc
+#15 38.25 [771/951] Compiling spake2plus.cc
+#15 38.25 [772/951] Compiling rsa_print.cc
+#15 38.29 [773/951] Compiling rsa_extra.cc
+#15 38.36 [774/951] Compiling rc4.cc
+#15 38.40 [775/951] Compiling windows.cc
+#15 38.41 [776/951] Compiling urandom.cc
+#15 38.42 [777/951] Compiling trusty.cc
+#15 38.42 [778/951] Compiling refcount.cc
+#15 38.47 [779/951] Compiling rsa_crypt.cc
+#15 38.50 [780/951] Compiling rand.cc
+#15 38.52 [781/951] Compiling ios.cc
+#15 38.56 [782/951] Compiling getentropy.cc
+#15 38.56 [783/951] Compiling forkunsafe.cc
+#15 38.56 [784/951] Compiling passive.cc
+#15 38.58 [785/951] Compiling rsa_asn1.cc
+#15 38.59 [786/951] Compiling poly1305_arm_asm.S
+#15 38.62 [787/951] Compiling deterministic.cc
+#15 38.64 [788/951] Compiling fork_detect.cc
+#15 38.72 [789/951] Compiling poly1305_arm.cc
+#15 38.75 [790/951] Compiling poly1305_vec.cc
+#15 38.75 [791/951] Compiling pool.cc
+#15 38.76 [792/951] Compiling poly1305.cc
+#15 39.00 [793/951] Compiling pkcs8.cc
+#15 39.06 [794/951] Compiling pkcs7.cc
+#15 39.07 [795/951] Compiling pem_xaux.cc
+#15 39.08 [796/951] Compiling pem_x509.cc
+#15 39.09 [797/951] Compiling p5_pbev2.cc
+#15 39.10 [798/951] Compiling pkcs8_x509.cc
+#15 39.24 [799/951] Compiling pkcs7_x509.cc
+#15 39.33 [800/951] Compiling pem_pkey.cc
+#15 39.38 [801/951] Compiling pem_oth.cc
+#15 39.50 [802/951] Compiling mlkem.cc
+#15 39.50 [802/951] Compiling pem_info.cc
+#15 39.51 [804/951] Compiling obj_xref.cc
+#15 39.52 [805/951] Compiling pem_lib.cc
+#15 39.54 [806/951] Compiling pem_pk8.cc
+#15 39.55 [807/951] Compiling pem_all.cc
+#15 39.65 [808/951] Compiling mldsa.cc
+#15 39.71 [809/951] Compiling obj.cc
+#15 39.71 [810/951] Compiling lhash.cc
+#15 39.72 [811/951] Compiling mem.cc
+#15 39.73 [812/951] Compiling poly_rq_mul.S
+#15 39.74 [813/951] Compiling fips_shared_support.cc
+#15 39.79 [814/951] Compiling md4.cc
+#15 39.88 [815/951] Compiling md5.cc
+#15 39.90 [816/951] Compiling fuzzer_mode.cc
+#15 39.95 [817/951] Compiling ex_data.cc
+#15 40.07 [818/951] Compiling kyber.cc
+#15 40.12 [819/951] Compiling hpke.cc
+#15 40.16 [820/951] Compiling scrypt.cc
+#15 40.16 [821/951] Compiling print.cc
+#15 40.21 [822/951] Compiling sign.cc
+#15 40.27 [823/951] Compiling pbkdf.cc
+#15 40.35 [824/951] Compiling hrss.cc
+#15 40.39 [825/951] Compiling p_x25519.cc
+#15 40.41 [826/951] Compiling bcm.cc
+#15 40.43 [827/951] Compiling p_x25519_asn1.cc
+#15 40.55 [828/951] Compiling p_rsa_asn1.cc
+#15 40.58 [829/951] Compiling p_hkdf.cc
+#15 40.60 [830/951] Compiling p_ed25519_asn1.cc
+#15 40.62 [831/951] Compiling p_rsa.cc
+#15 40.65 [832/951] Compiling p_ed25519.cc
+#15 40.73 [833/951] Compiling p_ec.cc
+#15 40.80 [834/951] Compiling p_ec_asn1.cc
+#15 40.88 [835/951] Compiling p_dh_asn1.cc
+#15 40.88 [836/951] Compiling p_dh.cc
+#15 40.95 [837/951] Compiling p_dsa_asn1.cc
+#15 41.00 [838/951] Compiling evp_ctx.cc
+#15 41.03 [839/951] Compiling ecdsa_p1363.cc
+#15 41.04 [840/951] Compiling evp.cc
+#15 41.06 [841/951] Compiling err.cc
+#15 41.07 [842/951] Compiling evp_asn1.cc
+#15 41.07 [843/951] Compiling engine.cc
+#15 41.20 [844/951] Compiling ecdh.cc
+#15 41.30 [845/951] Compiling ec_derive.cc
+#15 41.33 [846/951] Compiling hash_to_curve.cc
+#15 41.34 [847/951] Compiling ecdsa_asn1.cc
+#15 41.40 [848/951] Compiling dsa.cc
+#15 41.43 [849/951] Compiling dsa_asn1.cc
+#15 41.47 [850/951] Compiling ec_asn1.cc
+#15 41.54 [851/951] Compiling digest_extra.cc
+#15 41.56 [852/951] Compiling x25519-asm-arm.S
+#15 41.58 [853/951] Compiling curve25519_64_adx.cc
+#15 41.60 [854/951] Compiling dh_asn1.cc
+#15 41.67 [855/951] Compiling params.cc
+#15 41.70 [856/951] Compiling cpu_intel.cc
+#15 41.73 [857/951] Compiling cpu_arm_linux.cc
+#15 41.74 [858/951] Compiling des.cc
+#15 41.75 [859/951] Compiling spake25519.cc
+#15 41.75 [859/951] Compiling crypto.cc
+#15 41.83 [861/951] Compiling cpu_arm_freebsd.cc
+#15 41.86 [862/951] Compiling cpu_aarch64_sysreg.cc
+#15 41.87 [863/951] Compiling cpu_aarch64_win.cc
+#15 41.88 [864/951] Compiling cpu_aarch64_openbsd.cc
+#15 41.92 [865/951] Compiling cpu_aarch64_linux.cc
+#15 41.93 [866/951] Compiling cpu_aarch64_fuchsia.cc
+#15 41.98 [867/951] Compiling cpu_aarch64_apple.cc
+#15 42.07 [868/951] Compiling curve25519.cc
+#15 42.08 [869/951] Compiling conf.cc
+#15 42.12 [870/951] Compiling get_cipher.cc
+#15 42.15 [871/951] Compiling e_rc4.cc
+#15 42.15 [872/951] Compiling tls_cbc.cc
+#15 42.15 [873/951] Compiling e_tls.cc
+#15 42.23 [874/951] Compiling e_null.cc
+#15 42.27 [875/951] Compiling e_rc2.cc
+#15 42.29 [876/951] Compiling e_des.cc
+#15 42.33 [877/951] Compiling cms.cc
+#15 42.36 [878/951] Compiling e_aesgcmsiv.cc
+#15 42.42 [879/951] Compiling derive_key.cc
+#15 42.44 [880/951] Compiling e_aesctrhmac.cc
+#15 42.47 [881/951] Compiling e_chacha20poly1305.cc
+#15 42.58 [882/951] Compiling chacha.cc
+#15 42.62 [883/951] Compiling e_aeseax.cc
+#15 42.67 [884/951] Compiling unicode.cc
+#15 42.81 [885/951] Compiling VaporCSQLite sqlite_nio_sqlite3.c
+#15 42.81 [886/951] Compiling sqrt.cc
+#15 42.82 [887/951] Compiling buf.cc
+#15 42.87 [888/951] Compiling exponentiation.cc
+#15 42.87 [889/951] Compiling cbs.cc
+#15 42.91 [890/951] Compiling ber.cc
+#15 42.95 [891/951] Compiling asn1_compat.cc
+#15 42.98 [892/951] Compiling div.cc
+#15 42.99 [893/951] Compiling cbb.cc
+#15 43.04 [894/951] Compiling printf.cc
+#15 43.05 [895/951] Compiling bn_asn1.cc
+#15 43.09 [896/951] Compiling pair.cc
+#15 43.12 [897/951] Compiling hexdump.cc
+#15 43.15 [898/951] Compiling convert.cc
+#15 43.15 [899/951] Compiling file.cc
+#15 43.17 [900/951] Compiling fd.cc
+#15 43.22 [901/951] Compiling errno.cc
+#15 43.24 [902/951] Compiling bio_mem.cc
+#15 43.25 [903/951] Compiling blake2.cc
+#15 43.29 [904/951] Compiling f_string.cc
+#15 43.29 [905/951] Compiling f_int.cc
+#15 43.34 [906/951] Compiling posix_time.cc
+#15 43.36 [907/951] Compiling asn_pack.cc
+#15 43.37 [908/951] Compiling bio.cc
+#15 43.38 [909/951] Compiling asn1_par.cc
+#15 43.51 [910/951] Compiling a_octet.cc
+#15 43.53 [911/951] Compiling a_utctm.cc
+#15 43.54 [912/951] Compiling asn1_lib.cc
+#15 43.56 [913/951] Compiling a_time.cc
+#15 43.60 [914/951] Compiling a_type.cc
+#15 43.66 [916/951] Compiling ConsoleKitCommands AnyAsyncCommand.swift
+#15 43.71 [916/952] Compiling a_object.cc
+#15 43.71 [917/952] Compiling a_dup.cc
+#15 43.72 [918/952] Compiling a_strex.cc
+#15 43.74 [919/952] Compiling a_strnid.cc
+#15 43.74 [919/952] Write sources
+#15 43.74 [919/952] Copying revoke_account_key_safe.cdc
+#15 43.74 [919/952] Copying index.leaf
+#15 43.74 [919/952] Copying add_account_key.cdc
+#15 43.74 [919/952] Copying Info.plist
+#15 43.74 [919/952] Write sources
+#15 43.74 [941/952] Compiling CAsyncHTTPClient CAsyncHTTPClient.c
+#15 43.74 [942/952] Compiling a_d2i_fp.cc
+#15 43.74 [944/952] Compiling ConsoleKit Exports.swift
+#15 43.80 [944/955] Compiling a_mbstr.cc
+#15 43.81 [945/955] Compiling a_gentm.cc
+#15 43.86 [946/958] Compiling aes.cc
+#15 43.87 [947/958] Compiling a_bool.cc
+#15 44.02 [948/958] Compiling a_bitstr.cc
+#15 44.40 [950/958] Compiling AetherSharedCore AetherSharedCore.swift
+#15 46.62 [951/959] Compiling Atomics OptionalRawRepresentable.swift
+#15 46.82 [952/961] Compiling BitCollections BinaryInteger extensions.swift
+#15 46.95 [953/962] Compiling Collections BitCollections reexports.swift
+#15 47.56 [954/962] Compiling Algorithms AdjacentPairs.swift
+#15 47.91 [955/962] Compiling BigInt Addition.swift
+#15 48.26 [956/963] Compiling AetherSharedIdentity AetherSharedIdentity.swift
+#15 48.45 [957/965] Compiling AetherSharedTestSupport AetherSharedTestSupport.swift
+#15 48.60 [958/965] Compiling AetherSharedProtocols AetherSharedProtocols.swift
+#15 51.01 [959/965] Compiling _ConnectionPoolModule ConnectionIDGenerator.swift
+#15 51.23 [960/965] Compiling AsyncAlgorithms AsyncAdjacentPairsSequence.swift
+#15 52.69 [960/966] Compiling bcm.cc
+#15 53.16 [962/967] Compiling ServiceLifecycle AsyncCancelOnGracefulShutdownSequence.swift
+#15 53.94 [963/967] Compiling CryptoBoringWrapper BoringSSLAEAD.swift
+#15 58.29 [964/968] Compiling NIOCore AddressedEnvelope.swift
+#15 58.90 [965/972] Compiling NIOFoundationEssentialsCompat ByteBuffer-foundation.swift
+#15 60.69 [966/972] Compiling Web3Core ContractProtocol.swift
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIElements.swift:210:16: warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 60.69 208 |         guard parameters.count == inputs.count,
+#15 60.69 209 |               let data = ABIEncoder.encode(types: inputs, values: parameters) else { return nil }
+#15 60.69 210 |         return methodEncoding + data
+#15 60.69     |                |- warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 60.69     |                `- note: use 'selectorEncoded' instead
+#15 60.69 211 |     }
+#15 60.69 212 | }
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIElements.swift:375:68: warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 60.69 373 | extension ABI.Element.Function {
+#15 60.69 374 |     public func decodeInputData(_ rawData: Data) -> [String: Any]? {
+#15 60.69 375 |         return ABIDecoder.decodeInputData(rawData, methodEncoding: methodEncoding, inputs: inputs)
+#15 60.69     |                                                                    |- warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 60.69     |                                                                    `- note: use 'selectorEncoded' instead
+#15 60.69 376 |     }
+#15 60.69 377 | 
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:468:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 466 |             return Data(v ? [0b1] : [0b0])
+#15 60.69 467 |         } else if let v = value as? Int {
+#15 60.69 468 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 60.69     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 469 |         } else if let v = value as? Int8 {
+#15 60.69 470 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 8))!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:470:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 468 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 60.69 469 |         } else if let v = value as? Int8 {
+#15 60.69 470 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 8))!
+#15 60.69     |                                             |                   |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                   |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                   `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 471 |         } else if let v = value as? Int16 {
+#15 60.69 472 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:472:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 470 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 8))!
+#15 60.69 471 |         } else if let v = value as? Int16 {
+#15 60.69 472 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 60.69     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 473 |         } else if let v = value as? Int32 {
+#15 60.69 474 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:474:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 472 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 60.69 473 |         } else if let v = value as? Int32 {
+#15 60.69 474 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 60.69     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 475 |         } else if let v = value as? Int64 {
+#15 60.69 476 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:476:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 474 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 60.69 475 |         } else if let v = value as? Int64 {
+#15 60.69 476 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 60.69     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 477 |         } else if let v = value as? UInt {
+#15 60.69 478 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:478:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 476 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 60.69 477 |         } else if let v = value as? UInt {
+#15 60.69 478 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 60.69     |                                             |                                        |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                        |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                        `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 479 |         } else if let v = value as? UInt8 {
+#15 60.69 480 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 8)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:480:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 478 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 60.69 479 |         } else if let v = value as? UInt8 {
+#15 60.69 480 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 8)!)!
+#15 60.69     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 481 |         } else if let v = value as? UInt16 {
+#15 60.69 482 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:482:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 480 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 8)!)!
+#15 60.69 481 |         } else if let v = value as? UInt16 {
+#15 60.69 482 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 60.69     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 483 |         } else if let v = value as? UInt32 {
+#15 60.69 484 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:484:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 482 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 60.69 483 |         } else if let v = value as? UInt32 {
+#15 60.69 484 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 60.69     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 485 |         } else if let v = value as? UInt64 {
+#15 60.69 486 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:486:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 484 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 60.69 485 |         } else if let v = value as? UInt64 {
+#15 60.69 486 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 60.69     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 60.69     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 60.69     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 60.69     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 60.69 487 |         } else if let data = ABIEncoder.convertToData(value) {
+#15 60.69 488 |             return data
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/Sequence+ABIExtension.swift:31:37: warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 60.69 29 |             appendFunction(function.name!, function)
+#15 60.69 30 |             appendFunction(function.signature, function)
+#15 60.69 31 |             appendFunction(function.methodString.addHexPrefix().lowercased(), function)
+#15 60.69    |                                     |- warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 60.69    |                                     `- note: use 'selector' instead
+#15 60.69 32 | 
+#15 60.69 33 |             /// ABI cannot have two functions with exactly the same name and input arguments
+#15 60.69 
+#15 60.69 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/Sequence+ABIExtension.swift:60:26: warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 60.69 58 |             errors[error.name] = error
+#15 60.69 59 |             errors[error.signature] = error
+#15 60.69 60 |             errors[error.methodString.addHexPrefix().lowercased()] = error
+#15 60.69    |                          |- warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 60.69    |                          `- note: use 'selector' instead
+#15 60.69 61 |         }
+#15 60.69 62 |         return errors
+#15 60.69 
+#15 60.69 [#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+#15 60.92 [967/973] Compiling NIOEmbedded AsyncTestingChannel.swift
+#15 62.80 [968/973] Compiling Crypto AES-GCM.swift
+#15 63.51 [969/976] Compiling SQLKit SQLAlterEnumBuilder.swift
+#15 68.36 [970/976] Compiling APNSCore APNSAuthenticationTokenManager.swift
+#15 69.48 [971/976] Compiling web3swift Bridge.swift
+#15 70.22 [972/976] Compiling CryptoExtras AES_CBC.swift
+#15 70.31 [973/977] Compiling _CryptoExtras Exports.swift
+#15 71.82 [974/978] Compiling NIOPosix BSDSocketAPICommon.swift
+#15 71.89 [975/982] Compiling NIO Exports.swift
+#15 72.31 [976/987] Compiling NIOFoundationCompat Exports.swift
+#15 73.13 [977/987] Compiling NIOTLS ApplicationProtocolNegotiationHandler.swift
+#15 73.44 [978/989] Compiling NIOSOCKS SOCKSClientHandler.swift
+#15 73.77 [979/989] Compiling NIOTransportServices AcceptHandler.swift
+#15 74.77 [980/989] Compiling SQLiteNIO Exports.swift
+#15 78.55 [981/989] Compiling NIOHTTP1 ByteCollectionUtils.swift
+#15 80.33 [982/993] Compiling NIOSSL AndroidCABundle.swift
+#15 80.47 [983/994] Compiling _NIOFileSystem Array+FileSystem.swift
+#15 80.79 [984/995] Compiling _NIOFileSystemFoundationCompat Data+FileSystem.swift
+#15 81.24 [985/996] Compiling NIOHTTPCompression HTTPCompression.swift
+#15 81.42 [986/997] Compiling NIOFileSystem Exports.swift
+#15 82.02 [987/998] Compiling NIOWebSocket NIOWebSocketClientUpgrader.swift
+#15 83.00 [988/999] Compiling FluentKit AsyncMigration.swift
+#15 83.29 [989/1000] Compiling NIOHPACK DynamicHeaderTable.swift
+#15 83.42 [990/1001] Compiling AsyncKit ConnectionPoolError.swift
+#15 83.95 [991/1002] Compiling Flow FlowAccessActor.swift
+#15 83.95 /build/AetherAG/.build/checkouts/flow-swift-macos/Sources/Cadence/Cadence+Child.swift:9:8: error: no such module 'SwiftUI'
+#15 83.95  7 | 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+#15 83.95  8 | 
+#15 83.95  9 | import SwiftUI
+#15 83.95    |        `- error: no such module 'SwiftUI'
+#15 83.95 10 | 
+#15 83.95 11 | extension CadenceLoader.Category {
+#15 ERROR: process "/bin/sh -c swift build -c release --product AetherAGMailServerRun" did not complete successfully: exit code: 1
+------
+ > [build 7/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     swift build -c release --product AetherAGMailServerRun:
+83.29 [989/1000] Compiling NIOHPACK DynamicHeaderTable.swift
+83.42 [990/1001] Compiling AsyncKit ConnectionPoolError.swift
+83.95 [991/1002] Compiling Flow FlowAccessActor.swift
+83.95 /build/AetherAG/.build/checkouts/flow-swift-macos/Sources/Cadence/Cadence+Child.swift:9:8: error: no such module 'SwiftUI'
+83.95  7 | 	//  Edited for Swift 6 concurrency & actors by Nicholas Reich on 2026-03-19.
+83.95  8 | 
+83.95  9 | import SwiftUI
+83.95    |        `- error: no such module 'SwiftUI'
+83.95 10 | 
+83.95 11 | extension CadenceLoader.Category {
+------
+Dockerfile:13
+--------------------
+  12 |         done
+  13 | >>> RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm \
+  14 | >>>     --mount=type=cache,target=/build/AetherAG/.build \
+  15 | >>>     swift build -c release --product AetherAGMailServerRun
+  16 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c swift build -c release --product AetherAGMailServerRun" did not complete successfully: exit code: 1

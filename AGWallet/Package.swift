@@ -17,7 +17,7 @@ let package = Package(
         .package(path: "../AetherShared"),
         .package(path: "../solana-swift-concurrency"),
         .package(path: "../web3swift-concurrency"),
-        .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", from: "0.1.0-linux-patch"),
+        .package(url: "https://github.com/13Ophiuchus/flow-swift-macos.git", from: "0.1.0"),
         .package(url: "https://github.com/apple/swift-crypto", "4.5.1" ..< "5.0.0"),
         .package(url: "https://github.com/attaswift/BigInt.git", .upToNextMinor(from: "5.4.0")),
         .package(url: "https://github.com/swift-server/async-http-client", from: "1.19.0"),

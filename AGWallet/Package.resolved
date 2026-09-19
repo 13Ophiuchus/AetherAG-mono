@@ -1,5 +1,5 @@
 {
-  "originHash" : "5efe992b868303d63a19520dc6f767f601ffe0be1bf08cbcadc252b3f8595b53",
+  "originHash" : "11a56d3117b8eb8826fb3231e87cb58e6f3cec9d73c49fb5a47479852656a506",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "f2a627b84c1ff96f21ac2fcb623ab36142dd5512",
         "version" : "1.10.0"
+      }
+    },
+    {
+      "identity" : "flow-swift-macos",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/13Ophiuchus/flow-swift-macos.git",
+      "state" : {
+        "revision" : "02720e1691f3f0f80588b482e2ca0540649a0f4a",
+        "version" : "0.1.2"
       }
     },
     {
