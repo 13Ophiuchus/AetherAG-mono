@@ -1,0 +1,266 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.21kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/swift:6.2-jammy
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#3 ...
+
+#4 [auth] library/swift:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#3 DONE 0.9s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 161B done
+#5 DONE 0.0s
+
+#6 [stage-1 1/5] FROM docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03
+#6 resolve docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03 0.0s done
+#6 DONE 0.0s
+
+#7 [stage-1 2/5] WORKDIR /app
+#7 CACHED
+
+#8 [build 1/7] FROM docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9
+#8 resolve docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9 done
+#8 DONE 0.0s
+
+#9 [internal] load build context
+#9 transferring context: 950.29kB 0.5s done
+#9 DONE 0.5s
+
+#10 [build 2/7] WORKDIR /build
+#10 CACHED
+
+#11 [build 3/7] COPY . .
+#11 DONE 2.7s
+
+#12 [build 4/7] WORKDIR /build/AetherAG
+#12 DONE 0.1s
+
+#13 [build 5/7] RUN git config --global http.lowSpeedLimit 0 &&     git config --global http.lowSpeedTime 999999 &&     git config --global http.postBuffer 524288000
+#13 DONE 0.1s
+
+#14 [build 6/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     rm -rf /build/AetherAG/.build/checkouts/flow-swift-macos &&     rm -rf /root/.cache/org.swift.swiftpm/repositories/flow-swift-macos-* &&     for i in 1 2 3; do         swift package resolve && break || { echo "Resolve attempt $i failed, retrying in 10s..."; sleep 10; };     done
+#14 0.603 Creating working copy for https://github.com/13Ophiuchus/flow-swift-macos.git
+#14 0.705 Working copy of https://github.com/13Ophiuchus/flow-swift-macos.git resolved at 0.1.2
+#14 DONE 1.2s
+
+#15 [build 7/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     swift build -c release --product AetherAGMailServerRun
+#15 6.930 [0/1] Planning build
+#15 7.074 Building for production...
+#15 7.209 [0/6] Write sources
+#15 7.213 [2/6] Copying CommonCadence
+#15 7.250 [3/6] Write swift-version-24593BA9C3E375BF.txt
+#15 9.158 [5/16] Compiling SQLiteKit Exports.swift
+#15 9.783 [6/16] Compiling FluentSQL ConverterUtilities.swift
+#15 11.20 [7/17] Compiling NIOExtras DebugInboundEventsHandler.swift
+#15 11.20 [8/17] Compiling FluentSQLiteDriver Exports.swift
+#15 11.67 [9/18] Compiling MultipartKit BasicCodingKey.swift
+#15 12.92 [10/18] Compiling WebSocketKit WebSocket+Concurrency.swift
+#15 13.63 [11/18] Compiling P256K Placeholder.swift
+#15 16.47 [12/20] Compiling RediStack RedisByteDecoder.swift
+#15 23.16 [13/20] Compiling NIOHTTP2 ConnectionStateMachine.swift
+#15 25.39 [14/21] Compiling Flow FlowAccessActor.swift
+#15 26.51 [15/21] Compiling PostgresNIO ConnectCancelHandler.swift
+#15 27.37 [16/22] Compiling X509 CSRAttribute.swift
+#15 27.96 [17/23] Compiling Web3Core ContractProtocol.swift
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIElements.swift:210:16: warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 27.96 208 |         guard parameters.count == inputs.count,
+#15 27.96 209 |               let data = ABIEncoder.encode(types: inputs, values: parameters) else { return nil }
+#15 27.96 210 |         return methodEncoding + data
+#15 27.96     |                |- warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 27.96     |                `- note: use 'selectorEncoded' instead
+#15 27.96 211 |     }
+#15 27.96 212 | }
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIElements.swift:375:68: warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 27.96 373 | extension ABI.Element.Function {
+#15 27.96 374 |     public func decodeInputData(_ rawData: Data) -> [String: Any]? {
+#15 27.96 375 |         return ABIDecoder.decodeInputData(rawData, methodEncoding: methodEncoding, inputs: inputs)
+#15 27.96     |                                                                    |- warning: 'methodEncoding' is deprecated: Please, use 'selectorEncoded' property instead. [#DeprecatedDeclaration]
+#15 27.96     |                                                                    `- note: use 'selectorEncoded' instead
+#15 27.96 376 |     }
+#15 27.96 377 | 
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:468:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 466 |             return Data(v ? [0b1] : [0b0])
+#15 27.96 467 |         } else if let v = value as? Int {
+#15 27.96 468 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 27.96     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 469 |         } else if let v = value as? Int8 {
+#15 27.96 470 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 8))!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:470:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 468 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 27.96 469 |         } else if let v = value as? Int8 {
+#15 27.96 470 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 8))!
+#15 27.96     |                                             |                   |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                   |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                   `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 471 |         } else if let v = value as? Int16 {
+#15 27.96 472 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:472:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 470 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 8))!
+#15 27.96 471 |         } else if let v = value as? Int16 {
+#15 27.96 472 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 27.96     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 473 |         } else if let v = value as? Int32 {
+#15 27.96 474 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:474:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 472 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 27.96 473 |         } else if let v = value as? Int32 {
+#15 27.96 474 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 27.96     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 475 |         } else if let v = value as? Int64 {
+#15 27.96 476 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:476:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 474 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 27.96 475 |         } else if let v = value as? Int64 {
+#15 27.96 476 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 27.96     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 477 |         } else if let v = value as? UInt {
+#15 27.96 478 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:478:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 476 |             return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 27.96 477 |         } else if let v = value as? UInt {
+#15 27.96 478 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 27.96     |                                             |                                        |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                        |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                        `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 479 |         } else if let v = value as? UInt8 {
+#15 27.96 480 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 8)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:480:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 478 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 256)!)!
+#15 27.96 479 |         } else if let v = value as? UInt8 {
+#15 27.96 480 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 8)!)!
+#15 27.96     |                                             |                                      |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                      |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                      `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 481 |         } else if let v = value as? UInt16 {
+#15 27.96 482 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:482:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 480 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 8)!)!
+#15 27.96 481 |         } else if let v = value as? UInt16 {
+#15 27.96 482 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 27.96     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 483 |         } else if let v = value as? UInt32 {
+#15 27.96 484 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:484:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 482 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 16)!)!
+#15 27.96 483 |         } else if let v = value as? UInt32 {
+#15 27.96 484 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 27.96     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 485 |         } else if let v = value as? UInt64 {
+#15 27.96 486 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/ABIEncoding.swift:486:45: warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 484 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 32)!)!
+#15 27.96 485 |         } else if let v = value as? UInt64 {
+#15 27.96 486 |             return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 64)!)!
+#15 27.96     |                                             |                                       |- note: provide a default value to avoid this warning
+#15 27.96     |                                             |                                       |- note: force-unwrap the value to avoid this warning
+#15 27.96     |                                             |                                       `- note: explicitly cast to 'Any' with 'as Any' to silence this warning
+#15 27.96     |                                             `- warning: expression implicitly coerced from 'Data?' to 'Any'
+#15 27.96 487 |         } else if let data = ABIEncoder.convertToData(value) {
+#15 27.96 488 |             return data
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/Sequence+ABIExtension.swift:31:37: warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 27.96 29 |             appendFunction(function.name!, function)
+#15 27.96 30 |             appendFunction(function.signature, function)
+#15 27.96 31 |             appendFunction(function.methodString.addHexPrefix().lowercased(), function)
+#15 27.96    |                                     |- warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 27.96    |                                     `- note: use 'selector' instead
+#15 27.96 32 | 
+#15 27.96 33 |             /// ABI cannot have two functions with exactly the same name and input arguments
+#15 27.96 
+#15 27.96 /build/web3swift-concurrency/Sources/Web3Core/EthereumABI/Sequence+ABIExtension.swift:60:26: warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 27.96 58 |             errors[error.name] = error
+#15 27.96 59 |             errors[error.signature] = error
+#15 27.96 60 |             errors[error.methodString.addHexPrefix().lowercased()] = error
+#15 27.96    |                          |- warning: 'methodString' is deprecated: Please, use 'selector' property instead. [#DeprecatedDeclaration]
+#15 27.96    |                          `- note: use 'selector' instead
+#15 27.96 61 |         }
+#15 27.96 62 |         return errors
+#15 27.96 
+#15 27.96 [#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+#15 29.12 [18/24] Compiling PostgresKit ConnectionPool+Postgres.swift
+#15 29.94 [19/25] Compiling FluentPostgresDriver DatabaseID+PostgreSQL.swift
+#15 32.48 [20/25] Compiling JWTKit AudienceClaim.swift
+#15 36.05 [21/25] Compiling web3swift Bridge.swift
+#15 37.48 [22/25] Compiling AsyncHTTPClient AnyAsyncSequence.swift
+#15 37.52 [23/27] Compiling SolanaSwift APIClient+Extension.swift
+#15 37.52 /build/solana-swift-concurrency/Sources/SolanaSwift/Socket/Socket.swift:84:16: warning: stored property 'isConnected' of 'Sendable'-conforming class 'Socket' is mutable; this is an error in the Swift 6 language mode
+#15 37.52  82 | 
+#15 37.52  83 |     /// Connection status of the socket
+#15 37.52  84 |     public var isConnected: Bool = false
+#15 37.52     |                `- warning: stored property 'isConnected' of 'Sendable'-conforming class 'Socket' is mutable; this is an error in the Swift 6 language mode
+#15 37.52  85 | 
+#15 37.52  86 |     /// Socket task to handle socket event
+#15 38.15 [24/29] Compiling APNS APNSBroadcastClient.swift
+#15 39.32 [25/29] Compiling SendGridKit AdvancedSuppressionManager.swift
+#15 45.29 [26/29] Compiling AetherWalletKit BIP84.swift
+#15 62.05 [27/29] Compiling Vapor Application.swift
+#15 62.25 [28/36] Compiling SendGrid Application+SendGrid.swift
+#15 62.50 [29/36] Compiling VaporAPNS APNSContainerID.swift
+#15 62.82 [30/36] Compiling AetherAGMailShared AetherAGMailShared.swift
+#15 63.00 [31/36] Compiling JWT Application+JWT.swift
+#15 63.59 [32/36] Compiling Fluent FluentProvider+Concurrency.swift
+#15 64.14 [33/36] Compiling Redis Application+Redis.swift
+#15 64.86 [34/36] Compiling Queues Application+Queues.swift
+#15 65.70 [35/37] Compiling QueuesRedisDriver Exports.swift
+#15 73.93 [36/38] Compiling AetherAGMailServer ReconcileFlowTransactionsCommand.swift
+#15 74.11 [37/39] Compiling AetherAGMailServerRun AetherAGMailServerRun.swift
+#15 74.11 [37/39] Write Objects.LinkFileList
+#15 76.90 [38/39] Linking AetherAGMailServerRun
+#15 76.94 Build of product 'AetherAGMailServerRun' complete! (76.65s)
+#15 DONE 77.2s
+
+#16 [stage-1 3/5] COPY --from=build /build/AetherAG/.build/release/AetherAGMailServerRun ./
+#16 ERROR: failed to calculate checksum of ref lxqbpaujacf09gv0g3xlqui01::laaduvd60nh2p394kdcmrhpy1: "/build/AetherAG/.build/release/AetherAGMailServerRun": not found
+------
+ > [stage-1 3/5] COPY --from=build /build/AetherAG/.build/release/AetherAGMailServerRun ./:
+------
+Dockerfile:21
+--------------------
+  19 |     FROM swift:6.2-jammy-slim
+  20 |     WORKDIR /app
+  21 | >>> COPY --from=build /build/AetherAG/.build/release/AetherAGMailServerRun ./
+  22 |     COPY --from=build /build/AetherAG/Public ./Public
+  23 |     COPY --from=build /build/AetherAG/Resources ./Resources
+--------------------
+ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref lxqbpaujacf09gv0g3xlqui01::laaduvd60nh2p394kdcmrhpy1: "/build/AetherAG/.build/release/AetherAGMailServerRun": not found

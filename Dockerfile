@@ -14,13 +14,17 @@ RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm \
     done
 RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm \
     --mount=type=cache,target=/build/AetherAG/.build \
-    swift build -c release --product AetherAGMailServerRun
+    swift build -c release --product AetherAGMailServerRun && \
+    mkdir -p /build/output && \
+    cp /build/AetherAG/.build/release/AetherAGMailServerRun /build/output/ && \
+    cp -r /build/AetherAG/Public /build/output/Public && \
+    cp -r /build/AetherAG/Resources /build/output/Resources
 
 FROM swift:6.2-jammy-slim
 WORKDIR /app
-COPY --from=build /build/AetherAG/.build/release/AetherAGMailServerRun ./
-COPY --from=build /build/AetherAG/Public ./Public
-COPY --from=build /build/AetherAG/Resources ./Resources
+COPY --from=build /build/output/AetherAGMailServerRun ./
+COPY --from=build /build/output/Public ./Public
+COPY --from=build /build/output/Resources ./Resources
 EXPOSE 8080
 ENTRYPOINT ["./AetherAGMailServerRun"]
 CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]

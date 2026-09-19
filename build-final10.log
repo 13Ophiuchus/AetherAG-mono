@@ -1,0 +1,81 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.42kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/swift:6.2-jammy
+#2 DONE 0.0s
+
+#3 [auth] library/swift:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#4 DONE 0.8s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 161B done
+#5 DONE 0.0s
+
+#6 [build 1/7] FROM docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9
+#6 resolve docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9 done
+#6 DONE 0.0s
+
+#7 [stage-1 1/5] FROM docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03
+#7 resolve docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03 done
+#7 DONE 0.0s
+
+#8 [stage-1 2/5] WORKDIR /app
+#8 CACHED
+
+#9 [internal] load build context
+#9 transferring context: 894.72kB 0.4s done
+#9 DONE 0.4s
+
+#10 [build 2/7] WORKDIR /build
+#10 CACHED
+
+#11 [build 3/7] COPY . .
+#11 DONE 1.8s
+
+#12 [build 4/7] WORKDIR /build/AetherAG
+#12 DONE 0.0s
+
+#13 [build 5/7] RUN git config --global http.lowSpeedLimit 0 &&     git config --global http.lowSpeedTime 999999 &&     git config --global http.postBuffer 524288000
+#13 DONE 0.1s
+
+#14 [build 6/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     rm -rf /build/AetherAG/.build/checkouts/flow-swift-macos &&     rm -rf /root/.cache/org.swift.swiftpm/repositories/flow-swift-macos-* &&     for i in 1 2 3; do         swift package resolve && break || { echo "Resolve attempt $i failed, retrying in 10s..."; sleep 10; };     done
+#14 0.305 Creating working copy for https://github.com/13Ophiuchus/flow-swift-macos.git
+#14 0.392 Working copy of https://github.com/13Ophiuchus/flow-swift-macos.git resolved at 0.1.2
+#14 0.392 warning: dependency 'flow-swift-macos' is missing; cloning again
+#14 DONE 0.7s
+
+#15 [build 7/7] RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm     --mount=type=cache,target=/build/AetherAG/.build     swift build -c release --product AetherAGMailServerRun &&     mkdir -p /build/output &&     cp /build/AetherAG/.build/release/AetherAGMailServerRun /build/output/ &&     cp -r /build/AetherAG/Public /build/output/Public &&     cp -r /build/AetherAG/Resources /build/output/Resources
+#15 0.477 Building for production...
+#15 1.301 [0/2] Write swift-version-24593BA9C3E375BF.txt
+#15 1.361 [1/4] Write sources
+#15 1.365 [2/4] Copying CommonCadence
+#15 12.21 [4/5] Compiling Flow FlowAccessActor.swift
+#15 12.26 Build of product 'AetherAGMailServerRun' complete! (11.98s)
+#15 DONE 12.4s
+
+#16 [stage-1 3/5] COPY --from=build /build/output/AetherAGMailServerRun ./
+#16 DONE 0.2s
+
+#17 [stage-1 4/5] COPY --from=build /build/output/Public ./Public
+#17 DONE 0.0s
+
+#18 [stage-1 5/5] COPY --from=build /build/output/Resources ./Resources
+#18 DONE 0.0s
+
+#19 exporting to image
+#19 exporting layers
+#19 exporting layers 4.2s done
+#19 exporting manifest sha256:853810993ff78e4e0039aa96eced5365dea9461cf303091666745ca6c17cba9a done
+#19 exporting config sha256:2f7b0cfd17f82c4ff81d5d312089463f5518af32b66137ad3102d347b4dbc697 done
+#19 exporting attestation manifest sha256:22eab1cf8df2fe3c1541b712559b5a088578870850446297d29eea067bd57aad done
+#19 exporting manifest list sha256:4b58c109ef5d19c37a5eed9469966b6a3bd19198375959e7b261f621170771a7 done
+#19 naming to docker.io/library/aetheragmailserver:v0.1.2-linux-patch done
+#19 unpacking to docker.io/library/aetheragmailserver:v0.1.2-linux-patch
+#19 unpacking to docker.io/library/aetheragmailserver:v0.1.2-linux-patch 0.6s done
+#19 DONE 4.8s
