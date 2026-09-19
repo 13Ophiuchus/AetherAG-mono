@@ -1,0 +1,382 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 527B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/swift:6.2-jammy
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#3 ...
+
+#4 [auth] library/swift:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/swift:6.2-jammy-slim
+#3 DONE 1.4s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 161B done
+#5 DONE 0.0s
+
+#6 [stage-1 1/5] FROM docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03
+#6 resolve docker.io/library/swift:6.2-jammy-slim@sha256:e1302155d4dfac2ce81623022b7793df0c154b3e98cd527174c3a61f06413f03 0.0s done
+#6 DONE 0.0s
+
+#7 [build 1/5] FROM docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9
+#7 resolve docker.io/library/swift:6.2-jammy@sha256:af60747ab483a0dbaa6362202c7bb08efec27bc69324e942f2bc8296f2d2d3f9 0.0s done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 938.31kB 0.6s done
+#8 DONE 0.6s
+
+#9 [build 2/5] WORKDIR /build
+#9 CACHED
+
+#10 [build 3/5] COPY . .
+#10 DONE 2.8s
+
+#11 [build 4/5] WORKDIR /build/AetherAG
+#11 DONE 0.1s
+
+#12 [build 5/5] RUN swift build -c release --product AetherAGMailServerRun
+#12 0.670 Fetching https://github.com/vapor/multipart-kit.git
+#12 0.670 Fetching https://github.com/krzyzanowskim/CryptoSwift.git
+#12 0.670 Fetching https://github.com/vapor/queues-redis-driver.git
+#12 0.672 Fetching https://github.com/swift-server-community/APNSwift.git
+#12 0.672 Fetching https://github.com/apple/swift-async-algorithms
+#12 0.672 Fetching https://github.com/apple/swift-nio-http2.git
+#12 0.672 Fetching https://github.com/vapor/queues.git
+#12 2.014 [1/689] Fetching queues-redis-driver
+#12 2.838 [15/14128] Fetching queues-redis-driver, cryptoswift
+#12 3.828 [92/17555] Fetching queues-redis-driver, cryptoswift, queues
+#12 3.871 [224/23833] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit
+#12 4.400 [569/29960] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit, apnswift
+#12 4.408 [570/36683] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit, apnswift, swift-async-algorithms
+#12 5.150 [699/48935] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit, apnswift, swift-async-algorithms, swift-nio-http2
+#12 68.33 Fetched https://github.com/apple/swift-async-algorithms from cache (67.65s)
+#12 68.33 Fetching https://github.com/apple/swift-http-types.git
+#12 68.34 [11473/42212] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2
+#12 68.99 [11842/44147] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-http-types
+#12 72.94 Fetched https://github.com/apple/swift-http-types.git from cache (4.61s)
+#12 72.94 Fetching https://github.com/bitmark-inc/tweetnacl-swiftwrap
+#12 72.98 [13560/42212] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2
+#12 73.54 [13798/42633] Fetching queues-redis-driver, cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap
+#12 79.57 Fetched https://github.com/vapor/queues-redis-driver.git from cache (78.90s)
+#12 79.57 Fetching https://github.com/apple/swift-asn1.git
+#12 79.81 [15709/41944] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap
+#12 80.38 [15726/43927] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap, swift-asn1
+#12 86.00 Fetched https://github.com/apple/swift-asn1.git from cache (6.43s)
+#12 86.00 Fetching https://github.com/vapor/fluent-sqlite-driver.git
+#12 86.04 [15731/41944] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap
+#12 86.51 [15733/43317] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap, fluent-sqlite-driver
+#12 88.63 Fetched https://github.com/vapor/fluent-sqlite-driver.git from cache (2.62s)
+#12 88.63 Fetching https://github.com/apple/swift-http-structured-headers.git
+#12 88.78 [15733/41944] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap
+#12 89.35 [15739/43197] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap, swift-http-structured-headers
+#12 93.21 Fetched https://github.com/apple/swift-http-structured-headers.git from cache (4.58s)
+#12 93.21 Fetching https://github.com/apple/swift-nio-transport-services.git
+#12 93.35 [15748/41944] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap
+#12 94.21 [15757/44807] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, tweetnacl-swiftwrap, swift-nio-transport-services
+#12 96.54 Fetched https://github.com/bitmark-inc/tweetnacl-swiftwrap from cache (23.60s)
+#12 96.55 Fetching https://github.com/vapor/console-kit.git
+#12 96.59 [16546/44386] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-nio-transport-services
+#12 98.19 [17293/51229] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-nio-transport-services, console-kit
+#12 100.2 Fetched https://github.com/apple/swift-nio-transport-services.git from cache (6.94s)
+#12 100.2 Fetching https://github.com/vapor/jwt.git
+#12 100.2 [16339/48366] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, console-kit
+#12 100.9 [16545/51134] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, console-kit, jwt
+#12 107.1 Fetched https://github.com/vapor/jwt.git from cache (6.90s)
+#12 107.1 Fetching https://github.com/apple/swift-collections.git
+#12 107.1 [18887/48366] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, console-kit
+#12 108.0 [19162/75686] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, console-kit, swift-collections
+#12 116.1 Fetched https://github.com/vapor/console-kit.git from cache (19.59s)
+#12 116.1 Fetching https://github.com/apple/swift-nio-extras.git
+#12 116.2 [17276/68843] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-collections
+#12 118.6 [17567/75533] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-collections, swift-nio-extras
+#12 154.3 Fetched https://github.com/apple/swift-nio-extras.git from cache (38.19s)
+#12 154.3 Fetching https://github.com/attaswift/BigInt.git
+#12 154.4 [18253/68843] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-collections
+#12 154.8 [18254/73782] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-collections, bigint
+#12 207.0 Fetched https://github.com/attaswift/BigInt.git from cache (52.68s)
+#12 207.0 Fetching https://github.com/apple/swift-nio.git
+#12 207.1 [20384/68843] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-collections
+#12 211.3 [20420/154916] Fetching cryptoswift, queues, multipart-kit, apnswift, swift-nio-http2, swift-collections, swift-nio
+#12 297.3 Fetched https://github.com/vapor/queues.git from cache (296.69s)
+#12 297.3 Fetching https://github.com/apple/swift-system.git
+#12 297.3 Fetched https://github.com/swift-server-community/APNSwift.git from cache (296.69s)
+#12 297.3 Fetching https://github.com/vapor/postgres-nio.git
+#12 297.3 Fetched https://github.com/apple/swift-nio-http2.git from cache (296.69s)
+#12 297.3 Fetching https://github.com/vapor/fluent.git
+#12 297.3 [31262/133110] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio
+#12 298.3 [31593/140008] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, swift-system
+#12 298.8 [31668/153525] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, swift-system, fluent
+#12 299.9 [32752/168949] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, swift-system, fluent, postgres-nio
+#12 335.3 Fetched https://github.com/apple/swift-system.git from cache (37.93s)
+#12 335.3 [55097/162051] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, fluent, postgres-nio
+#12 335.3 Fetching https://github.com/apple/swift-certificates.git
+#12 337.0 [56048/169624] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, fluent, postgres-nio, swift-certificates
+#12 375.0 Fetched https://github.com/vapor/fluent.git from cache (77.68s)
+#12 375.0 Fetching https://github.com/apple/swift-atomics.git
+#12 375.1 [76792/156107] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, swift-certificates
+#12 376.0 [77608/157982] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, swift-certificates, swift-atomics
+#12 376.5 Fetched https://github.com/apple/swift-certificates.git from cache (41.22s)
+#12 376.5 Fetching https://github.com/swift-extras/swift-extras-json
+#12 376.6 [70509/150409] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, swift-atomics
+#12 377.2 [70585/151503] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, swift-atomics, swift-extras-json
+#12 381.8 Fetched https://github.com/swift-extras/swift-extras-json from cache (5.30s)
+#12 381.8 Fetching https://github.com/swift-server/RediStack.git
+#12 381.8 [74606/150409] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, swift-atomics
+#12 382.6 [75508/155212] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, swift-atomics, redistack
+#12 398.0 Fetched https://github.com/apple/swift-atomics.git from cache (23.00s)
+#12 398.0 Fetching https://github.com/vapor/vapor.git
+#12 398.3 [86702/153337] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, redistack
+#12 401.4 [89360/234733] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, postgres-nio, redistack, vapor
+#12 403.2 Fetched https://github.com/vapor/postgres-nio.git from cache (105.89s)
+#12 403.2 Fetching https://github.com/apple/swift-distributed-tracing.git
+#12 403.3 [75160/219309] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, redistack, vapor
+#12 404.5 [76194/225614] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, redistack, vapor, swift-distributed-tracing
+#12 410.4 Fetched https://github.com/swift-server/RediStack.git from cache (28.57s)
+#12 410.4 Fetching https://github.com/vapor-community/sendgrid-kit.git
+#12 410.4 [75434/220811] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing
+#12 411.5 [76938/221500] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing, sendgrid-kit
+#12 416.4 Fetched https://github.com/vapor-community/sendgrid-kit.git from cache (6.07s)
+#12 416.4 Fetching https://github.com/vapor-community/sendgrid.git
+#12 416.5 [80238/220811] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing
+#12 418.7 [82046/221890] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing, sendgrid
+#12 423.1 Fetched https://github.com/vapor-community/sendgrid.git from cache (6.64s)
+#12 423.1 Fetching https://github.com/vapor/async-kit.git
+#12 423.3 [84894/220811] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing
+#12 423.9 [85199/223325] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing, async-kit
+#12 436.4 Fetched https://github.com/vapor/async-kit.git from cache (13.27s)
+#12 436.4 Fetching https://github.com/apple/swift-numerics.git
+#12 436.4 [94741/220811] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing
+#12 437.8 [95657/227447] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-distributed-tracing, swift-numerics
+#12 467.7 Fetched https://github.com/apple/swift-distributed-tracing.git from cache (64.45s)
+#12 467.7 Fetching https://github.com/vapor/redis.git
+#12 468.0 [110841/221142] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-numerics
+#12 468.6 [111155/224967] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, swift-numerics, redis
+#12 478.7 Fetched https://github.com/apple/swift-numerics.git from cache (42.34s)
+#12 478.7 Fetching https://github.com/apple/swift-configuration.git
+#12 479.0 [110651/218331] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, redis
+#12 479.5 [110706/222086] Fetching cryptoswift, multipart-kit, swift-collections, swift-nio, vapor, redis, swift-configuration
+#12 488.9 Fetched https://github.com/krzyzanowskim/CryptoSwift.git from cache (488.24s)
+#12 488.9 Fetching https://github.com/vapor/sqlite-kit.git
+#12 488.9 [100923/208647] Fetching multipart-kit, swift-collections, swift-nio, vapor, redis, swift-configuration
+#12 490.8 [101918/210844] Fetching multipart-kit, swift-collections, swift-nio, vapor, redis, swift-configuration, sqlite-kit
+#12 498.4 Fetched https://github.com/vapor/redis.git from cache (30.70s)
+#12 498.4 Fetching https://github.com/swift-server/async-http-client
+#12 498.4 [101352/207019] Fetching multipart-kit, swift-collections, swift-nio, vapor, swift-configuration, sqlite-kit
+#12 499.5 [101492/223216] Fetching multipart-kit, swift-collections, swift-nio, vapor, swift-configuration, sqlite-kit, async-http-client
+#12 504.0 Fetched https://github.com/apple/swift-configuration.git from cache (25.29s)
+#12 504.0 Fetching https://github.com/vapor/postgres-kit.git
+#12 504.2 [99258/219461] Fetching multipart-kit, swift-collections, swift-nio, vapor, sqlite-kit, async-http-client
+#12 504.7 [99260/224980] Fetching multipart-kit, swift-collections, swift-nio, vapor, sqlite-kit, async-http-client, postgres-kit
+#12 536.2 Fetched https://github.com/vapor/postgres-kit.git from cache (32.24s)
+#12 536.2 Fetching https://github.com/apple/swift-log
+#12 536.2 [111235/219461] Fetching multipart-kit, swift-collections, swift-nio, vapor, sqlite-kit, async-http-client
+#12 537.6 [112727/227557] Fetching multipart-kit, swift-collections, swift-nio, vapor, sqlite-kit, async-http-client, swift-log
+#12 563.3 Fetched https://github.com/vapor/sqlite-kit.git from cache (74.46s)
+#12 563.3 Fetching https://github.com/apple/swift-crypto
+#12 563.4 [139887/225360] Fetching multipart-kit, swift-collections, swift-nio, vapor, async-http-client, swift-log
+#12 565.3 [142398/243902] Fetching multipart-kit, swift-collections, swift-nio, vapor, async-http-client, swift-log, swift-crypto
+#12 582.1 Fetched https://github.com/apple/swift-collections.git from cache (475.04s)
+#12 582.1 Fetching https://github.com/vapor/sql-kit.git
+#12 582.1 [129507/216582] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-log, swift-crypto
+#12 583.1 [130198/222940] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-log, swift-crypto, sql-kit
+#12 588.7 Fetched https://github.com/apple/swift-log from cache (52.49s)
+#12 588.7 Fetching https://github.com/13Ophiuchus/flow-swift-macos.git
+#12 588.9 [126629/214844] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, sql-kit
+#12 589.4 [127076/218726] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, sql-kit, flow-swift-macos
+#12 631.4 Fetched https://github.com/vapor/sql-kit.git from cache (49.36s)
+#12 631.4 Fetching https://github.com/bigearsenal/task-retrying-swift
+#12 631.8 [137287/212368] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, flow-swift-macos
+#12 633.0 [137470/212421] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, flow-swift-macos, task-retrying-swift
+#12 633.0 Fetched https://github.com/bigearsenal/task-retrying-swift from cache (1.57s)
+#12 633.0 Fetching https://github.com/vapor/fluent-postgres-driver.git
+#12 633.1 [137471/212368] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, flow-swift-macos
+#12 635.6 [138094/215096] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, flow-swift-macos, fluent-postgres-driver
+#12 666.3 Fetched https://github.com/vapor/fluent-postgres-driver.git from cache (33.28s)
+#12 666.3 Fetching https://github.com/vapor/websocket-kit.git
+#12 666.4 [146446/212368] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, flow-swift-macos
+#12 667.3 [147844/215038] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, flow-swift-macos, websocket-kit
+#12 685.1 Fetched https://github.com/vapor/websocket-kit.git from cache (18.80s)
+#12 685.1 Fetching https://github.com/vapor/routing-kit.git
+#12 685.1 [153277/212368] Fetching multipart-kit, swift-nio, vapor, async-http-client, swift-crypto, flow-swift-macos
+#12 691.6 Fetched https://github.com/swift-server/async-http-client from cache (193.26s)
+#12 691.6 Fetching https://github.com/apple/swift-algorithms.git
+#12 691.6 [146008/196171] Fetching multipart-kit, swift-nio, vapor, swift-crypto, flow-swift-macos
+#12 691.7 Fetched https://github.com/vapor/vapor.git from cache (293.65s)
+#12 691.7 Fetching https://github.com/apple/swift-metrics.git
+#12 691.7 [64612/114775] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos
+#12 695.1 Fetching https://github.com/swift-server/swift-service-lifecycle.git
+#12 701.7 Fetching https://github.com/apple/swift-nio-ssl.git
+#12 701.7 Fetching https://github.com/vapor/sqlite-nio.git
+#12 707.2 [65904/117618] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos, swift-service-lifecycle
+#12 707.3 [66018/119632] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos, swift-service-lifecycle, sqlite-nio
+#12 707.4 [66052/135697] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos, swift-service-lifecycle, sqlite-nio, swift-nio-ssl
+#12 741.4 Fetched https://github.com/swift-server/swift-service-lifecycle.git from cache (46.33s)
+#12 741.4 Fetching https://github.com/apple/swift-service-context.git
+#12 741.4 [67719/132854] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos, sqlite-nio, swift-nio-ssl
+#12 742.2 [67720/134218] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos, sqlite-nio, swift-nio-ssl, swift-service-context
+#12 747.9 Fetched https://github.com/apple/swift-service-context.git from cache (6.43s)
+#12 747.9 Fetching https://github.com/vapor/jwt-kit.git
+#12 748.3 [68327/132854] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos, sqlite-nio, swift-nio-ssl
+#12 750.8 [68591/143087] Fetching multipart-kit, swift-nio, swift-crypto, flow-swift-macos, sqlite-nio, swift-nio-ssl, jwt-kit
+#12 846.7 Fetched https://github.com/13Ophiuchus/flow-swift-macos.git from cache (257.95s)
+#12 846.7 Fetching https://github.com/vapor/fluent-kit.git
+#12 846.8 [85885/139205] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, swift-nio-ssl, jwt-kit
+#12 848.1 [86122/153173] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, swift-nio-ssl, jwt-kit, fluent-kit
+#12 857.7 Fetched https://github.com/vapor/jwt-kit.git from cache (109.86s)
+#12 857.7 Fetching https://github.com/21-DOT-DEV/swift-secp256k1
+#12 858.1 [78174/142940] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, swift-nio-ssl, fluent-kit
+#12 859.6 [78590/154027] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, swift-nio-ssl, fluent-kit, swift-secp256k1
+#12 931.3 Fetched https://github.com/apple/swift-nio-ssl.git from cache (229.67s)
+#12 931.3 Fetching https://github.com/vapor/apns.git
+#12 931.4 [88998/137962] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, fluent-kit, swift-secp256k1
+#12 933.5 [89116/138761] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, fluent-kit, swift-secp256k1, apns
+#12 937.2 Fetched https://github.com/vapor/apns.git from cache (5.87s)
+#12 937.3 [90380/137962] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, fluent-kit, swift-secp256k1
+#12 939.7 Fetched https://github.com/vapor/fluent-kit.git from cache (93.01s)
+#12 939.7 [77013/123994] Fetching multipart-kit, swift-nio, swift-crypto, sqlite-nio, swift-secp256k1
+#12 981.7 Fetched https://github.com/vapor/multipart-kit.git from cache (981.02s)
+#12 981.9 [84149/117716] Fetching swift-nio, swift-crypto, sqlite-nio, swift-secp256k1
+#12 1013.0 Fetched https://github.com/vapor/sqlite-nio.git from cache (311.34s)
+#12 1013.3 [96995/115702] Fetching swift-nio, swift-crypto, swift-secp256k1
+#12 1026.1 Fetched https://github.com/apple/swift-nio.git from cache (819.17s)
+#12 1026.3 [16695/29629] Fetching swift-crypto, swift-secp256k1
+#12 1058.9 Fetched https://github.com/21-DOT-DEV/swift-secp256k1 from cache (201.19s)
+#12 1059.7 [16051/18542] Fetching swift-crypto
+#12 1069.1 Fetched https://github.com/apple/swift-crypto from cache (505.77s)
+#12 1069.1 Creating working copy for https://github.com/apple/swift-nio-http2.git
+#12 1069.1 Creating working copy for https://github.com/krzyzanowskim/CryptoSwift.git
+#12 1069.1 Creating working copy for https://github.com/vapor/multipart-kit.git
+#12 1069.1 Creating working copy for https://github.com/vapor/queues-redis-driver.git
+#12 1069.1 Creating working copy for https://github.com/apple/swift-http-structured-headers.git
+#12 1069.1 Creating working copy for https://github.com/apple/swift-async-algorithms
+#12 1069.1 Creating working copy for https://github.com/swift-server-community/APNSwift.git
+#12 1069.1 Creating working copy for https://github.com/vapor/queues.git
+#12 1069.1 Creating working copy for https://github.com/apple/swift-asn1.git
+#12 1069.1 Creating working copy for https://github.com/vapor/postgres-nio.git
+#12 1069.2 Working copy of https://github.com/vapor/multipart-kit.git resolved at 4.7.1
+#12 1069.2 Creating working copy for https://github.com/vapor/fluent-sqlite-driver.git
+#12 1069.2 Working copy of https://github.com/vapor/queues.git resolved at 1.18.0
+#12 1069.2 Working copy of https://github.com/krzyzanowskim/CryptoSwift.git resolved at 1.10.0
+#12 1069.2 Creating working copy for https://github.com/apple/swift-http-types.git
+#12 1069.2 Creating working copy for https://github.com/vapor/jwt.git
+#12 1069.2 Working copy of https://github.com/apple/swift-async-algorithms resolved at 1.1.5
+#12 1069.2 Creating working copy for https://github.com/apple/swift-collections.git
+#12 1069.2 Working copy of https://github.com/swift-server-community/APNSwift.git resolved at 6.6.0
+#12 1069.2 Creating working copy for https://github.com/apple/swift-nio-extras.git
+#12 1069.2 Creating working copy for https://github.com/apple/swift-nio-transport-services.git
+#12 1069.2 Working copy of https://github.com/vapor/fluent-sqlite-driver.git resolved at 4.9.0
+#12 1069.2 Creating working copy for https://github.com/apple/swift-atomics.git
+#12 1069.2 Creating working copy for https://github.com/vapor/async-kit.git
+#12 1069.2 Creating working copy for https://github.com/apple/swift-system.git
+#12 1069.2 Working copy of https://github.com/apple/swift-http-types.git resolved at 1.6.0
+#12 1069.2 Creating working copy for https://github.com/swift-extras/swift-extras-json
+#12 1069.2 Creating working copy for https://github.com/bitmark-inc/tweetnacl-swiftwrap
+#12 1069.3 Working copy of https://github.com/apple/swift-asn1.git resolved at 1.7.1
+#12 1069.3 Creating working copy for https://github.com/apple/swift-numerics.git
+#12 1069.3 Creating working copy for https://github.com/vapor-community/sendgrid-kit.git
+#12 1069.3 Working copy of https://github.com/vapor/postgres-nio.git resolved at 1.33.1
+#12 1069.3 Creating working copy for https://github.com/apple/swift-log
+#12 1069.3 Creating working copy for https://github.com/attaswift/BigInt.git
+#12 1069.3 Working copy of https://github.com/vapor/jwt.git resolved at 5.1.2
+#12 1069.3 Creating working copy for https://github.com/apple/swift-certificates.git
+#12 1069.3 Creating working copy for https://github.com/swift-server/async-http-client
+#12 1069.3 Working copy of https://github.com/apple/swift-nio-transport-services.git resolved at 1.28.0
+#12 1069.3 Creating working copy for https://github.com/vapor/fluent-kit.git
+#12 1069.3 Creating working copy for https://github.com/vapor/vapor.git
+#12 1069.3 Working copy of https://github.com/vapor/async-kit.git resolved at 1.22.0
+#12 1069.3 Creating working copy for https://github.com/vapor-community/sendgrid.git
+#12 1069.3 Creating working copy for https://github.com/vapor/redis.git
+#12 1069.4 Working copy of https://github.com/apple/swift-nio-extras.git resolved at 1.34.3
+#12 1069.4 Creating working copy for https://github.com/apple/swift-nio.git
+#12 1069.4 Creating working copy for https://github.com/apple/swift-configuration.git
+#12 1069.4 Creating working copy for https://github.com/apple/swift-distributed-tracing.git
+#12 1069.4 Working copy of https://github.com/apple/swift-system.git resolved at 1.8.0
+#12 1069.4 Creating working copy for https://github.com/apple/swift-service-context.git
+#12 1069.4 Creating working copy for https://github.com/vapor/postgres-kit.git
+#12 1069.4 Working copy of https://github.com/swift-extras/swift-extras-json resolved at 0.6.0
+#12 1069.4 Creating working copy for https://github.com/vapor/console-kit.git
+#12 1069.4 Working copy of https://github.com/apple/swift-atomics.git resolved at 1.3.1
+#12 1069.4 Creating working copy for https://github.com/apple/swift-nio-ssl.git
+#12 1069.4 Creating working copy for https://github.com/13Ophiuchus/flow-swift-macos.git
+#12 1069.4 Creating working copy for https://github.com/vapor/sqlite-kit.git
+#12 1069.4 Working copy of https://github.com/bitmark-inc/tweetnacl-swiftwrap resolved at 1.1.0
+#12 1069.4 Creating working copy for https://github.com/apple/swift-crypto
+#12 1069.4 Creating working copy for https://github.com/vapor/fluent.git
+#12 1069.4 Creating working copy for https://github.com/bigearsenal/task-retrying-swift
+#12 1069.5 Working copy of https://github.com/vapor-community/sendgrid-kit.git resolved at 3.1.0
+#12 1069.5 Creating working copy for https://github.com/vapor/sql-kit.git
+#12 1069.5 Working copy of https://github.com/apple/swift-http-structured-headers.git resolved at 1.7.0
+#12 1069.5 error: 'routing-kit': Git command 'git -C /root/.cache/org.swift.swiftpm/repositories/routing-kit-a4c5b9fa config --get remote.origin.url' failed: fatal: cannot change to '/root/.cache/org.swift.swiftpm/repositories/routing-kit-a4c5b9fa': No such file or directory
+#12 1069.5 error: 'swift-algorithms': Git command 'git -C /root/.cache/org.swift.swiftpm/repositories/swift-algorithms-bf5a01cd config --get remote.origin.url' failed: fatal: cannot change to '/root/.cache/org.swift.swiftpm/repositories/swift-algorithms-bf5a01cd': No such file or directory
+#12 1069.5 Working copy of https://github.com/vapor/queues-redis-driver.git resolved at 1.1.2
+#12 1069.5 Creating working copy for https://github.com/vapor/sqlite-nio.git
+#12 1069.5 Working copy of https://github.com/apple/swift-numerics.git resolved at 1.1.1
+#12 1069.5 Creating working copy for https://github.com/vapor/fluent-postgres-driver.git
+#12 1069.5 Creating working copy for https://github.com/vapor/apns.git
+#12 1069.5 Working copy of https://github.com/apple/swift-log resolved at 1.15.0
+#12 1069.5 error: 'swift-metrics': Git command 'git -C /root/.cache/org.swift.swiftpm/repositories/swift-metrics-cea9cd4a config --get remote.origin.url' failed: fatal: cannot change to '/root/.cache/org.swift.swiftpm/repositories/swift-metrics-cea9cd4a': No such file or directory
+#12 1069.5 Creating working copy for https://github.com/vapor/websocket-kit.git
+#12 1069.5 Creating working copy for https://github.com/21-DOT-DEV/swift-secp256k1
+#12 1069.5 Working copy of https://github.com/apple/swift-nio-http2.git resolved at 1.45.0
+#12 1069.5 Creating working copy for https://github.com/swift-server/RediStack.git
+#12 1069.5 Creating working copy for https://github.com/swift-server/swift-service-lifecycle.git
+#12 1069.5 Working copy of https://github.com/attaswift/BigInt.git resolved at 5.4.1
+#12 1069.5 Creating working copy for https://github.com/vapor/jwt-kit.git
+#12 1069.6 Working copy of https://github.com/vapor/redis.git resolved at 4.14.0
+#12 1069.6 Working copy of https://github.com/swift-server/async-http-client resolved at 1.36.0
+#12 1069.6 Working copy of https://github.com/apple/swift-certificates.git resolved at 1.19.4
+#12 1069.6 Working copy of https://github.com/vapor-community/sendgrid.git resolved at 6.0.0
+#12 1069.6 Working copy of https://github.com/vapor/fluent-kit.git resolved at 1.57.0
+#12 1069.6 Working copy of https://github.com/vapor/vapor.git resolved at 4.122.0
+#12 1069.6 Working copy of https://github.com/vapor/postgres-kit.git resolved at 2.16.1
+#12 1069.6 Working copy of https://github.com/apple/swift-service-context.git resolved at 1.3.0
+#12 1069.6 Working copy of https://github.com/apple/swift-collections.git resolved at 1.6.0
+#12 1069.6 Working copy of https://github.com/vapor/console-kit.git resolved at 4.16.0
+#12 1069.6 Working copy of https://github.com/bigearsenal/task-retrying-swift resolved at 1.0.4
+#12 1069.6 Working copy of https://github.com/apple/swift-distributed-tracing.git resolved at 1.4.1
+#12 1069.6 Working copy of https://github.com/apple/swift-configuration.git resolved at 1.2.0
+#12 1069.6 Working copy of https://github.com/vapor/sqlite-kit.git resolved at 4.5.2
+#12 1069.6 Working copy of https://github.com/vapor/fluent.git resolved at 4.13.0
+#12 1069.6 Working copy of https://github.com/vapor/fluent-postgres-driver.git resolved at 2.12.0
+#12 1069.6 Working copy of https://github.com/vapor/apns.git resolved at 5.0.0
+#12 1069.6 Working copy of https://github.com/vapor/websocket-kit.git resolved at 2.16.2
+#12 1069.6 Working copy of https://github.com/apple/swift-nio.git resolved at 2.101.3
+#12 1069.6 Working copy of https://github.com/vapor/sql-kit.git resolved at 3.36.0
+#12 1069.6 Working copy of https://github.com/vapor/sqlite-nio.git resolved at 1.13.0
+#12 1069.6 Working copy of https://github.com/swift-server/RediStack.git resolved at 1.6.3
+#12 1069.6 Working copy of https://github.com/swift-server/swift-service-lifecycle.git resolved at 2.11.0
+#12 1069.6 Working copy of https://github.com/13Ophiuchus/flow-swift-macos.git resolved at 0.1.1
+#12 1069.6 Working copy of https://github.com/vapor/jwt-kit.git resolved at 5.2.0
+#12 1069.6 Working copy of https://github.com/apple/swift-nio-ssl.git resolved at 2.37.2
+#12 1069.8 Working copy of https://github.com/apple/swift-crypto resolved at 4.5.2
+#12 1070.0 Working copy of https://github.com/21-DOT-DEV/swift-secp256k1 resolved at 0.23.2
+#12 ERROR: process "/bin/sh -c swift build -c release --product AetherAGMailServerRun" did not complete successfully: exit code: 1
+------
+ > [build 5/5] RUN swift build -c release --product AetherAGMailServerRun:
+1069.6 Working copy of https://github.com/apple/swift-nio.git resolved at 2.101.3
+1069.6 Working copy of https://github.com/vapor/sql-kit.git resolved at 3.36.0
+1069.6 Working copy of https://github.com/vapor/sqlite-nio.git resolved at 1.13.0
+1069.6 Working copy of https://github.com/swift-server/RediStack.git resolved at 1.6.3
+1069.6 Working copy of https://github.com/swift-server/swift-service-lifecycle.git resolved at 2.11.0
+1069.6 Working copy of https://github.com/13Ophiuchus/flow-swift-macos.git resolved at 0.1.1
+1069.6 Working copy of https://github.com/vapor/jwt-kit.git resolved at 5.2.0
+1069.6 Working copy of https://github.com/apple/swift-nio-ssl.git resolved at 2.37.2
+1069.8 Working copy of https://github.com/apple/swift-crypto resolved at 4.5.2
+1070.0 Working copy of https://github.com/21-DOT-DEV/swift-secp256k1 resolved at 0.23.2
+------
+Dockerfile:5
+--------------------
+   3 |     COPY . .
+   4 |     WORKDIR /build/AetherAG
+   5 | >>> RUN swift build -c release --product AetherAGMailServerRun
+   6 |     
+   7 |     FROM swift:6.2-jammy-slim
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c swift build -c release --product AetherAGMailServerRun" did not complete successfully: exit code: 1

@@ -1,0 +1,17 @@
+name: mailserver-docker-build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Build production image
+        run: docker build -f Dockerfile -t aetheragmailserver:ci .
+      - name: Smoke test container
+        run: |
+          docker run -d --name mailserver-ci -p 8080:8080 aetheragmailserver:ci
+          sleep 5
+          curl -f http://localhost:8080/health || (docker logs mailserver-ci && exit 1)
+          docker stop mailserver-ci
