@@ -18,7 +18,10 @@ RUN --mount=type=cache,target=/root/.cache/org.swift.swiftpm \
     mkdir -p /build/output && \
     cp /build/AetherAG/.build/release/AetherAGMailServerRun /build/output/ && \
     cp -r /build/AetherAG/Public /build/output/Public && \
-    cp -r /build/AetherAG/Resources /build/output/Resources
+    mkdir -p /build/output/Resources && \
+    if [ -d /build/AetherAG/Resources ]; then \
+        cp -a /build/AetherAG/Resources/. /build/output/Resources/; \
+    fi
 
 FROM swift:6.2-jammy-slim
 WORKDIR /app
