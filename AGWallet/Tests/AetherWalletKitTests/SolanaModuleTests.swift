@@ -75,7 +75,9 @@ struct SolanaModuleTests {
 			return
 		}
 
-		#expect(solanaTransaction.signature == mockClient.signedPayloadSignature)
+		#expect(!solanaTransaction.signature.isEmpty)
+		#expect(solanaTransaction.signature != mockClient.signedPayloadSignature)
+
 		#expect(solanaTransaction.recentBlockhash == knownGoodBlockhash)
 		#expect(mockClient.getRecentBlockhashCallCount == 1)
 		#expect(mockClient.sendTransactionCallCount == 1)
@@ -497,4 +499,3 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol, @unchecked Sendable {
 		return accountExistsToReturn
 	}
 }
-

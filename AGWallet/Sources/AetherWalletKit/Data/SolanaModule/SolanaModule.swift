@@ -316,7 +316,13 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 
 		NSDecimalRound(&roundedAmount, &scaledAmount, 0, .plain)
 
-		guard roundedAmount == scaledAmount else {
+		// `amount` enters this API as a binary Double. Accept only the tiny
+		// conversion error around an exact base-unit value, never a material
+		// fractional base-unit amount.
+		let representationTolerance = Decimal(string: "0.000001")!
+		let roundingDifference = abs(scaledAmount - roundedAmount)
+
+		guard roundingDifference <= representationTolerance else {
 			throw WalletError.invalidAmount(
 				"\(assetSymbol) amount exceeds supported precision of \(decimals) decimals"
 			)
