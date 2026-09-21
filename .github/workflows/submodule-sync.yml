@@ -21,7 +21,7 @@ jobs:
         with:
           submodules: false
           fetch-depth: 0
-          token: ${{ secrets.AETHERAG_PAT }}
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
 
       - name: Validate .gitmodules
         shell: bash
@@ -53,7 +53,15 @@ jobs:
           echo "  OK: tree matches .gitmodules"
 
       - name: Init submodules
+        shell: bash
+        env:
+          SUBMODULES_READ_TOKEN: ${{ secrets.SUBMODULES_READ_TOKEN }}
         run: |
+          set -Eeuo pipefail
+          test -n "${SUBMODULES_READ_TOKEN}"
+          git config --global \
+            url."https://x-access-token:${SUBMODULES_READ_TOKEN}@github.com/".insteadOf \
+            "https://github.com/"
           git submodule sync --recursive
           git submodule update --init --recursive
 

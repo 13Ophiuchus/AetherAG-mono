@@ -34,3 +34,6 @@ __pycache__/
 reports/
 **/.swiftpm/
 final_sprint.md
+
+# Local verification reports
+artifacts/

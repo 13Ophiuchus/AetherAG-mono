@@ -158,6 +158,7 @@ public actor KeyManagerActor {
         to recipientAddress: String,
         amount: Double,
         decimals: Int,
+        recipientATAExists: Bool,
         recentBlockhash: String,
         chain: ChainConfig,
         derivationVersion: KeyDerivationVersion = KeyManagerActor.defaultDerivationVersion
@@ -177,17 +178,37 @@ public actor KeyManagerActor {
             walletAddress: recipient, tokenMintAddress: mint, tokenProgramId: TokenProgram.id
         )
 
-        let rawAmount = UInt64((amount * pow(10.0, Double(decimals))).rounded())
+        guard let tokenDecimals = Decimals(exactly: decimals) else {
+            throw WalletError.signingFailed("SPL token decimals must fit UInt8.")
+        }
 
-        let transferInstruction = TokenProgram.transferInstruction(
+        let rawAmount = Lamports((amount * pow(10.0, Double(decimals))).rounded())
+
+        let transferInstruction = TokenProgram.transferCheckedInstruction(
             source: senderATA,
+            mint: mint,
             destination: recipientATA,
             owner: sender,
-            amount: rawAmount
+            multiSigners: [],
+            amount: rawAmount,
+            decimals: tokenDecimals
         )
 
+        var instructions: [TransactionInstruction] = []
+        if !recipientATAExists {
+            let createRecipientATAInstruction =
+                try AssociatedTokenProgram.createIdempotentAssociatedTokenAccountInstruction(
+                    mint: mint,
+                    owner: recipient,
+                    payer: feePayer,
+                    tokenProgramId: TokenProgram.id
+                )
+            instructions.append(createRecipientATAInstruction)
+        }
+        instructions.append(transferInstruction)
+
         var solanaTransaction = Transaction(
-            instructions: [transferInstruction],
+            instructions: instructions,
             recentBlockhash: recentBlockhash,
             feePayer: feePayer
         )
@@ -287,6 +308,54 @@ public actor KeyManagerActor {
         intent: SigningIntent
     ) async throws -> Data {
         try await hkdfDerivedKeyMaterial(length: 32, chain: chain, family: family, intent: intent)
+    }
+
+    /// Converts a display amount into exact non-zero atomic units without rounding.
+    ///
+    /// The wallet API currently accepts `Double`; this boundary validates that the
+    /// supplied value has an exact representation at the asset's declared precision.
+    private static func atomicUnits(
+        from amount: Double,
+        decimals: Int,
+        assetDescription: String
+    ) throws -> UInt64 {
+        guard amount.isFinite, amount > 0 else {
+            throw WalletError.invalidAmount("\(assetDescription) amount must be finite and greater than zero")
+        }
+
+        guard decimals >= 0 else {
+            throw WalletError.invalidAmount("\(assetDescription) decimals must not be negative")
+        }
+
+        guard decimals <= Int(UInt8.max) else {
+            throw WalletError.invalidAmount("\(assetDescription) decimals must fit UInt8")
+        }
+
+        let scale = Decimal(sign: .plus, exponent: decimals, significand: 1)
+        let decimalAmount = Decimal(amount)
+        var scaledAmount = decimalAmount * scale
+
+        var roundedAmount = Decimal()
+        NSDecimalRound(&roundedAmount, &scaledAmount, 0, .plain)
+
+        guard roundedAmount == scaledAmount else {
+            throw WalletError.invalidAmount(
+                "\(assetDescription) amount exceeds supported precision of \(decimals) decimals"
+            )
+        }
+
+        let maximum = Decimal(UInt64.max)
+        guard roundedAmount <= maximum else {
+            throw WalletError.invalidAmount("\(assetDescription) amount exceeds UInt64 atomic-unit range")
+        }
+
+        let unsignedAmount = NSDecimalNumber(decimal: roundedAmount).uint64Value
+
+        guard unsignedAmount > 0 else {
+            throw WalletError.invalidAmount("\(assetDescription) amount rounds to zero atomic units")
+        }
+
+        return unsignedAmount
     }
 
     private static func decodeHexString(_ hex: String) throws -> [UInt8] {

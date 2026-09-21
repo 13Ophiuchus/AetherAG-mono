@@ -13,7 +13,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          token: ${{ secrets.AETHERAG_PAT }}
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
       - name: Select Xcode
         run: |
           # Pin to Xcode 16.4 (bundles Swift 6.3)
