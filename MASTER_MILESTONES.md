@@ -306,8 +306,12 @@ Not yet retrieved. (M65, M67, M68, M69 are covered below.)
 - [ ] **Retrieve missing milestone ranges** listed under each `[gap]` marker above, ideally
       directly from `cat`/`sed` output of the live files, before relying on this document
       for anything earlier than the confirmed windows.
-- [ ] **`solana-swift-concurrency/MILESTONES.md`** — exists, not yet read into this
-      consolidation.
+- [x] **`solana-swift-concurrency/MILESTONES.md`** — reviewed 2026-09-23 at pinned
+      revision `d30b8631`; Phases 1 and 5 plus Swift Testing migration and the
+      `sendPingAsync` double-resume fix are complete. Remaining narrative work is
+      actor isolation for `TransactionMonitor`, WebSocket lifecycle-state auditing,
+      removal/review of concurrency escape hatches, macOS/Linux verification, and
+      release documentation.
 
 ---
 
