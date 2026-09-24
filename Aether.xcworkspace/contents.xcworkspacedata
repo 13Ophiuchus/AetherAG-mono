@@ -13,4 +13,16 @@
    <FileRef
       location = "group:final_sprint.md">
    </FileRef>
+   <FileRef
+      location = "group:CredentialAnchorStatus.swift">
+   </FileRef>
+   <FileRef
+      location = "group:CredentialIssuanceService.swift">
+   </FileRef>
+   <FileRef
+      location = "group:PollFlowTransactionsScheduler.swift">
+   </FileRef>
+   <FileRef
+      location = "group:configureQueues.swift">
+   </FileRef>
 </Workspace>
