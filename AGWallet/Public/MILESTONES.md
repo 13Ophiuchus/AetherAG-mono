@@ -524,3 +524,20 @@ Track each of these tasks in `MILESTONES.md` and update the checkboxes as you pr
 
 Sources
 [2] pasted_text_1783610364.txt https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/80463257/5769cfe4-cc44-4545-8ee0-472776f12c53/pasted_text_1783610364.txt?AWSAccessKeyId=ASIA2F3EMEYE3H4ZRQW6&Signature=VYdIAGarDfacc0AOoRWfkzmq2Nc%3D&x-amz-security-token=IQoJb3JpZ2luX2VjENr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIBvDYEZoHfWu2PdfUsyyUlNN1QkChfXwG7J7nNybJZdNAiEAzH9MCm7GsvIJfGR0PCVe2Zil%2F%2F7lo7%2BNRkNg0htzo%2FUq%2FAQIo%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw2OTk3NTMzMDk3MDUiDCVCPkIXx2YA6RHlRyrQBDMtOcLakY04kZCiH6yQUI%2BmsxDJXDC0MznxFjsqI3skQtcLXXpzrJGZk8Y07YrzRFRi%2FkuDf3tc0OebGHxJWR%2F1SPdDXt%2F8%2BWTezvNFR%2BT3hDJux1PKEcRaW4KGBYaDzsT8B%2FOzKfNTzizUYvo0Jq%2FllwDFNWLBiR4nAPY3IrZIUywRclM5W3i9k8IuCygjoPHj5TzS4GfiY%2BDmhDWitWbLM3c8QMNxYvO7cbTljUkn0sHyZhyc67Ho8wAymhDTAgKxNQLxSLKpc4WMGl8E6VAA2pgLvgJi23ju3uNuhIQi81dVYcPP9oYqrd4VBX%2F1tD4%2F0l9G8YEtVe09hSkGrQmQhWhdT3z7HhXB6ESDDCq1zaExYwFXxyj5NrhSOeNxiMqmMfmecOiam8747gu3eLHnHF5%2FsRAKUS6cK7OhqxJP8m12h4euxzd6Ol3t61d0HeStXOelvxMYcPR5N4DIa8Jkl8%2BsdirH2jYVVqRBE49HxXPOG5kRCYrGHZRqiRdxNAkrItOkduhzSV0TVhJfVznz7zi5DNdMyL8aUJOPpRMkDlfmKSTVHST9n0l%2FaedOyxa6GsG4xut%2BaOOYtsR5f2Hj%2Fgp9ZcRec8TNnTNgWMReAj2opcChztmnGFrRSlWR5T4VZjAtLstULYkCQII9EmqmhSyHumnz0pZQJadAANYFIJDGHT4ZKH86tyzlKHq1F1mUKzWVZ7JHi5xybCloYIen%2F%2FY6j%2Bud%2FeMlf4ZCISgJErg8aUQS7%2FiArsYT%2F2FrRCIPXSQr76oEBOHhKnohK%2BQw2sG%2F0gY6mAFugf9FmecUYdObDTdZkcCbm67w%2F%2B6EwI5cK5DorSzYrf3hePR5dnazOtlhAuBAehclfWkDTu4pmlGHbuXoxrBmMcid45yBKHDUauhxGku8w%2BURC9apE%2FFJE%2FNlrdFrZ9bva1InlSIZTJ7RN1Ln%2Fo9PcJ15rVaD6kdaItcZoxAF3uzxXFTr3kTUczHbYHH%2BwQnt9%2FPbtsyMug%3D%3D&Expires=1783623341
+
+## Milestone: FlowModule build fix + real account creation (2026-09-29)
+
+- Fixed all FlowModule.swift build errors (missing types, hex decoding,
+  event field access, duplicate declarations from bad merge).
+- Hardened issuer key handling: Keychain-backed, loaded by reference at
+  sign time only.
+- Replaced fixed-interval seal-polling with exponential backoff + deadline.
+- Implemented real `createFlowAccount` via `CadenceTargetType`, matching
+  the existing proven `send()` transaction path. Removed the
+  `FlowGatewayProtocol`/`LiveFlowGateway` placeholder abstraction and its
+  `fatalError()` entirely.
+- Repo hygiene: gitignored `.bak` files, removed one-off debug scripts,
+  bumped `web3swift-concurrency` and `AetherAG` submodule pointers.
+- Test suite: 104 tests in 21 suites, 0 build warnings.
+- Open item: live testnet validation of `createFlowAccount` still pending.
+
