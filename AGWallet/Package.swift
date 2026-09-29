@@ -41,7 +41,10 @@ let package = Package(
                 .product(name: "ExtrasJSON", package: "swift-extras-json"),
                 .product(name: "Logging", package: "swift-log"),
             ],
-            path: "Sources/AetherWalletKit"
+            path: "Sources/AetherWalletKit",
+            resources: [
+                .copy("Data/FlowModule/Cadence")
+            ]
         ),
         .testTarget(
             name: "AetherWalletKitTests",
