@@ -19,8 +19,7 @@ struct FlowAccountCreationTests {
         }
         _ = issuerPrivateKeyHex
         // let config = FlowIssuerConfig(...)
-        // let gateway = LiveFlowGateway(chainID: .testnet)
-        // let address = try await keyManager.createFlowAccount(issuerConfig: config, flowGateway: gateway, network: .testnet)
+        // let address = try await keyManager.createFlowAccount(issuerConfig: config, network: .testnet)
         // #expect(!address.isEmpty)
     }
 }

@@ -346,46 +346,29 @@ extension KeyManagerActor {
     /// On success, persists the new address via storeFlowAddress(_:).
     public func createFlowAccount(
         issuerConfig: FlowIssuerConfig,
-        flowGateway: any FlowGatewayProtocol,
         network: Flow.ChainID,
         keyIdentifier: String = "masterKey"
     ) async throws -> String {
         let publicKeyHex = try flowP256PublicKeyHex(keyIdentifier: keyIdentifier)
         let signer = FlowIssuerSigner(issuerConfig: issuerConfig)
 
-        guard let scriptURL = Bundle.module.url(
-            forResource: "create_user_account",
-            withExtension: "cdc",
-            subdirectory: "Cadence"
-        ) else {
-            throw WalletError.chainConfigurationError("Missing create_user_account.cdc resource")
-        }
-        let script = try Data(contentsOf: scriptURL)
-
-        let arguments: [Flow.Argument] = [
-            Flow.Argument(value: .string(publicKeyHex)),
-            Flow.Argument(value: .uint8(1)),
-            Flow.Argument(value: .uint8(3)),
-            Flow.Argument(value: .ufix64(Decimal(string: "1000.0") ?? 1000))
-        ]
-
-        let txID = try await flowGateway.sendTransaction(
-            script: script,
-            arguments: arguments,
-            gasLimit: 200,
-            proposalKey: issuerConfig.proposalKey,
-            payer: issuerConfig.address,
-            authorizers: [issuerConfig.address],
-            envelopeSigner: signer
+        let target = CreateFlowUserAccountTarget(
+            publicKeyHex: publicKeyHex,
+            signatureAlgorithm: 1,
+            hashAlgorithm: 3,
+            weight: Decimal(string: "1000.0") ?? 1000
         )
 
-        var result = try await flowGateway.transactionResult(id: txID)
+        let flowClient = Flow()
+        let txID = try await flowClient.sendTransaction(target, signers: [signer], chainID: network)
+
+        var result = try await flowClient.accessAPI.getTransactionResultById(id: txID)
         var delayNanoseconds: UInt64 = 500_000_000
         let maxDelayNanoseconds: UInt64 = 8_000_000_000
         let deadline = Date().addingTimeInterval(90)
         while result.status != .sealed && Date() < deadline {
             try await Task.sleep(nanoseconds: delayNanoseconds)
-            result = try await flowGateway.transactionResult(id: txID)
+            result = try await flowClient.accessAPI.getTransactionResultById(id: txID)
             delayNanoseconds = min(delayNanoseconds * 2, maxDelayNanoseconds)
         }
 
@@ -401,6 +384,40 @@ extension KeyManagerActor {
 
         try storeFlowAddress(newAddressHex)
         return newAddressHex
+    }
+
+    // MARK: - CreateFlowUserAccountTarget
+
+    /// Cadence transaction target for provisioning a new Flow account funded
+    /// by the issuer, following the same `CadenceTargetType` pattern as
+    /// `TransferFlowTokenTarget` above.
+    private struct CreateFlowUserAccountTarget: CadenceTargetType {
+        let publicKeyHex: String
+        let signatureAlgorithm: UInt8
+        let hashAlgorithm: UInt8
+        let weight: Decimal
+
+        var type: CadenceType { .transaction }
+        var returnType: Decodable.Type { String.self }
+        var arguments: [Flow.Argument] {
+            [
+                Flow.Argument(value: .string(publicKeyHex)),
+                Flow.Argument(value: .uint8(signatureAlgorithm)),
+                Flow.Argument(value: .uint8(hashAlgorithm)),
+                Flow.Argument(value: .ufix64(weight)),
+            ]
+        }
+
+        var cadenceBase64: String {
+            guard let scriptURL = Bundle.module.url(
+                forResource: "create_user_account",
+                withExtension: "cdc",
+                subdirectory: "Cadence"
+            ), let script = try? Data(contentsOf: scriptURL) else {
+                return ""
+            }
+            return script.base64EncodedString()
+        }
     }
 
     /// Wipes the locally stored Flow address, forcing the next call to

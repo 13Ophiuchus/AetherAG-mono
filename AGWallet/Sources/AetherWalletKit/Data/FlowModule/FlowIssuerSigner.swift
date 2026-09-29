@@ -2,48 +2,6 @@ import Flow
 import CryptoKit
 import Foundation
 
-public protocol FlowGatewayProtocol: Sendable {
-    func sendTransaction(
-        script: Data,
-        arguments: [Flow.Argument],
-        gasLimit: UInt64,
-        proposalKey: Flow.TransactionProposalKey,
-        payer: Flow.Address,
-        authorizers: [Flow.Address],
-        envelopeSigner: any FlowSigner
-    ) async throws -> Flow.ID
-
-    func transactionResult(id: Flow.ID) async throws -> Flow.TransactionResult
-}
-
-public final class LiveFlowGateway: FlowGatewayProtocol {
-    private let flowClient: Flow
-    private let chainID: Flow.ChainID
-
-    public init(chainID: Flow.ChainID) {
-        self.chainID = chainID
-        self.flowClient = Flow()
-    }
-
-    public func sendTransaction(
-        script: Data,
-        arguments: [Flow.Argument],
-        gasLimit: UInt64,
-        proposalKey: Flow.TransactionProposalKey,
-        payer: Flow.Address,
-        authorizers: [Flow.Address],
-        envelopeSigner: any FlowSigner
-    ) async throws -> Flow.ID {
-        // TODO: Confirm this matches your installed Flow SDK's actual
-        // transaction builder API before relying on this in production.
-        fatalError("Implement against your installed Flow SDK's transaction builder API")
-    }
-
-    public func transactionResult(id: Flow.ID) async throws -> Flow.TransactionResult {
-        try await flowClient.accessAPI.getTransactionResultById(id: id)
-    }
-}
-
 struct FlowIssuerSigner: FlowSigner {
     let issuerConfig: FlowIssuerConfig
 
