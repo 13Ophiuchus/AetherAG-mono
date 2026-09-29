@@ -39,3 +39,4 @@ final_sprint.md
 artifacts/
 .env.production
 flow_keys.txt
+*.local-audit-artifacts/
