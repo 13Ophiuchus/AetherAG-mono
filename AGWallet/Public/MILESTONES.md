@@ -513,12 +513,20 @@ git push origin v1.0.0
 
 ## Summary
 
-From the current baseline — multi‑chain domain, robust EVM support, partially wired Bitcoin and Solana, and a Secure Enclave key manager — the path to production is mainly about:
+From the current baseline — multi‑chain domain, robust EVM support, and a
+Secure Enclave key manager — most of the original roadmap below is now
+**complete** as of 2026-09-29:
 
-- Implementing chain‑specific signing and address derivation in `KeyManagerActor`.
-- Replacing module stubs with real Bitcoin/Solana/Flow flows.
-- Hardening `WalletCore` and adding tests + CI.
-- Integrating into the app and completing a security/observability pass.
+- ✅ Chain-specific signing/address derivation in `KeyManagerActor` — done
+  for EVM, Solana, Bitcoin, and Flow.
+- ✅ Bitcoin, Solana, and Flow modules — no longer stubs; all have real
+  transaction-building logic and passing test suites (see module file
+  counts below).
+- ✅ Test coverage — 104 tests across 21 suites passing, 0 build warnings.
+- 🔲 Remaining: dynamic Bitcoin fee estimation (currently a fixed 500
+  satoshi placeholder — see TODO in `BitcoinModule.swift`), live Flow
+  testnet validation of `createFlowAccount`, and a final security/
+  observability pass before a v1.0.0 tag.
 
 Track each of these tasks in `MILESTONES.md` and update the checkboxes as you progress toward a production‑ready Aether wallet core.
 
@@ -541,20 +549,4 @@ Sources
 - Test suite: 104 tests in 21 suites, 0 build warnings.
 - Open item: live testnet validation of `createFlowAccount` still pending.
 
-
-## Milestone: FlowModule build fix + real account creation (2026-09-29)
-
-- Fixed all FlowModule.swift build errors (missing types, hex decoding,
-  event field access, duplicate declarations from bad merge).
-- Hardened issuer key handling: Keychain-backed, loaded by reference at
-  sign time only.
-- Replaced fixed-interval seal-polling with exponential backoff + deadline.
-- Implemented real `createFlowAccount` via `CadenceTargetType`, matching
-  the existing proven `send()` transaction path. Removed the
-  `FlowGatewayProtocol`/`LiveFlowGateway` placeholder abstraction and its
-  `fatalError()` entirely.
-- Repo hygiene: gitignored `.bak` files, removed one-off debug scripts,
-  bumped `web3swift-concurrency` and `AetherAG` submodule pointers.
-- Test suite: 104 tests in 21 suites, 0 build warnings.
-- Open item: live testnet validation of `createFlowAccount` still pending.
 
