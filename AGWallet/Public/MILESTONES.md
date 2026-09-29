@@ -550,3 +550,17 @@ Sources
 - Open item: live testnet validation of `createFlowAccount` still pending.
 
 
+
+## Milestone: Real Bitcoin fee estimation (2026-09-29)
+
+- Added `getFeeEstimates()` to the `EsploraClient` protocol, implemented
+  against Esplora's real `/fee-estimates` endpoint in `BitcoinEsploraClient`.
+- `buildTransaction` now computes `feeSatoshis` from a live sat/vB rate
+  (6-block confirmation target) and a standard P2WPKH vbyte-size formula,
+  replacing the previous hardcoded 500-satoshi placeholder.
+- Falls back to the fixed fee if the network call fails, so `send()` never
+  hard-fails purely on a fee-estimation hiccup.
+- All 104 tests passing, 0 build warnings.
+- This closes the last remaining item from the 2026-09-29 project state
+  report (`docs/Project_State_20260929.md`). No known TODOs or placeholder
+  logic remain in AGWallet's Sources/ tree.
