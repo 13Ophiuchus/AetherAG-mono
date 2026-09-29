@@ -541,3 +541,20 @@ Sources
 - Test suite: 104 tests in 21 suites, 0 build warnings.
 - Open item: live testnet validation of `createFlowAccount` still pending.
 
+
+## Milestone: FlowModule build fix + real account creation (2026-09-29)
+
+- Fixed all FlowModule.swift build errors (missing types, hex decoding,
+  event field access, duplicate declarations from bad merge).
+- Hardened issuer key handling: Keychain-backed, loaded by reference at
+  sign time only.
+- Replaced fixed-interval seal-polling with exponential backoff + deadline.
+- Implemented real `createFlowAccount` via `CadenceTargetType`, matching
+  the existing proven `send()` transaction path. Removed the
+  `FlowGatewayProtocol`/`LiveFlowGateway` placeholder abstraction and its
+  `fatalError()` entirely.
+- Repo hygiene: gitignored `.bak` files, removed one-off debug scripts,
+  bumped `web3swift-concurrency` and `AetherAG` submodule pointers.
+- Test suite: 104 tests in 21 suites, 0 build warnings.
+- Open item: live testnet validation of `createFlowAccount` still pending.
+
