@@ -35,6 +35,22 @@ final class BitcoinEsploraClient: EsploraClient, @unchecked Sendable {
         return try JSONDecoder().decode([UTXO].self, from: data)
     }
 
+    func getFeeEstimates() async throws -> [Int: Double] {
+        let url = baseURL.appendingPathComponent("fee-estimates")
+
+        let (data, response) = try await session.data(from: url)
+        try validate(response, data: data)
+
+        let raw = try JSONDecoder().decode([String: Double].self, from: data)
+        var result: [Int: Double] = [:]
+        for (key, value) in raw {
+            if let target = Int(key) {
+                result[target] = value
+            }
+        }
+        return result
+    }
+
     func getTransactionHistory(for address: String) async throws -> [UnifiedTransaction] {
         let url = baseURL
             .appendingPathComponent("address")

@@ -11,6 +11,10 @@ protocol EsploraClient: Sendable {
     func getUTXOs(for address: String) async throws -> [UTXO]
     func getTransactionHistory(for address: String) async throws -> [UnifiedTransaction]
     func broadcast(rawTransaction: String) async throws -> String
+
+    /// Fee estimates keyed by confirmation target (in blocks), value in sat/vB.
+    /// Mirrors Esplora's `/fee-estimates` response shape, e.g. `{"1": 25.0, "6": 12.0}`.
+    func getFeeEstimates() async throws -> [Int: Double]
 }
 
 struct UTXO: Sendable, Decodable {

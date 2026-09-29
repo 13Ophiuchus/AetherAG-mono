@@ -39,12 +39,13 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
         let client = try esploraClient(for: asset.chainConfig)
 
         let utxos = try await client.getUTXOs(for: fromAddress)
-        let transaction = try buildTransaction(
+        let transaction = try await buildTransaction(
             from: fromAddress,
             to: recipientAddress,
             amount: amount,
             utxos: utxos,
-            chain: asset.chainConfig
+            chain: asset.chainConfig,
+            client: client
         )
 
         let signedRawTransaction = try await signTransaction(transaction, for: asset.chainConfig)
@@ -107,11 +108,11 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
         to: String,
         amount: Double,
         utxos: [UTXO],
-        chain _: ChainConfig
-    ) throws -> BitcoinTxDraft {
+        chain _: ChainConfig,
+        client: EsploraClient
+    ) async throws -> BitcoinTxDraft {
         let amountInSatoshis = Int64(amount * 100_000_000)
-
-        let feeSatoshis: Int64 = 500 // TODO: replace with dynamic fee estimation via Esplora fee-estimates endpoint
+        let feeSatoshis = await estimateFeeSatoshis(inputCount: utxos.count, client: client)
 
         return BitcoinTxDraft(
             from: from,
@@ -121,6 +122,38 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
             feeSatoshis: feeSatoshis,
             changeAddress: from
         )
+    }
+
+    /// Estimates the total transaction fee in satoshis using live Esplora
+    /// fee-rate data (sat/vB) and a standard P2WPKH vbyte-size formula.
+    ///
+    /// Falls back to a conservative fixed fee if the fee-estimates endpoint
+    /// is unreachable or returns no usable data, so `send()` never hard-fails
+    /// purely due to a fee-estimation network hiccup.
+    private func estimateFeeSatoshis(inputCount: Int, client: EsploraClient) async -> Int64 {
+        let fallbackFeeSatoshis: Int64 = 500
+        let confirmationTarget = 6 // ~1 hour confirmation target
+
+        guard let estimates = try? await client.getFeeEstimates(), !estimates.isEmpty else {
+            logger.warning("Fee-estimates unavailable; falling back to fixed \(fallbackFeeSatoshis) sat fee")
+            return fallbackFeeSatoshis
+        }
+
+        let satPerVByte = estimates[confirmationTarget]
+            ?? estimates.keys.sorted().first(where: { $0 >= confirmationTarget }).flatMap { estimates[$0] }
+            ?? estimates.values.max()
+
+        guard let feeRate = satPerVByte, feeRate > 0 else {
+            logger.warning("No usable fee rate in estimates response; falling back to fixed \(fallbackFeeSatoshis) sat fee")
+            return fallbackFeeSatoshis
+        }
+
+        // Standard P2WPKH size approximation: 10.5 vbytes overhead,
+        // ~68 vbytes per input, ~31 vbytes per output (recipient + change).
+        let estimatedVBytes = 10.5 + (Double(max(inputCount, 1)) * 68.0) + (2 * 31.0)
+        let estimatedFee = Int64((estimatedVBytes * feeRate).rounded(.up))
+
+        return max(estimatedFee, 1)
     }
 
     private func signTransaction(_ transaction: BitcoinTxDraft, for chain: ChainConfig) async throws -> String {

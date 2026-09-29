@@ -156,14 +156,20 @@ extension ChainConfig {
 final class MockEsploraClient: EsploraClient, @unchecked Sendable {
     let utxosToReturn: [UTXO]
     let txIdToReturn: String
+    let feeEstimatesToReturn: [Int: Double]
 
     private(set) var getUTXOsCallCount = 0
     private(set) var broadcastCallCount = 0
     private(set) var lastBroadcastRawTransaction: String?
 
-    init(utxosToReturn: [UTXO], txIdToReturn: String) {
+    init(
+        utxosToReturn: [UTXO],
+        txIdToReturn: String,
+        feeEstimatesToReturn: [Int: Double] = [6: 12.0]
+    ) {
         self.utxosToReturn = utxosToReturn
         self.txIdToReturn = txIdToReturn
+        self.feeEstimatesToReturn = feeEstimatesToReturn
     }
 
     func getUTXOs(for _: String) async throws -> [UTXO] {
@@ -179,5 +185,9 @@ final class MockEsploraClient: EsploraClient, @unchecked Sendable {
         broadcastCallCount += 1
         lastBroadcastRawTransaction = rawTransaction
         return txIdToReturn
+    }
+
+    func getFeeEstimates() async throws -> [Int: Double] {
+        return feeEstimatesToReturn
     }
 }
