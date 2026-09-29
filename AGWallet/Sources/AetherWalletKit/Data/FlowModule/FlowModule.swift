@@ -1,4 +1,5 @@
 import Flow
+import CryptoKit
 import Foundation
 
 // MARK: - Cadence query for FlowToken balance
@@ -319,5 +320,105 @@ enum FlowTransactionHistoryMatcher {
 enum FlowChainIDResolver {
     static func resolve(_ chain: ChainConfig) -> Flow.ChainID {
         chain.activeNetwork == .testnet ? .testnet : .mainnet
+    }
+}
+
+// MARK: - Flow Account Creation & Reset (appended)
+
+import Flow
+
+extension KeyManagerActor {
+
+    /// Derives the P256 public key from the stored master key, matching the
+    /// same key material used by signFlowTransactionEnvelope/signFlowMessage.
+    public func flowP256PublicKeyHex(keyIdentifier: String = "masterKey") throws -> String {
+        guard let rawMasterKey = try retrievePrivateKey(for: keyIdentifier) else {
+            throw WalletError.keychainError("Master key not found")
+        }
+        let masterKey = rawMasterKey.count >= 32 ? Data(rawMasterKey.prefix(32)) : rawMasterKey
+        let signingKey = try P256.Signing.PrivateKey(rawRepresentation: masterKey)
+        let uncompressed = signingKey.publicKey.rawRepresentation
+        return uncompressed.toHexString()
+    }
+
+    /// Creates a brand-new Flow account on-chain, funded/signed by an issuer
+    /// account, using this wallet's own master-key-derived P256 public key.
+    /// On success, persists the new address via storeFlowAddress(_:).
+    public func createFlowAccount(
+        issuerConfig: FlowIssuerConfig,
+        flowGateway: any FlowGatewayProtocol,
+        network: Flow.ChainID,
+        keyIdentifier: String = "masterKey"
+    ) async throws -> String {
+        let publicKeyHex = try flowP256PublicKeyHex(keyIdentifier: keyIdentifier)
+        let signer = FlowIssuerSigner(issuerConfig: issuerConfig)
+
+        guard let scriptURL = Bundle.module.url(
+            forResource: "create_user_account",
+            withExtension: "cdc",
+            subdirectory: "Cadence"
+        ) else {
+            throw WalletError.chainConfigurationError("Missing create_user_account.cdc resource")
+        }
+        let script = try Data(contentsOf: scriptURL)
+
+        let arguments: [Flow.Argument] = [
+            Flow.Argument(value: .string(publicKeyHex)),
+            Flow.Argument(value: .uint8(1)),
+            Flow.Argument(value: .uint8(3)),
+            Flow.Argument(value: .ufix64(Decimal(string: "1000.0") ?? 1000))
+        ]
+
+        let txID = try await flowGateway.sendTransaction(
+            script: script,
+            arguments: arguments,
+            gasLimit: 200,
+            proposalKey: issuerConfig.proposalKey,
+            payer: issuerConfig.address,
+            authorizers: [issuerConfig.address],
+            envelopeSigner: signer
+        )
+
+        var result = try await flowGateway.transactionResult(id: txID)
+        var delayNanoseconds: UInt64 = 500_000_000
+        let maxDelayNanoseconds: UInt64 = 8_000_000_000
+        let deadline = Date().addingTimeInterval(90)
+        while result.status != .sealed && Date() < deadline {
+            try await Task.sleep(nanoseconds: delayNanoseconds)
+            result = try await flowGateway.transactionResult(id: txID)
+            delayNanoseconds = min(delayNanoseconds * 2, maxDelayNanoseconds)
+        }
+
+        guard result.status == .sealed else {
+            throw WalletError.signingFailed("Flow account creation did not seal in time")
+        }
+        guard let event = result.events.first(where: { $0.type.contains("AccountCreated") }) else {
+            throw WalletError.signingFailed("Account creation sealed but no AccountCreated event found")
+        }
+        guard let newAddressHex: String = event.getField("address") else {
+            throw WalletError.signingFailed("AccountCreated event found but missing 'address' field")
+        }
+
+        try storeFlowAddress(newAddressHex)
+        return newAddressHex
+    }
+
+    /// Wipes the locally stored Flow address, forcing the next call to
+    /// createFlowAccount to provision an entirely fresh on-chain account.
+    /// Does NOT touch the master key — use resetMasterKey() for a full reset.
+    public func resetFlowAddress() throws {
+        try deletePrivateKey(for: "flowAddress")
+    }
+
+    /// Generates a brand-new mnemonic/master key, discarding the old one.
+    /// Destructive: invalidates Solana/Bitcoin/Flow addresses derived from
+    /// the old master key. Use only for confirmed key-compromise scenarios.
+    public func resetMasterKey(requiresBiometrics: Bool = true) throws -> [String] {
+        let newMnemonic = try generateMnemonic()
+        let newMasterKey = try generateMasterPrivateKey(from: newMnemonic)
+        try deletePrivateKey(for: "masterKey")
+        try deletePrivateKey(for: "flowAddress")
+        try storePrivateKey(newMasterKey, for: "masterKey", requiresBiometrics: requiresBiometrics)
+        return newMnemonic
     }
 }

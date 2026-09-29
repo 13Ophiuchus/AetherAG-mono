@@ -37,3 +37,5 @@ final_sprint.md
 
 # Local verification reports
 artifacts/
+.env.production
+flow_keys.txt

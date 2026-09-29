@@ -1,0 +1,39 @@
+name: AGWallet Build & Test
+
+on:
+  push:
+    paths:
+      - 'AGWallet/**'
+  pull_request:
+    paths:
+      - 'AGWallet/**'
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    defaults:
+      run:
+        working-directory: AGWallet
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_27.0.app
+
+      - name: Show Swift version
+        run: swift --version
+
+      - name: Build
+        run: swift build -v
+
+      - name: Run unit tests (excludes live-network integration tests)
+        run: swift test --filter '.*' 2>&1 | tee test-output.log
+        env:
+          FLOW_TESTNET_INTEGRATION: "0"
+
+      - name: Upload test log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output
+          path: AGWallet/test-output.log
