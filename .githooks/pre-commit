@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+git diff --cached -U0 --diff-filter=d | grep -E '^\+[^+]|^\+$' | gitleaks stdin --redact --no-banner
+rc=$?
+if [ $rc -ne 0 ]; then
+  echo "Blocked: possible secret in added lines (gitleaks exit $rc)"; exit 1
+fi
+if git diff --cached --name-only | grep -iE '(^|/)\.env($|\.)|\.pem$|\.pkey$|\.enc$|generated-key'; then
+  echo "Blocked: sensitive file staged"; exit 1
+fi
