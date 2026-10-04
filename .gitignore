@@ -51,3 +51,6 @@ diagnostics/*.log
 *.bak
 *.bak.*
 *.enc
+
+# Generated blockchain credentials
+flow-testnet-bootstrap/generated-key.txt
