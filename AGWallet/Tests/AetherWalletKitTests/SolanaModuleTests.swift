@@ -189,6 +189,78 @@ struct SolanaModuleTests {
 		#expect(mockClient.getTokenAccountBalanceCallCount == 1)
 	}
 
+	@Test("getBalance returns zero when the SPL associated token account is absent")
+	func getBalanceSPLReturnsZeroWhenAssociatedTokenAccountIsAbsent() async throws {
+		let chain = ChainConfig.mockSolanaChain()
+		let keyManager = try await makeKeyManager(chain: chain)
+		let mockClient = MockSolanaRPCClient(accountExistsToReturn: false)
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		let balance = try await solanaModule.getBalance(
+			for: makeUSDCAsset(chain: chain)
+		)
+
+		#expect(balance == 0.0)
+		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 0)
+	}
+
+	@Test("getBalance rejects a malformed SPL mint before RPC calls")
+	func getBalanceSPLRejectsMalformedMint() async throws {
+		let chain = ChainConfig.mockSolanaChain()
+		let keyManager = try await makeKeyManager(chain: chain)
+		let mockClient = MockSolanaRPCClient()
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+		let malformedAsset = CryptoAsset(
+			name: "Malformed USDC",
+			symbol: "mUSDC",
+			decimals: 6,
+			contractAddress: "not-a-valid-solana-public-key",
+			chainConfig: chain
+		)
+
+		do {
+			_ = try await solanaModule.getBalance(for: malformedAsset)
+			Issue.record("Expected malformed SPL mint to fail")
+		} catch {
+			// PublicKey parsing is delegated to SolanaSwift; any thrown parse error is expected.
+		}
+
+		#expect(mockClient.accountExistsCallCount == 0)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 0)
+	}
+
+	@Test("getBalance propagates associated token account lookup failures")
+	func getBalanceSPLPropagatesAssociatedTokenAccountLookupFailure() async throws {
+		struct LookupError: Error {}
+
+		let chain = ChainConfig.mockSolanaChain()
+		let keyManager = try await makeKeyManager(chain: chain)
+		let mockClient = MockSolanaRPCClient(accountExistsError: LookupError())
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		do {
+			_ = try await solanaModule.getBalance(
+				for: makeUSDCAsset(chain: chain)
+			)
+			Issue.record("Expected associated token account lookup to fail")
+		} catch is LookupError {
+			// Expected.
+		}
+
+		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 0)
+	}
+
 	@Test("send broadcasts an SPL token transfer")
 	func sendSPLTransactionHappyPath() async throws {
 		let chain = ChainConfig.mockSolanaChain

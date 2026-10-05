@@ -65,6 +65,13 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 				tokenProgramId: TokenProgram.id
 			)
 
+			let accountExists = try await client.accountExists(
+				account: ata.base58EncodedString
+			)
+			guard accountExists else {
+				return 0.0
+			}
+
 			let tokenBalance = try await client.getTokenAccountBalance(
 				pubkey: ata.base58EncodedString,
 				commitment: nil

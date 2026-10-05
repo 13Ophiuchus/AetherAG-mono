@@ -20,12 +20,12 @@ Regenerate: python3 scripts/sync_milestones.py
 <!-- Source task: AGW-001 -->
 ### AGW-001 — AGW-001 — Solana SPL token balance support
 
-- **Status:** `in_progress`
+- **Status:** `complete`
 - **Priority:** `P0`
 
 #### AGW-001 — Solana SPL token balance support
 
-**Status:** in_progress
+**Status:** complete
 **Priority:** P0
 **Dependencies:** None
 
@@ -41,7 +41,7 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit tests cover success, zero balance/no account, malformed mint, and RPC failure.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** Pending implementation.
+**Evidence:** Complete. `SolanaModuleTests` covers native SOL balance preservation, SPL balance success, absent associated token account returning zero, malformed mint rejection before RPC, and associated token account RPC failure propagation; `swift test --filter SolanaModuleTests` passes.
 
 <!-- Source task: AGW-002 -->
 ### AGW-002 — AGW-002 — Solana SPL token send support
