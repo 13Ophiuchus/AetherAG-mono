@@ -46,12 +46,12 @@ Regenerate: python3 scripts/sync_milestones.py
 <!-- Source task: AGW-002 -->
 ### AGW-002 — AGW-002 — Solana SPL token send support
 
-- **Status:** `not_started`
+- **Status:** `in_progress`
 - **Priority:** `P0`
 
 #### AGW-002 — Solana SPL token send support
 
-**Status:** not_started
+**Status:** in_progress
 **Priority:** P0
 **Dependencies:** AGW-001
 
@@ -68,7 +68,7 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit/integration tests cover transfer assembly and error conditions.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** Not started.
+**Evidence:** In progress. SPL transfer assembly, recipient associated token account discovery/idempotent creation, checked Token Program transfer construction, signing through `KeyManagerActor`, RPC broadcast, and transaction mapping are implemented and covered by focused tests. Remaining: invalid mint/recipient and insufficient-balance handling.
 
 <!-- Source task: AGW-003 -->
 ### AGW-003 — AGW-003 — EVM transaction enrichment
