@@ -61,7 +61,7 @@ public actor WalletCore {
         to recipientAddress: String,
         for asset: CryptoAsset
     ) async throws -> UnifiedTransaction {
-        logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
+        logger.info("Submitting wallet transfer for asset \(asset.symbol)")
         switch asset.chainConfig.type {
         case .bitcoin:
             guard let bitcoinModule = bitcoinModule else {

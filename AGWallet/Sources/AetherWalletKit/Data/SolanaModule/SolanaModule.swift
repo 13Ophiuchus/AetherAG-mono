@@ -92,7 +92,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 		to recipientAddress: String,
 		for asset: CryptoAsset
 	) async throws -> UnifiedTransaction {
-		logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
+		logger.info("Submitting Solana transfer for asset \(asset.symbol)")
 
 		let client = try resolvedRPCClient(for: asset.chainConfig)
 

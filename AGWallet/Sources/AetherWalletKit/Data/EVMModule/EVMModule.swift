@@ -45,7 +45,7 @@ final class EVMModule: ChainModule, @unchecked Sendable {
     }
 
     func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
-        logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
+        logger.info("Submitting EVM transfer for asset \(asset.symbol)")
 
         let web3 = try await getWeb3(for: asset.chainConfig)
         let fromAddress = try await getEthereumAddress(for: asset.chainConfig)
@@ -157,7 +157,7 @@ final class EVMModule: ChainModule, @unchecked Sendable {
     }
 
     func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
-        logger.info("Signing message on EVM: \(message)")
+        logger.info("Signing EVM message")
 
         let privateKeyData = try await getPrivateKeyData(for: chain)
 
