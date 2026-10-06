@@ -54,3 +54,6 @@ diagnostics/*.log
 
 # Generated blockchain credentials
 flow-testnet-bootstrap/generated-key.txt
+.production/
+**/__pycache__/
+*.py[cod]
