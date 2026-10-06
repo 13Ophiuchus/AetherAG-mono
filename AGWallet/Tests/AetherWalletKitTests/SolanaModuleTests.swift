@@ -261,6 +261,70 @@ struct SolanaModuleTests {
 		#expect(mockClient.getTokenAccountBalanceCallCount == 0)
 	}
 
+
+	@Test("send rejects a malformed SPL mint before RPC calls")
+	func sendRejectsMalformedSPLMintBeforeRPCCalls() async throws {
+		let chain = ChainConfig.mockSolanaChain
+		let keyManager = try await makeKeyManager(chain: chain())
+		let mockClient = MockSolanaRPCClient()
+		let invalidMintAsset = CryptoAsset(
+			name: "Malformed USDC",
+			symbol: "mUSDC",
+			decimals: 6,
+			contractAddress: "not-a-valid-solana-public-key",
+			chainConfig: chain()
+		)
+
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		do {
+			_ = try await solanaModule.send(
+				amount: 1.25,
+				to: recipientAddress,
+				for: invalidMintAsset
+			)
+			Issue.record("Expected malformed SPL mint to be rejected")
+		} catch {
+			// PublicKey parsing is delegated to SolanaSwift; any thrown parse error is expected.
+		}
+
+		#expect(mockClient.accountExistsCallCount == 0)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 0)
+		#expect(mockClient.getRecentBlockhashCallCount == 0)
+		#expect(mockClient.sendTransactionCallCount == 0)
+	}
+
+	@Test("send rejects a malformed SPL recipient before RPC calls")
+	func sendRejectsMalformedSPLRecipientBeforeRPCCalls() async throws {
+		let chain = ChainConfig.mockSolanaChain
+		let keyManager = try await makeKeyManager(chain: chain())
+		let mockClient = MockSolanaRPCClient()
+
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		do {
+			_ = try await solanaModule.send(
+				amount: 1.25,
+				to: "not-a-valid-solana-public-key",
+				for: makeUSDCAsset(chain: chain())
+			)
+			Issue.record("Expected malformed SPL recipient to be rejected")
+		} catch {
+			// PublicKey parsing is delegated to SolanaSwift; any thrown parse error is expected.
+		}
+
+		#expect(mockClient.accountExistsCallCount == 0)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 0)
+		#expect(mockClient.getRecentBlockhashCallCount == 0)
+		#expect(mockClient.sendTransactionCallCount == 0)
+	}
+
 	@Test("send broadcasts an SPL token transfer")
 	func sendSPLTransactionHappyPath() async throws {
 		let chain = ChainConfig.mockSolanaChain
@@ -268,7 +332,8 @@ struct SolanaModuleTests {
 
 		let mockClient = MockSolanaRPCClient(
 			blockhashToReturn: knownGoodBlockhash,
-			accountExistsToReturn: true,
+			tokenBalanceRawAmountToReturn: "1250000",
+			accountExistsResults: [true, true],
 			sendTransactionResult: "mock-spl-transaction-id"
 		)
 
@@ -289,15 +354,16 @@ struct SolanaModuleTests {
 		}
 
 		#expect(solanaTransaction.recentBlockhash == knownGoodBlockhash)
-		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.accountExistsCallCount == 2)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 1)
 		#expect(mockClient.getRecentBlockhashCallCount == 1)
 		#expect(mockClient.sendTransactionCallCount == 1)
 		#expect(mockClient.lastSentTransaction != nil)
 		#expect(mockClient.lastSendTransactionConfiguration?.encoding == "base64")
 	}
 
-	@Test("send aborts SPL transfer when recipient ATA lookup fails")
-	func sendSPLTransactionAbortsWhenRecipientATALookupFails() async throws {
+	@Test("send aborts SPL transfer when sender ATA lookup fails")
+	func sendSPLTransactionAbortsWhenSenderATALookupFails() async throws {
 		struct LookupError: Error {}
 
 		let chain = ChainConfig.mockSolanaChain
@@ -319,7 +385,7 @@ struct SolanaModuleTests {
 				to: recipientAddress,
 				for: makeUSDCAsset(chain: chain())
 			)
-			Issue.record("Expected recipient ATA lookup error")
+			Issue.record("Expected sender ATA lookup error")
 		} catch is LookupError {
 				// Expected.
 		}
@@ -363,7 +429,8 @@ struct SolanaModuleTests {
 
 		let mockClient = MockSolanaRPCClient(
 			blockhashToReturn: knownGoodBlockhash,
-			accountExistsToReturn: false,
+			tokenBalanceRawAmountToReturn: "1250000",
+			accountExistsResults: [true, false],
 			sendTransactionResult: "mock-create-ata-transaction-id"
 		)
 
@@ -378,9 +445,174 @@ struct SolanaModuleTests {
 			for: makeUSDCAsset(chain: chain())
 		)
 
-		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.accountExistsCallCount == 2)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 1)
 		#expect(mockClient.getRecentBlockhashCallCount == 1)
 		#expect(mockClient.sendTransactionCallCount == 1)
+	}
+
+
+	@Test("send rejects SPL transfer when sender associated token account is absent")
+	func sendRejectsSPLTransferWhenSenderATAIsAbsent() async throws {
+		let chain = ChainConfig.mockSolanaChain
+		let keyManager = try await makeKeyManager(chain: chain())
+		let mockClient = MockSolanaRPCClient(
+			accountExistsResults: [false]
+		)
+
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		do {
+			_ = try await solanaModule.send(
+				amount: 1.25,
+				to: recipientAddress,
+				for: makeUSDCAsset(chain: chain())
+			)
+			Issue.record("Expected insufficient funds for missing sender ATA")
+		} catch let error as WalletError {
+			guard case .insufficientFunds = error else {
+				Issue.record("Expected insufficientFunds, received \(error)")
+				return
+			}
+		}
+
+		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 0)
+		#expect(mockClient.getRecentBlockhashCallCount == 0)
+		#expect(mockClient.sendTransactionCallCount == 0)
+	}
+
+	@Test("send rejects SPL transfer when sender balance is insufficient")
+	func sendRejectsSPLTransferWhenSenderBalanceIsInsufficient() async throws {
+		let chain = ChainConfig.mockSolanaChain
+		let keyManager = try await makeKeyManager(chain: chain())
+		let mockClient = MockSolanaRPCClient(
+			tokenBalanceRawAmountToReturn: "1249999",
+			accountExistsResults: [true]
+		)
+
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		do {
+			_ = try await solanaModule.send(
+				amount: 1.25,
+				to: recipientAddress,
+				for: makeUSDCAsset(chain: chain())
+			)
+			Issue.record("Expected insufficient funds for sender SPL balance")
+		} catch let error as WalletError {
+			guard case .insufficientFunds = error else {
+				Issue.record("Expected insufficientFunds, received \(error)")
+				return
+			}
+		}
+
+		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 1)
+		#expect(mockClient.getRecentBlockhashCallCount == 0)
+		#expect(mockClient.sendTransactionCallCount == 0)
+	}
+
+	@Test("send accepts SPL transfer when sender raw balance exactly matches amount")
+	func sendAcceptsSPLTransferWhenSenderBalanceExactlyMatchesAmount() async throws {
+		let chain = ChainConfig.mockSolanaChain
+		let keyManager = try await makeKeyManager(chain: chain())
+		let mockClient = MockSolanaRPCClient(
+			blockhashToReturn: knownGoodBlockhash,
+			tokenBalanceRawAmountToReturn: "1250000",
+			accountExistsResults: [true, true],
+			sendTransactionResult: "mock-exact-spl-balance-transaction-id"
+		)
+
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		_ = try await solanaModule.send(
+			amount: 1.25,
+			to: recipientAddress,
+			for: makeUSDCAsset(chain: chain())
+		)
+
+		#expect(mockClient.accountExistsCallCount == 2)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 1)
+		#expect(mockClient.getRecentBlockhashCallCount == 1)
+		#expect(mockClient.sendTransactionCallCount == 1)
+	}
+
+
+	@Test("send rejects malformed sender SPL raw balance")
+	func sendRejectsMalformedSenderSPLRawBalance() async throws {
+		let chain = ChainConfig.mockSolanaChain
+		let keyManager = try await makeKeyManager(chain: chain())
+		let mockClient = MockSolanaRPCClient(
+			tokenBalanceRawAmountToReturn: "not-a-number",
+			accountExistsResults: [true]
+		)
+
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		do {
+			_ = try await solanaModule.send(
+				amount: 1.25,
+				to: recipientAddress,
+				for: makeUSDCAsset(chain: chain())
+			)
+			Issue.record("Expected invalid response for malformed sender SPL balance")
+		} catch let error as WalletError {
+			guard case .invalidResponse = error else {
+				Issue.record("Expected invalidResponse, received \(error)")
+				return
+			}
+		}
+
+		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 1)
+		#expect(mockClient.getRecentBlockhashCallCount == 0)
+		#expect(mockClient.sendTransactionCallCount == 0)
+	}
+
+	@Test("send propagates sender SPL balance lookup failure")
+	func sendPropagatesSenderSPLBalanceLookupFailure() async throws {
+		struct BalanceLookupError: Error {}
+
+		let chain = ChainConfig.mockSolanaChain
+		let keyManager = try await makeKeyManager(chain: chain())
+		let mockClient = MockSolanaRPCClient(
+			tokenBalanceError: BalanceLookupError(),
+			accountExistsResults: [true]
+		)
+
+		let solanaModule = SolanaModule(
+			keyManager: keyManager,
+			rpcClientOverride: mockClient
+		)
+
+		do {
+			_ = try await solanaModule.send(
+				amount: 1.25,
+				to: recipientAddress,
+				for: makeUSDCAsset(chain: chain())
+			)
+			Issue.record("Expected sender SPL balance lookup error")
+		} catch is BalanceLookupError {
+			// Expected.
+		}
+
+		#expect(mockClient.accountExistsCallCount == 1)
+		#expect(mockClient.getTokenAccountBalanceCallCount == 1)
+		#expect(mockClient.getRecentBlockhashCallCount == 0)
+		#expect(mockClient.sendTransactionCallCount == 0)
 	}
 
 	@Test("send rejects invalid native SOL amounts before broadcasting")
@@ -493,6 +725,9 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol, @unchecked Sendable {
 	let blockhashToReturn: String
 	let balanceToReturn: UInt64
 	let tokenBalanceToReturn: Double?
+	let tokenBalanceRawAmountToReturn: String
+	let tokenBalanceError: Error?
+	var accountExistsResults: [Bool]
 	let accountExistsToReturn: Bool
 	let accountExistsError: Error?
 	let sendTransactionResult: String
@@ -511,6 +746,9 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol, @unchecked Sendable {
 		blockhashToReturn: String = "EETcHmMwaUhi9jSHVdaUyKWDavcYCJZ8SxLXTfRR1qud",
 		balanceToReturn: UInt64 = 0,
 		tokenBalanceToReturn: Double? = nil,
+		tokenBalanceRawAmountToReturn: String = "0",
+		tokenBalanceError: Error? = nil,
+		accountExistsResults: [Bool] = [],
 		accountExistsToReturn: Bool = true,
 		accountExistsError: Error? = nil,
 		sendTransactionResult: String = "mock-solana-transaction-id"
@@ -518,6 +756,9 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol, @unchecked Sendable {
 		self.blockhashToReturn = blockhashToReturn
 		self.balanceToReturn = balanceToReturn
 		self.tokenBalanceToReturn = tokenBalanceToReturn
+		self.tokenBalanceRawAmountToReturn = tokenBalanceRawAmountToReturn
+		self.tokenBalanceError = tokenBalanceError
+		self.accountExistsResults = accountExistsResults
 		self.accountExistsToReturn = accountExistsToReturn
 		self.accountExistsError = accountExistsError
 		self.sendTransactionResult = sendTransactionResult
@@ -554,8 +795,13 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol, @unchecked Sendable {
 	) async throws -> TokenAccountBalance {
 		getTokenAccountBalanceCallCount += 1
 
+		if let tokenBalanceError {
+			throw tokenBalanceError
+		}
+
 		return TokenAccountBalance(
-			uiAmount: tokenBalanceToReturn, amount: "0",
+			uiAmount: tokenBalanceToReturn,
+			amount: tokenBalanceRawAmountToReturn,
 			decimals: 6,
 			uiAmountString: tokenBalanceToReturn.map { String($0) }
 		)
@@ -566,6 +812,10 @@ final class MockSolanaRPCClient: SolanaRPCClientProtocol, @unchecked Sendable {
 
 		if let accountExistsError {
 			throw accountExistsError
+		}
+
+		if !accountExistsResults.isEmpty {
+			return accountExistsResults.removeFirst()
 		}
 
 		return accountExistsToReturn

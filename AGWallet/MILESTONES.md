@@ -68,7 +68,7 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit/integration tests cover transfer assembly and error conditions.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** In progress. SPL transfer assembly, recipient associated token account discovery/idempotent creation, checked Token Program transfer construction, signing through `KeyManagerActor`, RPC broadcast, and transaction mapping are implemented and covered by focused tests. Remaining: invalid mint/recipient and insufficient-balance handling.
+**Evidence:** In progress. SPL transfer assembly, sender and recipient associated token account discovery, idempotent recipient ATA creation, checked Token Program transfer construction, signing through `KeyManagerActor`, RPC broadcast, and transaction mapping are implemented. Focused tests cover sender ATA lookup failure/absence, sender balance RPC failure, malformed raw RPC balance, insufficient balance, exact-balance transfer, recipient ATA creation, invalid amount/precision, and native SOL safeguards. `swift test --filter SolanaModuleTests` passes with 21 tests, and `swift test` passes with 112 tests in 21 suites. Focused tests cover sender ATA lookup failure/absence, sender balance RPC failure, malformed raw RPC balance, insufficient balance, exact-balance transfer, recipient ATA creation, invalid amount/precision, native SOL safeguards, and fail-fast malformed SPL mint and recipient rejection before RPC calls. `swift test --filter SolanaModuleTests` passes with 23 tests, and `swift test` passes with 114 tests in 21 suites.
 
 <!-- Source task: AGW-003 -->
 ### AGW-003 — AGW-003 — EVM transaction enrichment
