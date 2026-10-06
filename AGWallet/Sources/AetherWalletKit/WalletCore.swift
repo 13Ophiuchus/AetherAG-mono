@@ -121,7 +121,7 @@ public actor WalletCore {
     // MARK: - signMessage
 
     public func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
-        logger.info("Signing message on \(chain.name)")
+        logger.info("Signing wallet message")
         switch chain.type {
         case .bitcoin:
             guard let bitcoinModule = bitcoinModule else {
