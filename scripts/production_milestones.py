@@ -26,7 +26,7 @@ MILESTONES: list[dict[str, Any]] = [
             {
                 "type": "forbidden_regex",
                 "paths": ["Sources/AetherWalletKit"],
-                "pattern": r'logger\.(info|warning|error|debug)\([^\\n]*(message|recipientAddress|amount|txId|transactionId|result\.hash|signedPayload\.signature)',
+                "pattern": r'logger\.(info|warning|error|debug)\([^\\n]*(message|recipientAddress|amount|txId|transactionId|result\.hash|signedPayload\.signature|chain\.name)',
                 "description": "Wallet logs must not interpolate raw message, address, amount, transaction ID, hash, or signature values.",
             },
         ],
