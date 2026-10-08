@@ -5,7 +5,7 @@ import argparse
 import re
 import subprocess
 import sys
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -65,7 +65,7 @@ def main() -> int:
         print(f"Could not locate body for {args.task_id}.", file=sys.stderr)
         return 2
 
-    timestamp = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     evidence_line = f"**Evidence:** Completed {timestamp}. {args.evidence}"
     section_text = section.group(1)
     if "**Evidence:**" in section_text:
