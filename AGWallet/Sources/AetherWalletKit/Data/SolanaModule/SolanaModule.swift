@@ -163,9 +163,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 				configs: RequestConfiguration(encoding: "base64")!
 			)
 
-			logger.info(
-				"Broadcasted SPL transfer with signature \(signedPayload.signature), txid \(transactionId)"
-			)
+			logger.info("Broadcasted SPL transfer")
 
 			let unifiedTransaction = SolanaTransaction(
 				signature: signedPayload.signature,
@@ -231,9 +229,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 			configs: RequestConfiguration(encoding: "base64")!
 		)
 
-		logger.info(
-			"Broadcasted Solana transfer with signature \(signedPayload.signature), txid \(transactionId)"
-		)
+		logger.info("Broadcasted Solana transfer")
 
 		let unifiedTransaction = SolanaTransaction(
 			signature: signedPayload.signature,
