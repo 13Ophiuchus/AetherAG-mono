@@ -20,12 +20,12 @@ Regenerate: python3 scripts/sync_milestones.py
 <!-- Source task: AGW-001 -->
 ### AGW-001 — AGW-001 — Solana SPL token balance support
 
-- **Status:** `complete`
+- **Status:** `in_progress`
 - **Priority:** `P0`
 
 #### AGW-001 — Solana SPL token balance support
 
-**Status:** complete
+**Status:** in_progress
 **Priority:** P0
 **Dependencies:** None
 
@@ -41,17 +41,17 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit tests cover success, zero balance/no account, malformed mint, and RPC failure.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** Complete. `SolanaModuleTests` covers native SOL balance preservation, SPL balance success, absent associated token account returning zero, malformed mint rejection before RPC, and associated token account RPC failure propagation; `swift test --filter SolanaModuleTests` passes.
+**Evidence:** Pending implementation.
 
 <!-- Source task: AGW-002 -->
 ### AGW-002 — AGW-002 — Solana SPL token send support
 
-- **Status:** `in_progress`
+- **Status:** `not_started`
 - **Priority:** `P0`
 
 #### AGW-002 — Solana SPL token send support
 
-**Status:** in_progress
+**Status:** not_started
 **Priority:** P0
 **Dependencies:** AGW-001
 
@@ -68,7 +68,7 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit/integration tests cover transfer assembly and error conditions.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** In progress. SPL transfer assembly, sender and recipient associated token account discovery, idempotent recipient ATA creation, checked Token Program transfer construction, signing through `KeyManagerActor`, RPC broadcast, and transaction mapping are implemented. Focused tests cover sender ATA lookup failure/absence, sender balance RPC failure, malformed raw RPC balance, insufficient balance, exact-balance transfer, recipient ATA creation, invalid amount/precision, and native SOL safeguards. `swift test --filter SolanaModuleTests` passes with 21 tests, and `swift test` passes with 112 tests in 21 suites. Focused tests cover sender ATA lookup failure/absence, sender balance RPC failure, malformed raw RPC balance, insufficient balance, exact-balance transfer, recipient ATA creation, invalid amount/precision, native SOL safeguards, and fail-fast malformed SPL mint and recipient rejection before RPC calls. `swift test --filter SolanaModuleTests` passes with 23 tests, and `swift test` passes with 114 tests in 21 suites.
+**Evidence:** Not started.
 
 <!-- Source task: AGW-003 -->
 ### AGW-003 — AGW-003 — EVM transaction enrichment
