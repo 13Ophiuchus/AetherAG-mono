@@ -10,17 +10,17 @@ Regenerate: python3 scripts/sync_milestones.py
 
 ## Status
 
-- Done: 0
+- Done: 1
 - In progress: 1
 - Blocked: 0
-- Not started: 5
+- Not started: 4
 
 ## Tasks
 
 <!-- Source task: AGW-001 -->
 ### AGW-001 — AGW-001 — Solana SPL token balance support
 
-- **Status:** `in_progress`
+- **Status:** `done`
 - **Priority:** `P0`
 
 #### AGW-001 — Solana SPL token balance support
@@ -41,17 +41,17 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit tests cover success, zero balance/no account, malformed mint, and RPC failure.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** Pending implementation.
+**Evidence:** Completed 2026-10-08T07:40:21Z. Validated 2026-10-07: focused Solana module tests, full AGWallet test suite, and release build passed. Coverage verifies native SOL preservation, SPL balance retrieval, missing ATA returns zero, malformed mint rejection, decimal normalization, and RPC failure propagation.
 
 <!-- Source task: AGW-002 -->
 ### AGW-002 — AGW-002 — Solana SPL token send support
 
-- **Status:** `not_started`
+- **Status:** `in_progress`
 - **Priority:** `P0`
 
 #### AGW-002 — Solana SPL token send support
 
-**Status:** not_started
+**Status:** in_progress
 **Priority:** P0
 **Dependencies:** AGW-001
 
@@ -68,7 +68,7 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit/integration tests cover transfer assembly and error conditions.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** Not started.
+**Evidence:** Implementation and acceptance validation are in progress. `SolanaModuleTests` covers malformed SPL mint and recipient rejection before RPC calls, sender ATA lookup failure or absence, malformed sender raw balance, sender balance lookup failure, insufficient and exact-balance transfers, decimal-precision validation, idempotent recipient ATA creation, checked Token Program transfer construction, signing through `KeyManagerActor`, broadcast mapping, and native SOL safeguards. Validated 2026-10-08: `swift test --filter SolanaModuleTests` passed with 23 tests; `swift test` passed with 114 tests in 21 suites; `swift build -c release` passed. Final security/API review remains before completion.
 
 <!-- Source task: AGW-003 -->
 ### AGW-003 — AGW-003 — EVM transaction enrichment
