@@ -158,7 +158,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 				chain: asset.chainConfig
 			)
 
-			let transactionId = try await client.sendTransaction(
+			_ = try await client.sendTransaction(
 				transaction: signedPayload.serializedTransactionBase64,
 				configs: RequestConfiguration(encoding: "base64")!
 			)
@@ -224,7 +224,7 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 			chain: asset.chainConfig
 		)
 
-		let transactionId = try await client.sendTransaction(
+		_ = try await client.sendTransaction(
 			transaction: signedPayload.serializedTransactionBase64,
 			configs: RequestConfiguration(encoding: "base64")!
 		)
