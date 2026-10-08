@@ -46,7 +46,7 @@
 
 **Evidence:** Completed 2026-10-08T07:40:21Z. Validated 2026-10-07: focused Solana module tests, full AGWallet test suite, and release build passed. Coverage verifies native SOL preservation, SPL balance retrieval, missing ATA returns zero, malformed mint rejection, decimal normalization, and RPC failure propagation.
 
-<!-- MILESTONE: AGW-002 | module: AGWallet | status: in_progress | priority: P0 -->
+<!-- MILESTONE: AGW-002 | module: AGWallet | status: done | priority: P0 -->
 #### AGW-002 — Solana SPL token send support
 
 **Status:** in_progress
@@ -66,7 +66,7 @@
 - Unit/integration tests cover transfer assembly and error conditions.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** Implementation and acceptance validation are in progress. `SolanaModuleTests` covers malformed SPL mint and recipient rejection before RPC calls, sender ATA lookup failure or absence, malformed sender raw balance, sender balance lookup failure, insufficient and exact-balance transfers, decimal-precision validation, idempotent recipient ATA creation, checked Token Program transfer construction, signing through `KeyManagerActor`, broadcast mapping, and native SOL safeguards. Validated 2026-10-08: `swift test --filter SolanaModuleTests` passed with 23 tests; `swift test` passed with 114 tests in 21 suites; `swift build -c release` passed. Final security/API review remains before completion.
+**Evidence:** Completed 2026-10-08T07:46:50Z. Validated focused and full AGWallet tests, release build, SPL transfer/error-path coverage, recipient ATA creation, checked transfer assembly, signing-boundary review, and sensitive-log review.
 
 <!-- MILESTONE: AGW-003 | module: AGWallet | status: not_started | priority: P1 -->
 #### AGW-003 — EVM transaction enrichment

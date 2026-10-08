@@ -10,8 +10,8 @@ Regenerate: python3 scripts/sync_milestones.py
 
 ## Status
 
-- Done: 1
-- In progress: 1
+- Done: 2
+- In progress: 0
 - Blocked: 0
 - Not started: 4
 
@@ -46,7 +46,7 @@ Regenerate: python3 scripts/sync_milestones.py
 <!-- Source task: AGW-002 -->
 ### AGW-002 — AGW-002 — Solana SPL token send support
 
-- **Status:** `in_progress`
+- **Status:** `done`
 - **Priority:** `P0`
 
 #### AGW-002 — Solana SPL token send support
@@ -68,7 +68,7 @@ Regenerate: python3 scripts/sync_milestones.py
 - Unit/integration tests cover transfer assembly and error conditions.
 - `swift test` passes in `AGWallet`.
 
-**Evidence:** Implementation and acceptance validation are in progress. `SolanaModuleTests` covers malformed SPL mint and recipient rejection before RPC calls, sender ATA lookup failure or absence, malformed sender raw balance, sender balance lookup failure, insufficient and exact-balance transfers, decimal-precision validation, idempotent recipient ATA creation, checked Token Program transfer construction, signing through `KeyManagerActor`, broadcast mapping, and native SOL safeguards. Validated 2026-10-08: `swift test --filter SolanaModuleTests` passed with 23 tests; `swift test` passed with 114 tests in 21 suites; `swift build -c release` passed. Final security/API review remains before completion.
+**Evidence:** Completed 2026-10-08T07:46:50Z. Validated focused and full AGWallet tests, release build, SPL transfer/error-path coverage, recipient ATA creation, checked transfer assembly, signing-boundary review, and sensitive-log review.
 
 <!-- Source task: AGW-003 -->
 ### AGW-003 — AGW-003 — EVM transaction enrichment
