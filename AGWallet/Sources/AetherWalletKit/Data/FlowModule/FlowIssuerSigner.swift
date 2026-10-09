@@ -11,9 +11,7 @@ struct FlowIssuerSigner: FlowSigner {
     func sign(signableData: Data, transaction: Flow.Transaction?) async throws -> Data {
         let keyData = try issuerConfig.loadPrivateKeyData()
         let signingKey = try P256.Signing.PrivateKey(rawRepresentation: keyData)
-        let digest = SHA256.hash(data: signableData)
-        let signature = try signingKey.signature(for: digest)
-        return signature.rawRepresentation
+        return try FlowP256SHA3Signer.sign(signableData, with: signingKey)
     }
 }
 

@@ -40,3 +40,20 @@ artifacts/
 .env.production
 flow_keys.txt
 *.local-audit-artifacts/
+.env
+.env.*
+!.env.example
+*.pkey
+*private*.pem
+generated-key*.txt
+build-final*.log
+diagnostics/*.log
+*.bak
+*.bak.*
+*.enc
+
+# Generated blockchain credentials
+flow-testnet-bootstrap/generated-key.txt
+.production/
+**/__pycache__/
+*.py[cod]

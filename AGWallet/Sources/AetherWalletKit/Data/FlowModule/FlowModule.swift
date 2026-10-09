@@ -72,7 +72,7 @@ final class FlowModule: ChainModule, @unchecked Sendable {
     }
 
     func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
-        logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
+        logger.info("Submitting Flow transfer for asset \(asset.symbol)")
 
         guard let addressHex = try await keyManager.flowAddress() else {
             throw WalletError.keychainError("Flow address not found; call storeFlowAddress(_:) before sending")
@@ -87,6 +87,7 @@ final class FlowModule: ChainModule, @unchecked Sendable {
 
         do {
             let flowClient = Flow()
+            await flowClient.configure(chainID: chainID, accessAPI: flowClient.createHTTPAccessAPI(chainID: chainID))
             let txId = try await flowClient.sendTransaction(target, signers: [signer], chainID: chainID)
 
             logger.info("Successfully submitted Flow transaction with ID: \(txId.hex)")
@@ -352,6 +353,9 @@ extension KeyManagerActor {
         let publicKeyHex = try flowP256PublicKeyHex(keyIdentifier: keyIdentifier)
         let signer = FlowIssuerSigner(issuerConfig: issuerConfig)
 
+        let flowClient = Flow()
+        await flowClient.configure(chainID: network, accessAPI: flowClient.createHTTPAccessAPI(chainID: network))
+
         let target = CreateFlowUserAccountTarget(
             publicKeyHex: publicKeyHex,
             signatureAlgorithm: 1,
@@ -359,7 +363,9 @@ extension KeyManagerActor {
             weight: Decimal(string: "1000.0") ?? 1000
         )
 
-        let flowClient = Flow()
+        guard !target.cadenceBase64.isEmpty else {
+            throw WalletError.signingFailed("createuseraccount.cdc missing from bundle; refusing to submit an empty-script transaction")
+        }
         let txID = try await flowClient.sendTransaction(target, signers: [signer], chainID: network)
 
         var result = try await flowClient.accessAPI.getTransactionResultById(id: txID)
@@ -375,8 +381,13 @@ extension KeyManagerActor {
         guard result.status == .sealed else {
             throw WalletError.signingFailed("Flow account creation did not seal in time")
         }
+
+        if !result.errorMessage.isEmpty {
+            throw WalletError.signingFailed("Flow account creation reverted (status code \(result.statusCode)): \(result.errorMessage)")
+        }
+
         guard let event = result.events.first(where: { $0.type.contains("AccountCreated") }) else {
-            throw WalletError.signingFailed("Account creation sealed but no AccountCreated event found")
+            throw WalletError.signingFailed("Account creation sealed but no AccountCreated event found. Events: \(result.events.map { $0.type })")
         }
         guard let newAddressHex: String = event.getField("address") else {
             throw WalletError.signingFailed("AccountCreated event found but missing 'address' field")

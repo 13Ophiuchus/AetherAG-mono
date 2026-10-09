@@ -1,0 +1,71 @@
+name: Milestone Governance
+
+on:
+  pull_request:
+    paths:
+      - 'MASTER_MILESTONE.md'
+      - '**/MILESTONES.md'
+      - 'scripts/sync_milestones.py'
+      - 'scripts/complete_milestone.py'
+      - '.github/workflows/milestones.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'MASTER_MILESTONE.md'
+      - '**/MILESTONES.md'
+      - 'scripts/sync_milestones.py'
+      - 'scripts/complete_milestone.py'
+      - '.github/workflows/milestones.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: milestone-governance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate master milestone and generated views
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Validate generated milestone files
+        run: python3 scripts/sync_milestones.py --check
+
+      - name: Validate working tree
+        run: git diff --exit-code
+
+  synchronize:
+    name: Synchronize generated milestone views
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate module milestone views
+        run: python3 scripts/sync_milestones.py
+
+      - name: Commit generated changes when needed
+        run: |
+          if git diff --quiet; then
+            echo "No generated milestone changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add MILESTONES.md AGWallet/MILESTONES.md AetherShared/MILESTONES.md
+          git commit -m "docs(milestones): synchronize derived module roadmaps"
+          git push

@@ -65,6 +65,13 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 				tokenProgramId: TokenProgram.id
 			)
 
+			let accountExists = try await client.accountExists(
+				account: ata.base58EncodedString
+			)
+			guard accountExists else {
+				return 0.0
+			}
+
 			let tokenBalance = try await client.getTokenAccountBalance(
 				pubkey: ata.base58EncodedString,
 				commitment: nil
@@ -85,20 +92,47 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 		to recipientAddress: String,
 		for asset: CryptoAsset
 	) async throws -> UnifiedTransaction {
-		logger.info("Sending \(amount) \(asset.symbol) to \(recipientAddress)")
+		logger.info("Submitting Solana transfer for asset \(asset.symbol)")
 
 		let client = try resolvedRPCClient(for: asset.chainConfig)
 
 		if let mintAddress = asset.contractAddress {
-			_ = try Self.validatedBaseUnits(
+			let requestedBaseUnits = try Self.validatedBaseUnits(
 				from: amount,
 				decimals: asset.decimals,
 				assetSymbol: asset.symbol
 			)
 
 			let senderAddress = try await getAddress(for: asset.chainConfig)
-			let recipient = try PublicKey(string: recipientAddress)
+			let sender = try PublicKey(string: senderAddress)
 			let mint = try PublicKey(string: mintAddress)
+			let recipient = try PublicKey(string: recipientAddress)
+
+			let senderATA = try PublicKey.associatedTokenAddress(
+				walletAddress: sender,
+				tokenMintAddress: mint,
+				tokenProgramId: TokenProgram.id
+			)
+
+			let senderATAExists = try await client.accountExists(
+				account: senderATA.base58EncodedString
+			)
+			guard senderATAExists else {
+				throw WalletError.insufficientFunds
+			}
+
+			let senderTokenBalance = try await client.getTokenAccountBalance(
+				pubkey: senderATA.base58EncodedString,
+				commitment: nil
+			)
+			guard let availableBaseUnits = UInt64(senderTokenBalance.amount) else {
+				throw WalletError.invalidResponse(
+					"Invalid SPL token balance returned by RPC."
+				)
+			}
+			guard availableBaseUnits >= requestedBaseUnits else {
+				throw WalletError.insufficientFunds
+			}
 
 			let recipientATA = try PublicKey.associatedTokenAddress(
 				walletAddress: recipient,
@@ -124,14 +158,12 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 				chain: asset.chainConfig
 			)
 
-			let transactionId = try await client.sendTransaction(
+			_ = try await client.sendTransaction(
 				transaction: signedPayload.serializedTransactionBase64,
 				configs: RequestConfiguration(encoding: "base64")!
 			)
 
-			logger.info(
-				"Broadcasted SPL transfer with signature \(signedPayload.signature), txid \(transactionId)"
-			)
+			logger.info("Broadcasted SPL transfer")
 
 			let unifiedTransaction = SolanaTransaction(
 				signature: signedPayload.signature,
@@ -192,14 +224,12 @@ final class SolanaModule: ChainModule, @unchecked Sendable {
 			chain: asset.chainConfig
 		)
 
-		let transactionId = try await client.sendTransaction(
+		_ = try await client.sendTransaction(
 			transaction: signedPayload.serializedTransactionBase64,
 			configs: RequestConfiguration(encoding: "base64")!
 		)
 
-		logger.info(
-			"Broadcasted Solana transfer with signature \(signedPayload.signature), txid \(transactionId)"
-		)
+		logger.info("Broadcasted Solana transfer")
 
 		let unifiedTransaction = SolanaTransaction(
 			signature: signedPayload.signature,

@@ -33,7 +33,7 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
     }
 
     func send(amount: Double, to recipientAddress: String, for asset: CryptoAsset) async throws -> UnifiedTransaction {
-        logger.info("Sending \(amount) BTC to \(recipientAddress)")
+        logger.info("Submitting Bitcoin transfer")
 
         let fromAddress = try await getAddress(for: asset.chainConfig)
         let client = try esploraClient(for: asset.chainConfig)
@@ -75,7 +75,7 @@ final class BitcoinModule: ChainModule, @unchecked Sendable {
     }
 
     func signMessage(_ message: String, on chain: ChainConfig) async throws -> String {
-        logger.info("Signing message on Bitcoin: \(message)")
+        logger.info("Signing Bitcoin message")
         return try await signMessageInternal(message, chain: chain)
     }
 
