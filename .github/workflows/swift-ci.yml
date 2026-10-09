@@ -232,15 +232,28 @@ jobs:
           path: AetherAG/.test-results/
           retention-days: 14
 
-      - name: Publish test report
+      - name: Detect AetherAG Linux JUnit report
         if: always()
+        id: aether_linux_junit
+        shell: bash
+        run: |
+          shopt -s nullglob
+          reports=(AetherAG/.test-results/aether-linux*.xml)
+          if ((${#reports[@]})); then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "No AetherAG Linux JUnit XML report was generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Publish test report
+        if: always() && steps.aether_linux_junit.outputs.present == 'true'
         uses: dorny/test-reporter@v2
         with:
           name: AetherAG Linux Tests
           path: AetherAG/.test-results/aether-linux*.xml
           reporter: java-junit
           fail-on-error: false
-          fail-on-empty: false
 
       - name: Emit job summary
         if: always()
