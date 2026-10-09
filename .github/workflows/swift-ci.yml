@@ -139,8 +139,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       DATABASE_URL: postgres://vapor_username:vapor_password@postgres:5432/vapor_database
+      REDIS_URL: redis://redis:6379/15
 
     steps:
       - name: Checkout
@@ -178,6 +187,18 @@ jobs:
             echo "Waiting for postgres... $i/10"
             sleep 3
           done
+
+      - name: Wait for Redis to be ready
+        run: |
+          apt-get update -q
+          apt-get install -y -q redis-tools
+          for i in $(seq 1 10); do
+            redis-cli -h redis -p 6379 ping && exit 0
+            echo "Waiting for Redis... $i/10"
+            sleep 3
+          done
+          echo "Redis did not become ready."
+          exit 1
 
       - name: Build
         working-directory: AetherAG
