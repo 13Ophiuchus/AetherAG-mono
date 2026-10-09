@@ -1,6 +1,9 @@
 import Flow
 import Foundation
+
+#if canImport(Security)
 import Security
+#endif
 
 /// Configuration for the issuer/payer account that funds and authorizes
 /// creation of new Flow accounts. Private key material is loaded from the
@@ -27,17 +30,27 @@ public struct FlowIssuerConfig: Sendable {
     /// Loads the issuer's private key material from the Keychain at sign
     /// time only. Never store the result beyond the immediate signing call.
     func loadPrivateKeyData() throws -> Data {
+        #if canImport(Security)
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: keychainIdentifier,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne
         ]
+
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
+
         guard status == errSecSuccess, let data = item as? Data else {
-            throw WalletError.keychainError("Issuer key not found for identifier: \(keychainIdentifier)")
+            throw WalletError.keychainError(
+                "Issuer key not found for identifier: \(keychainIdentifier)"
+            )
         }
         return data
+        #else
+        throw WalletError.keychainError(
+            "Flow issuer signing requires a platform Keychain/Security implementation."
+        )
+        #endif
     }
 }
