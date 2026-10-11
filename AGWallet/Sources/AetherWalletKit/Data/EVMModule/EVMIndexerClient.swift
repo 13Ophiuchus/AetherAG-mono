@@ -14,7 +14,11 @@ import Foundation
     import FoundationNetworking
 #endif
 
-final class EVMIndexerClient: @unchecked Sendable {
+protocol EVMTransactionHistoryClient: Sendable {
+    func getTransactionHistory(for address: String, chainId: Int) async throws -> [UnifiedTransaction]
+}
+
+final class EVMIndexerClient: EVMTransactionHistoryClient, @unchecked Sendable {
     private let baseURL: URL
     private let apiKey: String?
     private let session: URLSession

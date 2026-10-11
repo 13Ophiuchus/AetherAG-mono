@@ -95,6 +95,7 @@ struct EVMModuleTests {
 }
 
 
+
 private final class MockEVMRPCClient: EVMRPCClient, @unchecked Sendable {
     private(set) var getBalanceCallCount = 0
 

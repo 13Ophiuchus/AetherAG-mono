@@ -5,14 +5,19 @@ import web3swift
 
 final class EVMModule: ChainModule, @unchecked Sendable {
     private let keyManager: KeyManagerActor
-    private let rpcClientFactory: (@Sendable (ChainConfig) async throws -> any EVMRPCClient)?
+    private let indexerClientFactory: @Sendable (URL, String?) -> any EVMTransactionHistoryClient
+private let rpcClientFactory: (@Sendable (ChainConfig) async throws -> any EVMRPCClient)?
     private let logger = Logger(label: "AetherWalletKit.EVMModule")
 
     init(
         keyManager: KeyManagerActor,
+        indexerClientFactory: @escaping @Sendable (URL, String?) -> any EVMTransactionHistoryClient = {
+            EVMIndexerClient(baseURL: $0, apiKey: $1)
+        },
         rpcClientFactory: (@Sendable (ChainConfig) async throws -> any EVMRPCClient)? = nil
     ) {
         self.keyManager = keyManager
+        self.indexerClientFactory = indexerClientFactory
         self.rpcClientFactory = rpcClientFactory
     }
 
@@ -155,7 +160,7 @@ final class EVMModule: ChainModule, @unchecked Sendable {
         let address = try await getEthereumAddress(for: chain)
 
         let apiKey = chain.customConfig?["indexerApiKey"]
-        let indexerClient = EVMIndexerClient(baseURL: indexerURL, apiKey: apiKey)
+        let indexerClient = indexerClientFactory(indexerURL, apiKey)
 
         return try await indexerClient.getTransactionHistory(
             for: address.address,
