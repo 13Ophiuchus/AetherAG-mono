@@ -5,15 +5,21 @@ import web3swift
 
 final class EVMModule: ChainModule, @unchecked Sendable {
     private let keyManager: KeyManagerActor
+    private let rpcClientFactory: (@Sendable (ChainConfig) async throws -> any EVMRPCClient)?
     private let logger = Logger(label: "AetherWalletKit.EVMModule")
 
-    init(keyManager: KeyManagerActor) {
+    init(
+        keyManager: KeyManagerActor,
+        rpcClientFactory: (@Sendable (ChainConfig) async throws -> any EVMRPCClient)? = nil
+    ) {
         self.keyManager = keyManager
+        self.rpcClientFactory = rpcClientFactory
     }
 
     func getBalance(for asset: CryptoAsset) async throws -> Double {
         logger.info("Getting EVM balance for \(asset.symbol)")
         let web3 = try await getWeb3(for: asset.chainConfig)
+        let rpcClient = try await getRPCClient(for: asset.chainConfig)
         let address = try await getEthereumAddress(for: asset.chainConfig)
 
         if let contractAddressString = asset.contractAddress {
@@ -39,7 +45,7 @@ final class EVMModule: ChainModule, @unchecked Sendable {
             return Double(balanceBigInt) / pow(10, Double(asset.decimals))
         } else {
             // Native chain token balance (ETH, MATIC, etc.)
-            let balance = try await web3.eth.getBalance(for: address, onBlock: .latest)
+            let balance = try await rpcClient.getBalance(for: address)
             return Double(balance) / pow(10, 18)
         }
     }
@@ -48,6 +54,7 @@ final class EVMModule: ChainModule, @unchecked Sendable {
         logger.info("Submitting EVM transfer for asset \(asset.symbol)")
 
         let web3 = try await getWeb3(for: asset.chainConfig)
+        let rpcClient = try await getRPCClient(for: asset.chainConfig)
         let fromAddress = try await getEthereumAddress(for: asset.chainConfig)
 
         guard let toAddress = EthereumAddress(recipientAddress) else {
@@ -93,13 +100,13 @@ final class EVMModule: ChainModule, @unchecked Sendable {
             )
         }
 
-        let resolvedNonce = try await web3.eth.getTransactionCount(for: fromAddress, onBlock: .pending)
+        let resolvedNonce = try await rpcClient.getTransactionCount(for: fromAddress)
         transaction.nonce = resolvedNonce
 
-        let resolvedGasPrice = try await web3.eth.gasPrice()
+        let resolvedGasPrice = try await rpcClient.gasPrice()
         transaction.gasPrice = resolvedGasPrice
 
-        let resolvedGasLimit = try await web3.eth.estimateGas(for: transaction)
+        let resolvedGasLimit = try await rpcClient.estimateGas(for: transaction)
         transaction.gasLimit = resolvedGasLimit
 
         try transaction.sign(privateKey: privateKeyData)
@@ -108,7 +115,7 @@ final class EVMModule: ChainModule, @unchecked Sendable {
             throw WalletError.chainConfigurationError("Failed to encode signed transaction")
         }
 
-        let result = try await web3.eth.send(raw: encodedTx)
+        let result = try await rpcClient.send(raw: encodedTx)
 
         logger.info("Successfully broadcasted EVM transaction with hash: \(result.hash)")
 
@@ -187,6 +194,14 @@ final class EVMModule: ChainModule, @unchecked Sendable {
 
         // web3swift 3.x async factory
         return try await Web3.new(rpcURL)
+    }
+
+    private func getRPCClient(for chain: ChainConfig) async throws -> any EVMRPCClient {
+        if let rpcClientFactory {
+            return try await rpcClientFactory(chain)
+        }
+
+        return Web3EVMRPCClient(web3: try await getWeb3(for: chain))
     }
 
     private func getEthereumAddress(for chain: ChainConfig) async throws -> EthereumAddress {

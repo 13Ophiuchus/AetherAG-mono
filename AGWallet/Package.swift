@@ -53,6 +53,8 @@ let package = Package(
             dependencies: [
                 "AetherWalletKit",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+                .product(name: "web3swift", package: "web3swift-concurrency"),
+                .product(name: "BigInt", package: "BigInt"),
             ],
             path: "Tests/AetherWalletKitTests"
         ),
