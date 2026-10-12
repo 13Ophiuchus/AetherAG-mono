@@ -64,8 +64,15 @@ final class EVMIndexerClient: @unchecked Sendable {
             throw WalletError.chainConfigurationError("Indexer error: \(decoded.message)")
         }
 
-        return decoded.result.map { tx in
-            .evm(
+        return try decoded.result.map { tx in
+            let nonce = try parseNonNegativeInteger(tx.nonce, field: "nonce")
+            let blockNumber = try parseOptionalNonNegativeInteger(
+                tx.blockNumber,
+                field: "blockNumber"
+            )
+            let timestamp = try parseNonNegativeInteger(tx.timeStamp, field: "timeStamp")
+
+            return .evm(
                 EVMTransaction(
                     hash: tx.hash,
                     from: tx.from,
@@ -73,13 +80,34 @@ final class EVMIndexerClient: @unchecked Sendable {
                     value: tx.value,
                     gasPrice: tx.gasPrice,
                     gasLimit: tx.gas,
-                    nonce: Int(tx.nonce) ?? 0,
+                    nonce: nonce,
                     chainId: chainId,
-                    blockNumber: Int(tx.blockNumber),
-                    timestamp: Date(timeIntervalSince1970: TimeInterval(Int(tx.timeStamp) ?? 0))
+                    blockNumber: blockNumber,
+                    timestamp: Date(timeIntervalSince1970: TimeInterval(timestamp))
                 )
             )
         }
+    }
+
+    private func parseNonNegativeInteger(_ value: String, field: String) throws -> Int {
+        guard let integer = Int(value), integer >= 0 else {
+            throw WalletError.chainConfigurationError(
+                "Invalid non-negative integer for indexer field: \(field)"
+            )
+        }
+
+        return integer
+    }
+
+    private func parseOptionalNonNegativeInteger(
+        _ value: String,
+        field: String
+    ) throws -> Int? {
+        guard !value.isEmpty else {
+            return nil
+        }
+
+        return try parseNonNegativeInteger(value, field: field)
     }
 
     private func validate(_ response: URLResponse, data: Data) throws {
