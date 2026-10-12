@@ -11,9 +11,11 @@ struct EVMIndexerClientTests {
     @Test("Maps valid Etherscan transaction metadata")
     func mapsValidTransactionMetadata() async throws {
         let client = makeClient(
-            nonce: "7",
-            blockNumber: "123456",
-            timestamp: "1720000000"
+            body: responseBody(
+                nonce: "7",
+                blockNumber: "123456",
+                timestamp: "1720000000"
+            )
         )
 
         let transactions = try await client.getTransactionHistory(
@@ -45,9 +47,11 @@ struct EVMIndexerClientTests {
     @Test("Maps an empty block number as pending")
     func mapsEmptyBlockNumberAsNil() async throws {
         let client = makeClient(
-            nonce: "7",
-            blockNumber: "",
-            timestamp: "1720000000"
+            body: responseBody(
+                nonce: "7",
+                blockNumber: "",
+                timestamp: "1720000000"
+            )
         )
 
         let transactions = try await client.getTransactionHistory(
@@ -83,36 +87,166 @@ struct EVMIndexerClientTests {
         timestamp: String
     ) async throws {
         let client = makeClient(
-            nonce: nonce,
-            blockNumber: blockNumber,
-            timestamp: timestamp
-        )
-
-        do {
-            _ = try await client.getTransactionHistory(for: "0xabc", chainId: 1)
-            Issue.record("Expected invalid numeric metadata to throw.")
-        } catch let WalletError.chainConfigurationError(message) {
-            #expect(
-                message.hasPrefix(
-                    "Invalid non-negative integer for indexer field:"
-                )
-            )
-        }
-    }
-
-    private func makeClient(
-        nonce: String,
-        blockNumber: String,
-        timestamp: String
-    ) -> EVMIndexerClient {
-        let identifier = UUID().uuidString
-        let url = URL(string: "https://indexer.example/\(identifier)")!
-        StubURLProtocol.register(
             body: responseBody(
                 nonce: nonce,
                 blockNumber: blockNumber,
                 timestamp: timestamp
+            )
+        )
+
+        await expectConfigurationError(
+            from: client,
+            expectedMessagePrefix:
+                "Invalid non-negative integer for indexer field:"
+        )
+    }
+
+    @Test(
+        "Rejects non-success HTTP status responses",
+        arguments: [
+            (401, "Invalid API Key", "401"),
+            (429, "Max rate limit reached", "429"),
+            (500, "Indexer unavailable", "500"),
+        ]
+    )
+    func rejectsNonSuccessHTTPStatuses(
+        statusCode: Int,
+        body: String,
+        expectedStatus: String
+    ) async throws {
+        let client = makeClient(
+            statusCode: statusCode,
+            body: Data(body.utf8)
+        )
+
+        await expectConfigurationError(
+            from: client,
+            expectedMessagePrefix:
+                "Indexer request failed (\(expectedStatus)): \(body)"
+        )
+    }
+
+    @Test("Rejects provider error with transactions")
+    func rejectsProviderErrorWithTransactions() async throws {
+        let client = makeClient(
+            body: jsonData([
+                "status": "0",
+                "message": "NOTOK",
+                "result": [[
+                    "hash": "0xtransaction",
+                    "from": "0xsender",
+                    "to": "0xrecipient",
+                    "value": "0",
+                    "gasPrice": "0",
+                    "gas": "21000",
+                    "nonce": "0",
+                    "blockNumber": "1",
+                    "timeStamp": "1720000000",
+                ]],
+            ])
+        )
+
+        await expectConfigurationError(
+            from: client,
+            expectedMessagePrefix: "Indexer error: NOTOK"
+        )
+    }
+
+    @Test("Maps provider status zero with empty result to empty history")
+    func mapsProviderStatusZeroWithEmptyResultToEmptyHistory() async throws {
+        let client = makeClient(
+            body: jsonData([
+                "status": "0",
+                "message": "No transactions found",
+                "result": [],
+            ])
+        )
+
+        let transactions = try await client.getTransactionHistory(
+            for: "0xabc",
+            chainId: 1
+        )
+
+        #expect(transactions.isEmpty)
+    }
+
+    @Test("Maps successful empty result to empty history")
+    func mapsSuccessfulEmptyResultToEmptyHistory() async throws {
+        let client = makeClient(
+            body: jsonData([
+                "status": "1",
+                "message": "OK",
+                "result": [],
+            ])
+        )
+
+        let transactions = try await client.getTransactionHistory(
+            for: "0xabc",
+            chainId: 1
+        )
+
+        #expect(transactions.isEmpty)
+    }
+
+    @Test("Builds Etherscan-compatible request query")
+    func buildsExpectedRequestQuery() async throws {
+        let identifier = UUID().uuidString
+        let url = URL(string: "https://indexer.example/\(identifier)")!
+        StubURLProtocol.register(
+            statusCode: 200,
+            body: responseBody(
+                nonce: "7",
+                blockNumber: "123456",
+                timestamp: "1720000000"
             ),
+            forPath: "/\(identifier)"
+        )
+
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [StubURLProtocol.self]
+
+        let client = EVMIndexerClient(
+            baseURL: url,
+            apiKey: "secret-key",
+            session: URLSession(configuration: configuration)
+        )
+
+        _ = try await client.getTransactionHistory(
+            for: "0xabc",
+            chainId: 1
+        )
+
+        let request = try #require(
+            StubURLProtocol.request(forPath: "/\(identifier)")
+        )
+        let requestURL = try #require(request.url)
+        let components = try #require(
+            URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
+        )
+        let query = Dictionary(
+            uniqueKeysWithValues: (components.queryItems ?? []).map {
+                ($0.name, $0.value ?? "")
+            }
+        )
+
+        #expect(query["module"] == "account")
+        #expect(query["action"] == "txlist")
+        #expect(query["address"] == "0xabc")
+        #expect(query["sort"] == "desc")
+        #expect(query["apikey"] == "secret-key")
+    }
+
+    private func makeClient(
+        statusCode: Int = 200,
+        body: Data,
+        apiKey: String? = nil
+    ) -> EVMIndexerClient {
+        let identifier = UUID().uuidString
+        let url = URL(string: "https://indexer.example/\(identifier)")!
+
+        StubURLProtocol.register(
+            statusCode: statusCode,
+            body: body,
             forPath: "/\(identifier)"
         )
 
@@ -121,6 +255,7 @@ struct EVMIndexerClientTests {
 
         return EVMIndexerClient(
             baseURL: url,
+            apiKey: apiKey,
             session: URLSession(configuration: configuration)
         )
     }
@@ -130,42 +265,72 @@ struct EVMIndexerClientTests {
         blockNumber: String,
         timestamp: String
     ) -> Data {
-        let transaction: [String: Any] = [
-            "hash": "0xtransaction",
-            "from": "0xsender",
-            "to": "0xrecipient",
-            "value": "123000000000000000",
-            "gasPrice": "42000000000",
-            "gas": "21000",
-            "nonce": nonce,
-            "blockNumber": blockNumber,
-            "timeStamp": timestamp,
-        ]
-
-        let payload: [String: Any] = [
+        jsonData([
             "status": "1",
             "message": "OK",
-            "result": [transaction],
-        ]
+            "result": [[
+                "hash": "0xtransaction",
+                "from": "0xsender",
+                "to": "0xrecipient",
+                "value": "123000000000000000",
+                "gasPrice": "42000000000",
+                "gas": "21000",
+                "nonce": nonce,
+                "blockNumber": blockNumber,
+                "timeStamp": timestamp,
+            ]],
+        ])
+    }
 
-        return try! JSONSerialization.data(
-            withJSONObject: payload,
+    private func jsonData(_ object: [String: Any]) -> Data {
+        try! JSONSerialization.data(
+            withJSONObject: object,
             options: [.sortedKeys]
         )
+    }
+
+    private func expectConfigurationError(
+        from client: EVMIndexerClient,
+        expectedMessagePrefix: String
+    ) async {
+        do {
+            _ = try await client.getTransactionHistory(for: "0xabc", chainId: 1)
+            Issue.record("Expected WalletError.chainConfigurationError.")
+        } catch let WalletError.chainConfigurationError(message) {
+            #expect(message.hasPrefix(expectedMessagePrefix))
+        } catch {
+            Issue.record("Unexpected error: \(error)")
+        }
     }
 }
 
 private final class StubURLProtocol: URLProtocol, @unchecked Sendable {
-    private static let lock = NSLock()
-    nonisolated(unsafe) private static var responses: [String: Data] = [:]
+    private struct StubResponse {
+        let statusCode: Int
+        let body: Data
+    }
 
-    static func register(body: Data, forPath path: String) {
+    private static let lock = NSLock()
+    nonisolated(unsafe) private static var responses: [String: StubResponse] = [:]
+    nonisolated(unsafe) private static var requests: [String: URLRequest] = [:]
+
+    static func register(
+        statusCode: Int,
+        body: Data,
+        forPath path: String
+    ) {
         lock.lock()
-        responses[path] = body
+        responses[path] = StubResponse(statusCode: statusCode, body: body)
         lock.unlock()
     }
 
-    private static func response(forPath path: String) -> Data? {
+    static func request(forPath path: String) -> URLRequest? {
+        lock.lock()
+        defer { lock.unlock() }
+        return requests.removeValue(forKey: path)
+    }
+
+    private static func response(forPath path: String) -> StubResponse? {
         lock.lock()
         defer { lock.unlock() }
         return responses.removeValue(forKey: path)
@@ -182,10 +347,10 @@ private final class StubURLProtocol: URLProtocol, @unchecked Sendable {
     override func startLoading() {
         guard
             let url = request.url,
-            let body = Self.response(forPath: url.path),
+            let stub = Self.response(forPath: url.path),
             let response = HTTPURLResponse(
                 url: url,
-                statusCode: 200,
+                statusCode: stub.statusCode,
                 httpVersion: nil,
                 headerFields: ["Content-Type": "application/json"]
             )
@@ -197,12 +362,16 @@ private final class StubURLProtocol: URLProtocol, @unchecked Sendable {
             return
         }
 
+        Self.lock.lock()
+        Self.requests[url.path] = request
+        Self.lock.unlock()
+
         client?.urlProtocol(
             self,
             didReceive: response,
             cacheStoragePolicy: .notAllowed
         )
-        client?.urlProtocol(self, didLoad: body)
+        client?.urlProtocol(self, didLoad: stub.body)
         client?.urlProtocolDidFinishLoading(self)
     }
 
