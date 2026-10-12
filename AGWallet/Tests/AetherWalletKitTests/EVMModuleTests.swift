@@ -1,6 +1,9 @@
 @testable import AetherWalletKit
+import BigInt
 import Foundation
 import Testing
+import Web3Core
+import web3swift
 
 @Suite("EVMModule")
 struct EVMModuleTests {
@@ -60,5 +63,64 @@ struct EVMModuleTests {
 
         let history = try await evmModule.getTransactionHistory(for: chain)
         #expect(history.isEmpty)
+    }
+
+    @Test("getBalance uses injected RPC client for native assets")
+    func getBalanceUsesInjectedRPCClient() async throws {
+        let asset = CryptoAsset.mockEthereum()
+        let keyManager = KeyManagerActor(
+            storageProvider: InMemoryKeyStorageProvider()
+        )
+
+        let mnemonic = try await keyManager.generateMnemonic()
+        let masterKey = try await keyManager.generateMasterPrivateKey(from: mnemonic)
+        try await keyManager.storePrivateKey(
+            Data(masterKey.prefix(32)),
+            for: asset.chainConfig.chainId,
+            requiresBiometrics: false
+        )
+
+        let mockClient = MockEVMRPCClient()
+        let module = EVMModule(
+            keyManager: keyManager,
+            rpcClientFactory: { _ in mockClient }
+        )
+
+        let balance = try await module.getBalance(for: asset)
+
+        #expect(balance == 2.5)
+        #expect(mockClient.getBalanceCallCount == 1)
+    }
+
+}
+
+
+
+private final class MockEVMRPCClient: EVMRPCClient, @unchecked Sendable {
+    private(set) var getBalanceCallCount = 0
+
+    func getBalance(for address: EthereumAddress) async throws -> BigUInt {
+        getBalanceCallCount += 1
+        return BigUInt(2_500_000_000_000_000_000)
+    }
+
+    func getTransactionCount(for address: EthereumAddress) async throws -> BigUInt {
+        throw MockError.unexpectedRPCMethod("getTransactionCount")
+    }
+
+    func gasPrice() async throws -> BigUInt {
+        throw MockError.unexpectedRPCMethod("gasPrice")
+    }
+
+    func estimateGas(for transaction: CodableTransaction) async throws -> BigUInt {
+        throw MockError.unexpectedRPCMethod("estimateGas")
+    }
+
+    func send(raw data: Data) async throws -> TransactionSendingResult {
+        throw MockError.unexpectedRPCMethod("send")
+    }
+
+    enum MockError: Error {
+        case unexpectedRPCMethod(String)
     }
 }

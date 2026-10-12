@@ -1,2 +1,12 @@
-#!/usr/bin/env bash
-exec python3 "$(git rev-parse --show-toplevel)/.githooks/pre_push_check.py"
+#!/bin/sh
+set -eu
+
+repo_root="$(git rev-parse --show-toplevel)"
+checker="$repo_root/.githooks/pre_push_check.py"
+
+if [ ! -f "$checker" ]; then
+  echo "pre-push: missing checker: $checker" >&2
+  exit 1
+fi
+
+exec /usr/bin/python3 "$checker"
