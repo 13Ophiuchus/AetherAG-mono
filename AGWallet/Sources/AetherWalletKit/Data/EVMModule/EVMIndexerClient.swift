@@ -14,16 +14,22 @@ import Foundation
     import FoundationNetworking
 #endif
 
+protocol EVMIndexerHTTPClient: Sendable {
+    func data(from url: URL) async throws -> (Data, URLResponse)
+}
+
+extension URLSession: EVMIndexerHTTPClient {}
+
 final class EVMIndexerClient: @unchecked Sendable {
     private let baseURL: URL
     private let apiKey: String?
-    private let session: URLSession
+    private let session: any EVMIndexerHTTPClient
     private let logger = Logger(label: "AetherWalletKit.EVMIndexerClient")
 
     init(
         baseURL: URL,
         apiKey: String? = nil,
-        session: URLSession = .shared
+        session: any EVMIndexerHTTPClient = URLSession.shared
     ) {
         self.baseURL = baseURL
         self.apiKey = apiKey
@@ -64,22 +70,123 @@ final class EVMIndexerClient: @unchecked Sendable {
             throw WalletError.chainConfigurationError("Indexer error: \(decoded.message)")
         }
 
-        return decoded.result.map { tx in
-            .evm(
+        return try decoded.result.map { tx in
+            let value = try Self.validatedDecimalString(
+                tx.value,
+                field: "value",
+                transactionHash: tx.hash
+            )
+            let gasPrice = try Self.validatedDecimalString(
+                tx.gasPrice,
+                field: "gasPrice",
+                transactionHash: tx.hash
+            )
+            let gasLimit = try Self.validatedDecimalString(
+                tx.gas,
+                field: "gas",
+                transactionHash: tx.hash
+            )
+            let nonce = try Self.validatedInt(
+                tx.nonce,
+                field: "nonce",
+                transactionHash: tx.hash
+            )
+            let blockNumber = try Self.validatedOptionalInt(
+                tx.blockNumber,
+                field: "blockNumber",
+                transactionHash: tx.hash
+            )
+            let timestamp = try Self.validatedTimestamp(
+                tx.timeStamp,
+                transactionHash: tx.hash
+            )
+
+            return .evm(
                 EVMTransaction(
                     hash: tx.hash,
                     from: tx.from,
                     to: tx.to,
-                    value: tx.value,
-                    gasPrice: tx.gasPrice,
-                    gasLimit: tx.gas,
-                    nonce: Int(tx.nonce) ?? 0,
+                    value: value,
+                    gasPrice: gasPrice,
+                    gasLimit: gasLimit,
+                    nonce: nonce,
                     chainId: chainId,
-                    blockNumber: Int(tx.blockNumber),
-                    timestamp: Date(timeIntervalSince1970: TimeInterval(Int(tx.timeStamp) ?? 0))
+                    blockNumber: blockNumber,
+                    timestamp: timestamp
                 )
             )
         }
+    }
+
+    private static func validatedDecimalString(
+        _ value: String,
+        field: String,
+        transactionHash: String
+    ) throws -> String {
+        guard !value.isEmpty,
+              value.utf8.allSatisfy({ $0 >= 48 && $0 <= 57 })
+        else {
+            throw WalletError.invalidResponse(
+                "Invalid EVM \(field) in indexer response for transaction \(transactionHash)"
+            )
+        }
+
+        return value
+    }
+
+    private static func validatedInt(
+        _ value: String,
+        field: String,
+        transactionHash: String
+    ) throws -> Int {
+        let decimalValue = try validatedDecimalString(
+            value,
+            field: field,
+            transactionHash: transactionHash
+        )
+
+        guard let parsed = Int(decimalValue) else {
+            throw WalletError.invalidResponse(
+                "EVM \(field) is outside supported range for transaction \(transactionHash)"
+            )
+        }
+
+        return parsed
+    }
+
+    private static func validatedOptionalInt(
+        _ value: String,
+        field: String,
+        transactionHash: String
+    ) throws -> Int? {
+        guard !value.isEmpty else {
+            return nil
+        }
+
+        return try validatedInt(
+            value,
+            field: field,
+            transactionHash: transactionHash
+        )
+    }
+
+    private static func validatedTimestamp(
+        _ value: String,
+        transactionHash: String
+    ) throws -> Date {
+        let decimalValue = try validatedDecimalString(
+            value,
+            field: "timeStamp",
+            transactionHash: transactionHash
+        )
+
+        guard let seconds = Int64(decimalValue) else {
+            throw WalletError.invalidResponse(
+                "EVM timeStamp is outside supported range for transaction \(transactionHash)"
+            )
+        }
+
+        return Date(timeIntervalSince1970: TimeInterval(seconds))
     }
 
     private func validate(_ response: URLResponse, data: Data) throws {
