@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'AGWallet/**'
+      - '.github/workflows/agwallet-build.yml'
   pull_request:
     paths:
       - 'AGWallet/**'
+      - '.github/workflows/agwallet-build.yml'
 
 jobs:
   build-and-test:
