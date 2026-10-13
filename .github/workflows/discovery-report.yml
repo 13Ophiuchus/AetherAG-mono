@@ -1,0 +1,50 @@
+name: Monorepo Discovery Report
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'MASTER_MILESTONE.md'
+      - 'scripts/discover_state.py'
+      - 'scripts/discover-state.sh'
+      - 'AGWallet/**'
+      - 'AetherAG/**'
+      - 'AetherShared/**'
+      - 'flow-swift-macos/**'
+      - 'solana-swift-concurrency/**'
+      - 'web3swift-concurrency/**'
+  push:
+    branches: [main, master]
+    paths:
+      - 'MASTER_MILESTONE.md'
+      - 'scripts/discover_state.py'
+      - 'scripts/discover-state.sh'
+      - 'AGWallet/**'
+      - 'AetherAG/**'
+      - 'AetherShared/**'
+      - 'flow-swift-macos/**'
+      - 'solana-swift-concurrency/**'
+      - 'web3swift-concurrency/**'
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    name: Generate current-state report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Generate discovery report
+        run: bash scripts/discover-state.sh
+
+      - name: Upload discovery artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aetherag-current-state
+          path: reports/current-state*
+          if-no-files-found: error
