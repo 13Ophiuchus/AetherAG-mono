@@ -61,3 +61,7 @@ flow-testnet-bootstrap/generated-key.txt
 # Local generated test and Python artifacts
 AGWallet/.test-results/
 AetherAGMailServerTests-*.log
+
+# Local Swift/Linux build caches
+.build-linux/
+.swiftpm-cache/
