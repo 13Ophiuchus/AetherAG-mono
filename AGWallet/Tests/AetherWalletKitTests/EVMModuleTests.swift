@@ -1,11 +1,14 @@
 @testable import AetherWalletKit
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Testing
 
 @Suite("EVMModule")
 struct EVMModuleTests {
     private func makeModule() -> EVMModule {
-        EVMModule(keyManager: KeyManagerActor())
+        EVMModule(keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()))
     }
 
     @Test("getBalance fails with keychainError when no master key is stored")

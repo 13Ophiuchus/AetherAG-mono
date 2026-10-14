@@ -57,3 +57,7 @@ flow-testnet-bootstrap/generated-key.txt
 .production/
 **/__pycache__/
 *.py[cod]
+
+# Local generated test and Python artifacts
+AGWallet/.test-results/
+AetherAGMailServerTests-*.log

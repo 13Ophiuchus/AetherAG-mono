@@ -1,3 +1,4 @@
+#if canImport(Security)
 import Testing
 import Foundation
 import Flow
@@ -89,3 +90,4 @@ private extension Data {
         self = Data(bytes)
     }
 }
+#endif
