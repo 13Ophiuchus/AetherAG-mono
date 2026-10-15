@@ -511,8 +511,8 @@ public actor KeyManagerActor {
             throw WalletError.signingFailed("Message is not valid UTF-8")
         }
         let signingKey = try P256.Signing.PrivateKey(rawRepresentation: masterKey)
-        let signature = try signingKey.signature(for: messageData)
-        return signature.rawRepresentation.toHexString()
+        let signature = try FlowP256SHA3Signer.sign(messageData, with: signingKey)
+        return signature.toHexString()
     }
 
     // Returns the primary Bitcoin address for the given chain configuration.
