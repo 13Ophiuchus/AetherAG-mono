@@ -66,13 +66,13 @@ def is_definition_site(text, symbol):
 
 
 def strip_swift_comments(text):
-    text = re.sub(r"/\\*.*?\\*/", "", text, flags=re.DOTALL)
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
     return re.sub(r"//.*$", "", text, flags=re.MULTILINE)
 
 
 def contains_symbol_reference(text, symbol):
     source = strip_swift_comments(text)
-    return re.search(r"\\b" + re.escape(symbol) + r"\\b", source) is not None
+    return re.search(r"\b" + re.escape(symbol) + r"\b", source) is not None
 
 
 
