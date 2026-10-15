@@ -1,5 +1,9 @@
 import Flow
+#if canImport(CryptoKit)
 import CryptoKit
+#else
+import Crypto
+#endif
 import Foundation
 
 // MARK: - Cadence query for FlowToken balance
