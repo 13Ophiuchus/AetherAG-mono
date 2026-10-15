@@ -11,6 +11,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  production-guardrails:
+    name: Production Guardrails
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+
+      - name: Check Python migration guardrails
+        run: |
+          set -euo pipefail
+          python3 -m py_compile \
+            scripts/check_module_migration.py \
+            scripts/tests/test_check_module_migration.py
+          python3 -m unittest -v scripts.tests.test_check_module_migration
+
+      - name: Run production diagnostics
+        run: |
+          set -euo pipefail
+          bash scripts/local/run-production-diagnostics.sh
+
+      - name: Upload production diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-diagnostics
+          path: .artifacts/production-diagnostics/
+          if-no-files-found: warn
+          retention-days: 14
+
   # ─────────────────────────────────────────────────────────────────
   # AGWallet — macOS only (uses Secure Enclave / Apple crypto APIs)
   # ─────────────────────────────────────────────────────────────────
