@@ -11,6 +11,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  production-guardrails:
+    name: Production Guardrails
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+
+      - name: Check Python migration guardrails
+        run: |
+          set -euo pipefail
+          python3 -m py_compile \
+            scripts/check_module_migration.py \
+            scripts/tests/test_check_module_migration.py
+          python3 -m unittest -v scripts.tests.test_check_module_migration
+
+      - name: Run production diagnostics
+        run: |
+          set -euo pipefail
+          bash scripts/local/run-production-diagnostics.sh
+
+      - name: Upload production diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-diagnostics
+          path: .artifacts/production-diagnostics/
+          if-no-files-found: warn
+          retention-days: 14
+
   # ─────────────────────────────────────────────────────────────────
   # AGWallet — macOS only (uses Secure Enclave / Apple crypto APIs)
   # ─────────────────────────────────────────────────────────────────
@@ -84,6 +119,7 @@ jobs:
           path: AGWallet/.test-results/agwallet.xml
           reporter: java-junit
           fail-on-error: false
+          fail-on-empty: false
 
       - name: Emit job summary
         if: always()
@@ -139,8 +175,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       DATABASE_URL: postgres://vapor_username:vapor_password@postgres:5432/vapor_database
+      REDIS_URL: redis://redis:6379/15
 
     steps:
       - name: Checkout
@@ -179,6 +224,18 @@ jobs:
             sleep 3
           done
 
+      - name: Wait for Redis to be ready
+        run: |
+          apt-get update -q
+          apt-get install -y -q redis-tools
+          for i in $(seq 1 10); do
+            redis-cli -h redis -p 6379 ping && exit 0
+            echo "Waiting for Redis... $i/10"
+            sleep 3
+          done
+          echo "Redis did not become ready."
+          exit 1
+
       - name: Build
         working-directory: AetherAG
         run: swift build --configuration debug
@@ -210,8 +267,22 @@ jobs:
           path: AetherAG/.test-results/
           retention-days: 14
 
-      - name: Publish test report
+      - name: Detect AetherAG Linux JUnit report
         if: always()
+        id: aether_linux_junit
+        shell: bash
+        run: |
+          shopt -s nullglob
+          reports=(AetherAG/.test-results/aether-linux*.xml)
+          if ((${#reports[@]})); then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "No AetherAG Linux JUnit XML report was generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Publish test report
+        if: always() && steps.aether_linux_junit.outputs.present == 'true'
         uses: dorny/test-reporter@v2
         with:
           name: AetherAG Linux Tests
@@ -324,6 +395,7 @@ jobs:
           path: AetherAG/.test-results/aether-macos.xml
           reporter: java-junit
           fail-on-error: false
+          fail-on-empty: false
 
       - name: Emit job summary
         if: always()

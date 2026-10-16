@@ -50,7 +50,7 @@ jobs:
 
       - name: Lint Markdown
         run: |
-          markdownlint README.md . --ignore .build --ignore .git --ignore node_modules --ignore Package.resolved
+          markdownlint README.md --ignore .build --ignore .git --ignore node_modules --ignore Package.resolved
 
       - name: Check links
         uses: lycheeverse/lychee-action@v2

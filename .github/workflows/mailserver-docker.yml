@@ -12,7 +12,7 @@ jobs:
         run: docker build -f Dockerfile -t aetheragmailserver:ci .
       - name: Smoke test container
         run: |
-          docker run -d --name mailserver-ci -p 8080:8080 aetheragmailserver:ci
+          docker run -d --name mailserver-ci -p 8080:8080 -e ISSUER_BASE_URL=http://localhost:8080 aetheragmailserver:ci -e FLOW_ISSUER_ADDRESS=0x0000000000000001 -e FLOW_ISSUER_PRIVATE_KEY=test-private-key -e FLOW_ISSUER_KEY_INDEX=0 -e JWT_HS256_SECRET=ci-test-secret-not-for-production -e FLOW_CHAIN_ID=testnet
           sleep 5
           curl -f http://localhost:8080/health || (docker logs mailserver-ci && exit 1)
           docker stop mailserver-ci
