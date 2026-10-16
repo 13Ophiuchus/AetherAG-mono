@@ -65,3 +65,6 @@ AetherAGMailServerTests-*.log
 # Local Swift/Linux build caches
 .build-linux/
 .swiftpm-cache/
+
+# Local build, CI, and diagnostic artifacts
+output/
