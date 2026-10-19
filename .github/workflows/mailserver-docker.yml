@@ -11,8 +11,47 @@ jobs:
       - name: Build production image
         run: docker build -f Dockerfile -t aetheragmailserver:ci .
       - name: Smoke test container
+        env:
+          ISSUER_ED25519_PRIVATE_KEY_BASE64URL: ${{ secrets.CI_ISSUER_ED25519_PRIVATE_KEY_BASE64URL }}
+          ISSUER_ES256_PUBLIC_KEY_PEM_B64: ${{ secrets.CI_ISSUER_ES256_PUBLIC_KEY_PEM_B64 }}
         run: |
-          docker run -d --name mailserver-ci -p 8080:8080 -e ISSUER_BASE_URL=http://localhost:8080 aetheragmailserver:ci -e FLOW_ISSUER_ADDRESS=0x0000000000000001 -e FLOW_ISSUER_PRIVATE_KEY=test-private-key -e FLOW_ISSUER_KEY_INDEX=0 -e JWT_HS256_SECRET=ci-test-secret-not-for-production -e FLOW_CHAIN_ID=testnet
-          sleep 5
-          curl -f http://localhost:8080/health || (docker logs mailserver-ci && exit 1)
-          docker stop mailserver-ci
+          set -euo pipefail
+          network=mailserver-ci-net
+          postgres=mailserver-ci-postgres
+          redis=mailserver-ci-redis
+          server=mailserver-ci
+          postgres_password="$(openssl rand -hex 24)"
+          database_url="postgresql://postgres:${postgres_password}@${postgres}:5432/aetherag"
+          flow_private_key="$(openssl rand -hex 32)"
+          jwt_secret="$(openssl rand -hex 32)"
+
+          cleanup() {
+            docker rm -f "$server" "$redis" "$postgres" 2>/dev/null || true
+            docker network rm "$network" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          test -n "$ISSUER_ED25519_PRIVATE_KEY_BASE64URL"
+          test -n "$ISSUER_ES256_PUBLIC_KEY_PEM_B64"
+
+          docker network create "$network"
+
+          docker run -d --name "$postgres" --network "$network"             -e POSTGRES_DB=aetherag             -e POSTGRES_USER=postgres             -e POSTGRES_PASSWORD="$postgres_password"             postgres:16-alpine
+
+          docker run -d --name "$redis" --network "$network"             redis:7-alpine
+
+          docker run -d --name "$server" --network "$network" -p 8080:8080             -e ISSUER_BASE_URL=http://localhost:8080             -e FLOW_ISSUER_ADDRESS=0x0000000000000001             -e FLOW_ISSUER_PRIVATE_KEY="$flow_private_key"             -e FLOW_ISSUER_KEY_INDEX=0             -e FLOW_CHAIN_ID=testnet             -e JWT_HS256_SECRET="$jwt_secret"             -e ISSUER_ED25519_PRIVATE_KEY_BASE64URL="$ISSUER_ED25519_PRIVATE_KEY_BASE64URL"             -e ISSUER_ES256_PUBLIC_KEY_PEM_B64="$ISSUER_ES256_PUBLIC_KEY_PEM_B64"             -e DATABASE_URL="$database_url"             -e REDIS_URL="redis://${redis}:6379"             aetheragmailserver:ci
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error http://127.0.0.1:8080/health; then
+              exit 0
+            fi
+            if [ "$(docker inspect -f '{{.State.Running}}' "$server" 2>/dev/null || true)" != "true" ]; then
+              docker logs "$server"
+              exit 1
+            fi
+            sleep 1
+          done
+
+          docker logs "$server"
+          exit 1

@@ -68,3 +68,11 @@ AetherAGMailServerTests-*.log
 
 # Local build, CI, and diagnostic artifacts
 output/
+
+# Local development wallet material — never commit
+.env.development.local
+.secrets/
+.venv/
+.aether-dev-venv/
+.flow-testnet-bootstrap/
+.development/
