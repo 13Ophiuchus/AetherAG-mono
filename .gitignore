@@ -76,3 +76,5 @@ output/
 .aether-dev-venv/
 .flow-testnet-bootstrap/
 .development/
+
+.aetherag-backups/
