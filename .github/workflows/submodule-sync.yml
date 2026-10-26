@@ -1,4 +1,7 @@
 name: Submodule Sync Guard
+permissions:
+  contents: read
+
 
 on:
   push:
@@ -21,7 +24,6 @@ jobs:
         with:
           submodules: false
           fetch-depth: 0
-          token: ${{ secrets.SUBMODULES_READ_TOKEN || github.token }}
 
       - name: Validate .gitmodules
         shell: bash
