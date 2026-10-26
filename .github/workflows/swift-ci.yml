@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
           fetch-depth: 0
 
       - name: Check Python migration guardrails
@@ -62,6 +63,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
           fetch-depth: 0
 
       - name: Select Xcode
@@ -190,6 +192,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
           fetch-depth: 0
 
       - name: Trust repo directory (git safe.directory)
@@ -336,6 +339,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
           fetch-depth: 0
 
       - name: Select Xcode
