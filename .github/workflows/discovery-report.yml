@@ -38,7 +38,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          token: ${{ secrets.AETHERAG_SUBMODULES_READ_TOKEN }}
+          token: ${{ secrets.AETHERAG_SUBMODULES_READ_TOKEN || github.token }}
 
       - name: Generate discovery report
         run: bash scripts/discover-state.sh

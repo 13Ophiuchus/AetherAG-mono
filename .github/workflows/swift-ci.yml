@@ -22,7 +22,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          token: ${{ secrets.SUBMODULES_READ_TOKEN || github.token }}
 
       - name: Check Python migration guardrails
         run: |
@@ -64,7 +64,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          token: ${{ secrets.SUBMODULES_READ_TOKEN || github.token }}
 
       - name: Select Xcode
         run: |
@@ -193,7 +193,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          token: ${{ secrets.SUBMODULES_READ_TOKEN || github.token }}
 
       - name: Trust repo directory (git safe.directory)
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -340,7 +340,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          token: ${{ secrets.SUBMODULES_READ_TOKEN || github.token }}
 
       - name: Select Xcode
         run: |
