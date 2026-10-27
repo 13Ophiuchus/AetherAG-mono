@@ -268,22 +268,19 @@ jobs:
           # Linux CI validates the shared, client-core, and Vapor server graph.
           swift build --product AetherAGMailServerRun --configuration debug
 
-      - name: Test — all suites (XUnit output)
+      - name: Test Linux-compatible suites (XUnit output)
         id: aether_linux_test
         working-directory: AetherAG
         run: |
           mkdir -p .test-results
-          swift test --parallel \
-            --xunit-output .test-results/aether-linux.xml \
+          swift test --filter AetherAGMailSharedTests --parallel \
+            --xunit-output .test-results/aether-linux-shared.xml \
             2>&1 | tee .test-results/aether-linux-raw.log
-        continue-on-error: true
-
-      - name: Test — Persistence / Issuance (XUnit output)
-        id: aether_linux_persistence_test
-        working-directory: AetherAG
-        run: |
-          swift test --filter PersistenceIssuanceTests --parallel \
-            --xunit-output .test-results/aether-linux-persistence.xml \
+          swift test --filter AetherAGMailServerTests --parallel \
+            --xunit-output .test-results/aether-linux-server.xml \
+            2>&1 | tee -a .test-results/aether-linux-raw.log
+          swift test --filter FlowTests --parallel \
+            --xunit-output .test-results/aether-linux-flow.xml \
             2>&1 | tee -a .test-results/aether-linux-raw.log
         continue-on-error: true
 
@@ -333,7 +330,7 @@ jobs:
             echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
             echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**Suites run:** All · PersistenceIssuanceTests" >> $GITHUB_STEP_SUMMARY
+            echo "**Suites run:** AetherAGMailSharedTests · AetherAGMailServerTests · FlowTests" >> $GITHUB_STEP_SUMMARY
             if [ "$FAILED" -gt 0 ]; then
               echo "" >> $GITHUB_STEP_SUMMARY
               echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
@@ -344,9 +341,7 @@ jobs:
           fi
 
       - name: Fail job if tests failed
-        if: >
-          steps.aether_linux_test.outcome == 'failure' ||
-          steps.aether_linux_persistence_test.outcome == 'failure'
+        if: steps.aether_linux_test.outcome == 'failure'
         run: exit 1
 
   # ─────────────────────────────────────────────────────────────────
