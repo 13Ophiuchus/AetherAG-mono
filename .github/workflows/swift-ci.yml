@@ -147,7 +147,7 @@ jobs:
           fail-on-empty: false
 
       - name: Emit job summary
-        if: ${{ always() && hashFiles('AGWallet/**') != '' }}
+        if: always()
         working-directory: AGWallet
         run: |
           echo "## 🔐 AGWallet Test Results" >> $GITHUB_STEP_SUMMARY
@@ -316,7 +316,7 @@ jobs:
           fail-on-error: false
 
       - name: Emit job summary
-        if: ${{ always() && hashFiles('AetherAG/**') != '' }}
+        if: always()
         working-directory: AetherAG
         run: |
           echo "## 🌐 AetherAG Linux (Vapor) Test Results" >> $GITHUB_STEP_SUMMARY
@@ -448,7 +448,7 @@ jobs:
           fail-on-empty: false
 
       - name: Emit job summary
-        if: ${{ always() && hashFiles('AetherAG/**') != '' }}
+        if: always()
         working-directory: AetherAG
         run: |
           echo "## 🍎 AetherAG macOS Test Results" >> $GITHUB_STEP_SUMMARY
