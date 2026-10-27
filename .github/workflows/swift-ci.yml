@@ -81,8 +81,8 @@ jobs:
           swift_version="$(
             printf '%s\n' "$swift_output" |
               sed -nE \
-                -e 's/^Apple Swift version ([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' \
-                -e 's/.*swiftlang-([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' |
+                -e 's/^Apple Swift version ([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' \
+                -e 's/.*swiftlang-([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' |
               head -n 1
           )"
           IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
@@ -382,8 +382,8 @@ jobs:
           swift_version="$(
             printf '%s\n' "$swift_output" |
               sed -nE \
-                -e 's/^Apple Swift version ([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' \
-                -e 's/.*swiftlang-([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' |
+                -e 's/^Apple Swift version ([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' \
+                -e 's/.*swiftlang-([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' |
               head -n 1
           )"
           IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
