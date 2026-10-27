@@ -261,9 +261,12 @@ jobs:
           echo "Redis did not become ready."
           exit 1
 
-      - name: Build
+      - name: Build Linux-compatible server products
         working-directory: AetherAG
-        run: swift build --configuration debug
+        run: |
+          # The AetherAG target contains Apple-only SwiftUI views.
+          # Linux CI validates the shared, client-core, and Vapor server graph.
+          swift build --product AetherAGMailServerRun --configuration debug
 
       - name: Test — all suites (XUnit output)
         id: aether_linux_test
