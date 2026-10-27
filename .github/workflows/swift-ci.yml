@@ -68,9 +68,34 @@ jobs:
 
       - name: Select Xcode
         run: |
-          # Pin to Xcode 16.4 (bundles Swift 6.3) — matches local toolchain
-          sudo xcode-select -s /Applications/Xcode_16.4.app
-          swift --version
+          # Pin to Xcode 26.3 so CI uses a Swift 6.2-or-newer toolchain.
+          xcode_path="/Applications/Xcode_26.3.app"
+          if [ ! -d "$xcode_path" ]; then
+            echo "Required Xcode installation is unavailable: $xcode_path" >&2
+            ls -1 /Applications | grep '^Xcode' || true
+            exit 1
+          fi
+          sudo xcode-select -s "$xcode_path"
+          swift_output="$(swift --version)"
+          printf '%s\n' "$swift_output"
+          swift_version="$(
+            printf '%s\n' "$swift_output" |
+              sed -nE \
+                -e 's/^Apple Swift version ([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' \
+                -e 's/.*swiftlang-([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' |
+              head -n 1
+          )"
+          IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
+          if ! [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ ]]; then
+            echo "Unable to parse Swift version from: ${swift_version:-unknown}" >&2
+            exit 1
+          fi
+          printf 'Parsed Swift version: %s\n' "$swift_version"
+          if (( major < 6 || (major == 6 && minor < 2) )); then
+            echo "Swift 6.2 or later is required; found: $swift_version" >&2
+            exit 1
+          fi
+          echo "Swift version guard passed."
 
       - name: Cache SPM
         uses: actions/cache@v4
@@ -344,9 +369,34 @@ jobs:
 
       - name: Select Xcode
         run: |
-          # Pin to Xcode 16.4 (bundles Swift 6.3) — matches local toolchain
-          sudo xcode-select -s /Applications/Xcode_16.4.app
-          swift --version
+          # Pin to Xcode 26.3 so CI uses a Swift 6.2-or-newer toolchain.
+          xcode_path="/Applications/Xcode_26.3.app"
+          if [ ! -d "$xcode_path" ]; then
+            echo "Required Xcode installation is unavailable: $xcode_path" >&2
+            ls -1 /Applications | grep '^Xcode' || true
+            exit 1
+          fi
+          sudo xcode-select -s "$xcode_path"
+          swift_output="$(swift --version)"
+          printf '%s\n' "$swift_output"
+          swift_version="$(
+            printf '%s\n' "$swift_output" |
+              sed -nE \
+                -e 's/^Apple Swift version ([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' \
+                -e 's/.*swiftlang-([0-9]+\\.[0-9]+(\\.[0-9]+)?).*/\\1/p' |
+              head -n 1
+          )"
+          IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
+          if ! [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ ]]; then
+            echo "Unable to parse Swift version from: ${swift_version:-unknown}" >&2
+            exit 1
+          fi
+          printf 'Parsed Swift version: %s\n' "$swift_version"
+          if (( major < 6 || (major == 6 && minor < 2) )); then
+            echo "Swift 6.2 or later is required; found: $swift_version" >&2
+            exit 1
+          fi
+          echo "Swift version guard passed."
 
       - name: Cache SPM (macOS)
         uses: actions/cache@v4
