@@ -489,8 +489,11 @@ public actor KeyManagerActor {
         }
         let masterKey = rawMasterKey.count >= 32 ? Data(rawMasterKey.prefix(32)) : rawMasterKey
         let signingKey = try P256.Signing.PrivateKey(rawRepresentation: masterKey)
-        let signature = try signingKey.signature(for: signableData)
-        return signature.rawRepresentation
+        // Flow requires SHA3-256 as the pre-image hash before ECDSA signing.
+        // CryptoKit's signature(for: Data) hashes with SHA-256 by default,
+        // which the access node rejects. See P256FlowSigner in flow-swift
+        // for the reference implementation this mirrors.
+        return try FlowP256SHA3Signer.sign(signableData, with: signingKey)
     }
 
     /// Returns the Flow account key index to sign with. Defaults to 0 for
@@ -508,8 +511,8 @@ public actor KeyManagerActor {
             throw WalletError.signingFailed("Message is not valid UTF-8")
         }
         let signingKey = try P256.Signing.PrivateKey(rawRepresentation: masterKey)
-        let signature = try signingKey.signature(for: messageData)
-        return signature.rawRepresentation.toHexString()
+        let signature = try FlowP256SHA3Signer.sign(messageData, with: signingKey)
+        return signature.toHexString()
     }
 
     // Returns the primary Bitcoin address for the given chain configuration.

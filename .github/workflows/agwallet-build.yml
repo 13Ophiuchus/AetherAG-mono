@@ -1,24 +1,31 @@
 name: AGWallet Build & Test
+permissions:
+  contents: read
+
 
 on:
   push:
     paths:
       - 'AGWallet/**'
+      - '.github/workflows/agwallet-build.yml'
   pull_request:
     paths:
       - 'AGWallet/**'
+      - '.github/workflows/agwallet-build.yml'
 
 jobs:
   build-and-test:
-    runs-on: macos-15
+    runs-on: xcode-27
     defaults:
       run:
         working-directory: AGWallet
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          fetch-depth: 0
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_27.0.app
 
       - name: Show Swift version
         run: swift --version

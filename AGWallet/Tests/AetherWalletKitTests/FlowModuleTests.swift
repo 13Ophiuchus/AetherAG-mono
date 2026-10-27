@@ -5,7 +5,7 @@ import Testing
 @Suite("FlowModule")
 struct FlowModuleTests {
     private func makeModule() -> FlowModule {
-        FlowModule(keyManager: KeyManagerActor())
+        FlowModule(keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()))
     }
 
     @Test("send fails with keychainError when no Flow address is stored")

@@ -1,16 +1,21 @@
 @testable import AetherWalletKit
 import Foundation
+#if canImport(Security)
+import Security
+#endif
 import Testing
 
 @Suite("ChainConfigurationService", .serialized)
 struct ChainConfigurationServiceTests {
 
     private func clearKeychain() {
+        #if canImport(Security)
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: "AetherWalletKit.ChainConfigs",
         ]
         SecItemDelete(query as CFDictionary)
+        #endif
     }
 
     private func makeService(predefined: [ChainConfig] = []) -> ChainConfigurationService {
@@ -40,7 +45,7 @@ struct ChainConfigurationServiceTests {
         do {
             try await service.addChain(chain)
             Issue.record("Expected chainAlreadyExists to be thrown")
-        } catch let ChainConfigurationError.chainAlreadyExists {
+        } catch ChainConfigurationError.chainAlreadyExists {
             // expected
         }
         clearKeychain()

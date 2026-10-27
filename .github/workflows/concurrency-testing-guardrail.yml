@@ -1,4 +1,7 @@
 name: Concurrency & Testing Guardrail
+permissions:
+  contents: read
+
 
 on:
   pull_request:
@@ -12,8 +15,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-          fetch-depth: 0
           token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          fetch-depth: 0
       - name: Select Xcode
         run: |
           # Pin to Xcode 16.4 (bundles Swift 6.3)

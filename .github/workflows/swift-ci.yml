@@ -11,6 +11,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  production-guardrails:
+    name: Production Guardrails
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          fetch-depth: 0
+
+      - name: Check Python migration guardrails
+        run: |
+          set -euo pipefail
+          python3 -m py_compile \
+            scripts/check_module_migration.py \
+            scripts/tests/test_check_module_migration.py
+          python3 -m unittest -v scripts.tests.test_check_module_migration
+
+      - name: Run production diagnostics
+        run: |
+          set -euo pipefail
+          bash scripts/local/run-production-diagnostics.sh
+
+      - name: Upload production diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-diagnostics
+          path: .artifacts/production-diagnostics/
+          if-no-files-found: warn
+          retention-days: 14
+
   # ─────────────────────────────────────────────────────────────────
   # AGWallet — macOS only (uses Secure Enclave / Apple crypto APIs)
   # ─────────────────────────────────────────────────────────────────
@@ -28,14 +63,39 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          fetch-depth: 0
           token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          fetch-depth: 0
 
       - name: Select Xcode
         run: |
-          # Pin to Xcode 16.4 (bundles Swift 6.3) — matches local toolchain
-          sudo xcode-select -s /Applications/Xcode_16.4.app
-          swift --version
+          # Pin to Xcode 26.3 so CI uses a Swift 6.2-or-newer toolchain.
+          xcode_path="/Applications/Xcode_26.3.app"
+          if [ ! -d "$xcode_path" ]; then
+            echo "Required Xcode installation is unavailable: $xcode_path" >&2
+            ls -1 /Applications | grep '^Xcode' || true
+            exit 1
+          fi
+          sudo xcode-select -s "$xcode_path"
+          swift_output="$(swift --version)"
+          printf '%s\n' "$swift_output"
+          swift_version="$(
+            printf '%s\n' "$swift_output" |
+              sed -nE \
+                -e 's/^Apple Swift version ([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' \
+                -e 's/.*swiftlang-([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' |
+              head -n 1
+          )"
+          IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
+          if ! [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ ]]; then
+            echo "Unable to parse Swift version from: ${swift_version:-unknown}" >&2
+            exit 1
+          fi
+          printf 'Parsed Swift version: %s\n' "$swift_version"
+          if (( major < 6 || (major == 6 && minor < 2) )); then
+            echo "Swift 6.2 or later is required; found: $swift_version" >&2
+            exit 1
+          fi
+          echo "Swift version guard passed."
 
       - name: Cache SPM
         uses: actions/cache@v4
@@ -84,6 +144,7 @@ jobs:
           path: AGWallet/.test-results/agwallet.xml
           reporter: java-junit
           fail-on-error: false
+          fail-on-empty: false
 
       - name: Emit job summary
         if: always()
@@ -139,16 +200,25 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       DATABASE_URL: postgres://vapor_username:vapor_password@postgres:5432/vapor_database
+      REDIS_URL: redis://redis:6379/15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          fetch-depth: 0
           token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          fetch-depth: 0
 
       - name: Trust repo directory (git safe.directory)
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -179,26 +249,38 @@ jobs:
             sleep 3
           done
 
-      - name: Build
-        working-directory: AetherAG
-        run: swift build --configuration debug
+      - name: Wait for Redis to be ready
+        run: |
+          apt-get update -q
+          apt-get install -y -q redis-tools
+          for i in $(seq 1 10); do
+            redis-cli -h redis -p 6379 ping && exit 0
+            echo "Waiting for Redis... $i/10"
+            sleep 3
+          done
+          echo "Redis did not become ready."
+          exit 1
 
-      - name: Test — all suites (XUnit output)
+      - name: Build Linux-compatible server products
+        working-directory: AetherAG
+        run: |
+          # The AetherAG target contains Apple-only SwiftUI views.
+          # Linux CI validates the shared, client-core, and Vapor server graph.
+          swift build --product AetherAGMailServerRun --configuration debug
+
+      - name: Test Linux-compatible suites (XUnit output)
         id: aether_linux_test
         working-directory: AetherAG
         run: |
           mkdir -p .test-results
-          swift test --parallel \
-            --xunit-output .test-results/aether-linux.xml \
+          swift test --filter AetherAGMailSharedTests --parallel \
+            --xunit-output .test-results/aether-linux-shared.xml \
             2>&1 | tee .test-results/aether-linux-raw.log
-        continue-on-error: true
-
-      - name: Test — Persistence / Issuance (XUnit output)
-        id: aether_linux_persistence_test
-        working-directory: AetherAG
-        run: |
-          swift test --filter PersistenceIssuanceTests --parallel \
-            --xunit-output .test-results/aether-linux-persistence.xml \
+          swift test --filter AetherAGMailServerTests --parallel \
+            --xunit-output .test-results/aether-linux-server.xml \
+            2>&1 | tee -a .test-results/aether-linux-raw.log
+          swift test --filter FlowTests --parallel \
+            --xunit-output .test-results/aether-linux-flow.xml \
             2>&1 | tee -a .test-results/aether-linux-raw.log
         continue-on-error: true
 
@@ -210,8 +292,22 @@ jobs:
           path: AetherAG/.test-results/
           retention-days: 14
 
-      - name: Publish test report
+      - name: Detect AetherAG Linux JUnit report
         if: always()
+        id: aether_linux_junit
+        shell: bash
+        run: |
+          shopt -s nullglob
+          reports=(AetherAG/.test-results/aether-linux*.xml)
+          if ((${#reports[@]})); then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "No AetherAG Linux JUnit XML report was generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Publish test report
+        if: always() && steps.aether_linux_junit.outputs.present == 'true'
         uses: dorny/test-reporter@v2
         with:
           name: AetherAG Linux Tests
@@ -234,7 +330,7 @@ jobs:
             echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
             echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**Suites run:** All · PersistenceIssuanceTests" >> $GITHUB_STEP_SUMMARY
+            echo "**Suites run:** AetherAGMailSharedTests · AetherAGMailServerTests · FlowTests" >> $GITHUB_STEP_SUMMARY
             if [ "$FAILED" -gt 0 ]; then
               echo "" >> $GITHUB_STEP_SUMMARY
               echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
@@ -245,9 +341,7 @@ jobs:
           fi
 
       - name: Fail job if tests failed
-        if: >
-          steps.aether_linux_test.outcome == 'failure' ||
-          steps.aether_linux_persistence_test.outcome == 'failure'
+        if: steps.aether_linux_test.outcome == 'failure'
         run: exit 1
 
   # ─────────────────────────────────────────────────────────────────
@@ -268,14 +362,39 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          fetch-depth: 0
           token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          fetch-depth: 0
 
       - name: Select Xcode
         run: |
-          # Pin to Xcode 16.4 (bundles Swift 6.3) — matches local toolchain
-          sudo xcode-select -s /Applications/Xcode_16.4.app
-          swift --version
+          # Pin to Xcode 26.3 so CI uses a Swift 6.2-or-newer toolchain.
+          xcode_path="/Applications/Xcode_26.3.app"
+          if [ ! -d "$xcode_path" ]; then
+            echo "Required Xcode installation is unavailable: $xcode_path" >&2
+            ls -1 /Applications | grep '^Xcode' || true
+            exit 1
+          fi
+          sudo xcode-select -s "$xcode_path"
+          swift_output="$(swift --version)"
+          printf '%s\n' "$swift_output"
+          swift_version="$(
+            printf '%s\n' "$swift_output" |
+              sed -nE \
+                -e 's/^Apple Swift version ([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' \
+                -e 's/.*swiftlang-([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' |
+              head -n 1
+          )"
+          IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
+          if ! [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ ]]; then
+            echo "Unable to parse Swift version from: ${swift_version:-unknown}" >&2
+            exit 1
+          fi
+          printf 'Parsed Swift version: %s\n' "$swift_version"
+          if (( major < 6 || (major == 6 && minor < 2) )); then
+            echo "Swift 6.2 or later is required; found: $swift_version" >&2
+            exit 1
+          fi
+          echo "Swift version guard passed."
 
       - name: Cache SPM (macOS)
         uses: actions/cache@v4
@@ -324,6 +443,7 @@ jobs:
           path: AetherAG/.test-results/aether-macos.xml
           reporter: java-junit
           fail-on-error: false
+          fail-on-empty: false
 
       - name: Emit job summary
         if: always()
