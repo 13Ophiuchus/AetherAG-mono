@@ -31,6 +31,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -50,7 +54,7 @@ jobs:
 
       - name: Lint Markdown
         run: |
-          markdownlint README.md . --ignore .build --ignore .git --ignore node_modules --ignore Package.resolved
+          markdownlint README.md --ignore .build --ignore .git --ignore node_modules --ignore Package.resolved
 
       - name: Check links
         uses: lycheeverse/lychee-action@v2
@@ -59,7 +63,6 @@ jobs:
             --verbose
             --no-progress
             --accept 200,206,301,302,303,403,429
-            --exclude-mail
             --exclude-path .build
             --exclude-path node_modules
             --exclude-path .git

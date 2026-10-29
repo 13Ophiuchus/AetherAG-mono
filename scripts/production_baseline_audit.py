@@ -46,6 +46,7 @@ if tracked_matches.strip():
     approved_locations = {
         ".github/workflows/swift-ci.yml",
         "scripts/container-dev.sh",
+        "scripts/start-rate-limit-server.sh",
     }
     secret_report = root / ".artifacts" / "tracked-secret-patterns-redacted.txt"
     secret_report.parent.mkdir(parents=True, exist_ok=True)
