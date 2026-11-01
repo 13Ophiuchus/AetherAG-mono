@@ -27,7 +27,7 @@ subjects where visible in `git log`, or not evidenced at all. Numbered gaps belo
 Not yet retrieved in full. Known from cross-references in later milestones: domain model
 (`ChainConfig`, `ChainModule`, `UnifiedTransaction`), EVM/Bitcoin/Solana module scaffolding,
 Secure Enclave `KeyManagerActor`, and (per AetherAG-side commit `11c21c7`) "PBKDF2 hardening
-+ Linux cross-platform fixes" attributed to a paired Milestone 16, were all established
+\+ Linux cross-platform fixes" attributed to a paired Milestone 16, were all established
 before Milestone 17.
 
 ### Milestone 17 — Swift 6.3 / macOS 26 Toolchain Compatibility (2026-08-14)

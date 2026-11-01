@@ -17,8 +17,8 @@
 ## CONFIRMED GAP: No Flow account creation logic anywhere
 Searched: AGWallet/Sources, AetherWalletKit/Data/FlowModule,
 AetherWalletKit/Data/KeyManagementModule — zero matches for:
-  - `Account(payer:` (Cadence Account-creation transaction)
-  - Any function named createAccount/provisionWallet/createFlowAccount
+- `Account(payer:` (Cadence Account-creation transaction)
+- Any function named createAccount/provisionWallet/createFlowAccount
 FlowModule.swift explicitly comments that storeFlowAddress must be called
 "once the corresponding Flow account has been created or discovered" —
 implying this is either done manually, by a separate unbuilt service, or

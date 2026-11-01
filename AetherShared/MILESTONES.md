@@ -29,11 +29,11 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P2
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Complete remaining `move-now-split`, `move-now-plain`, and approved `move-later` inventory items.
 - Preserve dependency rules: Shared must not depend on Vapor, Flow, BigInt, AGWallet, or AetherAG.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Each completed inventory item is updated in the migration inventory.
 - Vapor `Content` conformance remains in AetherAG extension layers where needed.
 - Shared target dependency rules are enforced by build/tests.

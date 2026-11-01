@@ -29,10 +29,10 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P0
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Maintain this master roadmap, generated module views, local discovery reports, and CI validation.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - `python3 scripts/sync_milestones.py --check` passes.
 - GitHub Actions validates generated milestone views.
 - Discovery reports can be generated locally and uploaded by CI.

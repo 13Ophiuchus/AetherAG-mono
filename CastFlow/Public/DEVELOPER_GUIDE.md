@@ -1,12 +1,12 @@
 # Developer Guide
 
-# CastFlow Developer Guide
+## CastFlow Developer Guide
 
 Version: 1.0
 
 ---
 
-# Introduction
+## Introduction
 
 Welcome to CastFlow.
 
@@ -14,7 +14,7 @@ This guide explains the project's architecture, development workflow, coding sta
 
 ---
 
-# Development Philosophy
+## Development Philosophy
 
 Every change should improve at least one of the following:
 
@@ -30,7 +30,7 @@ Engineering quality takes precedence over implementation speed.
 
 ---
 
-# Technology Stack
+## Technology Stack
 
 - Swift 6
 - Swift Package Manager
@@ -47,9 +47,9 @@ Optional:
 
 ---
 
-# Repository Structure
+## Repository Structure
 
-```
+```text
 Sources/
     App/
     Core/
@@ -72,7 +72,7 @@ Examples/
 
 ---
 
-# Architectural Principles
+## Architectural Principles
 
 The application follows:
 
@@ -86,7 +86,7 @@ Dependencies should point inward toward abstractions.
 
 ---
 
-# Concurrency
+## Concurrency
 
 All asynchronous work should use:
 
@@ -103,7 +103,7 @@ Avoid:
 
 ---
 
-# Dependency Injection
+## Dependency Injection
 
 Prefer constructor injection.
 
@@ -121,7 +121,7 @@ SessionCoordinator(
 
 ---
 
-# Coding Standards
+## Coding Standards
 
 Prefer:
 
@@ -140,7 +140,7 @@ Avoid:
 
 ---
 
-# Documentation
+## Documentation
 
 All public APIs must include DocC-compatible documentation comments.
 
@@ -148,7 +148,7 @@ Complex workflows should include Mermaid diagrams where appropriate.
 
 ---
 
-# Testing Strategy
+## Testing Strategy
 
 Required:
 
@@ -163,7 +163,7 @@ Target coverage:
 
 ---
 
-# Debugging
+## Debugging
 
 Useful tools include:
 
@@ -175,7 +175,7 @@ Useful tools include:
 
 ---
 
-# Logging
+## Logging
 
 Use structured logging through OSLog.
 
@@ -193,7 +193,7 @@ Never log secrets.
 
 ---
 
-# Code Review Checklist
+## Code Review Checklist
 
 Reviewers should verify:
 
@@ -207,7 +207,7 @@ Reviewers should verify:
 
 ---
 
-# Release Process
+## Release Process
 
 1. Feature complete
 2. Tests pass
@@ -219,7 +219,7 @@ Reviewers should verify:
 
 ---
 
-# Continuous Improvement
+## Continuous Improvement
 
 Architecture Decisions (ADRs) should document significant technical decisions.
 
@@ -227,7 +227,6 @@ Major design changes should be discussed before implementation.
 
 ---
 
-# Conclusion
+## Conclusion
 
 This guide serves as the engineering handbook for CastFlow contributors and evolves alongside the project.
-

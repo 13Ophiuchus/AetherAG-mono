@@ -1,7 +1,7 @@
 # FUNDING_PROPOSAL.md
 
-# CastFlow
-## Investment & Funding Proposal
+## CastFlow
+### Investment & Funding Proposal
 
 **Version:** 1.0
 
@@ -9,7 +9,7 @@
 
 ---
 
-# Executive Summary
+## Executive Summary
 
 CastFlow is a next-generation, Swift-native wireless display platform built specifically for macOS. Unlike existing commercial casting applications, CastFlow is designed as an extensible software platform with a modular architecture, modern concurrency model, and optional commercial services.
 
@@ -19,19 +19,19 @@ Our objective is to establish CastFlow as the foundational open platform for wir
 
 ---
 
-# Mission
+## Mission
 
 Build the world's most secure, extensible, and maintainable wireless display platform using modern Swift engineering principles.
 
 ---
 
-# Vision
+## Vision
 
 Create an open platform where developers, enterprises, educators, and hardware vendors can build next-generation wireless display solutions without being locked into proprietary ecosystems.
 
 ---
 
-# Problem Statement
+## Problem Statement
 
 Today's wireless display ecosystem suffers from several challenges:
 
@@ -48,7 +48,7 @@ Developers wanting to extend these products often have no supported APIs or are 
 
 ---
 
-# Market Opportunity
+## Market Opportunity
 
 Wireless display technology continues to grow across:
 
@@ -66,9 +66,9 @@ Organizations increasingly require customizable, self-hosted, and privacy-consci
 
 ---
 
-# Target Customers
+## Target Customers
 
-## Individual Users
+### Individual Users
 
 - Developers
 - Power users
@@ -78,7 +78,7 @@ Organizations increasingly require customizable, self-hosted, and privacy-consci
 
 ---
 
-## Professional Users
+### Professional Users
 
 - Design studios
 - Production companies
@@ -88,7 +88,7 @@ Organizations increasingly require customizable, self-hosted, and privacy-consci
 
 ---
 
-## Enterprise
+### Enterprise
 
 - Fortune 500 companies
 - Managed IT providers
@@ -98,7 +98,7 @@ Organizations increasingly require customizable, self-hosted, and privacy-consci
 
 ---
 
-# Value Proposition
+## Value Proposition
 
 CastFlow differentiates itself through:
 
@@ -113,7 +113,7 @@ CastFlow differentiates itself through:
 
 ---
 
-# Competitive Landscape
+## Competitive Landscape
 
 | Solution | Closed Source | Plugin SDK | Enterprise | Native Swift |
 |-----------|--------------|------------|------------|--------------|
@@ -126,9 +126,9 @@ This comparison is illustrative of positioning rather than a comprehensive featu
 
 ---
 
-# Technical Differentiators
+## Technical Differentiators
 
-## Swift 6
+### Swift 6
 
 Modern language features:
 
@@ -139,7 +139,7 @@ Modern language features:
 
 ---
 
-## Native Rendering
+### Native Rendering
 
 - Metal
 - VideoToolbox
@@ -147,7 +147,7 @@ Modern language features:
 
 ---
 
-## Security
+### Security
 
 - Layered architecture
 - Strong input validation
@@ -157,7 +157,7 @@ Modern language features:
 
 ---
 
-## Extensibility
+### Extensibility
 
 Protocol-first architecture enables:
 
@@ -172,9 +172,9 @@ without modifying the application core.
 
 ---
 
-# Product Roadmap
+## Product Roadmap
 
-## Phase 1
+### Phase 1
 
 Foundation
 
@@ -185,7 +185,7 @@ Foundation
 
 ---
 
-## Phase 2
+### Phase 2
 
 Networking
 
@@ -196,7 +196,7 @@ Networking
 
 ---
 
-## Phase 3
+### Phase 3
 
 Media
 
@@ -207,7 +207,7 @@ Media
 
 ---
 
-## Phase 4
+### Phase 4
 
 Plugin SDK
 
@@ -218,7 +218,7 @@ Plugin SDK
 
 ---
 
-## Phase 5
+### Phase 5
 
 Commercial Services
 
@@ -228,7 +228,7 @@ Commercial Services
 
 ---
 
-## Phase 6
+### Phase 6
 
 Enterprise Platform
 
@@ -239,13 +239,13 @@ Enterprise Platform
 
 ---
 
-# Revenue Strategy
+## Revenue Strategy
 
 CastFlow's core remains open source.
 
 Commercial offerings may include:
 
-## Enterprise Licensing
+### Enterprise Licensing
 
 - Fleet management
 - Administration
@@ -254,7 +254,7 @@ Commercial offerings may include:
 
 ---
 
-## Marketplace
+### Marketplace
 
 Third-party plugins
 
@@ -265,7 +265,7 @@ Revenue sharing between:
 
 ---
 
-## Professional Support
+### Professional Support
 
 - Consulting
 - Training
@@ -273,7 +273,7 @@ Revenue sharing between:
 
 ---
 
-## Hosted Services
+### Hosted Services
 
 Optional cloud services
 
@@ -283,7 +283,7 @@ Optional cloud services
 
 ---
 
-# Optional Flow Integration
+## Optional Flow Integration
 
 Flow is positioned as an optional ecosystem service rather than a dependency.
 
@@ -300,7 +300,7 @@ The application remains fully functional without blockchain connectivity.
 
 ---
 
-# Go-To-Market Strategy
+## Go-To-Market Strategy
 
 Phase 1
 
@@ -332,7 +332,7 @@ Commercial services
 
 ---
 
-# Community Strategy
+## Community Strategy
 
 Focus on:
 
@@ -345,7 +345,7 @@ Focus on:
 
 ---
 
-# Funding Requirements
+## Funding Requirements
 
 Funding will accelerate:
 
@@ -360,7 +360,7 @@ Funding will accelerate:
 
 ---
 
-# Budget Allocation (Illustrative)
+## Budget Allocation (Illustrative)
 
 | Category | Percentage |
 |-----------|-----------:|
@@ -376,7 +376,7 @@ Actual allocations would depend on funding size and project stage.
 
 ---
 
-# Milestones
+## Milestones
 
 Milestone 1
 
@@ -414,9 +414,9 @@ Stable 1.0 release.
 
 ---
 
-# Risk Assessment
+## Risk Assessment
 
-## Technical
+### Technical
 
 - Evolving protocol compatibility
 - Performance optimization
@@ -430,7 +430,7 @@ Mitigation:
 
 ---
 
-## Business
+### Business
 
 - Adoption rate
 - Competition
@@ -444,7 +444,7 @@ Mitigation:
 
 ---
 
-## Operational
+### Operational
 
 - Contributor availability
 - Maintenance burden
@@ -457,7 +457,7 @@ Mitigation:
 
 ---
 
-# Success Metrics
+## Success Metrics
 
 - Community contributors
 - Plugin ecosystem growth
@@ -469,7 +469,7 @@ Mitigation:
 
 ---
 
-# Long-Term Vision
+## Long-Term Vision
 
 CastFlow is intended to become the reference implementation for a modern, extensible wireless display platform on macOS.
 
@@ -477,7 +477,7 @@ By combining secure engineering practices, Swift-native performance, a protocol-
 
 ---
 
-# Investment Opportunity
+## Investment Opportunity
 
 Investment in CastFlow supports the development of an open, extensible software platform positioned at the intersection of modern Swift engineering, media technology, and enterprise collaboration.
 

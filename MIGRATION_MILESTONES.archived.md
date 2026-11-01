@@ -1,8 +1,6 @@
-> **ARCHIVED (2026-07-30):** This early-draft plan (Phase 0-3) was superseded by a different, more advanced phase sequence that was actually executed and merged into `AetherShared` (see `git log -- AetherShared`, which references Phase 9 and Phase 10.1). AGWallet and AetherAG both build clean against the real AetherShared package as of this date. This file is kept for historical reference only and should not be executed.
-
----
-
 # AetherShared Migration Milestones
+
+> **ARCHIVED (2026-07-30):** This early-draft plan (Phase 0-3) was superseded by a different, more advanced phase sequence that was actually executed and merged into `AetherShared` (see `git log -- AetherShared`, which references Phase 9 and Phase 10.1). AGWallet and AetherAG both build clean against the real AetherShared package as of this date. This file is kept for historical reference only and should not be executed.
 
 Incremental extraction plan for introducing `AetherShared` as a foundation
 package beneath `AGWallet` and `AetherAG`. Follow phases in order. Do not
@@ -409,7 +407,6 @@ git push origin main
 ```
 
 ---
-
 
 > **Note (Phase 4 actual execution):** `HTTPMethod.swift` on disk actually contained merged content — `HTTPMethod`, `APIClient`, `APIClientError`, and `EmptyRequestBody` — so the moved/renamed file is `AetherSharedCore/Network/APIClient.swift`, not `HTTPMethod.swift`. Two real consumers were updated (`AetherAGMailShared/Network/VerificationAPI.swift`, `AetherAGMailClientCore/Networking/VerificationAPI.swift`) with `import AetherSharedCore`. Full build + 51 tests / 34 suites passed. Committed as AetherAG@e0b08c3, AetherAG-mono@6631280/b9f2f2f.
 
@@ -901,7 +898,6 @@ Tagged as milestone-12-async-mutex-shutdown (ca6d25c).
 
 ---
 
-
 **Note (2026-07-22):** Reconciled checklist against actual repo state via automated discovery (file count = 8, AGWallet AetherShared refs = 2). Backfilled 6 checkbox(es) confirmed complete by discovery. Phase 9 (test support) and Phase 10 (hardening) remain genuinely open pending real work.
 
 ---
@@ -916,11 +912,13 @@ Tagged as milestone-12-async-mutex-shutdown (ca6d25c).
 
 **Note (2026-07-19):** `VerificationRequestRecord` lost its `Content` conformance during the move because `AetherSharedIdentity` has no Vapor dependency (by design, per `AetherShared-DEPENDENCY-RULES.md`). Compile broke at `VerificationController.swift` (`get(_:use:)` requires `AsyncResponseEncodable`). Fixed with a thin extension file in the server module, same split pattern as Phase 5's Issuance/VC DTOs:
 
-    // AetherAG/Sources/AetherAGMailServer/Repositories/VerificationRequestRecord+Content.swift
-    import Vapor
-    import AetherSharedIdentity
+```swift
+// AetherAG/Sources/AetherAGMailServer/Repositories/VerificationRequestRecord+Content.swift
+import Vapor
+import AetherSharedIdentity
 
-    extension VerificationRequestRecord: @retroactive Content {}
+extension VerificationRequestRecord: @retroactive Content {}
+```
 
 The `@retroactive` annotation was required to silence Swift's cross-module-conformance warning (conforming an imported type to imported protocols outside either module).
 
@@ -928,8 +926,10 @@ The `@retroactive` annotation was required to silence Swift's cross-module-confo
 
 Ran from `AetherAG/`:
 
-    swift build   # Build complete! (12.46s), zero warnings after @retroactive fix
-    swift test    # Test run with 51 tests in 34 suites passed after 0.380 seconds
+```bash
+swift build   # Build complete! (12.46s), zero warnings after @retroactive fix
+swift test    # Test run with 51 tests in 34 suites passed after 0.380 seconds
+```
 
 All 51 tests across 34 suites passed with no regressions. Phase 6 closes out the model-record extraction; remaining open items are Phase 5.10/5.11 (DID service-layer files, deferred as service-not-model) and formal protocol contracts in `AetherSharedProtocols` (`DIDDocumentMaking`, `CredentialIssuing`, `VerificationRequestHandling`, `JWTSigning`, `SecureStoring`) which were scaffolded but not yet wired to concrete implementations.
 

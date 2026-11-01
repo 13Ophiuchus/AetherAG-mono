@@ -6,7 +6,7 @@ Status: Active
 
 ---
 
-# Vision
+## Vision
 
 CastFlow aims to become the premier open-source wireless display platform for Apple platforms.
 
@@ -21,9 +21,9 @@ The AirPlay-compatible receiver remains fully functional without blockchain conn
 
 ---
 
-# Strategic Goals
+## Strategic Goals
 
-## Core Platform
+### Core Platform
 
 Deliver a production-quality AirPlay-compatible receiver featuring:
 
@@ -36,7 +36,7 @@ Deliver a production-quality AirPlay-compatible receiver featuring:
 
 ---
 
-## Plugin Ecosystem
+### Plugin Ecosystem
 
 Build a first-class extension framework that enables:
 
@@ -49,7 +49,7 @@ Build a first-class extension framework that enables:
 
 ---
 
-## Developer Experience
+### Developer Experience
 
 Provide:
 
@@ -62,7 +62,7 @@ Provide:
 
 ---
 
-## Enterprise
+### Enterprise
 
 Support:
 
@@ -75,7 +75,7 @@ Support:
 
 ---
 
-## Optional Flow Services
+### Optional Flow Services
 
 Flow is never required for casting.
 
@@ -90,11 +90,11 @@ Optional services include:
 
 ---
 
-# Release Roadmap
+## Release Roadmap
 
 ---
 
-## Phase 0
+### Phase 0
 
 Repository Foundation
 
@@ -112,7 +112,7 @@ Deliverables
 
 ---
 
-## Phase 1
+### Phase 1
 
 Core Framework
 
@@ -127,7 +127,7 @@ Deliverables
 
 ---
 
-## Phase 2
+### Phase 2
 
 Networking
 
@@ -141,7 +141,7 @@ Deliverables
 
 ---
 
-## Phase 3
+### Phase 3
 
 Media Pipeline
 
@@ -155,7 +155,7 @@ Deliverables
 
 ---
 
-## Phase 4
+### Phase 4
 
 Application
 
@@ -168,7 +168,7 @@ Deliverables
 
 ---
 
-## Phase 5
+### Phase 5
 
 Plugin SDK
 
@@ -182,7 +182,7 @@ Deliverables
 
 ---
 
-## Phase 6
+### Phase 6
 
 Additional Protocols
 
@@ -196,7 +196,7 @@ Potential adapters
 
 ---
 
-## Phase 7
+### Phase 7
 
 Flow Services
 
@@ -212,7 +212,7 @@ Deliverables
 
 ---
 
-## Phase 8
+### Phase 8
 
 Enterprise
 
@@ -226,7 +226,7 @@ Deliverables
 
 ---
 
-## Phase 9
+### Phase 9
 
 Developer Ecosystem
 
@@ -239,7 +239,7 @@ Deliverables
 
 ---
 
-## Phase 10
+### Phase 10
 
 Version 1.0
 
@@ -254,7 +254,7 @@ Requirements
 
 ---
 
-# Success Metrics
+## Success Metrics
 
 Technical
 
@@ -279,7 +279,7 @@ Quality
 
 ---
 
-# Long-Term Vision
+## Long-Term Vision
 
 Future work may include:
 

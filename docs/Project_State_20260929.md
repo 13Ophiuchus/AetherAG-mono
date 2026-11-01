@@ -48,7 +48,7 @@ implementing real Flow account creation.
 
 ## Submodule sync state
 
-```
+```text
  8a7ba223148128dc82fe0736152d6321cc3cc14c AetherAG (swift-6.4-migration-verified-9-g8a7ba22)
  f6ebc4313f2e93d84e53dbd478088761b3b6e1bb flow-swift-macos (v0.1.0-linux-patch-4-gf6ebc43)
  d30b8631fb40aaa08cfb065b64abf36057852c78 solana-swift-concurrency (solana-tests-passing-3-gd30b8631)
@@ -69,7 +69,7 @@ There are **two unrelated** `FlowGatewayProtocol` types in this mono-repo:
 1. **Live testnet validation** — `createFlowAccount` compiles and passes
    unit tests, but has never executed against real Flow testnet
    infrastructure. Run the gated integration test:
-   ```
+   ```bash
    FLOW_TESTNET_INTEGRATION=1 FLOW_TESTNET_ISSUER_KEY=<funded-testnet-key> swift test --filter FlowAccountCreation
    ```
 2. **Gas limit review** — the new `CreateFlowUserAccountTarget` path relies
@@ -85,4 +85,3 @@ There are **two unrelated** `FlowGatewayProtocol` types in this mono-repo:
    `diagnose_toolchain.sh`, `swiftly.sh` were removed from the repo and
    archived to `~/dev-scripts-archive/`. Confirm none of them are still
    needed as permanent CI/dev tooling before considering that closed.
-

@@ -29,12 +29,12 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P0
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Implement associated-token-account discovery/derivation.
 - Implement SPL balance retrieval when `CryptoAsset.contractAddress` is present.
 - Preserve native SOL balance behavior.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Native SOL behavior remains covered and unchanged.
 - SPL token account lookup handles absent token accounts safely.
 - Token decimal normalization is correct.
@@ -55,13 +55,13 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P0
 **Dependencies:** AGW-001
 
-**Scope**
+##### Scope
 - Derive/create associated token accounts as required.
 - Build Token Program transfer instructions.
 - Add a narrow chain-specific signing API in `KeyManagerActor`.
 - Submit and map transfer results through `SolanaModule`.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Supports token recipient ATA creation where appropriate.
 - Rejects invalid mint, recipient, amount, and insufficient-balance conditions.
 - Never logs private key material, serialized signing secrets, or mnemonics.
@@ -82,11 +82,11 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Populate `gasPrice`, `gasLimit`, `nonce`, and block metadata for EVM transaction records.
 - Keep unit conversions and optional RPC fields safe.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - RPC-derived fields are mapped into `EVMTransaction`.
 - RPC failure produces a typed wallet error or safe absent metadata, never misleading values.
 - Tests cover native and ERC-20 transaction paths.
@@ -106,11 +106,11 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P1
 **Dependencies:** AGW-003
 
-**Scope**
+##### Scope
 - Introduce an indexer abstraction for reliable EVM history.
 - Support pagination, deterministic ordering, and network-aware endpoint configuration.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - History is not dependent on unsupported generic RPC enumeration.
 - Results map accurately to `UnifiedTransaction`.
 - Indexer credentials/configuration are environment-scoped and never committed.
@@ -130,10 +130,10 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Add Swift Testing coverage for persistence, validation, security gating, and configuration updates.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Tests cover valid load/save, invalid configuration, and security/authorization unavailable paths.
 - Mutable shared state is actor-isolated or otherwise Swift 6 safe.
 - `swift test` passes in `AGWallet`.
@@ -154,10 +154,10 @@ Regenerate: python3 scripts/sync_milestones.py
 **Priority:** P2
 **Dependencies:** AGW-001, AGW-002
 
-**Scope**
+##### Scope
 - Audit public access levels, names, documentation, error consistency, and high-level convenience methods.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Public APIs have concise documentation comments.
 - Unsupported chains/features are represented consistently.
 - Examples do not contain secrets or unsafe key-handling patterns.

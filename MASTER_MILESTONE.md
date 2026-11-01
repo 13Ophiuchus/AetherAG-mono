@@ -32,12 +32,12 @@
 **Priority:** P0
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Implement associated-token-account discovery/derivation.
 - Implement SPL balance retrieval when `CryptoAsset.contractAddress` is present.
 - Preserve native SOL balance behavior.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Native SOL behavior remains covered and unchanged.
 - SPL token account lookup handles absent token accounts safely.
 - Token decimal normalization is correct.
@@ -53,13 +53,13 @@
 **Priority:** P0
 **Dependencies:** AGW-001
 
-**Scope**
+##### Scope
 - Derive/create associated token accounts as required.
 - Build Token Program transfer instructions.
 - Add a narrow chain-specific signing API in `KeyManagerActor`.
 - Submit and map transfer results through `SolanaModule`.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Supports token recipient ATA creation where appropriate.
 - Rejects invalid mint, recipient, amount, and insufficient-balance conditions.
 - Never logs private key material, serialized signing secrets, or mnemonics.
@@ -75,11 +75,11 @@
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Populate `gasPrice`, `gasLimit`, `nonce`, and block metadata for EVM transaction records.
 - Keep unit conversions and optional RPC fields safe.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - RPC-derived fields are mapped into `EVMTransaction`.
 - RPC failure produces a typed wallet error or safe absent metadata, never misleading values.
 - Tests cover native and ERC-20 transaction paths.
@@ -94,11 +94,11 @@
 **Priority:** P1
 **Dependencies:** AGW-003
 
-**Scope**
+##### Scope
 - Introduce an indexer abstraction for reliable EVM history.
 - Support pagination, deterministic ordering, and network-aware endpoint configuration.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - History is not dependent on unsupported generic RPC enumeration.
 - Results map accurately to `UnifiedTransaction`.
 - Indexer credentials/configuration are environment-scoped and never committed.
@@ -113,10 +113,10 @@
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Add Swift Testing coverage for persistence, validation, security gating, and configuration updates.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Tests cover valid load/save, invalid configuration, and security/authorization unavailable paths.
 - Mutable shared state is actor-isolated or otherwise Swift 6 safe.
 - `swift test` passes in `AGWallet`.
@@ -132,10 +132,10 @@
 **Priority:** P2
 **Dependencies:** AGW-001, AGW-002
 
-**Scope**
+##### Scope
 - Audit public access levels, names, documentation, error consistency, and high-level convenience methods.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Public APIs have concise documentation comments.
 - Unsupported chains/features are represented consistently.
 - Examples do not contain secrets or unsafe key-handling patterns.
@@ -154,11 +154,11 @@
 **Priority:** P0
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Parse the specific credential identifier from `vp_token.verifiableCredential`.
 - Validate revocation status for that credential rather than broadly checking all credentials for the holder DID.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - A valid holder with another revoked credential may still present a non-revoked credential.
 - A revoked credential is rejected.
 - Invalid/missing credential identifiers produce a clear verification failure.
@@ -174,10 +174,10 @@
 **Priority:** P0
 **Dependencies:** AAG-001
 
-**Scope**
+##### Scope
 - Add an end-to-end test that revokes a credential, submits a VP containing it, and verifies rejection.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Test covers issuance/fixture setup, revocation, VP submission, and rejection response.
 - The test proves the specific presented credential is evaluated.
 - `swift test` passes in `AetherAG`.
@@ -193,11 +193,11 @@
 **Priority:** P0
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Add configurable rate limiting to `/oid4vci/token` and `/oid4vci/credential`.
 - Define safe client identity and proxy handling rules.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Limits are environment-configured.
 - Limit-exceeded responses are standards-appropriate and do not leak internals.
 - Trusted proxy behavior is explicit and documented.
@@ -212,10 +212,10 @@
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Standardize structured logging and correlation metadata across issuance and verification paths.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Logs include request/correlation context where safe.
 - Logs exclude JWTs, credential bodies, private material, authorization values, and PII unless explicitly approved/redacted.
 - Tests or log-capture checks demonstrate redaction behavior.
@@ -229,10 +229,10 @@
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Add `SECURITY.md` with reporting channel, response expectations, supported versions, and disclosure guidance.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Policy contains no personal secrets or non-public contact details.
 - Repository links to the policy where appropriate.
 
@@ -245,10 +245,10 @@
 **Priority:** P1
 **Dependencies:** AAG-003, AAG-004
 
-**Scope**
+##### Scope
 - Run a repeatable non-production load test against issuance endpoints.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Test configuration is safe for development/staging only.
 - Report records throughput, error rate, and latency percentiles.
 - Target p99 is below 500 ms under the agreed baseline workload.
@@ -263,10 +263,10 @@
 **Priority:** P1
 **Dependencies:** AAG-003
 
-**Scope**
+##### Scope
 - Execute and document an OID4VCI conformance suite against a controlled environment.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Tool/version and test environment are recorded.
 - Failures are triaged into fixed, accepted limitation, or follow-up task.
 - Sensitive test outputs are not committed.
@@ -282,11 +282,11 @@
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Confirm dependency wiring for applicable client targets.
 - Define environment and chain configuration boundaries.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - App targets compile with AGWallet linked once, without duplicated wallet domain models.
 - Debug/staging/release configuration does not expose production secrets.
 - Build settings and package resolution are documented.
@@ -300,10 +300,10 @@
 **Priority:** P1
 **Dependencies:** APP-001
 
-**Scope**
+##### Scope
 - Native create/restore wallet flows using secure key management.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Sensitive recovery material is never logged, persisted in plaintext, or displayed beyond user-confirmed secure flows.
 - Failure states are accessible and user-safe.
 - Unit/UI tests cover core lifecycle states.
@@ -317,10 +317,10 @@
 **Priority:** P1
 **Dependencies:** APP-001, AGW-003, AGW-004
 
-**Scope**
+##### Scope
 - HIG-aligned balances, asset details, loading/error/empty states, and transaction activity.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Dynamic Type, VoiceOver, contrast, and standard navigation are supported.
 - Network and balance errors are understandable without exposing internals.
 - View-model tests cover loading, loaded, empty, and error states.
@@ -334,10 +334,10 @@
 **Priority:** P1
 **Dependencies:** APP-003, AGW-002
 
-**Scope**
+##### Scope
 - Recipient validation, amount entry, fee review, confirmation, submission, and recovery states.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - User reviews chain, recipient, asset, amount, and fee before signing.
 - Address validation is chain-specific.
 - Signing remains off the main actor and keys never leave secure management boundaries.
@@ -354,11 +354,11 @@
 **Priority:** P2
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Complete remaining `move-now-split`, `move-now-plain`, and approved `move-later` inventory items.
 - Preserve dependency rules: Shared must not depend on Vapor, Flow, BigInt, AGWallet, or AetherAG.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Each completed inventory item is updated in the migration inventory.
 - Vapor `Content` conformance remains in AetherAG extension layers where needed.
 - Shared target dependency rules are enforced by build/tests.
@@ -375,10 +375,10 @@
 **Priority:** P1
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Replace cross-suite singleton actor reliance with isolated per-suite/per-test access actors.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - Tests pass repeatedly under normal parallel execution.
 - `run-tests.sh` no longer requires `swift test --no-parallel` as a correctness workaround.
 - Concurrency isolation is explicit and Swift 6 compliant.
@@ -394,10 +394,10 @@
 **Priority:** P0
 **Dependencies:** None
 
-**Scope**
+##### Scope
 - Maintain this master roadmap, generated module views, local discovery reports, and CI validation.
 
-**Acceptance criteria**
+##### Acceptance criteria
 - `python3 scripts/sync_milestones.py --check` passes.
 - GitHub Actions validates generated milestone views.
 - Discovery reports can be generated locally and uploaded by CI.
