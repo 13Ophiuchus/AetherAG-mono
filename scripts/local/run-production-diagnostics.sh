@@ -15,8 +15,17 @@ run() {
 
   echo
   echo "==> $label"
-  "$@" 2>&1 | tee "$OUT/$label.log"
-  local status="${PIPESTATUS[0]}"
+  local status=0
+  local -a pipeline_status
+  if "$@" 2>&1 | tee "$OUT/$label.log"; then
+    status=0
+  else
+    pipeline_status=("${PIPESTATUS[@]}")
+    status="${pipeline_status[0]}"
+    if [ "$status" -eq 0 ]; then
+      status="${pipeline_status[1]}"
+    fi
+  fi
 
   if [ "$status" -ne 0 ]; then
     printf 'FAILED: %s (exit %s)\n' "$label" "$status" | tee -a "$OUT/summary.log"

@@ -29,6 +29,8 @@ jobs:
           flow_private_key="$(openssl rand -hex 32)"
           jwt_secret="$(openssl rand -hex 32)"
 
+          # Invoked indirectly by the EXIT trap.
+          # shellcheck disable=SC2329
           cleanup() {
             docker rm -f "$server" "$redis" "$postgres" 2>/dev/null || true
             docker network rm "$network" 2>/dev/null || true
@@ -43,6 +45,39 @@ jobs:
           docker run -d --name "$postgres" --network "$network"             -e POSTGRES_DB=aetherag             -e POSTGRES_USER=postgres             -e POSTGRES_PASSWORD="$postgres_password"             postgres:16-alpine
 
           docker run -d --name "$redis" --network "$network"             redis:7-alpine
+
+          # Wait for dependency TCP readiness before starting the server.
+          wait_for_dependency() {
+            local container="$1"
+            shift
+            local ready=0
+            for attempt in $(seq 1 60); do
+              if [ "$(docker inspect -f '{{.State.Running}}' "$container" 2>/dev/null || true)" != "true" ]; then
+                printf 'Dependency exited: %s\n' "$container" >&2
+                docker logs --tail 80 "$container"
+                return 1
+              fi
+              if [ "$container" = "$redis" ]; then
+                if [ "$(docker exec "$container" "$@" 2>/dev/null)" = "PONG" ]; then
+                  ready=1
+                  break
+                fi
+              elif docker exec "$container" "$@" >/dev/null 2>&1; then
+                ready=1
+                break
+              fi
+              printf "Waiting for %s (%s/60)\n" "$container" "$attempt"
+              sleep 1
+            done
+            if [ "$ready" -ne 1 ]; then
+              printf 'Dependency readiness timed out: %s\n' "$container" >&2
+              docker logs --tail 80 "$container"
+              return 1
+            fi
+          }
+
+          wait_for_dependency "$postgres" pg_isready -h 127.0.0.1 -p 5432 -U postgres -d aetherag
+          wait_for_dependency "$redis" redis-cli -h 127.0.0.1 ping
 
           docker run -d --name "$server" --network "$network" -p 8080:8080             -e ISSUER_BASE_URL=http://localhost:8080             -e FLOW_ISSUER_ADDRESS=0x0000000000000001             -e FLOW_ISSUER_PRIVATE_KEY="$flow_private_key"             -e FLOW_ISSUER_KEY_INDEX=0             -e FLOW_CHAIN_ID=testnet             -e JWT_HS256_SECRET="$jwt_secret"             -e ISSUER_ED25519_PRIVATE_KEY_BASE64URL="$ISSUER_ED25519_PRIVATE_KEY_BASE64URL"             -e ISSUER_ES256_PUBLIC_KEY_PEM_B64="$ISSUER_ES256_PUBLIC_KEY_PEM_B64"             -e DATABASE_URL="$database_url"             -e REDIS_URL="redis://${redis}:6379"             aetheragmailserver:ci
 

@@ -29,8 +29,12 @@ jobs:
           set -euo pipefail
           python3 -m py_compile \
             scripts/check_module_migration.py \
-            scripts/tests/test_check_module_migration.py
-          python3 -m unittest -v scripts.tests.test_check_module_migration
+            scripts/production_baseline_audit.py \
+            scripts/tests/test_check_module_migration.py \
+            scripts/tests/test_production_baseline_audit.py
+          python3 -m unittest -v \
+            scripts.tests.test_check_module_migration \
+            scripts.tests.test_production_baseline_audit
 
       - name: Run production diagnostics
         run: |
@@ -72,7 +76,10 @@ jobs:
           xcode_path="/Applications/Xcode_26.3.app"
           if [ ! -d "$xcode_path" ]; then
             echo "Required Xcode installation is unavailable: $xcode_path" >&2
-            ls -1 /Applications | grep '^Xcode' || true
+            for installed_xcode in /Applications/Xcode*; do
+              [ -e "$installed_xcode" ] || continue
+              printf '%s\n' "${installed_xcode##*/}"
+            done
             exit 1
           fi
           sudo xcode-select -s "$xcode_path"
@@ -85,7 +92,7 @@ jobs:
                 -e 's/.*swiftlang-([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' |
               head -n 1
           )"
-          IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
+          IFS='.' read -r major minor _patch <<< "${swift_version:-0.0.0}"
           if ! [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ ]]; then
             echo "Unable to parse Swift version from: ${swift_version:-unknown}" >&2
             exit 1
@@ -150,24 +157,27 @@ jobs:
         if: always()
         working-directory: AGWallet
         run: |
-          echo "## 🔐 AGWallet Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -f .test-results/agwallet-raw.log ]; then
-            PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
-            FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
-            TOTAL=$((PASSED + FAILED))
-            echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-            echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
-            echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
-            if [ "$FAILED" -gt 0 ]; then
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              grep "Test Case.*failed" .test-results/agwallet-raw.log >> $GITHUB_STEP_SUMMARY || true
-              echo '```' >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## 🔐 AGWallet Test Results"
+            echo ""
+            if [ -f .test-results/agwallet-raw.log ]; then
+              PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
+              FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
+              TOTAL=$((PASSED + FAILED))
+              echo "| Result | Count |"
+              echo "|--------|-------|"
+              echo "| ✅ Passed | ${PASSED} / ${TOTAL} |"
+              echo "| ❌ Failed | ${FAILED} / ${TOTAL} |"
+              if [ "$FAILED" -gt 0 ]; then
+                echo ""
+                echo "### Failed Tests"
+                echo '```'
+                grep "Test Case.*failed" .test-results/agwallet-raw.log || true
+                echo '```'
+              fi
             fi
-          fi
+
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail job if tests failed
         if: steps.agwallet_test.outcome == 'failure'
@@ -319,26 +329,29 @@ jobs:
         if: always()
         working-directory: AetherAG
         run: |
-          echo "## 🌐 AetherAG Linux (Vapor) Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -f .test-results/aether-linux-raw.log ]; then
-            PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
-            FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
-            TOTAL=$((PASSED + FAILED))
-            echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-            echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
-            echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**Suites run:** AetherAGMailSharedTests · AetherAGMailServerTests · FlowTests" >> $GITHUB_STEP_SUMMARY
-            if [ "$FAILED" -gt 0 ]; then
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              grep "Test Case.*failed" .test-results/aether-linux-raw.log >> $GITHUB_STEP_SUMMARY || true
-              echo '```' >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## 🌐 AetherAG Linux (Vapor) Test Results"
+            echo ""
+            if [ -f .test-results/aether-linux-raw.log ]; then
+              PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
+              FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
+              TOTAL=$((PASSED + FAILED))
+              echo "| Result | Count |"
+              echo "|--------|-------|"
+              echo "| ✅ Passed | ${PASSED} / ${TOTAL} |"
+              echo "| ❌ Failed | ${FAILED} / ${TOTAL} |"
+              echo ""
+              echo "**Suites run:** AetherAGMailSharedTests · AetherAGMailServerTests · FlowTests"
+              if [ "$FAILED" -gt 0 ]; then
+                echo ""
+                echo "### Failed Tests"
+                echo '```'
+                grep "Test Case.*failed" .test-results/aether-linux-raw.log || true
+                echo '```'
+              fi
             fi
-          fi
+
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail job if tests failed
         if: steps.aether_linux_test.outcome == 'failure'
@@ -371,7 +384,10 @@ jobs:
           xcode_path="/Applications/Xcode_26.3.app"
           if [ ! -d "$xcode_path" ]; then
             echo "Required Xcode installation is unavailable: $xcode_path" >&2
-            ls -1 /Applications | grep '^Xcode' || true
+            for installed_xcode in /Applications/Xcode*; do
+              [ -e "$installed_xcode" ] || continue
+              printf '%s\n' "${installed_xcode##*/}"
+            done
             exit 1
           fi
           sudo xcode-select -s "$xcode_path"
@@ -384,7 +400,7 @@ jobs:
                 -e 's/.*swiftlang-([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/p' |
               head -n 1
           )"
-          IFS='.' read -r major minor patch <<< "${swift_version:-0.0.0}"
+          IFS='.' read -r major minor _patch <<< "${swift_version:-0.0.0}"
           if ! [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ ]]; then
             echo "Unable to parse Swift version from: ${swift_version:-unknown}" >&2
             exit 1
@@ -449,24 +465,27 @@ jobs:
         if: always()
         working-directory: AetherAG
         run: |
-          echo "## 🍎 AetherAG macOS Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -f .test-results/aether-macos-raw.log ]; then
-            PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
-            FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
-            TOTAL=$((PASSED + FAILED))
-            echo "| Result | Count |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-            echo "| ✅ Passed | ${PASSED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
-            echo "| ❌ Failed | ${FAILED} / ${TOTAL} |" >> $GITHUB_STEP_SUMMARY
-            if [ "$FAILED" -gt 0 ]; then
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              grep "Test Case.*failed" .test-results/aether-macos-raw.log >> $GITHUB_STEP_SUMMARY || true
-              echo '```' >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## 🍎 AetherAG macOS Test Results"
+            echo ""
+            if [ -f .test-results/aether-macos-raw.log ]; then
+              PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
+              FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
+              TOTAL=$((PASSED + FAILED))
+              echo "| Result | Count |"
+              echo "|--------|-------|"
+              echo "| ✅ Passed | ${PASSED} / ${TOTAL} |"
+              echo "| ❌ Failed | ${FAILED} / ${TOTAL} |"
+              if [ "$FAILED" -gt 0 ]; then
+                echo ""
+                echo "### Failed Tests"
+                echo '```'
+                grep "Test Case.*failed" .test-results/aether-macos-raw.log || true
+                echo '```'
+              fi
             fi
-          fi
+
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail job if tests failed
         if: steps.aether_macos_test.outcome == 'failure'
