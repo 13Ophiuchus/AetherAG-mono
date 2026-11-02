@@ -19,8 +19,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: read
+  contents: read
 
 concurrency:
   group: milestone-governance-${{ github.ref }}
@@ -35,6 +34,7 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Validate generated milestone files
@@ -48,17 +48,24 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           token: ${{ secrets.SUBMODULES_READ_TOKEN }}
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Generate module milestone views
         run: python3 scripts/sync_milestones.py
 
       - name: Commit generated changes when needed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_HOST: github.com
+          GIT_TERMINAL_PROMPT: '0'
         run: |
           if git diff --quiet; then
             echo "No generated milestone changes."
@@ -69,4 +76,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add MILESTONES.md AGWallet/MILESTONES.md AetherShared/MILESTONES.md
           git commit -m "docs(milestones): synchronize derived module roadmaps"
-          git push
+          git -c credential.helper= \
+            -c 'credential.helper=!gh auth git-credential' \
+            push origin HEAD:refs/heads/main
