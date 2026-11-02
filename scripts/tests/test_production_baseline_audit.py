@@ -33,7 +33,7 @@ class ProductionBaselineAuditTests(unittest.TestCase):
             ("modified-template", workflow, modified, 1, "synthetic-test-only"),
             ("wrong-path", "example.sh", template, 1, "database_url="),
             ("private-key-marker", workflow,
-             "-----BEGIN PRIVATE KEY-----\n", 1, "BEGIN PRIVATE KEY"),
+             "-----BEGIN " "PRIVATE KEY-----\n", 1, "BEGIN " "PRIVATE KEY"),
         ]
 
         for name, filename, fixture, expected, forbidden in cases:
@@ -45,6 +45,10 @@ class ProductionBaselineAuditTests(unittest.TestCase):
                     script = root / "scripts/production_baseline_audit.py"
                     script.parent.mkdir(parents=True)
                     script.write_text(scanner)
+                    test_source = Path(__file__).read_text()
+                    test_copy = root / "scripts/tests/test_production_baseline_audit.py"
+                    test_copy.parent.mkdir(parents=True, exist_ok=True)
+                    test_copy.write_text(test_source)
                     target = root / filename
                     target.parent.mkdir(parents=True, exist_ok=True)
                     target.write_text(fixture)
