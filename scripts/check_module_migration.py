@@ -55,10 +55,36 @@ def get_imports(text):
 def is_definition_site(text, symbol):
     patterns = [
         r"\b(public\s+|package\s+)?(enum|struct|class|protocol|actor)\s+" + re.escape(symbol) + r"\b",
-        r"\bfunc\s+" + re.escape(symbol) + r"\b",
-        r"\bvar\s+" + re.escape(symbol) + r"\b",
+        r"\b(?:public\s+|package\s+|internal\s+|private\s+|fileprivate\s+)?func\s+"
+        + re.escape(symbol)
+        + r"\b",
+        r"\b(?:public\s+|package\s+|internal\s+|private\s+|fileprivate\s+)?var\s+"
+        + re.escape(symbol)
+        + r"\b",
     ]
-    return any(re.search(p, text) for p in patterns)
+    return any(re.search(pattern, text) for pattern in patterns)
+
+
+def strip_swift_comments(text):
+    text = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
+    return re.sub(r"//.*$", "", text, flags=re.MULTILINE)
+
+
+def contains_symbol_reference(text, symbol):
+    source = strip_swift_comments(text)
+    return re.search(r"\b" + re.escape(symbol) + r"\b", source) is not None
+
+
+
+def is_local_conformance_site(text, symbol):
+    pattern = (
+        r"\b(?:public\s+|package\s+|internal\s+|private\s+|fileprivate\s+)?"
+        r"(?:extension|struct|class|actor|enum)\s+[A-Za-z_][A-Za-z0-9_<>.]*"
+        r"\s*:\s*[^\n{]*\b"
+        + re.escape(symbol)
+        + r"\b"
+    )
+    return re.search(pattern, text) is not None
 
 
 def check_visibility(new_module_files, symbol):
@@ -87,10 +113,12 @@ def main():
 
         for path in all_files:
             text = path.read_text(errors="ignore")
-            if symbol not in text:
+            if not contains_symbol_reference(text, symbol):
                 continue
             if is_definition_site(text, symbol):
                 definer_files.append(path)
+                continue
+            if is_local_conformance_site(text, symbol):
                 continue
             consumer_files.append((path, text))
 

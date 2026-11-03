@@ -30,7 +30,7 @@ attempt this session and should be documented or standardized.
 
 ### Confirmed milestone history (M17 → M22, most recent first)
 
-**Milestone 22 — WalletCore Flow Integration (2026-08-17)**
+#### Milestone 22 — WalletCore Flow Integration (2026-08-17)
 - `WalletCore.enableFlow` default flipped `false` → `true`, matching Bitcoin/EVM/Solana,
   since `FlowModule` had no remaining stubs at this point.
 - `WalletCore.executeFlowScript(_:arguments:on:)` — new facade bridging to
@@ -42,7 +42,7 @@ attempt this session and should be documented or standardized.
 - **Full suite: 84/84 tests passing** across Bitcoin/EVM/Solana/Flow/WalletCore, Swift 6.3 /
   arm64-apple-macosx26.0.
 
-**Milestone 21 — Flow Script Execution + ChainID Consolidation (2026-08-17)**
+#### Milestone 21 — Flow Script Execution + ChainID Consolidation (2026-08-17)
 - `FlowModule.executeScript` — replaced `unsupportedOperation` stub with real Cadence
   script execution via `FlowAccessProtocol.executeScriptAtLatestBlock`.
 - Signature widened to `executeScript(_:arguments:on:)` — required because
@@ -60,7 +60,7 @@ attempt this session and should be documented or standardized.
   pre-Milestone-19 expecting `unsupportedOperation`; corrected to expect `keychainError`.
 - **Full suite: 81/81 tests passing.**
 
-**Milestone 20 — Flow Transaction History via Events (2026-08-16)**
+#### Milestone 20 — Flow Transaction History via Events (2026-08-16)
 - `FlowModule.getTransactionHistory` — replaced empty-array stub with a real
   implementation querying `FungibleToken.TokensDeposited`/`TokensWithdrawn` events over a
   5000-block lookback via `FlowAccessProtocol.getEventsForHeightRange`.
@@ -76,7 +76,7 @@ attempt this session and should be documented or standardized.
   and re-wired in a follow-up commit. Worth remembering as a recurring failure mode —
   patch/substitution steps silently not applying — when doing future automated edits.
 
-**Milestone 19 — Flow Token Transfer Signing Bridge (2026-08-15)**
+#### Milestone 19 — Flow Token Transfer Signing Bridge (2026-08-15)
 - `FlowModule.send` rewritten using real `CadenceTargetType` + `FlowSigner` API instead of
   a placeholder/stub.
 - `TransferFlowTokenTarget` — `CadenceTargetType` conformance for plain FlowToken transfers.
@@ -87,7 +87,7 @@ attempt this session and should be documented or standardized.
   by a non-idempotent append-only patch script).
 - Build clean (70/70 targets); `TransferFlowTokenTargetTests` 3/3 passing.
 
-**Milestone 18 — getReceiveAddress across all chains (2026-08-15)**
+#### Milestone 18 — getReceiveAddress across all chains (2026-08-15)
 - `FlowModule.getReceiveAddress`, `EVMModule.getReceiveAddress` (new, via
   `getEthereumAddress` helper), `WalletCore.getReceiveAddress` (rewritten inside actor; all
   four chain arms wired).
@@ -95,7 +95,7 @@ attempt this session and should be documented or standardized.
   `SolanaModuleReceiveAddressTests` 8/8 — discovered `BitcoinModule.getReceiveAddress` uses
   a fixed `"masterKey"` identifier (not chain-scoped like EVM).
 
-**Milestone 17 — Swift 6.3 / macOS 26 Toolchain Compatibility (2026-08-14)**
+#### Milestone 17 — Swift 6.3 / macOS 26 Toolchain Compatibility (2026-08-14)
 - Bumped `.macOS(.v14)` → `.macOS(.v15)` in `Package.swift` for the Swift 6.3 toolchain
   minimum; downstream `solana-swift-concurrency` fixes landed (P256K API, socket guards,
   `TaskRetryingError`); build clean.
@@ -134,7 +134,7 @@ not treat the OID4VP/revocation "not started" claims as current.
 
 ### Confirmed milestone history (partial — M65 through M69, plus commit-log fragments back to M16)
 
-**Milestone 69 — swift-crypto Cross-Package Conflict Resolved + flow-swift-macos Submodule Registration Fixed (2026-09-06, note corrected 2026-09-08)**
+#### Milestone 69 — swift-crypto Cross-Package Conflict Resolved + flow-swift-macos Submodule Registration Fixed (2026-09-06, note corrected 2026-09-08)
 - Root cause: `flow-swift-macos` capped swift-crypto at `from: "3.0.0"` (implicit
   `3.0.0..<4.0.0`), conflicting with jwt-kit 5.6.0's swift-crypto >= 4.5.1 requirement in
   AetherAGMailServer — silently forcing the whole graph down to swift-crypto 3.15.1 /
@@ -163,7 +163,7 @@ not treat the OID4VP/revocation "not started" claims as current.
   pushed after a GitHub email-verification block was resolved), `3a3634c`/`77dc7ad`
   (AetherAG-mono submodule bumps), `fa28928` (AetherAG milestone note correction).
 
-**Milestone 68 — Native Container Build Path Fixed + Verified (2026-09-02)**
+#### Milestone 68 — Native Container Build Path Fixed + Verified (2026-09-02)
 - Resolved the gap left by Milestone 66's `Containerfile.prebuilt` workaround: the
   canonical multi-stage `Containerfile` now builds and runs under both Docker and Apple's
   native `container` CLI (v1.2.2), no native macOS `swift build` step required.
@@ -180,7 +180,7 @@ not treat the OID4VP/revocation "not started" claims as current.
 - Open items: `Containerfile.prebuilt` retained but unreferenced (candidate for removal);
   `aether-server:demo` tag resists removal (cosmetic, shares digest with `dev`).
 
-**Milestone 67 — Full Mono Docker Build Green (2026-09-02)**
+#### Milestone 67 — Full Mono Docker Build Green (2026-09-02)
 - Resolved the full chain of Linux cross-platform build failures blocking
   `docker build -f Containerfile -t aetherag-mono:dev .`:
   - **flow-swift-macos**: fixed corrupted nested `#if canImport(CryptoKit)` blocks in
@@ -323,8 +323,8 @@ confirmed via 3 consecutive clean 217/217 runs before commit/push (`c09a2cb`).
   AetherAG M65, M67, M68, M69 (corrected) full text; AetherAG commit log M46–M69 subjects;
   flow-swift-macos test-isolation fix end-to-end.
   - **This directly reverses two claims in the prior version of this document**: Flow
-    module is *not* "deliberately experimental / all-stubs" (it's fully implemented as of
-    M22), and OID4VP/revocation are *not* "not started" (implemented per M55–M59).
+    module is _not_ "deliberately experimental / all-stubs" (it's fully implemented as of
+    M22), and OID4VP/revocation are _not_ "not started" (implemented per M55–M59).
 - **Unconfirmed / gap**: AGWallet M1–16, M23+; AetherAG M1–45 full text (only commit
   subjects for M46–64), M50–54, M60–64, M66 full text; `solana-swift-concurrency` and
   `web3swift-concurrency` milestone content; current Bitcoin/Solana module completeness

@@ -34,8 +34,36 @@ for line in run("git", "submodule", "status", "--recursive").splitlines():
     if line[:1] in {"+", "-", "U"}:
         blockers.append(f"Submodule state requires attention: {line}")
 
-tracked_matches = run(
-    "git", "grep", "-nI", "-E",
+def search_tracked(*args: str) -> str:
+    completed = subprocess.run(
+        args, cwd=root, text=True,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+    )
+    if completed.returncode not in (0, 1):
+        blockers.append(
+            f"Tracked credential search failed (exit {completed.returncode})."
+        )
+        return ""
+    return completed.stdout
+
+
+def approved_workflow_template(line: str) -> bool:
+    parts = line.split(":", 3)
+    return (
+        len(parts) == 4
+        and parts[0] == "HEAD"
+        and parts[1] == ".github/workflows/mailserver-docker.yml"
+        and parts[2].isdigit()
+        and parts[3].strip()
+        == (
+            'database_url="postgresql://'
+            'postgres:${postgres_password}@${postgres}:5432/aetherag"'
+        )
+    )
+
+
+tracked_matches = search_tracked(
+    "git", "grep", "--no-color", "-nI", "-E",
     r"(BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|"
     r"AKIA[0-9A-Z]{16}|"
     r"postgres(ql)?://[^[:space:]]+:[^[:space:]@]+@|"
@@ -46,14 +74,26 @@ if tracked_matches.strip():
     approved_locations = {
         ".github/workflows/swift-ci.yml",
         "scripts/container-dev.sh",
+        "scripts/start-rate-limit-server.sh",
     }
     secret_report = root / ".artifacts" / "tracked-secret-patterns-redacted.txt"
     secret_report.parent.mkdir(parents=True, exist_ok=True)
-    secret_report.write_text(tracked_matches, encoding="utf-8")
+    locations = []
+    for match in tracked_matches.splitlines():
+        parts = match.split(":", 3)
+        if len(parts) != 4 or parts[0] != "HEAD" or not parts[2].isdigit():
+            blockers.append("Unexpected credential-search output format.")
+            continue
+        locations.append(f"{parts[1]}:{parts[2]}: credential-pattern match")
+    secret_report.write_text(
+        "\n".join(locations) + ("\n" if locations else ""),
+        encoding="utf-8",
+    )
 
     unexpected_matches = [
         line for line in tracked_matches.splitlines()
         if line.split(":", 2)[1] not in approved_locations
+        and not approved_workflow_template(line)
     ]
 
     if unexpected_matches:
@@ -66,6 +106,11 @@ if tracked_matches.strip():
             "Tracked local/CI database placeholders matched the secret heuristic; "
             "reviewed allowlist only."
         )
+
+if not tracked_matches.strip():
+    secret_report = root / ".artifacts" / "tracked-secret-patterns-redacted.txt"
+    secret_report.parent.mkdir(parents=True, exist_ok=True)
+    secret_report.write_text("", encoding="utf-8")
 
 print("Production baseline audit")
 print(f"Repository: {root}")

@@ -1,12 +1,12 @@
 # ARCHITECTURE.md
 
-# CastFlow Architecture
+## CastFlow Architecture
 
 Version 1.0
 
 ---
 
-# Overview
+## Overview
 
 CastFlow is designed as a **modular wireless display platform** rather than a single-purpose AirPlay receiver.
 
@@ -24,7 +24,7 @@ Core design principles:
 
 ---
 
-# High-Level Architecture
+## High-Level Architecture
 
 ```text
                         CastFlow
@@ -50,9 +50,9 @@ Core design principles:
 
 ---
 
-# Architectural Principles
+## Architectural Principles
 
-## Modular Design
+### Modular Design
 
 Every major feature is isolated into an independent module.
 
@@ -66,7 +66,7 @@ Advantages:
 
 ---
 
-## Protocol-Oriented Design
+### Protocol-Oriented Design
 
 Concrete implementations are never referenced directly.
 
@@ -83,7 +83,7 @@ Every service depends upon abstractions.
 
 ---
 
-## Dependency Injection
+### Dependency Injection
 
 All dependencies are injected.
 
@@ -113,7 +113,7 @@ Models
 
 ---
 
-# Layered Architecture
+## Layered Architecture
 
 ```text
 SwiftUI
@@ -152,9 +152,9 @@ Rules:
 
 ---
 
-# Core Modules
+## Core Modules
 
-## App
+### App
 
 Responsibilities:
 
@@ -167,7 +167,7 @@ Responsibilities:
 
 ---
 
-## Core
+### Core
 
 Responsibilities:
 
@@ -179,7 +179,7 @@ Responsibilities:
 
 ---
 
-## Networking
+### Networking
 
 Responsibilities:
 
@@ -193,7 +193,7 @@ Responsibilities:
 
 ---
 
-## Security
+### Security
 
 Responsibilities:
 
@@ -207,7 +207,7 @@ Responsibilities:
 
 ---
 
-## Discovery
+### Discovery
 
 Responsibilities:
 
@@ -219,7 +219,7 @@ Responsibilities:
 
 ---
 
-## Media
+### Media
 
 Responsibilities:
 
@@ -232,7 +232,7 @@ Responsibilities:
 
 ---
 
-## Plugins
+### Plugins
 
 Responsibilities:
 
@@ -244,7 +244,7 @@ Responsibilities:
 
 ---
 
-## Blockchain
+### Blockchain
 
 Optional module.
 
@@ -259,7 +259,7 @@ Responsibilities:
 
 ---
 
-## Enterprise
+### Enterprise
 
 Responsibilities:
 
@@ -271,7 +271,7 @@ Responsibilities:
 
 ---
 
-# Swift Concurrency
+## Swift Concurrency
 
 Swift 6 strict concurrency is mandatory.
 
@@ -292,7 +292,7 @@ Avoid:
 
 ---
 
-# Primary Actors
+## Primary Actors
 
 ```text
 ApplicationActor
@@ -332,7 +332,7 @@ MarketplaceActor
 
 ---
 
-# Session Flow
+## Session Flow
 
 ```text
 Launch
@@ -392,7 +392,7 @@ Cleanup
 
 ---
 
-# Media Pipeline
+## Media Pipeline
 
 ```text
 Incoming Packet
@@ -439,7 +439,7 @@ Goals:
 
 ---
 
-# Security Pipeline
+## Security Pipeline
 
 ```text
 Discovery
@@ -479,7 +479,7 @@ Rendering
 
 ---
 
-# Plugin Architecture
+## Plugin Architecture
 
 Every optional feature is a plugin.
 
@@ -535,7 +535,7 @@ Unload
 
 ---
 
-# Plugin Categories
+## Plugin Categories
 
 - AirPlay
 - Google Cast
@@ -552,7 +552,7 @@ Unload
 
 ---
 
-# Flow Architecture
+## Flow Architecture
 
 Flow integration is completely optional.
 
@@ -596,7 +596,7 @@ Supported services:
 
 ---
 
-# Repository Layout
+## Repository Layout
 
 ```text
 CastFlow/
@@ -640,7 +640,7 @@ Scripts/
 
 ---
 
-# Testing Strategy
+## Testing Strategy
 
 Every module includes:
 
@@ -652,11 +652,11 @@ Every module includes:
 
 Coverage target:
 
-**90%+**
+90%+
 
 ---
 
-# Continuous Integration
+## Continuous Integration
 
 Every pull request must:
 
@@ -669,7 +669,7 @@ Every pull request must:
 
 ---
 
-# Documentation
+## Documentation
 
 Required documentation:
 
@@ -684,15 +684,15 @@ Required documentation:
 
 ---
 
-# Design Goals
+## Design Goals
 
-## Security
+### Security
 
 First-class security throughout the stack.
 
 ---
 
-## Performance
+### Performance
 
 Low latency.
 
@@ -702,7 +702,7 @@ Hardware acceleration.
 
 ---
 
-## Scalability
+### Scalability
 
 Protocol adapters.
 
@@ -712,7 +712,7 @@ Enterprise deployment.
 
 ---
 
-## Maintainability
+### Maintainability
 
 Small modules.
 
@@ -724,7 +724,7 @@ Explicit ownership.
 
 ---
 
-# Long-Term Vision
+## Long-Term Vision
 
 CastFlow is intended to become an extensible wireless display platform that enables:
 

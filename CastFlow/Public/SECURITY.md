@@ -1,12 +1,12 @@
 # SECURITY.md
 
-# CastFlow Security Policy
+## CastFlow Security Policy
 
 Version: 1.0
 
 ---
 
-# Security Philosophy
+## Security Philosophy
 
 Security is a core architectural principle of CastFlow.
 
@@ -18,7 +18,7 @@ Security is implemented using multiple independent layers rather than relying on
 
 ---
 
-# Security Goals
+## Security Goals
 
 The project prioritizes:
 
@@ -32,11 +32,11 @@ The project prioritizes:
 
 ---
 
-# Threat Model
+## Threat Model
 
 CastFlow assumes the following attack surfaces:
 
-## Network
+### Network
 
 - Malformed RTSP packets
 - Invalid RTP payloads
@@ -47,7 +47,7 @@ CastFlow assumes the following attack surfaces:
 
 ---
 
-## Media
+### Media
 
 - Corrupted video streams
 - Invalid codecs
@@ -57,7 +57,7 @@ CastFlow assumes the following attack surfaces:
 
 ---
 
-## Plugins
+### Plugins
 
 - Malicious plugins
 - Unsigned plugins
@@ -66,7 +66,7 @@ CastFlow assumes the following attack surfaces:
 
 ---
 
-## Enterprise
+### Enterprise
 
 - Unauthorized administration
 - Configuration tampering
@@ -74,9 +74,9 @@ CastFlow assumes the following attack surfaces:
 
 ---
 
-# Security Principles
+## Security Principles
 
-## Zero Trust
+### Zero Trust
 
 Never trust:
 
@@ -91,7 +91,7 @@ Every input must be validated.
 
 ---
 
-## Least Privilege
+### Least Privilege
 
 Every component receives only the permissions it requires.
 
@@ -99,11 +99,11 @@ Plugins receive only the APIs explicitly granted.
 
 ---
 
-## Defense in Depth
+### Defense in Depth
 
 Security layers include:
 
-```
+```text
 Discovery
 
 ↓
@@ -137,7 +137,7 @@ Audit Logging
 
 ---
 
-## Fail Secure
+### Fail Secure
 
 Failures should result in:
 
@@ -148,7 +148,7 @@ Failures should result in:
 
 ---
 
-# Authentication
+## Authentication
 
 Supported mechanisms may include:
 
@@ -160,7 +160,7 @@ Authentication modules must remain isolated from media processing.
 
 ---
 
-# Session Security
+## Session Security
 
 Each session must maintain:
 
@@ -174,7 +174,7 @@ Sessions are isolated from one another.
 
 ---
 
-# Encryption
+## Encryption
 
 Where transport encryption is used:
 
@@ -187,7 +187,7 @@ The specific encryption mechanism depends on the negotiated transport protocol.
 
 ---
 
-# Packet Validation
+## Packet Validation
 
 Every packet must validate:
 
@@ -202,7 +202,7 @@ Malformed packets must be rejected without crashing the application.
 
 ---
 
-# Replay Protection
+## Replay Protection
 
 Replay protection should include:
 
@@ -213,7 +213,7 @@ Replay protection should include:
 
 ---
 
-# Rate Limiting
+## Rate Limiting
 
 Protect against resource exhaustion by limiting:
 
@@ -225,7 +225,7 @@ Protect against resource exhaustion by limiting:
 
 ---
 
-# Logging
+## Logging
 
 Security logs should record:
 
@@ -240,7 +240,7 @@ Sensitive data must never be written to logs.
 
 ---
 
-# Secrets
+## Secrets
 
 Never store:
 
@@ -255,7 +255,7 @@ Use platform-provided secure storage where appropriate.
 
 ---
 
-# Plugin Security
+## Plugin Security
 
 Plugins must:
 
@@ -268,7 +268,7 @@ Plugins must not directly modify internal application state.
 
 ---
 
-# Dependency Management
+## Dependency Management
 
 Dependencies should:
 
@@ -281,7 +281,7 @@ Prefer Apple frameworks whenever possible.
 
 ---
 
-# Memory Safety
+## Memory Safety
 
 The project benefits from Swift's memory safety features.
 
@@ -295,7 +295,7 @@ unless required for interoperability with system frameworks.
 
 ---
 
-# Concurrency Safety
+## Concurrency Safety
 
 Use:
 
@@ -311,7 +311,7 @@ Avoid:
 
 ---
 
-# Responsible Disclosure
+## Responsible Disclosure
 
 If you discover a security issue:
 
@@ -322,13 +322,13 @@ If you discover a security issue:
 
 ---
 
-# Supported Versions
+## Supported Versions
 
 Security fixes are provided for supported release branches as documented in the project roadmap.
 
 ---
 
-# Security Roadmap
+## Security Roadmap
 
 Future work may include:
 
@@ -342,7 +342,7 @@ Future work may include:
 
 ---
 
-# Security Commitment
+## Security Commitment
 
 CastFlow is committed to continuous security improvement through code review, automated testing, dependency management, and community collaboration.
 

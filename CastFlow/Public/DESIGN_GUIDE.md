@@ -1,6 +1,6 @@
 # API Design Guide
 
-# CastFlow API Design Guide
+## CastFlow API Design Guide
 
 **Version:** 1.0
 
@@ -8,7 +8,7 @@
 
 ---
 
-# Introduction
+## Introduction
 
 The CastFlow API is designed around modern Swift engineering principles.
 
@@ -26,7 +26,7 @@ The API should remain intuitive while supporting future protocol adapters, plugi
 
 ---
 
-# Design Principles
+## Design Principles
 
 Every public API should be:
 
@@ -39,7 +39,7 @@ Every public API should be:
 
 ---
 
-# API Philosophy
+## API Philosophy
 
 Prefer explicit APIs over clever abstractions.
 
@@ -59,11 +59,11 @@ Use descriptive names whenever possible.
 
 ---
 
-# Public API Surface
+## Public API Surface
 
 The SDK should expose only the minimum necessary public interfaces.
 
-```
+```text
 Public
 │
 ├── Models
@@ -85,7 +85,7 @@ Internal implementation details should never leak into public APIs.
 
 ---
 
-# Naming Conventions
+## Naming Conventions
 
 Types
 
@@ -125,7 +125,7 @@ RendererConfiguration
 
 ---
 
-# Swift API Design
+## Swift API Design
 
 Follow Apple's Swift API Design Guidelines.
 
@@ -155,7 +155,7 @@ func connect(_ d: Device)
 
 ---
 
-# Async APIs
+## Async APIs
 
 Long-running operations should be asynchronous.
 
@@ -175,7 +175,7 @@ Avoid completion handlers unless interoperability requires them.
 
 ---
 
-# Actor Isolation
+## Actor Isolation
 
 Services that own mutable state should be actors.
 
@@ -193,7 +193,7 @@ Avoid exposing mutable shared state.
 
 ---
 
-# Errors
+## Errors
 
 Define typed errors.
 
@@ -217,7 +217,7 @@ Avoid generic NSError values.
 
 ---
 
-# Result Types
+## Result Types
 
 Use throws for failures.
 
@@ -237,7 +237,7 @@ unless asynchronous composition specifically benefits from Result.
 
 ---
 
-# Configuration Objects
+## Configuration Objects
 
 Avoid large parameter lists.
 
@@ -257,7 +257,7 @@ Configuration should be immutable after initialization where practical.
 
 ---
 
-# Protocol-Oriented APIs
+## Protocol-Oriented APIs
 
 Depend on abstractions.
 
@@ -277,7 +277,7 @@ Concrete implementations remain replaceable.
 
 ---
 
-# Dependency Injection
+## Dependency Injection
 
 Inject dependencies.
 
@@ -295,7 +295,7 @@ Avoid service locators.
 
 ---
 
-# Events
+## Events
 
 Expose events using AsyncSequence when appropriate.
 
@@ -315,7 +315,7 @@ Benefits:
 
 ---
 
-# Versioning
+## Versioning
 
 Public APIs follow Semantic Versioning.
 
@@ -325,7 +325,7 @@ Major version increment
 
 Examples:
 
-```
+```text
 1.x
 
 ↓
@@ -335,7 +335,7 @@ Examples:
 
 ---
 
-# Deprecation
+## Deprecation
 
 Deprecated APIs should include:
 
@@ -347,7 +347,7 @@ along with migration guidance.
 
 ---
 
-# Documentation
+## Documentation
 
 Every public symbol requires documentation.
 
@@ -370,13 +370,13 @@ Example:
 
 ---
 
-# Thread Safety
+## Thread Safety
 
 Document concurrency guarantees.
 
 Example:
 
-```
+```text
 Actor Isolated
 
 Thread Safe
@@ -388,7 +388,7 @@ should be clearly identified.
 
 ---
 
-# API Evolution
+## API Evolution
 
 Future additions should:
 
@@ -400,7 +400,7 @@ Avoid unnecessary breaking changes.
 
 ---
 
-# Plugin APIs
+## Plugin APIs
 
 Plugins interact exclusively with stable SDK interfaces.
 
@@ -413,7 +413,7 @@ Plugins must never access:
 
 ---
 
-# Security
+## Security
 
 Public APIs must never expose:
 
@@ -424,7 +424,7 @@ Public APIs must never expose:
 
 ---
 
-# Testing
+## Testing
 
 Every public API should include:
 
@@ -435,7 +435,7 @@ Every public API should include:
 
 ---
 
-# API Review Checklist
+## API Review Checklist
 
 Before release verify:
 
@@ -449,6 +449,6 @@ Before release verify:
 
 ---
 
-# Conclusion
+## Conclusion
 
 The CastFlow API is intended to remain small, stable, and intentionally designed. Public interfaces should evolve carefully, prioritizing clarity and long-term maintainability over short-term convenience.

@@ -1,8 +1,8 @@
 # WHITEPAPER.md
 
-# CastFlow
+## CastFlow
 
-## A Modular, Secure, Swift-Native Wireless Display Platform for macOS
+### A Modular, Secure, Swift-Native Wireless Display Platform for macOS
 
 **Version:** 1.0
 
@@ -12,7 +12,7 @@
 
 ---
 
-# Executive Summary
+## Executive Summary
 
 CastFlow is an open, extensible wireless display platform built entirely in Swift 6 for macOS.
 
@@ -31,7 +31,7 @@ The initial implementation focuses on an AirPlay-compatible receiver architectur
 
 ---
 
-# Vision
+## Vision
 
 Wireless display technologies continue to evolve, but most implementations remain proprietary, monolithic, and difficult to extend.
 
@@ -41,7 +41,7 @@ Rather than being "another receiver," CastFlow seeks to become a platform for wi
 
 ---
 
-# Problem Statement
+## Problem Statement
 
 Today's ecosystem presents several challenges:
 
@@ -59,7 +59,7 @@ CastFlow addresses this by providing a reusable architecture that cleanly separa
 
 ---
 
-# Objectives
+## Objectives
 
 CastFlow is designed around the following objectives:
 
@@ -74,9 +74,9 @@ CastFlow is designed around the following objectives:
 
 ---
 
-# Design Principles
+## Design Principles
 
-## Security First
+### Security First
 
 Security considerations influence every architectural decision.
 
@@ -92,7 +92,7 @@ Examples include:
 
 ---
 
-## Modular Architecture
+### Modular Architecture
 
 Every subsystem is isolated.
 
@@ -113,7 +113,7 @@ This isolation simplifies testing, maintenance, and future expansion.
 
 ---
 
-## Protocol-Oriented Development
+### Protocol-Oriented Development
 
 Concrete implementations are hidden behind interfaces.
 
@@ -131,7 +131,7 @@ without affecting higher-level application logic.
 
 ---
 
-## Swift 6 Concurrency
+### Swift 6 Concurrency
 
 Swift 6 provides compile-time guarantees against many classes of concurrency errors.
 
@@ -147,7 +147,7 @@ while avoiding shared mutable state whenever possible.
 
 ---
 
-# System Architecture
+## System Architecture
 
 ```text
 SwiftUI
@@ -177,7 +177,7 @@ Each layer has a single responsibility and may only depend on lower layers.
 
 ---
 
-# Media Pipeline
+## Media Pipeline
 
 The media pipeline is designed to minimize latency and unnecessary memory copies.
 
@@ -221,7 +221,7 @@ Where supported by platform APIs, decoded frames remain in GPU-accessible memory
 
 ---
 
-# Networking
+## Networking
 
 Networking responsibilities include:
 
@@ -236,7 +236,7 @@ The architecture intentionally separates protocol parsing from session managemen
 
 ---
 
-# Security Model
+## Security Model
 
 Security is implemented as layered defenses rather than a single mechanism.
 
@@ -274,7 +274,7 @@ This layered approach reduces the impact of implementation defects within any in
 
 ---
 
-# Plugin Platform
+## Plugin Platform
 
 One of CastFlow's primary goals is extensibility.
 
@@ -294,7 +294,7 @@ Plugins communicate through stable protocols and dependency injection.
 
 ---
 
-# Optional Flow Integration
+## Optional Flow Integration
 
 Flow blockchain support is designed as an optional service layer.
 
@@ -314,7 +314,7 @@ The receiver remains fully functional if blockchain services are disabled or una
 
 ---
 
-# Enterprise Considerations
+## Enterprise Considerations
 
 Future enterprise deployments may require:
 
@@ -329,7 +329,7 @@ These capabilities are intentionally separated from the consumer application exp
 
 ---
 
-# Developer Experience
+## Developer Experience
 
 Developer productivity is treated as a first-class requirement.
 
@@ -345,7 +345,7 @@ The project emphasizes:
 
 ---
 
-# Testing Strategy
+## Testing Strategy
 
 Quality is maintained through multiple testing layers:
 
@@ -361,9 +361,9 @@ High automated coverage helps ensure confidence as new transport protocols and p
 
 ---
 
-# Roadmap
+## Roadmap
 
-## Phase 1
+### Phase 1
 
 - Repository bootstrap
 - Core architecture
@@ -371,32 +371,32 @@ High automated coverage helps ensure confidence as new transport protocols and p
 - Logging
 - Metrics
 
-## Phase 2
+### Phase 2
 
 - Discovery
 - Session management
 - Networking
 - Security foundations
 
-## Phase 3
+### Phase 3
 
 - Media pipeline
 - Hardware decoding
 - Rendering
 
-## Phase 4
+### Phase 4
 
 - Plugin SDK
 - Recording
 - External integrations
 
-## Phase 5
+### Phase 5
 
 - Optional Flow services
 - Marketplace
 - Licensing
 
-## Phase 6
+### Phase 6
 
 - Enterprise tooling
 - Administration
@@ -404,7 +404,7 @@ High automated coverage helps ensure confidence as new transport protocols and p
 
 ---
 
-# Open Source Strategy
+## Open Source Strategy
 
 The core platform is intended to remain open source.
 
@@ -420,7 +420,7 @@ Commercial offerings, if developed in the future, should remain separate from th
 
 ---
 
-# Future Vision
+## Future Vision
 
 As display technologies continue to evolve, CastFlow aims to provide a stable engineering foundation capable of supporting emerging transport protocols, rendering technologies, enterprise workflows, and developer integrations without requiring major architectural redesigns.
 

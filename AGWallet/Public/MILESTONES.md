@@ -1,4 +1,4 @@
-
+# AGWallet Public Milestones
 
 ## Work completed so far
 
@@ -199,15 +199,15 @@ swift build
 swift test   # once tests are added
 ```
 
----
+***
 
 ## 1. Domain & Configuration Stabilisation
 
-**Goals**
+### Goals
 
 Lock down the domain model and configuration as the stable public contract for all chain modules and `WalletCore`.
 
-**Tasks**
+### Tasks
 
 - [x] Implement `ChainType`, `ChainNetwork`, `EndpointRole`, `NetworkEndpointSet`, and `ChainConfig` with role‑based endpoints.
 - [x] Add `activeNetwork` plus `withActiveNetwork(_:)` for network switching.
@@ -216,7 +216,7 @@ Lock down the domain model and configuration as the stable public contract for a
 - [ ] Review access levels (`public` vs `internal`) for all domain types.
 - [ ] Add documentation comments to all public domain types.
 
-**Commands**
+### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -228,17 +228,17 @@ sed -n '1,260p' Sources/AetherWalletKit/Domain/Models.swift
 swift build
 ```
 
----
+***
 
 ## 2. Chain Module Parity & RPC Reliability
 
 ### 2.1 EVMModule
 
-**Goals**
+#### Goals
 
 Bring EVM support to full production quality.
 
-**Tasks**
+#### Tasks
 
 - [x] Implement `getBalance` for native ETH and ERC‑20 tokens.
 - [x] Implement `send` using `CodableTransaction` and `Web3.new(rpcURL)`.
@@ -247,7 +247,7 @@ Bring EVM support to full production quality.
   - `web3.eth.gasPrice()`, `web3.eth.estimateGas(for:)`, `web3.eth.getTransactionCount(for:onBlock:)` wired into `EVMModule.send(amount:to:for:)`; verified via `swift test` (23/23 passing).
 - [ ] Implement real `getTransactionHistory` via an indexer (e.g. Etherscan or custom service).
 
-**Commands**
+#### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -260,15 +260,15 @@ swift build
 swift test
 ```
 
----
+***
 
 ### 2.2 BitcoinModule & EsploraClient
 
-**Goals**
+#### Goals
 
 Stabilise Bitcoin RPC behaviour and integrate proper signing.
 
-**Tasks**
+#### Tasks
 
 - [x] Wire `BitcoinModule` to Esplora via `BitcoinEsploraClient` using `ChainConfig.primaryEndpoint(for: .rpc)`.
 - [x] Implement `getUTXOs(for:)` and `getTransactionHistory(for:)` mapping to `BitcoinTransaction`.
@@ -283,7 +283,7 @@ Stabilise Bitcoin RPC behaviour and integrate proper signing.
 - [x] Introduce a `BitcoinAddressType` (legacy/segwit/taproot) so existing P2PKH wallets are unaffected by new derivation paths.
 - [x] Add Bech32/Bech32m encoding utilities alongside existing Base58Check for the new address types.
 
-**Commands**
+#### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -295,15 +295,15 @@ sed -n '30,120p' Sources/AetherWalletKit/Data/BitcoinModule/BitcoinEsploraClient
 swift build
 ```
 
----
+***
 
 ### 2.3 SolanaModule
 
-**Goals**
+#### Goals
 
 Implement reliable Solana RPC flows and signing.
 
-**Tasks**
+#### Tasks
 
 - [x] Implement `rpcClient(for:)` with `JSONRPCAPIClient` using `ChainConfig.primaryEndpoint(for: .rpc)`.
 - [x] Implement `getAddress` via public key derived from `KeyManagerActor`.
@@ -312,7 +312,7 @@ Implement reliable Solana RPC flows and signing.
 - [x] Stub `getTransactionHistory` with `unsupportedOperation` until indexer is chosen.
 - [x] Stub `signMessage` with `unsupportedOperation` until `KeyManagerActor` signing helpers are added.
 
-**Commands**
+#### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -323,15 +323,15 @@ nano Sources/AetherWalletKit/Data/SolanaModule/SolanaModule.swift
 swift build
 ```
 
----
+***
 
 ### 2.4 FlowModule
 
-**Goals**
+#### Goals
 
 Decide Flow support scope and treat it appropriately.
 
-**Tasks**
+#### Tasks
 
 - [x] Keep Flow module present but clearly marked as experimental (unsupported operations).
 - [x] Decide whether Flow is in scope for v1.0: yes — Flow is in scope; implementing balance, send, and history using current Flow SDK.
@@ -340,7 +340,7 @@ Decide Flow support scope and treat it appropriately.
   - [ ] Implement `send` (requires a `FlowSigner` bridge from `KeyManagerActor` to the Flow SDK's signer protocol).
   - [ ] Implement `getTransactionHistory` (requires an indexer integration; no native indexer in flow-swift-macos).
 
-**Commands**
+#### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -351,15 +351,15 @@ sed -n '1,200p' Sources/AetherWalletKit/Data/FlowModule/FlowModule.swift
 swift build
 ```
 
----
+***
 
 ## 3. Key Management & Signing Hardening
 
-**Goals**
+### Goals
 
 Centralise all chain‑specific signing and address derivation in `KeyManagerActor`.
 
-**Tasks**
+### Tasks
 
 - [x] Implement Secure Enclave key creation and retrieval using `SecKeyCreateWithData`.
 - [x] Surface Secure Enclave errors via `WalletError.secureEnclaveError`.
@@ -370,7 +370,7 @@ Centralise all chain‑specific signing and address derivation in `KeyManagerAct
 - [x] Add unit tests for key derivation and signing per chain and network.
 - [x] Resolve secp256k1 package graph conflict ("secp256k1.swift" vs "swift-secp256k1" libsecp256k1 duplicate target) by repointing web3swift and solana-swift to local patched copies and importing "libsecp256k1" alongside "P256K" in SECP256k1.swift and CKSecp256k1.swift. All 22 tests across 5 suites (SolanaModule, EVMModule, BitcoinModule, FlowModule, KeyManagerActor Solana signing) now pass with "swift build" / "swift test" clean.
 
-**Commands**
+### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -382,15 +382,15 @@ swift build
 swift test
 ```
 
----
+***
 
 ## 4. WalletCore Orchestration & Public API
 
-**Goals**
+### Goals
 
 Make `WalletCore` the single, stable façade over all chain modules and key management.
 
-**Tasks**
+### Tasks
 
 - [x] Maintain `WalletCore.swift` as the orchestrator tying `ChainModule`s and `KeyManagerActor` together.
 - [x] Audit all public methods for clear naming and consistent error handling (getBalance, send, getTransactionHistory, signMessage all use consistent switch-dispatch + WalletError.unsupportedOperation pattern; fixed unused flowModule binding in executeCadenceTransaction).
@@ -401,7 +401,7 @@ Make `WalletCore` the single, stable façade over all chain modules and key mana
   - `send(asset:to:amount:)`
   - `history(for chain:)`
 
-**Commands**
+### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -413,7 +413,7 @@ swift build
 swift test
 ```
 
----
+***
 
 ## 5. Testing, QA, and CI/CD
 
@@ -426,11 +426,11 @@ swift test
 - [x] Add CI guardrail script to fail PRs that reintroduce `import XCTest` or first-party concurrency warnings (`scripts/guardrail_testing_concurrency.sh`, wired into `.github/workflows/concurrency-testing-guardrail.yml`; verified: 0 XCTest imports, 0 XCTestCase, 0 first-party warnings in AGWallet and AetherAG).
 - [ ] Decide vendor-warning policy for `solana-swift-concurrency` / `web3swift-patched` (track separately, do not block CI on vendor warnings).
 
-**Goals**
+#### Goals
 
 Ensure regressions are caught early and the core is continuously validated.
 
-**Tasks**
+#### Tasks
 
 - [x] Add unit tests for:
   - `ChainConfig` and endpoint resolution.
@@ -440,7 +440,7 @@ Ensure regressions are caught early and the core is continuously validated.
 - [ ] Add integration tests around `WalletCore`.
 - [ ] Set up CI (e.g. GitHub Actions) to run `swift build` and `swift test` on `main` and PR branches.
 
-**Commands**
+#### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -453,15 +453,15 @@ mkdir -p .github/workflows
 nano .github/workflows/swift.yml
 ```
 
----
+***
 
 ## 6. App Integration & UX
 
-**Goals**
+### Goals
 
 Wire AGWallet into the client apps and provide a usable UX.
 
-**Tasks**
+### Tasks
 
 - [ ] Add AGWallet as a package or local project to `Aether.xcworkspace`.
 - [ ] Implement flows for:
@@ -471,7 +471,7 @@ Wire AGWallet into the client apps and provide a usable UX.
   - Transaction history display.
 - [ ] Ensure `WalletError` messages are surfaced cleanly in the UI.
 
-**Commands**
+### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono
@@ -480,22 +480,22 @@ cd /Users/nicreich/AetherAG-mono
 open Aether.xcworkspace
 ```
 
----
+***
 
 ## 7. Security Review, Observability, and Release
 
-**Goals**
+### Goals
 
 Validate security posture and prepare for production release.
 
-**Tasks**
+### Tasks
 
 - [ ] Review key management and signing paths with a security‑focused checklist.
 - [ ] Ensure all RPC endpoints are HTTPS and configured per environment via `ChainConfig`.
 - [ ] Add structured logging and basic telemetry in critical paths.
 - [ ] Tag v1.0 and prepare release notes.
 
-**Commands**
+### Commands
 
 ```bash
 cd /Users/nicreich/AetherAG-mono/AGWallet
@@ -509,7 +509,7 @@ git tag -a v1.0.0 -m "Aether Wallet SDK v1.0.0"
 git push origin v1.0.0
 ```
 
----
+***
 
 ## Summary
 
@@ -531,7 +531,7 @@ Secure Enclave key manager — most of the original roadmap below is now
 Track each of these tasks in `MILESTONES.md` and update the checkboxes as you progress toward a production‑ready Aether wallet core.
 
 Sources
-[2] pasted_text_1783610364.txt https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/80463257/5769cfe4-cc44-4545-8ee0-472776f12c53/pasted_text_1783610364.txt?AWSAccessKeyId=ASIA2F3EMEYE3H4ZRQW6&Signature=VYdIAGarDfacc0AOoRWfkzmq2Nc%3D&x-amz-security-token=IQoJb3JpZ2luX2VjENr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIBvDYEZoHfWu2PdfUsyyUlNN1QkChfXwG7J7nNybJZdNAiEAzH9MCm7GsvIJfGR0PCVe2Zil%2F%2F7lo7%2BNRkNg0htzo%2FUq%2FAQIo%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw2OTk3NTMzMDk3MDUiDCVCPkIXx2YA6RHlRyrQBDMtOcLakY04kZCiH6yQUI%2BmsxDJXDC0MznxFjsqI3skQtcLXXpzrJGZk8Y07YrzRFRi%2FkuDf3tc0OebGHxJWR%2F1SPdDXt%2F8%2BWTezvNFR%2BT3hDJux1PKEcRaW4KGBYaDzsT8B%2FOzKfNTzizUYvo0Jq%2FllwDFNWLBiR4nAPY3IrZIUywRclM5W3i9k8IuCygjoPHj5TzS4GfiY%2BDmhDWitWbLM3c8QMNxYvO7cbTljUkn0sHyZhyc67Ho8wAymhDTAgKxNQLxSLKpc4WMGl8E6VAA2pgLvgJi23ju3uNuhIQi81dVYcPP9oYqrd4VBX%2F1tD4%2F0l9G8YEtVe09hSkGrQmQhWhdT3z7HhXB6ESDDCq1zaExYwFXxyj5NrhSOeNxiMqmMfmecOiam8747gu3eLHnHF5%2FsRAKUS6cK7OhqxJP8m12h4euxzd6Ol3t61d0HeStXOelvxMYcPR5N4DIa8Jkl8%2BsdirH2jYVVqRBE49HxXPOG5kRCYrGHZRqiRdxNAkrItOkduhzSV0TVhJfVznz7zi5DNdMyL8aUJOPpRMkDlfmKSTVHST9n0l%2FaedOyxa6GsG4xut%2BaOOYtsR5f2Hj%2Fgp9ZcRec8TNnTNgWMReAj2opcChztmnGFrRSlWR5T4VZjAtLstULYkCQII9EmqmhSyHumnz0pZQJadAANYFIJDGHT4ZKH86tyzlKHq1F1mUKzWVZ7JHi5xybCloYIen%2F%2FY6j%2Bud%2FeMlf4ZCISgJErg8aUQS7%2FiArsYT%2F2FrRCIPXSQr76oEBOHhKnohK%2BQw2sG%2F0gY6mAFugf9FmecUYdObDTdZkcCbm67w%2F%2B6EwI5cK5DorSzYrf3hePR5dnazOtlhAuBAehclfWkDTu4pmlGHbuXoxrBmMcid45yBKHDUauhxGku8w%2BURC9apE%2FFJE%2FNlrdFrZ9bva1InlSIZTJ7RN1Ln%2Fo9PcJ15rVaD6kdaItcZoxAF3uzxXFTr3kTUczHbYHH%2BwQnt9%2FPbtsyMug%3D%3D&Expires=1783623341
+[2] pasted_text_1783610364.txt `<expired-upload-link-removed>`
 
 ## Milestone: FlowModule build fix + real account creation (2026-09-29)
 
@@ -548,8 +548,6 @@ Sources
   bumped `web3swift-concurrency` and `AetherAG` submodule pointers.
 - Test suite: 104 tests in 21 suites, 0 build warnings.
 - Open item: live testnet validation of `createFlowAccount` still pending.
-
-
 
 ## Milestone: Real Bitcoin fee estimation (2026-09-29)
 

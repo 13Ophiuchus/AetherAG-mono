@@ -5,7 +5,7 @@ import Testing
 @Suite("BitcoinModule")
 struct BitcoinModuleTests {
     private func makeModule() -> BitcoinModule {
-        BitcoinModule(keyManager: KeyManagerActor())
+        BitcoinModule(keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()))
     }
 
     private func makeModuleWithKey() async throws -> (BitcoinModule, KeyManagerActor) {

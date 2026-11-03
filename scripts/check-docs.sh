@@ -2,7 +2,19 @@
 set -euo pipefail
 
 echo "==> markdownlint"
-markdownlint README.md . --ignore .build --ignore .git --ignore node_modules --ignore Package.resolved
+python3 - <<'PYTHON'
+import os
+import subprocess
+
+tracked = subprocess.check_output(
+    ["git", "ls-files", "-z", "--", "*.md"]
+)
+paths = [os.fsdecode(item) for item in tracked.split(b"\0") if item]
+if not paths:
+    raise SystemExit("No tracked Markdown files found")
+print(f"Linting {len(paths)} tracked Markdown files", flush=True)
+subprocess.run(["markdownlint", "--", *paths], check=True)
+PYTHON
 
 echo "==> optional mkdocs build"
 if [[ -f mkdocs.yml ]]; then

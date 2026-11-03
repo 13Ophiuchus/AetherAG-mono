@@ -1,6 +1,6 @@
 # Plugin SDK Guide
 
-# CastFlow Plugin SDK
+## CastFlow Plugin SDK
 
 **Version:** 1.0
 
@@ -8,7 +8,7 @@
 
 ---
 
-# Overview
+## Overview
 
 The CastFlow Plugin SDK enables developers to extend the platform without modifying the core application.
 
@@ -22,26 +22,26 @@ Plugins are designed to be:
 
 The core application remains responsible for networking, media transport, security, and lifecycle management. Plugins extend capabilities through documented APIs.
 
-												---
+---
 
-												# Design Goals
+## Design Goals
 
-												The SDK is built around several principles:
+The SDK is built around several principles:
 
-													- Stable public APIs
-												- Strong type safety
-												- Swift 6 concurrency
-												- Actor isolation
-												- Minimal runtime overhead
-												- Backward compatibility where practical
+- Stable public APIs
+- Strong type safety
+- Swift 6 concurrency
+- Actor isolation
+- Minimal runtime overhead
+- Backward compatibility where practical
 
 Plugins should never rely on internal implementation details.
 
 ---
 
-# Plugin Architecture
+## Plugin Architecture
 
-```
+```text
 CastFlow
 
 Plugin Manager Actor
@@ -62,9 +62,9 @@ Plugins communicate only through the SDK.
 
 ---
 
-# Project Layout
+## Project Layout
 
-```
+```text
 Plugins/
 
 ├── ExamplePlugin/
@@ -82,11 +82,11 @@ Each plugin should be independently buildable.
 
 ---
 
-# Plugin Lifecycle
+## Plugin Lifecycle
 
 Every plugin follows the same lifecycle.
 
-```
+```text
 Discover
 
 ↓
@@ -124,7 +124,7 @@ Unload
 
 ---
 
-# Plugin Manifest
+## Plugin Manifest
 
 Every plugin must include a manifest.
 
@@ -132,21 +132,21 @@ Example:
 
 ```json
 {
-	"identifier": "com.castflow.recording",
-	"name": "Recording Plugin",
-	"version": "1.0.0",
-	"minimumSDK": "1.0",
-	"author": "CastFlow Community",
-	"license": "MIT",
-	"capabilities": [
-		"recording"
-	]
+    "identifier": "com.castflow.recording",
+    "name": "Recording Plugin",
+    "version": "1.0.0",
+    "minimumSDK": "1.0",
+    "author": "CastFlow Community",
+    "license": "MIT",
+    "capabilities": [
+        "recording"
+    ]
 }
 ```
 
 ---
 
-# Required Metadata
+## Required Metadata
 
 Every plugin declares:
 
@@ -162,257 +162,257 @@ Every plugin declares:
 
 ---
 
-# Plugin Protocol
+## Plugin Protocol
 
 Example:
 
 ```swift
 public protocol CastFlowPlugin: Sendable {
 
-	var identifier: String { get }
+    var identifier: String { get }
 
-	var version: String { get }
+    var version: String { get }
 
-	func initialize() async throws
+    func initialize() async throws
 
-	func start() async throws
+    func start() async throws
 
-	func stop() async
+    func stop() async
 
-	func shutdown() async
+    func shutdown() async
 }
 ```
 
 ---
 
-# Plugin Manager
+## Plugin Manager
 
 The Plugin Manager is responsible for:
 
-											- Discovery
-										- Loading
-										- Validation
-										- Dependency checks
-										- Registration
-										- Updates
-										- Removal
+- Discovery
+- Loading
+- Validation
+- Dependency checks
+- Registration
+- Updates
+- Removal
 
-										Plugins never manage themselves.
+Plugins never manage themselves.
 
-										---
+---
 
-										# Plugin Categories
+## Plugin Categories
 
-										Current categories include:
+Current categories include:
 
-											- Recording
-										- Streaming
-										- Analytics
-										- Integrations
-										- Automation
-										- Enterprise
-										- Diagnostics
-										- User Interface
+- Recording
+- Streaming
+- Analytics
+- Integrations
+- Automation
+- Enterprise
+- Diagnostics
+- User Interface
 
-										Future categories may be added without affecting existing plugins.
+Future categories may be added without affecting existing plugins.
 
-										---
+---
 
-										# Dependency Rules
+## Dependency Rules
 
-										Plugins:
+Plugins:
 
-											May depend on
+May depend on
 
-										- CastFlow SDK
-										- Apple Frameworks
+- CastFlow SDK
+- Apple Frameworks
 
-										Should avoid
+Should avoid
 
-										- Internal modules
-										- Undocumented APIs
-										- Private symbols
+- Internal modules
+- Undocumented APIs
+- Private symbols
 
-										---
+---
 
-										# Version Compatibility
+## Version Compatibility
 
-										Each plugin specifies:
+Each plugin specifies:
 
-											```
-											Minimum SDK
+```text
+Minimum SDK
 
-										Maximum SDK (optional)
+Maximum SDK (optional)
 
-										Plugin Version
-										```
+Plugin Version
+```
 
-										Example:
+Example:
 
-											```
-											SDK 1.0+
+```text
+SDK 1.0+
 
-										Plugin 2.3.1
-										```
+Plugin 2.3.1
+```
 
-										---
+---
 
-										# Security
+## Security
 
-										Plugins execute with least privilege.
+Plugins execute with least privilege.
 
-										Permissions may include:
+Permissions may include:
 
-											- Recording
-										- Notifications
-										- Network Access
-										- File Access
-										- Analytics
+- Recording
+- Notifications
+- Network Access
+- File Access
+- Analytics
 
-										Permissions are declared—not assumed.
+Permissions are declared—not assumed.
 
-										---
+---
 
-										# Thread Safety
+## Thread Safety
 
-										Plugins should:
+Plugins should:
 
-											- Use actors
-										- Avoid shared mutable state
-										- Prefer immutable models
-										- Support structured concurrency
+- Use actors
+- Avoid shared mutable state
+- Prefer immutable models
+- Support structured concurrency
 
-										Avoid:
+Avoid:
 
-											- Locks
-										- Global state
-										- Thread-local storage
+- Locks
+- Global state
+- Thread-local storage
 
-										---
+---
 
-										# Event System
+## Event System
 
-										Plugins receive events from the application.
+Plugins receive events from the application.
 
-										Examples:
+Examples:
 
-											- Session Started
-										- Session Ended
-										- Device Connected
-										- Device Discovered
-										- Video Frame Available
-										- Audio Frame Available
-										- Error Raised
+- Session Started
+- Session Ended
+- Device Connected
+- Device Discovered
+- Video Frame Available
+- Audio Frame Available
+- Error Raised
 
-										Events should be processed asynchronously.
+Events should be processed asynchronously.
 
-										---
+---
 
-										# Services Available
+## Services Available
 
-										Plugins may access approved services such as:
+Plugins may access approved services such as:
 
-											- Logging
-										- Configuration
-										- Metrics
-										- Session Information
-										- Device Registry
+- Logging
+- Configuration
+- Metrics
+- Session Information
+- Device Registry
 
-										Future services may be added through API evolution.
+Future services may be added through API evolution.
 
-										---
+---
 
-										# Logging
+## Logging
 
-										Use the provided logging interface.
+Use the provided logging interface.
 
-										Example categories:
+Example categories:
 
-											- Plugin
-										- Network
-										- Analytics
-										- Recording
+- Plugin
+- Network
+- Analytics
+- Recording
 
-										Never write directly to internal log files.
+Never write directly to internal log files.
 
-										---
+---
 
-										# Error Handling
+## Error Handling
 
-										Recoverable failures should:
+Recoverable failures should:
 
-											- Return typed errors
-										- Log useful diagnostics
-										- Avoid crashing the application
+- Return typed errors
+- Log useful diagnostics
+- Avoid crashing the application
 
-										Fatal failures should trigger plugin unloading rather than application termination.
+Fatal failures should trigger plugin unloading rather than application termination.
 
-										---
+---
 
-										# Testing
+## Testing
 
-										Every plugin should include:
+Every plugin should include:
 
-											```
-											Tests/
+```text
+Tests/
 
-										Unit/
+Unit/
 
-										Integration/
+Integration/
 
-										Fixtures/
-										```
+Fixtures/
+```
 
-										Recommended coverage:
+Recommended coverage:
 
-											90%+
+90%+
 
-										---
+---
 
-										# Distribution
+## Distribution
 
-										Plugins may be distributed through:
+Plugins may be distributed through:
 
-											- GitHub Releases
-										- Enterprise deployment
-										- Future Marketplace
+- GitHub Releases
+- Enterprise deployment
+- Future Marketplace
 
-										Unsigned or incompatible plugins may be rejected depending on application policy.
+Unsigned or incompatible plugins may be rejected depending on application policy.
 
-										---
+---
 
-										# Best Practices
+## Best Practices
 
-										Recommended:
+Recommended:
 
-											- Small focused plugins
-										- Documented APIs
-										- Stable interfaces
-										- Dependency injection
-										- Comprehensive tests
+- Small focused plugins
+- Documented APIs
+- Stable interfaces
+- Dependency injection
+- Comprehensive tests
 
-										Avoid:
+Avoid:
 
-											- Large monolithic plugins
-										- Internal API usage
-										- Excessive dependencies
-										- Blocking operations
+- Large monolithic plugins
+- Internal API usage
+- Excessive dependencies
+- Blocking operations
 
-										---
+---
 
-										# Future SDK Features
+## Future SDK Features
 
-										Potential future enhancements include:
+Potential future enhancements include:
 
-											- Plugin sandboxing
-										- Digital signatures
-										- Capability negotiation
-										- Dynamic updates
-										- Marketplace integration
-										- SDK code generation
+- Plugin sandboxing
+- Digital signatures
+- Capability negotiation
+- Dynamic updates
+- Marketplace integration
+- SDK code generation
 
-										---
+---
 
-										# Summary
+## Summary
 
-										The Plugin SDK enables a secure ecosystem while preserving the integrity, stability, and performance of the CastFlow core platform.
+The Plugin SDK enables a secure ecosystem while preserving the integrity, stability, and performance of the CastFlow core platform.

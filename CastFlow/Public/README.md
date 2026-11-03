@@ -1,6 +1,6 @@
 # README.md
 
-# CastFlow
+## CastFlow
 
 > **A modern, secure, modular wireless display platform for macOS written in Swift 6.**
 
@@ -12,7 +12,7 @@
 
 ---
 
-# Vision
+## Vision
 
 CastFlow is a next-generation wireless display platform built entirely in Swift 6.
 
@@ -38,7 +38,7 @@ Future protocol support includes:
 
 ---
 
-# Why CastFlow?
+## Why CastFlow?
 
 Existing casting applications are often:
 
@@ -58,9 +58,9 @@ CastFlow aims to become an open, extensible platform with a modern architecture 
 
 ---
 
-# Core Features
+## Core Features
 
-## Networking
+### Networking
 
 - Bonjour Discovery
 - RTSP Session Management
@@ -72,7 +72,7 @@ CastFlow aims to become an open, extensible platform with a modern architecture 
 
 ---
 
-## Media
+### Media
 
 - VideoToolbox Hardware Decoding
 - Metal Rendering
@@ -83,7 +83,7 @@ CastFlow aims to become an open, extensible platform with a modern architecture 
 
 ---
 
-## Security
+### Security
 
 - FP-SRP Authentication
 - AES Session Encryption
@@ -96,7 +96,7 @@ CastFlow aims to become an open, extensible platform with a modern architecture 
 
 ---
 
-## Swift 6
+### Swift 6
 
 Built around modern Swift language features.
 
@@ -110,7 +110,7 @@ Built around modern Swift language features.
 
 ---
 
-## Plugin Platform
+### Plugin Platform
 
 Everything optional is implemented as a plugin.
 
@@ -129,9 +129,9 @@ Examples:
 
 ---
 
-# Architecture
+## Architecture
 
-```
+```text
                      CastFlow
                          │
         ┌────────────────┴───────────────┐
@@ -155,9 +155,9 @@ Examples:
 
 ---
 
-# Repository Structure
+## Repository Structure
 
-```
+```text
 CastFlow/
 
 App/
@@ -199,7 +199,7 @@ Scripts/
 
 ---
 
-# Project Goals
+## Project Goals
 
 Priority order:
 
@@ -214,33 +214,33 @@ Priority order:
 
 ---
 
-# Technology Stack
+## Technology Stack
 
-## Language
+### Language
 
 Swift 6
 
-## Package Manager
+### Package Manager
 
 Swift Package Manager
 
-## UI
+### UI
 
 SwiftUI
 
-## Rendering
+### Rendering
 
 Metal
 
-## Video
+### Video
 
 VideoToolbox
 
-## Audio
+### Audio
 
 CoreAudio
 
-## Networking
+### Networking
 
 SwiftNIO
 
@@ -252,7 +252,7 @@ RTSP
 
 RTP
 
-## Cryptography
+### Cryptography
 
 swift-crypto
 
@@ -260,17 +260,17 @@ AES
 
 FP-SRP
 
-## Logging
+### Logging
 
 swift-log
 
-## Metrics
+### Metrics
 
 swift-metrics
 
 ---
 
-# Design Principles
+## Design Principles
 
 - Feature-first architecture
 - Protocol-first design
@@ -283,9 +283,9 @@ swift-metrics
 
 ---
 
-# Dependency Rules
+## Dependency Rules
 
-```
+```text
 UI
 
 ↓
@@ -313,7 +313,7 @@ No circular dependencies.
 
 ---
 
-# Plugin Architecture
+## Plugin Architecture
 
 Plugins communicate through protocols only.
 
@@ -328,7 +328,7 @@ Supported plugin lifecycle:
 
 ---
 
-# Flow Blockchain
+## Flow Blockchain
 
 Flow integration is optional.
 
@@ -347,7 +347,7 @@ Flow provides:
 
 ---
 
-# Security
+## Security
 
 Security is built in from the beginning.
 
@@ -365,7 +365,7 @@ Features include:
 
 ---
 
-# Performance
+## Performance
 
 Performance goals:
 
@@ -377,7 +377,7 @@ Performance goals:
 
 ---
 
-# Development
+## Development
 
 Requirements:
 
@@ -411,7 +411,7 @@ swift run
 
 ---
 
-# Testing
+## Testing
 
 The project includes:
 
@@ -430,7 +430,7 @@ Target Coverage:
 
 ---
 
-# Documentation
+## Documentation
 
 Documentation includes:
 
@@ -445,41 +445,41 @@ Documentation includes:
 
 ---
 
-# Roadmap
+## Roadmap
 
-## Phase 1
+### Phase 1
 
 - Project bootstrap
 - Architecture
 - Dependency Injection
 - Networking
 
-## Phase 2
+### Phase 2
 
 - RTSP
 - RTP
 - Bonjour
 - Security
 
-## Phase 3
+### Phase 3
 
 - VideoToolbox
 - Metal
 - Audio
 
-## Phase 4
+### Phase 4
 
 - Plugin SDK
 - Recording
 - OBS
 
-## Phase 5
+### Phase 5
 
 - Flow Integration
 - Marketplace
 - Licensing
 
-## Phase 6
+### Phase 6
 
 - Enterprise
 - Device Management
@@ -487,7 +487,7 @@ Documentation includes:
 
 ---
 
-# Contributing
+## Contributing
 
 Contributions are welcome.
 
@@ -501,7 +501,7 @@ before submitting pull requests.
 
 ---
 
-# License
+## License
 
 Licensed under the Apache 2.0 License.
 
@@ -509,13 +509,13 @@ See LICENSE for details.
 
 ---
 
-# Acknowledgements
+## Acknowledgements
 
 CastFlow builds upon modern Swift technologies and the Apple platform while embracing open architecture, modularity, and long-term maintainability.
 
 ---
 
-# Project Status
+## Project Status
 
 🚧 Active Development
 

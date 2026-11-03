@@ -7,7 +7,7 @@ import Testing
 struct WalletCoreExecuteFlowScriptTests {
     private func makeCore(enableFlow: Bool) -> WalletCore {
         WalletCore(
-            keyManager: KeyManagerActor(),
+            keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()),
             chainConfigService: ChainConfigurationService(),
             enableBitcoin: false, enableSolana: false, enableEVM: false, enableFlow: enableFlow
         )
@@ -42,7 +42,7 @@ struct WalletCoreExecuteFlowScriptTests {
     @Test("default WalletCore initializer enables Flow module")
     func defaultInitializerEnablesFlow() async throws {
         let core = WalletCore(
-            keyManager: KeyManagerActor(),
+            keyManager: KeyManagerActor(storageProvider: InMemoryKeyStorageProvider()),
             chainConfigService: ChainConfigurationService()
         )
         let flowChain = ChainConfig.mockFlow()

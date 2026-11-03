@@ -6,7 +6,7 @@ Each milestone includes recommended automation using Bash and/or Python.
 
 ---
 
-# Milestone 0
+## Milestone 0
 
 Repository Initialization
 
@@ -61,7 +61,7 @@ Repository ready for development.
 
 ---
 
-# Milestone 1
+## Milestone 1
 
 Developer Tooling
 
@@ -95,7 +95,7 @@ Automated quality tooling.
 
 ---
 
-# Milestone 2
+## Milestone 2
 
 Core Architecture
 
@@ -129,7 +129,7 @@ Core application framework.
 
 ---
 
-# Milestone 3
+## Milestone 3
 
 Networking
 
@@ -160,7 +160,7 @@ Reliable networking stack.
 
 ---
 
-# Milestone 4
+## Milestone 4
 
 Media Pipeline
 
@@ -193,7 +193,7 @@ Hardware accelerated rendering.
 
 ---
 
-# Milestone 5
+## Milestone 5
 
 Application UI
 
@@ -216,7 +216,7 @@ Functional desktop application.
 
 ---
 
-# Milestone 6
+## Milestone 6
 
 Plugin SDK
 
@@ -244,7 +244,7 @@ Production plugin framework.
 
 ---
 
-# Milestone 7
+## Milestone 7
 
 Plugin Examples
 
@@ -267,7 +267,7 @@ Reference implementations.
 
 ---
 
-# Milestone 8
+## Milestone 8
 
 Security Hardening
 
@@ -292,7 +292,7 @@ Security review complete.
 
 ---
 
-# Milestone 9
+## Milestone 9
 
 Documentation
 
@@ -325,7 +325,7 @@ Complete developer documentation.
 
 ---
 
-# Milestone 10
+## Milestone 10
 
 Testing
 
@@ -357,7 +357,7 @@ Deliverable
 
 ---
 
-# Milestone 11
+## Milestone 11
 
 Continuous Integration
 
@@ -384,7 +384,7 @@ Green CI pipeline.
 
 ---
 
-# Milestone 12
+## Milestone 12
 
 Version 1.0 Release
 
@@ -419,7 +419,7 @@ Production release.
 
 ---
 
-# Definition of Done
+## Definition of Done
 
 Every milestone is complete only when:
 

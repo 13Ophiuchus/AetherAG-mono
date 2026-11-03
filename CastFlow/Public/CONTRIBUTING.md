@@ -1,6 +1,6 @@
 # CONTRIBUTING.md
 
-# Contributing to CastFlow
+## Contributing to CastFlow
 
 First and foremost, thank you for your interest in contributing to CastFlow.
 
@@ -8,7 +8,7 @@ Our goal is to build a world-class wireless display platform using modern Swift 
 
 ---
 
-# Our Philosophy
+## Our Philosophy
 
 CastFlow is built around a few simple principles:
 
@@ -23,13 +23,13 @@ Every contribution should improve one or more of these principles.
 
 ---
 
-# Code of Conduct
+## Code of Conduct
 
 By participating in this project you agree to follow the project's Code of Conduct.
 
 Please read:
 
-```
+```text
 CODE_OF_CONDUCT.md
 ```
 
@@ -37,11 +37,11 @@ before participating.
 
 ---
 
-# Ways to Contribute
+## Ways to Contribute
 
 We welcome contributions in many forms.
 
-## Code
+### Code
 
 - Features
 - Bug fixes
@@ -51,7 +51,7 @@ We welcome contributions in many forms.
 
 ---
 
-## Documentation
+### Documentation
 
 - README improvements
 - Architecture
@@ -61,7 +61,7 @@ We welcome contributions in many forms.
 
 ---
 
-## Testing
+### Testing
 
 - Unit tests
 - Integration tests
@@ -71,7 +71,7 @@ We welcome contributions in many forms.
 
 ---
 
-## Design
+### Design
 
 - Architecture reviews
 - Sequence diagrams
@@ -80,7 +80,7 @@ We welcome contributions in many forms.
 
 ---
 
-# Before Opening an Issue
+## Before Opening an Issue
 
 Please check:
 
@@ -93,7 +93,7 @@ Duplicate issues make maintenance harder.
 
 ---
 
-# Before Writing Code
+## Before Writing Code
 
 Please:
 
@@ -105,7 +105,7 @@ Please:
 
 ---
 
-# Development Requirements
+## Development Requirements
 
 Required:
 
@@ -116,7 +116,7 @@ Required:
 
 ---
 
-# Build
+## Build
 
 ```bash
 swift build
@@ -124,7 +124,7 @@ swift build
 
 ---
 
-# Test
+## Test
 
 ```bash
 swift test
@@ -132,7 +132,7 @@ swift test
 
 ---
 
-# Formatting
+## Formatting
 
 Use:
 
@@ -143,11 +143,11 @@ All pull requests must pass formatting checks.
 
 ---
 
-# Branch Naming
+## Branch Naming
 
 Examples:
 
-```
+```text
 feature/plugin-sdk
 
 feature/google-cast
@@ -167,13 +167,13 @@ refactor/media-pipeline
 
 ---
 
-# Commit Messages
+## Commit Messages
 
 Use Conventional Commits.
 
 Examples:
 
-```
+```text
 feat(network): implement RTSP parser
 
 feat(media): add Metal renderer
@@ -189,7 +189,7 @@ test(network): add RTP validation tests
 
 ---
 
-# Pull Request Requirements
+## Pull Request Requirements
 
 Every PR should include:
 
@@ -201,9 +201,9 @@ Every PR should include:
 
 ---
 
-# Coding Standards
+## Coding Standards
 
-## Swift
+### Swift
 
 Use:
 
@@ -222,7 +222,7 @@ Avoid:
 
 ---
 
-## Architecture
+### Architecture
 
 Follow:
 
@@ -233,7 +233,7 @@ Follow:
 
 ---
 
-## Documentation
+### Documentation
 
 Every public:
 
@@ -247,7 +247,7 @@ must include documentation comments.
 
 ---
 
-# Testing Standards
+## Testing Standards
 
 New functionality requires:
 
@@ -258,11 +258,11 @@ New functionality requires:
 
 Target coverage:
 
-**90%+**
+90%+
 
 ---
 
-# Security Contributions
+## Security Contributions
 
 Security improvements are always welcome.
 
@@ -279,7 +279,7 @@ Please report vulnerabilities privately before opening a public issue.
 
 ---
 
-# Plugin Contributions
+## Plugin Contributions
 
 Plugins should:
 
@@ -290,7 +290,7 @@ Plugins should:
 
 ---
 
-# Documentation Contributions
+## Documentation Contributions
 
 Excellent documentation is considered a feature.
 
@@ -305,7 +305,7 @@ We especially welcome improvements to:
 
 ---
 
-# Review Process
+## Review Process
 
 Maintainers will review for:
 
@@ -319,7 +319,7 @@ Maintainers will review for:
 
 ---
 
-# What We Avoid
+## What We Avoid
 
 Please avoid:
 
@@ -330,7 +330,7 @@ Please avoid:
 
 ---
 
-# Recognition
+## Recognition
 
 All meaningful contributions are appreciated.
 
@@ -338,7 +338,7 @@ Contributors may be recognized in release notes and project documentation.
 
 ---
 
-# Thank You
+## Thank You
 
 Open source succeeds because of its community.
 
