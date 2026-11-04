@@ -14,6 +14,25 @@
 5. Run `python3 scripts/sync_milestones.py --check` before opening a pull request.
 6. Keep secrets, keys, mnemonic phrases, credentials, and production endpoints out of milestone evidence.
 
+<!-- PR8-INTEGRATION-VERIFICATION:BEGIN -->
+## PR #8 integration verification
+
+- Repository: `13Ophiuchus/AetherAG-mono`.
+- Reviewed head: `d8bc9be4ff7d77ff3bbbbb950aba8aeaf188ae46`.
+- Merge commit: `8c96b247702827a32ff4438c5fe99e290956495c`.
+- Merged into `main` at `2026-11-03T19:52:33Z`.
+- All nine identified post-merge workflow runs completed successfully.
+- Concurrency & Testing Guardrail run `41707336180` passed on attempt 2;
+  the first attempt could not acquire a hosted runner.
+- CodeQL run `41707332826` succeeded for the merge commit. Its REST API
+  run name is `Push on main`, and its workflow path is
+  `dynamic/github-code-scanning/codeql`.
+- Checkout-action runtime deprecation remains a separate maintenance item.
+- This record does not mark any milestone task complete.
+- Outstanding production-release gates remain open; no release is authorized.
+
+<!-- PR8-INTEGRATION-VERIFICATION:END -->
+
 ## Status Legend
 
 - `done`: Acceptance criteria and validation evidence are complete.
