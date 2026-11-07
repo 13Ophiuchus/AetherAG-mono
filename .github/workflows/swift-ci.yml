@@ -195,7 +195,7 @@ jobs:
       pull-requests: write
       contents: read
     container:
-      image: swift:6.3
+      image: docker.io/library/swift@sha256:119ff7d833ea622851b459513333bb4bda5ebb32b7acd05dd05077d5b0383129
 
     services:
       postgres:
@@ -239,9 +239,20 @@ jobs:
           path: |
             AetherAG/.build
             ~/.cache/org.swift.swiftpm
-          key: spm-aether-linux-v3-${{ hashFiles('AetherAG/Package.resolved') }}
-          restore-keys: spm-aether-linux-v3-
+          key: spm-aether-linux-swift642-v1-${{ hashFiles('AetherAG/Package.resolved') }}
+          restore-keys: spm-aether-linux-swift642-v1-
 
+
+      - name: Install Python for Linux test summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v python3 >/dev/null 2>&1; then
+            apt-get update
+            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3
+          fi
+          python3 --version
+          python3 -c 'import xml.etree.ElementTree'
 
       - name: Linux pre-flight check
         run: bash scripts/linux-preflight.sh
@@ -328,30 +339,72 @@ jobs:
       - name: Emit job summary
         if: always()
         working-directory: AetherAG
+        shell: bash
         run: |
-          {
-            echo "## 🌐 AetherAG Linux (Vapor) Test Results"
-            echo ""
-            if [ -f .test-results/aether-linux-raw.log ]; then
-              PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
-              FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-linux-raw.log 2>/dev/null || echo 0)
-              TOTAL=$((PASSED + FAILED))
-              echo "| Result | Count |"
-              echo "|--------|-------|"
-              echo "| ✅ Passed | ${PASSED} / ${TOTAL} |"
-              echo "| ❌ Failed | ${FAILED} / ${TOTAL} |"
-              echo ""
-              echo "**Suites run:** AetherAGMailSharedTests · AetherAGMailServerTests · FlowTests"
-              if [ "$FAILED" -gt 0 ]; then
-                echo ""
-                echo "### Failed Tests"
-                echo '```'
-                grep "Test Case.*failed" .test-results/aether-linux-raw.log || true
-                echo '```'
-              fi
-            fi
+          python3 - <<'PYREPORT'
+          import os
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
 
-          } >> "$GITHUB_STEP_SUMMARY"
+          directory = Path(os.environ.get("REPORT_DIR", ".test-results"))
+          rows = []
+          problems = []
+
+          def tag(element):
+              return element.tag.rsplit("}", 1)[-1]
+
+          for suite in ("shared", "server", "flow"):
+              counts = dict(reported=0, executed=0, skipped=0, failures=0, errors=0)
+              for suffix in ("", "-swift-testing"):
+                  path = directory / f"aether-linux-{suite}{suffix}.xml"
+                  if not path.is_file():
+                      continue
+                  try:
+                      tree = ET.parse(path).getroot()
+                  except ET.ParseError as error:
+                      problems.append(f"{path.name}: invalid XML: {error}")
+                      continue
+                  cases = [e for e in tree.iter() if tag(e) == "testcase"]
+                  skipped = sum(
+                      any(tag(child) == "skipped" for child in case)
+                      for case in cases
+                  )
+                  counts["reported"] += len(cases)
+                  counts["executed"] += len(cases) - skipped
+                  counts["skipped"] += skipped
+                  counts["failures"] += sum(tag(e) == "failure" for e in tree.iter())
+                  counts["errors"] += sum(tag(e) == "error" for e in tree.iter())
+              if counts["executed"] == 0:
+                  problems.append(f"{suite}: no executed test cases found")
+              rows.append((suite, counts))
+
+          totals = {
+              key: sum(counts[key] for _, counts in rows)
+              for key in ("reported", "executed", "skipped", "failures", "errors")
+          }
+          lines = [
+              "## AetherAG Linux test results",
+              "",
+              "| Suite | Reported | Executed | Skipped | Failures | Errors |",
+              "|---|---:|---:|---:|---:|---:|",
+          ]
+          for name, counts in rows + [("Total", totals)]:
+              values = " | ".join(str(value) for value in counts.values())
+              lines.append(f"| {name} | {values} |")
+          lines += [
+              "",
+              "Counts include XCTest and Swift Testing XML reports.",
+              "Executed excludes skipped cases; command failures remain separately gated.",
+          ]
+          if problems:
+              lines += ["", "### Report problems"] + [f"- {p}" for p in problems]
+          content = "\n".join(lines) + "\n"
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a", encoding="utf-8") as stream:
+              stream.write(content)
+          print(content, end="")
+          if problems or totals["failures"] or totals["errors"]:
+              raise SystemExit("STOP: Missing, malformed, empty, or failing test reports.")
+          PYREPORT
 
       - name: Fail job if tests failed
         if: steps.aether_linux_test.outcome == 'failure'
