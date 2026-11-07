@@ -243,6 +243,17 @@ jobs:
           restore-keys: spm-aether-linux-swift642-v1-
 
 
+      - name: Install Python for Linux test summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v python3 >/dev/null 2>&1; then
+            apt-get update
+            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3
+          fi
+          python3 --version
+          python3 -c 'import xml.etree.ElementTree'
+
       - name: Linux pre-flight check
         run: bash scripts/linux-preflight.sh
 
