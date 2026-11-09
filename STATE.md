@@ -1,5 +1,13 @@
 # AetherAG-mono — Project State
 
+<!-- HISTORICAL-PLAN-NOTICE:BEGIN -->
+> Historical planning/reference document.
+> Current canonical task statuses are maintained in `MASTER_MILESTONE.md`.
+> Some implementation-gap statements and editing instructions below are
+> superseded. Do not run historical patch instructions without inspecting
+> the current source. Preserve this document as history.
+<!-- HISTORICAL-PLAN-NOTICE:END -->
+
 _Compiled 2026-09-08 16:41 EDT, from direct terminal output (git log + cat/sed of live
 MILESTONES.md files) supplied in-session, superseding an earlier draft of this document that
 relied on stale cached historical files and materially misstated AGWallet's Flow module

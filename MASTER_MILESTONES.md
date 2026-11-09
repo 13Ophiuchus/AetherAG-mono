@@ -1,5 +1,13 @@
 # AetherAG-mono — MASTER_MILESTONES.md
 
+<!-- HISTORICAL-PLAN-NOTICE:BEGIN -->
+> Historical planning/reference document.
+> Current canonical task statuses are maintained in `MASTER_MILESTONE.md`.
+> Some implementation-gap statements and editing instructions below are
+> superseded. Do not run historical patch instructions without inspecting
+> the current source. Preserve this document as history.
+<!-- HISTORICAL-PLAN-NOTICE:END -->
+
 Consolidated from confirmed, directly-retrieved content of `AGWallet/MILESTONES.md`,
 `AetherAG/MILESTONES.md`, and `git log --oneline` across both repos, supplied via terminal
 output in this session on 2026-09-08. **This replaces an earlier version of this file that

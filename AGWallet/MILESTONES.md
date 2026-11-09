@@ -25,7 +25,7 @@ Regenerate: python3 scripts/sync_milestones.py
 
 #### AGW-001 — Solana SPL token balance support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** None
 
@@ -51,7 +51,7 @@ Regenerate: python3 scripts/sync_milestones.py
 
 #### AGW-002 — Solana SPL token send support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** AGW-001
 
