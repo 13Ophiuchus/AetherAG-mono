@@ -1,5 +1,13 @@
 # AetherAG-mono — Remaining Path to Production
 
+<!-- HISTORICAL-PLAN-NOTICE:BEGIN -->
+> Historical planning/reference document.
+> Current canonical task statuses are maintained in `MASTER_MILESTONE.md`.
+> Some implementation-gap statements and editing instructions below are
+> superseded. Do not run historical patch instructions without inspecting
+> the current source. Preserve this document as history.
+<!-- HISTORICAL-PLAN-NOTICE:END -->
+
 Status as of 2026-09-14, post-Milestone 70 (EVM transaction history via indexer, commit
 `730fdf8`). This supersedes item 2 of the prior gap list — EVM history via indexer is now
 **done**. Everything below is still open, ordered by the same phase structure already

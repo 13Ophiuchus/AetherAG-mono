@@ -33,6 +33,33 @@
 
 <!-- PR8-INTEGRATION-VERIFICATION:END -->
 
+<!-- PROJECT-STATE-AUDIT-20261108:BEGIN -->
+## Project-state audit — 2026-11-08
+
+- Audit baseline: `f749204667c2c51abeb9fe48c512cb2b6bca5426`.
+- This file is the canonical task-status source.
+- `MASTER_MILESTONES.md`, `STATE.md`, and `production_roadmap.md`
+  contain historical observations, not authoritative current task statuses.
+- AGW-001 and AGW-002 retain their existing done markers and evidence;
+  visible status fields are reconciled to those markers.
+- EVM history enrichment is implemented in `EVMIndexerClient.swift`;
+  AGW-003 and AGW-004 still require acceptance-level review and tests.
+- The pinned AetherAG VP verifier already uses presented credential IDs.
+  AAG-001 remains open: missing/malformed identifier rejection must be
+  verified and corrected where necessary.
+- Existing revoked-credential and rate-limit tests must be reused and
+  audited before treating AAG-002 or AAG-003 as greenfield implementation.
+- Root SECURITY.md exists; operational reporting-channel ownership and
+  supported-version guidance remain to be verified.
+- PR #11 is a separate artifact-retention follow-up. Its successful
+  head-commit CI does not establish merge, XML inspection, or release.
+- Production-runner IDs are separate validation gates, not automatic
+  completion evidence for canonical task IDs.
+- No unfinished task is marked done by this documentation reconciliation.
+- Nested AetherAG and Flow milestone histories are not overwritten.
+
+<!-- PROJECT-STATE-AUDIT-20261108:END -->
+
 ## Status Legend
 
 - `done`: Acceptance criteria and validation evidence are complete.
@@ -47,7 +74,7 @@
 <!-- MILESTONE: AGW-001 | module: AGWallet | status: done | priority: P0 -->
 #### AGW-001 — Solana SPL token balance support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** None
 
@@ -68,7 +95,7 @@
 <!-- MILESTONE: AGW-002 | module: AGWallet | status: done | priority: P0 -->
 #### AGW-002 — Solana SPL token send support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** AGW-001
 

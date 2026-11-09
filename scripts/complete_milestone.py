@@ -51,9 +51,7 @@ def main() -> int:
     if not match:
         print(f"Task {args.task_id} was not found.", file=sys.stderr)
         return 2
-    if match.group("status").strip() == "done":
-        print(f"Task {args.task_id} is already marked done.")
-        return 0
+    already_done = match.group("status").strip() == "done"
 
     updated = text[:match.start("status")] + "done" + text[match.end("status"):]
     section_pattern = re.compile(
@@ -68,10 +66,24 @@ def main() -> int:
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     evidence_line = f"**Evidence:** Completed {timestamp}. {args.evidence}"
     section_text = section.group(1)
-    if "**Evidence:**" in section_text:
-        section_text = re.sub(r"\*\*Evidence:\*\*.*", evidence_line, section_text)
-    else:
-        section_text = section_text.rstrip() + "\n\n" + evidence_line
+    visible_status = re.compile(r"^\*\*Status:\*\*[^\n]*$", re.MULTILINE)
+    if len(visible_status.findall(section_text)) != 1:
+        print(
+            f"Task {args.task_id} must have exactly one visible status field.",
+            file=sys.stderr,
+        )
+        return 2
+    section_text = visible_status.sub("**Status:** done", section_text, count=1)
+
+    if not already_done:
+        if "**Evidence:**" in section_text:
+            section_text = re.sub(
+                r"\*\*Evidence:\*\*.*",
+                lambda _: evidence_line,
+                section_text,
+            )
+        else:
+            section_text = section_text.rstrip() + "\n\n" + evidence_line
     updated = updated[:section.start(1)] + section_text + updated[section.end(1):]
     MASTER.write_text(updated, encoding="utf-8")
 
@@ -80,7 +92,13 @@ def main() -> int:
         cwd=ROOT,
         check=True,
     )
-    print(f"Marked {args.task_id} done and synchronized module milestone views.")
+    if already_done:
+        print(
+            f"Task {args.task_id} remains done; synchronized visible status "
+            "and module views without replacing completion evidence."
+        )
+    else:
+        print(f"Marked {args.task_id} done and synchronized module milestone views.")
     return 0
 
 if __name__ == "__main__":
