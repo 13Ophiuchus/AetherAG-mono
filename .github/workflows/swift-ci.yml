@@ -137,7 +137,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: agwallet-test-results
-          path: AGWallet/.test-results/
+          include-hidden-files: true
+          path: AGWallet/.test-results/*.xml
           retention-days: 14
 
       - name: Publish test report
@@ -308,7 +309,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aether-linux-test-results
-          path: AetherAG/.test-results/
+          include-hidden-files: true
+          path: AetherAG/.test-results/*.xml
           retention-days: 14
 
       - name: Detect AetherAG Linux JUnit report
@@ -526,7 +528,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aether-macos-test-results
-          path: AetherAG/.test-results/
+          include-hidden-files: true
+          path: AetherAG/.test-results/*.xml
           retention-days: 14
 
       - name: Publish test report
