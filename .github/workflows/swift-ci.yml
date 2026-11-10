@@ -25,16 +25,11 @@ jobs:
           fetch-depth: 0
 
       - name: Check Python migration guardrails
+        shell: bash
         run: |
           set -euo pipefail
-          python3 -m py_compile \
-            scripts/check_module_migration.py \
-            scripts/production_baseline_audit.py \
-            scripts/tests/test_check_module_migration.py \
-            scripts/tests/test_production_baseline_audit.py
-          python3 -m unittest -v \
-            scripts.tests.test_check_module_migration \
-            scripts.tests.test_production_baseline_audit
+          python3 -m py_compile scripts/check_test_reports.py
+          python3 -m unittest discover -s scripts/tests -p 'test*.py' -v
 
       - name: Run production diagnostics
         run: |
@@ -128,7 +123,9 @@ jobs:
       - name: Test (XUnit output)
         id: agwallet_test
         working-directory: AGWallet
+        shell: bash
         run: |
+          set -euo pipefail
           mkdir -p .test-results
           swift test --parallel \
             --xunit-output .test-results/agwallet.xml \
@@ -148,39 +145,23 @@ jobs:
         uses: dorny/test-reporter@v2
         with:
           name: AGWallet Tests
-          path: AGWallet/.test-results/agwallet.xml
+          path: AGWallet/.test-results/agwallet*.xml
           reporter: java-junit
-          fail-on-error: false
-          fail-on-empty: false
+          fail-on-error: true
+          fail-on-empty: true
 
       - name: Emit job summary
         if: always()
-        working-directory: AGWallet
+        shell: bash
         run: |
-          {
-            echo "## 🔐 AGWallet Test Results"
-            echo ""
-            if [ -f .test-results/agwallet-raw.log ]; then
-              PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
-              FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/agwallet-raw.log 2>/dev/null || echo 0)
-              TOTAL=$((PASSED + FAILED))
-              echo "| Result | Count |"
-              echo "|--------|-------|"
-              echo "| ✅ Passed | ${PASSED} / ${TOTAL} |"
-              echo "| ❌ Failed | ${FAILED} / ${TOTAL} |"
-              if [ "$FAILED" -gt 0 ]; then
-                echo ""
-                echo "### Failed Tests"
-                echo '```'
-                grep "Test Case.*failed" .test-results/agwallet-raw.log || true
-                echo '```'
-              fi
-            fi
-
-          } >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+          python3 scripts/check_test_reports.py \
+            --directory AGWallet/.test-results \
+            --title 'AGWallet test results' \
+            --group 'agwallet:agwallet*.xml'
 
       - name: Fail job if tests failed
-        if: steps.agwallet_test.outcome == 'failure'
+        if: always() && steps.agwallet_test.outcome == 'failure'
         run: exit 1
 
   # ─────────────────────────────────────────────────────────────────
@@ -292,7 +273,9 @@ jobs:
       - name: Test Linux-compatible suites (XUnit output)
         id: aether_linux_test
         working-directory: AetherAG
+        shell: bash
         run: |
+          set -euo pipefail
           mkdir -p .test-results
           swift test --filter AetherAGMailSharedTests --parallel \
             --xunit-output .test-results/aether-linux-shared.xml \
@@ -334,80 +317,22 @@ jobs:
           name: AetherAG Linux Tests
           path: AetherAG/.test-results/aether-linux*.xml
           reporter: java-junit
-          fail-on-error: false
+          fail-on-error: true
 
       - name: Emit job summary
         if: always()
-        working-directory: AetherAG
         shell: bash
         run: |
-          python3 - <<'PYREPORT'
-          import os
-          import xml.etree.ElementTree as ET
-          from pathlib import Path
-
-          directory = Path(os.environ.get("REPORT_DIR", ".test-results"))
-          rows = []
-          problems = []
-
-          def tag(element):
-              return element.tag.rsplit("}", 1)[-1]
-
-          for suite in ("shared", "server", "flow"):
-              counts = dict(reported=0, executed=0, skipped=0, failures=0, errors=0)
-              for suffix in ("", "-swift-testing"):
-                  path = directory / f"aether-linux-{suite}{suffix}.xml"
-                  if not path.is_file():
-                      continue
-                  try:
-                      tree = ET.parse(path).getroot()
-                  except ET.ParseError as error:
-                      problems.append(f"{path.name}: invalid XML: {error}")
-                      continue
-                  cases = [e for e in tree.iter() if tag(e) == "testcase"]
-                  skipped = sum(
-                      any(tag(child) == "skipped" for child in case)
-                      for case in cases
-                  )
-                  counts["reported"] += len(cases)
-                  counts["executed"] += len(cases) - skipped
-                  counts["skipped"] += skipped
-                  counts["failures"] += sum(tag(e) == "failure" for e in tree.iter())
-                  counts["errors"] += sum(tag(e) == "error" for e in tree.iter())
-              if counts["executed"] == 0:
-                  problems.append(f"{suite}: no executed test cases found")
-              rows.append((suite, counts))
-
-          totals = {
-              key: sum(counts[key] for _, counts in rows)
-              for key in ("reported", "executed", "skipped", "failures", "errors")
-          }
-          lines = [
-              "## AetherAG Linux test results",
-              "",
-              "| Suite | Reported | Executed | Skipped | Failures | Errors |",
-              "|---|---:|---:|---:|---:|---:|",
-          ]
-          for name, counts in rows + [("Total", totals)]:
-              values = " | ".join(str(value) for value in counts.values())
-              lines.append(f"| {name} | {values} |")
-          lines += [
-              "",
-              "Counts include XCTest and Swift Testing XML reports.",
-              "Executed excludes skipped cases; command failures remain separately gated.",
-          ]
-          if problems:
-              lines += ["", "### Report problems"] + [f"- {p}" for p in problems]
-          content = "\n".join(lines) + "\n"
-          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a", encoding="utf-8") as stream:
-              stream.write(content)
-          print(content, end="")
-          if problems or totals["failures"] or totals["errors"]:
-              raise SystemExit("STOP: Missing, malformed, empty, or failing test reports.")
-          PYREPORT
+          set -euo pipefail
+          python3 scripts/check_test_reports.py \
+            --directory AetherAG/.test-results \
+            --title 'AetherAG Linux test results' \
+            --group 'shared:aether-linux-shared*.xml' \
+            --group 'server:aether-linux-server*.xml' \
+            --group 'flow:aether-linux-flow*.xml'
 
       - name: Fail job if tests failed
-        if: steps.aether_linux_test.outcome == 'failure'
+        if: always() && steps.aether_linux_test.outcome == 'failure'
         run: exit 1
 
   # ─────────────────────────────────────────────────────────────────
@@ -422,6 +347,10 @@ jobs:
       checks: write
       pull-requests: write
       contents: read
+
+    env:
+      DATABASE_URL: postgres://test:test@127.0.0.1:15432/test
+      REDIS_URL: redis://127.0.0.1:16379/15
 
     steps:
       - name: Checkout
@@ -474,6 +403,85 @@ jobs:
           key: spm-aether-macos-${{ runner.os }}-v3-${{ hashFiles('AetherAG/Package.resolved') }}
           restore-keys: spm-aether-macos-${{ runner.os }}-v3-
 
+      - name: Start isolated macOS test services
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+
+          for formula in postgresql@16 redis; do
+            if ! brew list --versions "$formula" >/dev/null 2>&1; then
+              HOMEBREW_NO_AUTO_UPDATE=1 brew install "$formula"
+            fi
+          done
+
+          pg_bin="$(brew --prefix postgresql@16)/bin"
+          redis_bin="$(brew --prefix redis)/bin"
+          service_dir="$RUNNER_TEMP/aether-ci-services"
+
+          if [[ -e "$service_dir" ]]; then
+            echo "Service directory unexpectedly exists." >&2
+            exit 1
+          fi
+
+          for port in 15432 16379; do
+            if lsof -nP -iTCP:"$port" -sTCP:LISTEN >/dev/null 2>&1; then
+              echo "Required test port is already occupied: $port" >&2
+              exit 1
+            fi
+          done
+
+          mkdir -p "$service_dir/socket" "$service_dir/redis"
+          printf '%s\n' "$pg_bin" > "$service_dir/postgres-bin"
+
+          "$pg_bin/initdb" \
+            -D "$service_dir/postgres" \
+            --username=test \
+            --auth-local=trust \
+            --auth-host=trust \
+            --encoding=UTF8 \
+            --no-locale
+
+          "$pg_bin/pg_ctl" \
+            -D "$service_dir/postgres" \
+            -l "$service_dir/postgres.log" \
+            -o "-h 127.0.0.1 -p 15432 -k $service_dir/socket" \
+            -w -t 60 start
+
+          "$pg_bin/createdb" \
+            -h 127.0.0.1 -p 15432 -U test test
+
+          "$redis_bin/redis-server" \
+            --bind 127.0.0.1 \
+            --protected-mode yes \
+            --port 16379 \
+            --save "" \
+            --appendonly no \
+            --daemonize yes \
+            --dir "$service_dir/redis" \
+            --pidfile "$service_dir/redis.pid" \
+            --logfile "$service_dir/redis.log"
+
+          ready=false
+          for attempt in $(seq 1 30); do
+            printf 'Waiting for Redis readiness: %s/30\n' "$attempt"
+            if [[ "$("$redis_bin/redis-cli" -h 127.0.0.1 -p 16379 ping 2>/dev/null)" = PONG ]]; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [[ "$ready" != true ]]; then
+            echo "Redis readiness timed out." >&2
+            exit 1
+          fi
+
+          "$pg_bin/psql" \
+            -h 127.0.0.1 -p 15432 -U test -d test \
+            -v ON_ERROR_STOP=1 -c 'SELECT 1;'
+
+          echo "Dedicated PostgreSQL and Redis test services are ready."
+
       - name: Resolve dependencies
         working-directory: AetherAG
         run: swift package resolve
@@ -489,7 +497,9 @@ jobs:
       - name: Test (XUnit output)
         id: aether_macos_test
         working-directory: AetherAG
+        shell: bash
         run: |
+          set -euo pipefail
           mkdir -p .test-results
           swift test --parallel \
             --xunit-output .test-results/aether-macos.xml \
@@ -509,40 +519,49 @@ jobs:
         uses: dorny/test-reporter@v2
         with:
           name: AetherAG macOS Tests
-          path: AetherAG/.test-results/aether-macos.xml
+          path: AetherAG/.test-results/aether-macos*.xml
           reporter: java-junit
-          fail-on-error: false
-          fail-on-empty: false
+          fail-on-error: true
+          fail-on-empty: true
 
       - name: Emit job summary
         if: always()
-        working-directory: AetherAG
+        shell: bash
         run: |
-          {
-            echo "## 🍎 AetherAG macOS Test Results"
-            echo ""
-            if [ -f .test-results/aether-macos-raw.log ]; then
-              PASSED=$(awk '/Test Case.*passed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
-              FAILED=$(awk '/Test Case.*failed/{c++} END{print c+0}' .test-results/aether-macos-raw.log 2>/dev/null || echo 0)
-              TOTAL=$((PASSED + FAILED))
-              echo "| Result | Count |"
-              echo "|--------|-------|"
-              echo "| ✅ Passed | ${PASSED} / ${TOTAL} |"
-              echo "| ❌ Failed | ${FAILED} / ${TOTAL} |"
-              if [ "$FAILED" -gt 0 ]; then
-                echo ""
-                echo "### Failed Tests"
-                echo '```'
-                grep "Test Case.*failed" .test-results/aether-macos-raw.log || true
-                echo '```'
-              fi
-            fi
-
-          } >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+          python3 scripts/check_test_reports.py \
+            --directory AetherAG/.test-results \
+            --title 'AetherAG macOS test results' \
+            --group 'macos:aether-macos*.xml'
 
       - name: Fail job if tests failed
-        if: steps.aether_macos_test.outcome == 'failure'
+        if: always() && steps.aether_macos_test.outcome == 'failure'
         run: exit 1
+
+      - name: Stop isolated macOS test services
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          service_dir="$RUNNER_TEMP/aether-ci-services"
+          result=0
+
+          if [[ -f "$service_dir/redis.pid" ]]; then
+            pid="$(cat "$service_dir/redis.pid")"
+            if [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null; then
+              kill -TERM "$pid" || result=1
+            fi
+          fi
+
+          if [[ -f "$service_dir/postgres-bin" && -f "$service_dir/postgres/postmaster.pid" ]]; then
+            pg_bin="$(cat "$service_dir/postgres-bin")"
+            "$pg_bin/pg_ctl" \
+              -D "$service_dir/postgres" \
+              -m fast -w -t 60 stop || result=1
+          fi
+
+          exit "$result"
+
 
   # ─────────────────────────────────────────────────────────────────
   # Secret scanning (TruffleHog — verified secrets only)
