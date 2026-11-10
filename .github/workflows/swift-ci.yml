@@ -229,8 +229,23 @@ jobs:
         run: |
           set -euo pipefail
           if ! command -v python3 >/dev/null 2>&1; then
-            apt-get update
-            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3
+            while IFS= read -r -d '' source; do
+              sed -i \
+                -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
+                -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' \
+                "$source"
+            done < <(
+              find /etc/apt -maxdepth 2 -type f \
+                \( -name '*.list' -o -name '*.sources' \) -print0
+            )
+            apt_options=(
+              -o Acquire::Retries=3
+              -o Acquire::http::Timeout=30
+              -o Acquire::https::Timeout=30
+            )
+            apt-get "${apt_options[@]}" -o APT::Update::Error-Mode=any update
+            DEBIAN_FRONTEND=noninteractive apt-get "${apt_options[@]}" \
+              install -y --no-install-recommends python3
           fi
           python3 --version
           python3 -c 'import xml.etree.ElementTree'
