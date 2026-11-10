@@ -10,8 +10,8 @@ Regenerate: python3 scripts/sync_milestones.py
 
 ## Status
 
-- Done: 0
-- In progress: 1
+- Done: 1
+- In progress: 0
 - Blocked: 0
 - Not started: 0
 
@@ -20,12 +20,12 @@ Regenerate: python3 scripts/sync_milestones.py
 <!-- Source task: GOV-001 -->
 ### GOV-001 — GOV-001 — Consolidated milestone governance
 
-- **Status:** `in_progress`
+- **Status:** `done`
 - **Priority:** `P0`
 
 #### GOV-001 — Consolidated milestone governance
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** None
 
@@ -38,4 +38,4 @@ Regenerate: python3 scripts/sync_milestones.py
 - Discovery reports can be generated locally and uploaded by CI.
 - Module milestone files contain generated headers and are not manually edited.
 
-**Evidence:** Bootstrap tooling introduced; validate after first repository run.
+**Evidence:** Completed 2026-11-09T23:53:45Z. Validated against integration commit 3eb46d4f73dd66c658dcc84e5aba430a6a313001. All nine expected post-merge workflows succeeded. Milestone Governance run 42689953148 passed completion-tool regression tests, generated-view validation, and main-branch synchronization. Discovery run 42689953037 produced retained artifact 13706127925; reviewed JSON matched all 20 canonical tasks and seven module entries, and timestamped/current JSON and Markdown matched. Local sync --check, supported generated-header checks, and discover_state.py JSON/Markdown generation passed on a matching source tree. Local discovery used a partially populated dependency checkout; complete module inventory was verified from CI. Acceptance review recorded 2026-11-09.
