@@ -12,7 +12,7 @@ MASTER = ROOT / "MASTER_MILESTONE.md"
 TASK_PATTERN = re.compile(
     r"<!-- MILESTONE: (?P<id>[A-Z0-9-]+) \| module: (?P<module>[^|]+) "
     r"\| status: (?P<status>[^|]+) \| priority: (?P<priority>[^ ]+) -->\n"
-    r"(?P<body>.*?)(?=\n<!-- MILESTONE: |\Z)",
+    r"(?P<body>.*?)(?=\n<!-- MILESTONE: |\n## |\n### |\Z)",
     re.DOTALL,
 )
 ALLOWED_STATUS = {"not_started", "in_progress", "blocked", "done"}
@@ -49,7 +49,21 @@ def parse_tasks(master_text: str):
             raise ValueError(f"{task['id']}: unsupported status {task['status']!r}")
         if task["module"] not in MODULE_PATHS:
             raise ValueError(f"{task['id']}: unsupported module {task['module']!r}")
+        headings = task["body"].splitlines()
+        if not headings or not headings[0].startswith("#### " + task["id"] + " — "):
+            raise ValueError(f"{task['id']}: expected a matching task heading")
+        visible = re.findall(
+            r"^\*\*Status:\*\* (not_started|in_progress|blocked|done)[ \t]*$",
+            task["body"], re.MULTILINE,
+        )
+        if visible != [task["status"]]:
+            raise ValueError(
+                f"{task['id']}: marker/body status mismatch or missing/duplicate body status"
+            )
         tasks.append(task)
+    marker_count = len(re.findall(r"^<!-- MILESTONE:", master_text, re.MULTILINE))
+    if marker_count != len(tasks):
+        raise ValueError("Malformed or unparsed milestone marker; refusing partial generation")
     if not tasks:
         raise ValueError("No milestone task markers found in MASTER_MILESTONE.md")
     ids = [task["id"] for task in tasks]
@@ -84,12 +98,12 @@ def render(module: str, tasks: list[dict]) -> str:
         lines.extend(
             [
                 f"<!-- Source task: {task['id']} -->",
-                f"### {task['id']} — {task['body'].splitlines()[0].replace('#### ', '')}",
+                task["body"].splitlines()[0].replace("#### ", "### ", 1),
                 "",
                 f"- **Status:** `{task['status']}`",
                 f"- **Priority:** `{task['priority']}`",
                 "",
-                *[line.rstrip() for line in task["body"].splitlines()],
+                *[line.rstrip() for line in task["body"].splitlines()[1:]],
                 "",
             ]
         )

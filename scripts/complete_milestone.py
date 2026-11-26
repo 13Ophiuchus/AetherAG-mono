@@ -30,6 +30,8 @@ def main() -> int:
         help="Allow modifying a working tree that already has changes.",
     )
     args = parser.parse_args()
+    if not args.evidence.strip() or any(c in args.evidence for c in "\r\n"):
+        parser.error("--evidence must be nonempty, single-line reviewed evidence")
 
     if not MASTER.exists():
         print("MASTER_MILESTONE.md is missing.", file=sys.stderr)
@@ -51,13 +53,10 @@ def main() -> int:
     if not match:
         print(f"Task {args.task_id} was not found.", file=sys.stderr)
         return 2
-    if match.group("status").strip() == "done":
-        print(f"Task {args.task_id} is already marked done.")
-        return 0
 
     updated = text[:match.start("status")] + "done" + text[match.end("status"):]
     section_pattern = re.compile(
-        rf"(<!-- MILESTONE: {re.escape(args.task_id)} .*?-->.*?)(?=\n<!-- MILESTONE: |\Z)",
+        rf"(<!-- MILESTONE: {re.escape(args.task_id)} .*?-->.*?)(?=\n<!-- MILESTONE: |\n## |\n### |\Z)",
         re.DOTALL,
     )
     section = section_pattern.search(updated)
@@ -68,8 +67,22 @@ def main() -> int:
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     evidence_line = f"**Evidence:** Completed {timestamp}. {args.evidence}"
     section_text = section.group(1)
+    visible_pattern = r"^\*\*Status:\*\* (not_started|in_progress|blocked|done)[ \t]*$"
+    visible = re.findall(visible_pattern, section_text, re.MULTILINE)
+    if visible != [match.group("status").strip()]:
+        print("Task marker/body status mismatch; review an exact correction separately.", file=sys.stderr)
+        return 2
+    if match.group("status").strip() == "done":
+        print(f"Task {args.task_id} is already consistently marked done.")
+        return 0
+    section_text = re.sub(
+        visible_pattern, "**Status:** done", section_text, count=1, flags=re.MULTILINE
+    )
     if "**Evidence:**" in section_text:
-        section_text = re.sub(r"\*\*Evidence:\*\*.*", evidence_line, section_text)
+        section_text = re.sub(
+            r"^\*\*Evidence:\*\*[^\r\n]*$",
+            lambda _: evidence_line, section_text, flags=re.MULTILINE,
+        )
     else:
         section_text = section_text.rstrip() + "\n\n" + evidence_line
     updated = updated[:section.start(1)] + section_text + updated[section.end(1):]
