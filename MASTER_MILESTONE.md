@@ -28,7 +28,7 @@
 <!-- MILESTONE: AGW-001 | module: AGWallet | status: done | priority: P0 -->
 #### AGW-001 — Solana SPL token balance support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** None
 
@@ -49,7 +49,7 @@
 <!-- MILESTONE: AGW-002 | module: AGWallet | status: done | priority: P0 -->
 #### AGW-002 — Solana SPL token send support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** AGW-001
 

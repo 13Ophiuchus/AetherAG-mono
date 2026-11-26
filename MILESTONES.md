@@ -18,12 +18,11 @@ Regenerate: python3 scripts/sync_milestones.py
 ## Tasks
 
 <!-- Source task: GOV-001 -->
-### GOV-001 — GOV-001 — Consolidated milestone governance
+### GOV-001 — Consolidated milestone governance
 
 - **Status:** `in_progress`
 - **Priority:** `P0`
 
-#### GOV-001 — Consolidated milestone governance
 
 **Status:** in_progress
 **Priority:** P0

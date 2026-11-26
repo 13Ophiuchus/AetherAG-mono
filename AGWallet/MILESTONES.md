@@ -18,14 +18,13 @@ Regenerate: python3 scripts/sync_milestones.py
 ## Tasks
 
 <!-- Source task: AGW-001 -->
-### AGW-001 — AGW-001 — Solana SPL token balance support
+### AGW-001 — Solana SPL token balance support
 
 - **Status:** `done`
 - **Priority:** `P0`
 
-#### AGW-001 — Solana SPL token balance support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** None
 
@@ -44,14 +43,13 @@ Regenerate: python3 scripts/sync_milestones.py
 **Evidence:** Completed 2026-10-08T07:40:21Z. Validated 2026-10-07: focused Solana module tests, full AGWallet test suite, and release build passed. Coverage verifies native SOL preservation, SPL balance retrieval, missing ATA returns zero, malformed mint rejection, decimal normalization, and RPC failure propagation.
 
 <!-- Source task: AGW-002 -->
-### AGW-002 — AGW-002 — Solana SPL token send support
+### AGW-002 — Solana SPL token send support
 
 - **Status:** `done`
 - **Priority:** `P0`
 
-#### AGW-002 — Solana SPL token send support
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** AGW-001
 
@@ -71,12 +69,11 @@ Regenerate: python3 scripts/sync_milestones.py
 **Evidence:** Completed 2026-10-08T07:46:50Z. Validated focused and full AGWallet tests, release build, SPL transfer/error-path coverage, recipient ATA creation, checked transfer assembly, signing-boundary review, and sensitive-log review.
 
 <!-- Source task: AGW-003 -->
-### AGW-003 — AGW-003 — EVM transaction enrichment
+### AGW-003 — EVM transaction enrichment
 
 - **Status:** `not_started`
 - **Priority:** `P1`
 
-#### AGW-003 — EVM transaction enrichment
 
 **Status:** not_started
 **Priority:** P1
@@ -95,12 +92,11 @@ Regenerate: python3 scripts/sync_milestones.py
 **Evidence:** Not started.
 
 <!-- Source task: AGW-004 -->
-### AGW-004 — AGW-004 — EVM indexer-backed history
+### AGW-004 — EVM indexer-backed history
 
 - **Status:** `not_started`
 - **Priority:** `P1`
 
-#### AGW-004 — EVM indexer-backed history
 
 **Status:** not_started
 **Priority:** P1
@@ -119,12 +115,11 @@ Regenerate: python3 scripts/sync_milestones.py
 **Evidence:** Not started.
 
 <!-- Source task: AGW-005 -->
-### AGW-005 — AGW-005 — DynamicChainConfigurator test coverage
+### AGW-005 — DynamicChainConfigurator test coverage
 
 - **Status:** `not_started`
 - **Priority:** `P1`
 
-#### AGW-005 — DynamicChainConfigurator test coverage
 
 **Status:** not_started
 **Priority:** P1
@@ -140,15 +135,12 @@ Regenerate: python3 scripts/sync_milestones.py
 
 **Evidence:** Not started.
 
-### Wallet Public API and Security
-
 <!-- Source task: AGW-006 -->
-### AGW-006 — AGW-006 — WalletCore API documentation and convenience audit
+### AGW-006 — WalletCore API documentation and convenience audit
 
 - **Status:** `not_started`
 - **Priority:** `P2`
 
-#### AGW-006 — WalletCore API documentation and convenience audit
 
 **Status:** not_started
 **Priority:** P2
@@ -164,7 +156,3 @@ Regenerate: python3 scripts/sync_milestones.py
 - Package builds and tests pass.
 
 **Evidence:** Not started.
-
-## AetherAG Server and Identity
-
-### Presentation and Revocation

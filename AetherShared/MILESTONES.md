@@ -18,12 +18,11 @@ Regenerate: python3 scripts/sync_milestones.py
 ## Tasks
 
 <!-- Source task: SHD-001 -->
-### SHD-001 — SHD-001 — Complete portable DTO and protocol migration inventory
+### SHD-001 — Complete portable DTO and protocol migration inventory
 
 - **Status:** `in_progress`
 - **Priority:** `P2`
 
-#### SHD-001 — Complete portable DTO and protocol migration inventory
 
 **Status:** in_progress
 **Priority:** P2
@@ -40,5 +39,3 @@ Regenerate: python3 scripts/sync_milestones.py
 - No duplicate DTO types remain in consumers.
 
 **Evidence:** Several DTOs/protocols remain planned for split or deferred migration.
-
-## Flow SDK Fork
