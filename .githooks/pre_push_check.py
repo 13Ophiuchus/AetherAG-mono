@@ -7,9 +7,31 @@ import sys
 
 ZERO_SHA = "0" * 40
 
+# Git exports repository-location variables to hooks (for example GIT_DIR in linked worktrees).
+# If they leak into child git processes, commands run inside a submodule directory silently
+# operate on the parent repository instead.
+REPO_LOCATION_VARIABLES = (
+    "GIT_DIR",
+    "GIT_WORK_TREE",
+    "GIT_INDEX_FILE",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_COMMON_DIR",
+    "GIT_PREFIX",
+    "GIT_NAMESPACE",
+    "GIT_IMPLICIT_WORK_TREE",
+    "GIT_GRAFT_FILE",
+    "GIT_INTERNAL_SUPER_PREFIX",
+    "GIT_SHALLOW_FILE",
+)
+
+
+def clean_environment():
+    return {k: v for k, v in os.environ.items() if k not in REPO_LOCATION_VARIABLES}
+
 
 def run(cmd, cwd=None):
-    return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, env=clean_environment())
 
 
 def pushed_commits(stdin_text):
@@ -62,15 +84,12 @@ def pins_for_commit(repo_root, commit):
 
 
 def is_initialized(repo_root, path):
-    """True only when path is its own git checkout, not an empty dir inside the parent."""
-    full = os.path.join(repo_root, path)
-    if not os.path.isdir(full):
-        return False
-    result = run(["git", "rev-parse", "--show-toplevel"], cwd=full)
-    return (
-        result.returncode == 0
-        and os.path.realpath(result.stdout.strip()) == os.path.realpath(full)
-    )
+    """True only when the submodule has its own checkout (a .git file or directory inside it).
+
+    An empty directory left by an uninitialized submodule must not count, because git would
+    then resolve commands against the parent repository.
+    """
+    return os.path.exists(os.path.join(repo_root, path, ".git"))
 
 
 def remote_refs(repo_root, path, url, initialized):
