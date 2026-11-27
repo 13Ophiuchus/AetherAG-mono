@@ -34,11 +34,19 @@ jobs:
           cleanup() {
             docker rm -f "$server" "$redis" "$postgres" 2>/dev/null || true
             docker network rm "$network" 2>/dev/null || true
+            if [ -n "${key_dir:-}" ]; then rm -rf -- "$key_dir"; fi
           }
           trap cleanup EXIT
 
           test -n "$ISSUER_ED25519_PRIVATE_KEY_BASE64URL"
           test -n "$ISSUER_ES256_PUBLIC_KEY_PEM_B64"
+
+          # The production image refuses to start without an explicit issuer key (JWT_KEY_PATH).
+          # Use a throwaway key generated for this run only; it is never stored or reused.
+          key_dir="$(mktemp -d)"
+          openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 -out "$key_dir/issuer.key"
+          chmod 755 "$key_dir"
+          chmod 644 "$key_dir/issuer.key"
 
           docker network create "$network"
 
@@ -79,7 +87,7 @@ jobs:
           wait_for_dependency "$postgres" pg_isready -h 127.0.0.1 -p 5432 -U postgres -d aetherag
           wait_for_dependency "$redis" redis-cli -h 127.0.0.1 ping
 
-          docker run -d --name "$server" --network "$network" -p 8080:8080             -e ISSUER_BASE_URL=http://localhost:8080             -e FLOW_ISSUER_ADDRESS=0x0000000000000001             -e FLOW_ISSUER_PRIVATE_KEY="$flow_private_key"             -e FLOW_ISSUER_KEY_INDEX=0             -e FLOW_CHAIN_ID=testnet             -e JWT_HS256_SECRET="$jwt_secret"             -e ISSUER_ED25519_PRIVATE_KEY_BASE64URL="$ISSUER_ED25519_PRIVATE_KEY_BASE64URL"             -e ISSUER_ES256_PUBLIC_KEY_PEM_B64="$ISSUER_ES256_PUBLIC_KEY_PEM_B64"             -e DATABASE_URL="$database_url"             -e REDIS_URL="redis://${redis}:6379"             aetheragmailserver:ci
+          docker run -d --name "$server" --network "$network" -p 8080:8080 -v "$key_dir/issuer.key:/run/secrets/issuer.key:ro" -e JWT_KEY_PATH=/run/secrets/issuer.key             -e ISSUER_BASE_URL=http://localhost:8080             -e FLOW_ISSUER_ADDRESS=0x0000000000000001             -e FLOW_ISSUER_PRIVATE_KEY="$flow_private_key"             -e FLOW_ISSUER_KEY_INDEX=0             -e FLOW_CHAIN_ID=testnet             -e JWT_HS256_SECRET="$jwt_secret"             -e ISSUER_ED25519_PRIVATE_KEY_BASE64URL="$ISSUER_ED25519_PRIVATE_KEY_BASE64URL"             -e ISSUER_ES256_PUBLIC_KEY_PEM_B64="$ISSUER_ES256_PUBLIC_KEY_PEM_B64"             -e DATABASE_URL="$database_url"             -e REDIS_URL="redis://${redis}:6379"             aetheragmailserver:ci
 
           for attempt in $(seq 1 30); do
             if curl --fail --silent --show-error http://127.0.0.1:8080/health; then
