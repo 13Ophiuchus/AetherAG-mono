@@ -193,10 +193,10 @@
 
 ### Presentation and Revocation
 
-<!-- MILESTONE: AAG-001 | module: AetherAG | status: in_progress | priority: P0 -->
+<!-- MILESTONE: AAG-001 | module: AetherAG | status: done | priority: P0 -->
 #### AAG-001 — Narrow VP revocation validation to the presented credential
 
-**Status:** in_progress
+**Status:** done
 **Priority:** P0
 **Dependencies:** None
 
@@ -211,12 +211,12 @@
 - Tests cover the exact-credential selection path.
 - `swift test` passes in `AetherAG`.
 
-**Evidence:** Existing check is broad by holder DID; refinement required.
+**Evidence:** Completed 2026-11-27T13:58:17Z. Validated in CI on Linux and macOS (all 12 monorepo checks green on the heads of AetherAG PRs #7, #8 and #9). VPSubmissionRevocationTests: approves the presented credential when a different credential is revoked; rejects a revoked credential; rejects a correctly signed credential the server has no record of; rejects a correctly signed credential that carries no identifier. VPTokenVerificationServiceCredentialIDTests: extractCredentialIDs skips malformed embedded VC tokens.
 
-<!-- MILESTONE: AAG-002 | module: AetherAG | status: not_started | priority: P0 -->
+<!-- MILESTONE: AAG-002 | module: AetherAG | status: done | priority: P0 -->
 #### AAG-002 — End-to-end revoked credential VP resubmission test
 
-**Status:** not_started
+**Status:** done
 **Priority:** P0
 **Dependencies:** AAG-001
 
@@ -228,14 +228,14 @@
 - The test proves the specific presented credential is evaluated.
 - `swift test` passes in `AetherAG`.
 
-**Evidence:** Not started.
+**Evidence:** Completed 2026-11-27T13:58:17Z. Validated in CI on Linux and macOS. CredentialStatusControllerTests: issue a credential, revoke it, and the status endpoint reports revoked; POST /verification/requests/:id/submit rejects a vp_token containing a revoked credential. VPSubmissionRevocationTests: approves the presented credential when a different credential is revoked, which shows the presented credential is the one evaluated.
 
 ### Production Hardening
 
-<!-- MILESTONE: AAG-003 | module: AetherAG | status: not_started | priority: P0 -->
+<!-- MILESTONE: AAG-003 | module: AetherAG | status: done | priority: P0 -->
 #### AAG-003 — Rate limiting for issuance endpoints
 
-**Status:** not_started
+**Status:** done
 **Priority:** P0
 **Dependencies:** None
 
@@ -249,7 +249,7 @@
 - Trusted proxy behavior is explicit and documented.
 - Tests cover allowed, throttled, and reset/expiry paths.
 
-**Evidence:** Not started.
+**Evidence:** Completed 2026-11-27T13:58:17Z. Validated in CI on Linux and macOS against real Redis. OID4VCIRateLimitMiddlewareTests: 429 with Retry-After after the limit; a spoofed X-Forwarded-For entry does not create a new bucket; routes use independent buckets; the limit resets once the window expires (AetherAG PR #9); the token route returns 429 after the default limit. OID4VCIRateLimitConfigurationTests: client identity with zero, one and two trusted proxies, and environment settings. OID4VCI_RATE_LIMIT_MAX, OID4VCI_RATE_LIMIT_WINDOW_SECONDS and OID4VCI_TRUSTED_PROXY_COUNT are documented in docs/rate-limit-acceptance.md.
 
 <!-- MILESTONE: AAG-004 | module: AetherAG | status: not_started | priority: P1 -->
 #### AAG-004 — Structured security-safe logging
@@ -316,6 +316,63 @@
 - Tool/version and test environment are recorded.
 - Failures are triaged into fixed, accepted limitation, or follow-up task.
 - Sensitive test outputs are not committed.
+
+**Evidence:** Not started.
+
+<!-- MILESTONE: AAG-008 | module: AetherAG | status: done | priority: P0 -->
+#### AAG-008 — Verify credentials embedded in VP submissions
+
+**Status:** done
+**Priority:** P0
+**Dependencies:** AAG-001
+
+##### Scope
+- Verify every credential embedded in a submitted `vp_token` before approving the presentation.
+
+##### Acceptance criteria
+- A credential this server issued and has not revoked is approved.
+- Unsigned credentials, credentials signed by a key the server does not own, credentials naming an untrusted issuer, credentials issued to a different subject, expired credentials, revoked credentials, and credentials with no stored record are each rejected.
+- Embedded entries that are not compact JWT strings are rejected.
+- `swift test` passes in `AetherAG`.
+
+**Evidence:** Completed 2026-11-27T13:58:17Z. Validated in CI on Linux and macOS (AetherAG PR #7, monorepo PR #20; AetherAG PR #8 adds the identifier test). VPSubmissionRevocationTests covers the approving control and rejects an unsigned credential, a credential signed with a key the server does not own, a credential the server has no record of, a credential issued to a different subject, an expired credential, a credential naming an untrusted issuer, a revoked credential, and a credential with no identifier; embedded entries must be compact JWT strings.
+
+<!-- MILESTONE: AAG-009 | module: AetherAG | status: done | priority: P0 -->
+#### AAG-009 — Require an explicit issuer signing key in production
+
+**Status:** done
+**Priority:** P0
+**Dependencies:** AAG-008
+
+##### Scope
+- In production, require `JWT_KEY_PATH` to name an existing issuer key file and never generate a key.
+- Out of scope: key rotation and publishing more than one key in the JWKS. The verifier trusts only the current key.
+
+##### Acceptance criteria
+- Production startup fails when `JWT_KEY_PATH` is unset, blank, or names a missing file.
+- Outside production the temporary default and on-demand creation are unchanged.
+- A key created in development loads unchanged in production, with file mode 0600.
+- The production container smoke test mounts a key and reports healthy.
+- Operator documentation describes creation, storage, backup, and the effect of rotation.
+
+**Evidence:** Completed 2026-11-27T13:58:17Z. Validated in CI (AetherAG PR #8, monorepo PR #21). JWTSigningKeyLocationTests: development default, configured path, blank path, production without a path, production with a missing file, production with an existing file, and a persistence round trip that checks the same key ID and public key and file mode 0600. The mailserver-docker-build smoke test starts the production image with a throwaway mounted key and receives a healthy response. Documented in docs/AetherAGMailServer.md and .env.example.
+
+<!-- MILESTONE: AAG-010 | module: AetherAG | status: not_started | priority: P1 -->
+#### AAG-010 — Refuse in-memory mode in production
+
+**Status:** not_started
+**Priority:** P1
+**Dependencies:** None
+
+##### Scope
+- `USE_IN_MEMORY_DB=true` or `1` currently enables in-memory repositories in any environment. It also skips Redis and queue configuration, so rate limiting passes through, and it skips SQL migrations.
+- Reject that setting when running with `--env production`.
+
+##### Acceptance criteria
+- Production startup fails with a clear error when `USE_IN_MEMORY_DB` is true or 1.
+- Non-production behavior and the testing default are unchanged.
+- A test covers the production rejection and the non-production acceptance.
+- The production container smoke test still passes.
 
 **Evidence:** Not started.
 
