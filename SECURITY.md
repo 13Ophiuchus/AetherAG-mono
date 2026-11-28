@@ -2,7 +2,9 @@
 
 ## Reporting a vulnerability
 
-Please report suspected vulnerabilities privately to the AetherAG security contact.
+Please report suspected vulnerabilities privately using GitHub private vulnerability reporting:
+https://github.com/13Ophiuchus/AetherAG-mono/security/advisories/new
+Do not open a public issue or discussion for a suspected vulnerability.
 Include a clear description, affected component, reproduction steps, impact, and
 any suggested mitigation. Do not include private keys, mnemonics, credentials,
 access tokens, authorization codes, or personally identifiable information.
